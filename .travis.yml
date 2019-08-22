@@ -1,0 +1,18 @@
+language: python
+python:
+- 3.6
+dist: xenial
+os:
+- linux
+install: pip install -U tox-travis
+script: tox
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: b-reyes
+  password:
+    secure: Tn7GFxxRcj1Uv8g3zW3mg3WJ43btblr9sgx5nW/M6++snM2NL4I3VakeJI/vjjATPPofE+kGQZ9LvPCWRZQqU9JfOtKD4bjYEJXkBus/iiCXJ10GYTMA+yTZfyCzlzR8GbaUbyvuXndUwRjyG2CXPGLsX0TUtEvpYNLoYR+w/i2ltnf4nM/zoShdK4+cvw54COJ4FCygKIF8EWk1wNF/cM4uFhRyfhiKbeh0fV+RVoMx3lWKrIAgmK1KO47Q/XgYf/DPirtw+eNggoUrfxNpjGbVIskNbJygZfts4JEah8T0lqtzlB3arV3yOBryL3xlVW/SKWKRWKCPRjRXugQXRRTvN3hCzMwX3YjFgVMEPTbMSiua5qgRhFqRy4yRh1a6smXeOKpR1k8WimBkUsJyyd7T8yVkacB2uxg6VeBK9u1c8w9KxbKJsUl7L4fOsweC6wAY5ea3PfvVIt9ZKYIMPnWuIP3SiFOH0SdSUNbZesl9tUnZNCY8lsvBllfoGSjnmnZ7lv0qMHcc9SdGb5DJ8Us23whzRj6hQjA9ApHfrTlk0HsVMEYdec/PuTp0dyNlt0NUff7ysc8IwcSLbRTCLz/hu6b2QH+WTdeWylzM9KMBozAn3QUdT8rVt196c6vos3spZTrQ2CHYCA9mnkfWoQqM2ct4Vu5FGqHDaBqrDx0=
+  on:
+    tags: true
+    repo: PNNL-Comp-Mass-Spec/CRNT4SBML
+    python: 3.6
