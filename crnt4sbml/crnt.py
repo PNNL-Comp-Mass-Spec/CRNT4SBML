@@ -85,7 +85,7 @@ class CRNT:
     def print_c_graph(self):
         """
         Prints the reactions and reaction labels for the network.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -134,7 +134,7 @@ class CRNT:
     def basic_report(self):
         """
         Prints out basic CRNT properties of the network.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -181,7 +181,7 @@ class CRNT:
     def get_mass_conservation_approach(self):
         """
         Initializes and creates an object for the class MassConservationApproach for the CRNT object constructed.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         See also

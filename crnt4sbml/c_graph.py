@@ -279,7 +279,7 @@ class Cgraph:
     def get_ode_system(self):
         """
         Returns SymPy matrix representing the ODE system.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the
         provided example.
 
         Example
@@ -319,7 +319,7 @@ class Cgraph:
     def get_species(self):
         """
         Returns Python list of strings representing the species of the network.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -335,7 +335,7 @@ class Cgraph:
     def get_complexes(self):
         """
         Returns Python list of strings representing the complexes of the network.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -351,7 +351,7 @@ class Cgraph:
     def get_reactions(self):
         """
         Returns Python list of strings representing the reactions of the network.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -367,7 +367,7 @@ class Cgraph:
     def get_a(self):
         """
         Returns SymPy matrix representing the kinetic constant matrix, :math:`A`.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -399,7 +399,7 @@ class Cgraph:
     def get_y(self):
         """
         Returns SymPy matrix representing the molecularity matrix, :math:`Y`.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -427,7 +427,7 @@ class Cgraph:
     def get_s(self):
         """
         Returns SymPy matrix representing the stoichiometric matrix, :math:`S`.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -455,7 +455,7 @@ class Cgraph:
     def get_b(self):
         """
         Returns SymPy matrix representing the mass conservation matrix, :math:`B`.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -475,7 +475,7 @@ class Cgraph:
     def get_lambda(self):
         """
         Returns SymPy matrix representing the linkage class matrix, :math:`\Lambda`.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -507,7 +507,7 @@ class Cgraph:
     def get_psi(self):
         """
         Returns SymPy matrix representing the mass action monomials, :math:`\psi`.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -591,7 +591,7 @@ class Cgraph:
         """
         Returns integer value representing the dimension of the equilibrium manifold, :math:`\lambda`. This value
         is the number of mass conservation relationships.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example
@@ -607,7 +607,7 @@ class Cgraph:
     def get_deficiency(self):
         """
         Returns integer value representing the deficiency of the network, :math:`\delta`.
-        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
 
         Example

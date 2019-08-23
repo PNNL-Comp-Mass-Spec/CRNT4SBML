@@ -47,7 +47,7 @@ runtime we exit this routine if all rows of (9) are linear in those species' con
 choose this set of :math:`\theta` variables for our decision vector. After choosing the set of :math:`\theta` variables,
 we then choose :math:`H (\alpha, c, k)` by selecting :math:`M - \ell` independent rows of (9). This process of selecting
 :math:`H (\alpha, c, k)` is reflected in the run of crnt4sbml by the following output produced by
-:func:`crnt4sbml_test.CRNT.get_mass_conservation_approach` ::
+:func:`crnt4sbml.CRNT.get_mass_conservation_approach` ::
 
     Creating Equilibrium Manifold ...
     Elapsed time for creating Equilibrium Manifold: xx

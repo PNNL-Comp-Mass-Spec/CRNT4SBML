@@ -174,7 +174,7 @@
 explanation of running the mass conservation approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a>. Note that the mass conservation approach can
 be ran on any network that has conservation laws, even if that network does have a sink/source. One can test whether or
 not there are conservation laws by seeing if the output of <a class="reference internal" href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_dim_equilibrium_manifold" title="crnt4sbml.Cgraph.get_dim_equilibrium_manifold"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.Cgraph.get_dim_equilibrium_manifold()</span></code></a> is
-greater than zero. This tutorial will use <a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a>.
+greater than zero. This tutorial will use <a class="reference download internal" download="" href="_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a>.
 The following code will import crnt4sbml and the SBML file. For a little more detail on this process consider <a class="reference internal" href="basic_crnt.html#my-basic-label"><span class="std std-ref">Low Deficiency Approach</span></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 <span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
@@ -209,8 +209,7 @@ the following command to the script:</p>
 <p>To obtain more available functions  that this initialization provides, see <a class="reference internal" href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach" title="crnt4sbml.MassConservationApproach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach()</span></code></a>.
 Using the decision vector provided, one can then construct the bounds which are necessary for the optimization problem
 by creating a list of tuples where the first element corresponds to the lower bound value of the parameter and the second
-element is the upper bound value of the parameter. One such set of bounds for
-<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> could be as follows:</p>
+element is the upper bound value of the parameter. One such set of bounds for Fig1Ci.xml could be as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bnds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">)]</span><span class="o">*</span><span class="mi">12</span>
 </pre></div>
 </div>

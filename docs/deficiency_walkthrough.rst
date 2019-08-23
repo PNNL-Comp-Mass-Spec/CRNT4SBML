@@ -8,7 +8,7 @@ Using the SBML file constructed as in :ref:`my-celldesigner-label`, we will proc
 explanation of running the mass conservation approach of :cite:`irene`. Note that the mass conservation approach can
 be ran on any network that has conservation laws, even if that network does have a sink/source. One can test whether or
 not there are conservation laws by seeing if the output of :func:`crnt4sbml.Cgraph.get_dim_equilibrium_manifold` is
-greater than zero. This tutorial will use `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_.
+greater than zero. This tutorial will use :download:`Fig1Ci.xml <../sbml_files/Fig1Ci.xml>`.
 The following code will import crnt4sbml and the SBML file. For a little more detail on this process consider :ref:`my-basic-label`.
 
 .. code-block:: python
@@ -50,8 +50,7 @@ This provides the following output::
 To obtain more available functions  that this initialization provides, see :meth:`crnt4sbml.MassConservationApproach`.
 Using the decision vector provided, one can then construct the bounds which are necessary for the optimization problem
 by creating a list of tuples where the first element corresponds to the lower bound value of the parameter and the second
-element is the upper bound value of the parameter. One such set of bounds for
-`Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ could be as follows:
+element is the upper bound value of the parameter. One such set of bounds for Fig1Ci.xml could be as follows:
 
 .. code-block:: python
 

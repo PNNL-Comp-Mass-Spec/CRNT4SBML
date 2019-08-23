@@ -600,7 +600,7 @@ class SemiDiffusiveApproach:
         """
         Returns SymPy matrix representing the :math:`Y_r` matrix. The columns of which correspond to the true and
         outflow reactions of the molecularity matrix.
-        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided
         example.
 
         Example
@@ -630,7 +630,7 @@ class SemiDiffusiveApproach:
         """
         Returns SymPy matrix representing the :math:`S_{to}` matrix. The columns of which correspond to the true and
         outflow reactions of the stoichiometric matrix.
-        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided
         example.
 
         Example
@@ -690,7 +690,7 @@ class SemiDiffusiveApproach:
     def get_symbolic_polynomial_fun(self):
         """
         Returns SymPy matrix representing the vector of polynomial functions, :math:`-S_{to} \mu`.
-        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided
         example.
 
         Example
@@ -735,7 +735,7 @@ class SemiDiffusiveApproach:
     def get_key_species(self):
         """
         Returns a list of string variables corresponding to the key species.
-        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided
         example.
 
         Example
@@ -752,7 +752,7 @@ class SemiDiffusiveApproach:
     def get_non_key_species(self):
         """
         Returns a list of string variables corresponding to those species that are not key species.
-        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided
         example.
 
         Example
@@ -769,7 +769,7 @@ class SemiDiffusiveApproach:
     def get_boundary_species(self):
         """
         Returns a list of string variables corresponding to those species that are defined as boundary species.
-        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided
         example.
 
         Example
@@ -786,7 +786,7 @@ class SemiDiffusiveApproach:
     def get_decision_vector(self):
         """
         Returns a list of SymPy variables corresponding to the decision vector for the optimization problem.
-        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided
         example.
 
         Example
@@ -807,7 +807,7 @@ class SemiDiffusiveApproach:
     def get_mu_vector(self):
         """
         Returns a list of SymPy variables corresponding to the vector of fluxes, :math:`\mu` .
-        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided
         example.
 
         Example
@@ -825,7 +825,7 @@ class SemiDiffusiveApproach:
         """
         Prints an easily readable form of the decision vector. It first prints the decision vector and then the
         corresponding reaction labels.
-        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided
         example.
 
         Example

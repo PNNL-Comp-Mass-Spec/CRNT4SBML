@@ -30,7 +30,7 @@ concentrations or principal continuation parameter is smaller than the default v
 helpful in some contexts, but for most examples the parameter should be left at its default value.
 
 3. DSMAX is the maximum continuation step size. A large DSMAX is necessary when considering the physiological values
-provided by :func:`crnt4sbml_test.CRNT.get_physiological_range` as this produces larger values for the species'
+provided by :func:`crnt4sbml.CRNT.get_physiological_range` as this produces larger values for the species'
 concentrations and principal continuation parameters. A smaller DSMAX is also beneficial for both producing smoother
 plots and identifying special points. Although a smaller DSMAX will increase the runtime of the continuation.
 

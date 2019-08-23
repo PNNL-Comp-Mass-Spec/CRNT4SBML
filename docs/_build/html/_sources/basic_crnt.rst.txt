@@ -6,7 +6,7 @@ Low Deficiency Approach
 
 Now that we have constructed the SBML file using the guidelines of :ref:`my-celldesigner-label`, we will proceed by
 testing the Deficiency Zero and One Theorems of :cite:`fein_lecture`. We will complete this test for
-`Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_. The first step we must
+:download:`Fig1Ci.xml <../sbml_files/Fig1Ci.xml>`. The first step we must
 take is importing crnt4sbml. To do this open up a python script and add the following line:
 
 .. code-block:: python

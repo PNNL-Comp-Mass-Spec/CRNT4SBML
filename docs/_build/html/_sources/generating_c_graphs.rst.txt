@@ -20,7 +20,7 @@ using the cross-platform and easily installable tool `Cytoscape <https://cytosca
 Cytoscape allows one to import a network defined in the GraphML format which it can then use to create a C-graph.
 To create a GraphML format of the provided network, CRNT4SBML contains the function :func:`crnt4sbml.CRNT.get_network_graphml`.
 Note that this function only extracts the nodes, edges, and edge labels. Below
-we use  use `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_
+we use  use :download:`Fig1Cii.xml <../sbml_files/Fig1Cii.xml>`
 to demonstrate turning a network into a GraphML file.
 
 .. code-block:: python
