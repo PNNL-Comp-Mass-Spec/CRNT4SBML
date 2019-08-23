@@ -6,8 +6,8 @@ CRNT4SBML
 .. image:: https://img.shields.io/pypi/v/crnt4sbml.svg
         :target: https://pypi.python.org/pypi/crnt4sbml
 
-.. image:: https://img.shields.io/travis/b-reyes/crnt4sbml.svg
-        :target: https://travis-ci.org/b-reyes/crnt4sbml
+.. image:: https://img.shields.io/travis/PNNL-Comp-Mass-Spec/CRNT4SBML.svg
+        :target: https://travis-ci.org/PNNL-Comp-Mass-Spec/CRNT4SBML
 
 .. image:: https://readthedocs.org/projects/crnt4sbml/badge/?version=latest
         :target: https://crnt4sbml.readthedocs.io/en/latest/?badge=latest
@@ -18,7 +18,7 @@ simple workflow for the testing of core CRNT methods directed at detecting bista
 endowed with mass action kinetics.
 
 * Free software: Apache Software License 2.0
-* Documentation: https://crnt4sbml-test.readthedocs.io.
+* Documentation: https://crnt4sbml.readthedocs.io.
 
 
 Features

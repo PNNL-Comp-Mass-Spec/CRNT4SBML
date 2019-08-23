@@ -14,10 +14,9 @@ Mass Conservation Approach Example
 ++++++++++++++++++++++++++++++++++++ 
 
 In order to run the mass conservation approach one needs to first create an SBML file of the reaction network. The
-SBML file representing the reaction network for this example is given by
-`Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_. It is highly encouraged
-that the user consult :ref:`my-celldesigner-label` when considering their own individual network as the format of the
-SBML file must follow a certain construction to be easily used by crnt4sbml.
+SBML file representing the reaction network for this example is given by :download:`Fig1Ci.xml <../sbml_files/Fig1Ci.xml>`.
+It is highly encouraged that the user consult :ref:`my-celldesigner-label` when considering their own individual network
+as the format of the SBML file must follow a certain construction to be easily used by CRNT4SBML.
 
 To run the mass conservation approach create the following python script:
 
@@ -80,10 +79,9 @@ Semi-diffusive Approach Example
 +++++++++++++++++++++++++++++++++++++
 
 To run the semi-diffusive approach one needs to create the SBML file specific for semi-diffusive networks. The SBML file
-representing the reaction network for this example is given by
-`Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_. It is highly encouraged
-that the user consult :ref:`my-celldesigner-label` when considering their own individual network as the format of the
-SBML file must follow a certain construction to be easily used by crnt4sbml.
+representing the reaction network for this example is given by :download:`Fig1Cii.xml <../sbml_files/Fig1Cii.xml>`. It
+is highly encouraged that the user consult :ref:`my-celldesigner-label` when considering their own individual network as
+the format of the SBML file must follow a certain construction to be easily used by crnt4sbml.
 
 To run the semi-diffusive approach create the following python script:
 
