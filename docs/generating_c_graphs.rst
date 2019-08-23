@@ -32,9 +32,12 @@ to demonstrate turning a network into a GraphML file.
     c.get_network_graphml()
 
 This will provide a GraphML file for the Fig1Cii network in the current directory under the name network.graphml. We may
-then use this file within Cytoscape by opening up the application navigating to the menu bar selecting file -> Import ->
-Network from File... then selecting network.graphml from the appropriate directory. Some simple modifications lead to the
-following C-graph.
+then use this file within Cytoscape by opening up the application and navigating to the menu bar selecting File -> Import ->
+Network from File... then selecting network.graphml from the appropriate directory. We can then import the
+:download:`CRNT4SBML Cytoscape Style <../sbml_files/crnt4sbml_cytoscape_style.xml>` by navigating to the menu bar selecting File ->
+Import -> Styles from File ... then selecting crnt4sbml_cytoscape_style.xml from the appropriate directory. Once the style
+has been imported, we can use this style by selecting "Style" in the Control Panel and selecting "CRNT4SBML Style" in
+the Current Style drop down box. Using the CRNT4SBML Style leads to the following C-graph.
 
 .. image:: ./images_for_docs/fig1Cii_c_graph.png
    :width: 500px

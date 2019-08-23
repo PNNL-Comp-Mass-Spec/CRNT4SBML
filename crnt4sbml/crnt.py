@@ -124,10 +124,22 @@ class CRNT:
         g.add_edges_from(c_graph.edges)
 
         # add reaction names to graph
-        edge_names = [{"label": c_graph.edges[i]["label"]} for i in c_graph.edges]
+        edge_names = []
+        for i in c_graph.edges:
+            if (i[1], i[0]) in c_graph.edges:
+                edge_names.append({"label": c_graph.edges[i]["label"], 'Bend': True})
+            else:
+                edge_names.append({"label": c_graph.edges[i]["label"], 'Bend': False})
+
         zip_obj = zip([i for i in g.edges], edge_names)
         edge_dict = dict(zip_obj)
         networkx.set_edge_attributes(g, edge_dict)
+
+        #add if a complex is a boundary condition
+        node_bc = [{'BC': c_graph.nodes[i]["species_bc"]} for i in c_graph.nodes]
+        zip_obj = zip([i for i in g.nodes], node_bc)
+        node_dict = dict(zip_obj)
+        networkx.set_node_attributes(g, node_dict)
 
         networkx.write_graphml(g, "network.graphml")
 
