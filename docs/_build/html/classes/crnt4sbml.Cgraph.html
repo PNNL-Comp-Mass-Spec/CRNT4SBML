@@ -1,0 +1,766 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crnt4sbml.Cgraph &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="crnt4sbml.LowDeficiencyApproach" href="crnt4sbml.LowDeficiencyApproach.html" />
+    <link rel="prev" title="crnt4sbml.CRNT" href="crnt4sbml.CRNT.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more_examples.html">Further Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../reference.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.CRNT.html">crnt4sbml.CRNT</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">crnt4sbml.Cgraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.LowDeficiencyApproach.html">crnt4sbml.LowDeficiencyApproach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.MassConservationApproach.html">crnt4sbml.MassConservationApproach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.SemiDiffusiveApproach.html">crnt4sbml.SemiDiffusiveApproach</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../reference.html">Reference</a> &raquo;</li>
+        
+      <li>crnt4sbml.Cgraph</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/classes/crnt4sbml.Cgraph.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="crnt4sbml-cgraph">
+<h1>crnt4sbml.Cgraph<a class="headerlink" href="#crnt4sbml-cgraph" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="crnt4sbml.Cgraph">
+<em class="property">class </em><code class="descclassname">crnt4sbml.</code><code class="descname">Cgraph</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for constructing core CRNT values and C-graph of the network.</p>
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialization of Cgraph class.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_c_graph" title="crnt4sbml.CRNT.get_c_graph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.get_c_graph()</span></code></a></p>
+</div>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.__init__" title="crnt4sbml.Cgraph.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(model)</td>
+<td>Initialization of Cgraph class.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_species" title="crnt4sbml.Cgraph.get_species"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_species</span></code></a>()</td>
+<td>Returns Python list of strings representing the species of the network.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_complexes" title="crnt4sbml.Cgraph.get_complexes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_complexes</span></code></a>()</td>
+<td>Returns Python list of strings representing the complexes of the network.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_reactions" title="crnt4sbml.Cgraph.get_reactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_reactions</span></code></a>()</td>
+<td>Returns Python list of strings representing the reactions of the network.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_deficiency" title="crnt4sbml.Cgraph.get_deficiency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_deficiency</span></code></a>()</td>
+<td>Returns integer value representing the deficiency of the network, <img class="math" src="../_images/math/a702e781dfc76762a3a132c2031fba8898430925.png" alt="\delta"/>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_dim_equilibrium_manifold" title="crnt4sbml.Cgraph.get_dim_equilibrium_manifold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dim_equilibrium_manifold</span></code></a>()</td>
+<td>Returns integer value representing the dimension of the equilibrium manifold, <img class="math" src="../_images/math/76f1d8ace30435987c01a00ca53a71cba1f40e6c.png" alt="\lambda"/>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_ode_system" title="crnt4sbml.Cgraph.get_ode_system"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_ode_system</span></code></a>()</td>
+<td>Returns SymPy matrix representing the ODE system.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_a" title="crnt4sbml.Cgraph.get_a"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_a</span></code></a>()</td>
+<td>Returns SymPy matrix representing the kinetic constant matrix, <img class="math" src="../_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_b" title="crnt4sbml.Cgraph.get_b"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_b</span></code></a>()</td>
+<td>Returns SymPy matrix representing the mass conservation matrix, <img class="math" src="../_images/math/9805f44feec6f81d376d09e88b8236635edbb3c8.png" alt="B"/>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_s" title="crnt4sbml.Cgraph.get_s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_s</span></code></a>()</td>
+<td>Returns SymPy matrix representing the stoichiometric matrix, <img class="math" src="../_images/math/1dbc400fcc213305415872f9f625cd2828f97a00.png" alt="S"/>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_y" title="crnt4sbml.Cgraph.get_y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_y</span></code></a>()</td>
+<td>Returns SymPy matrix representing the molecularity matrix, <img class="math" src="../_images/math/0062c26909b3e07ee8f5a6285b2563d69bc979ff.png" alt="Y"/>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_lambda" title="crnt4sbml.Cgraph.get_lambda"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_lambda</span></code></a>()</td>
+<td>Returns SymPy matrix representing the linkage class matrix, <img class="math" src="../_images/math/5b99ed91598429157b547a2c3700a6b25c52824a.png" alt="\Lambda"/>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_psi" title="crnt4sbml.Cgraph.get_psi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_psi</span></code></a>()</td>
+<td>Returns SymPy matrix representing the mass action monomials, <img class="math" src="../_images/math/499a2ee48b33448e80b97af9df9550828bdbfb59.png" alt="\psi"/>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_graph" title="crnt4sbml.Cgraph.get_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_graph</span></code></a>()</td>
+<td>Returns the NetworkX DiGraph representation of the network.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_g_nodes" title="crnt4sbml.Cgraph.get_g_nodes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_g_nodes</span></code></a>()</td>
+<td>Returns a list of strings that represent the order of the nodes of the NetworkX DiGraph.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_g_edges" title="crnt4sbml.Cgraph.get_g_edges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_g_edges</span></code></a>()</td>
+<td>Returns a list of tuples of strings that represent the order of the edges of the NetworkX DiGraph.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_network_dimensionality_classification" title="crnt4sbml.Cgraph.get_network_dimensionality_classification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_network_dimensionality_classification</span></code></a>()</td>
+<td>Returns a two element list specifying the dimensionality of the network.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_linkage_classes" title="crnt4sbml.Cgraph.get_linkage_classes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_linkage_classes</span></code></a>()</td>
+<td>Returns list of NetworkX subgraphs representing the linkage classes.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_linkage_classes_deficiencies" title="crnt4sbml.Cgraph.get_linkage_classes_deficiencies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_linkage_classes_deficiencies</span></code></a>()</td>
+<td>Returns an interger list of each linkage class deficiency.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_if_cgraph_weakly_reversible" title="crnt4sbml.Cgraph.get_if_cgraph_weakly_reversible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_if_cgraph_weakly_reversible</span></code></a>()</td>
+<td>Returns weak reversibility of the network.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_weak_reversibility_of_linkage_classes" title="crnt4sbml.Cgraph.get_weak_reversibility_of_linkage_classes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_weak_reversibility_of_linkage_classes</span></code></a>()</td>
+<td>Returns list of Python boolean types for the weak reversibility of each linkage class.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.get_number_of_terminal_strong_lc_per_lc" title="crnt4sbml.Cgraph.get_number_of_terminal_strong_lc_per_lc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_number_of_terminal_strong_lc_per_lc</span></code></a>()</td>
+<td>Returns an integer list stating the number of terminally strong linkage classes per linkage class.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.print" title="crnt4sbml.Cgraph.print"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print</span></code></a>()</td>
+<td>Prints edges and nodes of NetworkX DiGraph.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.Cgraph.plot" title="crnt4sbml.Cgraph.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>()</td>
+<td>Plots NetworkX DiGraph.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.Cgraph.plot_save" title="crnt4sbml.Cgraph.plot_save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_save</span></code></a>()</td>
+<td>Saves the plot of the NetworkX DiGraph.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_a">
+<code class="descname">get_a</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns SymPy matrix representing the kinetic constant matrix, <img class="math" src="../_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_a</span><span class="p">())</span>
+<span class="go">    ⎡-re₁     re1r      0   0         0       0   0         0       0⎤</span>
+<span class="go">    ⎢                                                                ⎥</span>
+<span class="go">    ⎢re₁   -re1r - re₂  0   0         0       0   0         0       0⎥</span>
+<span class="go">    ⎢                                                                ⎥</span>
+<span class="go">    ⎢ 0        re₂      0   0         0       0   0         0       0⎥</span>
+<span class="go">    ⎢                                                                ⎥</span>
+<span class="go">    ⎢ 0         0       0  -re₃     re3r      0   0         0       0⎥</span>
+<span class="go">    ⎢                                                                ⎥</span>
+<span class="go">    ⎢ 0         0       0  re₃   -re3r - re₄  0   0         0       0⎥</span>
+<span class="go">    ⎢                                                                ⎥</span>
+<span class="go">    ⎢ 0         0       0   0        re₄      0   0         0       0⎥</span>
+<span class="go">    ⎢                                                                ⎥</span>
+<span class="go">    ⎢ 0         0       0   0         0       0  -re₆     re6r      0⎥</span>
+<span class="go">    ⎢                                                                ⎥</span>
+<span class="go">    ⎢ 0         0       0   0         0       0  re₆   -re6r - re₈  0⎥</span>
+<span class="go">    ⎢                                                                ⎥</span>
+<span class="go">    ⎣ 0         0       0   0         0       0   0        re₈      0⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_b">
+<code class="descname">get_b</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns SymPy matrix representing the mass conservation matrix, <img class="math" src="../_images/math/9805f44feec6f81d376d09e88b8236635edbb3c8.png" alt="B"/>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_b</span><span class="p">())</span>
+<span class="go">    ⎡ 0    0    0    0   1.0   0   1.0⎤</span>
+<span class="go">    ⎢                                 ⎥</span>
+<span class="go">    ⎢ 0   1.0  1.0   0    0    0    0 ⎥</span>
+<span class="go">    ⎢                                 ⎥</span>
+<span class="go">    ⎣1.0   0   1.0  1.0   0   2.0  1.0⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_complexes">
+<code class="descname">get_complexes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_complexes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_complexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Python list of strings representing the complexes of the network.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_complexes</span><span class="p">())</span>
+<span class="go">    [&#39;s1+s2&#39;, &#39;s3&#39;, &#39;s6+s2&#39;, &#39;s6+s7&#39;, &#39;s16&#39;, &#39;s7+s1&#39;, &#39;s1+s6&#39;, &#39;s15&#39;, &#39;2*s6&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_deficiency">
+<code class="descname">get_deficiency</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_deficiency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_deficiency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns integer value representing the deficiency of the network, <img class="math" src="../_images/math/a702e781dfc76762a3a132c2031fba8898430925.png" alt="\delta"/>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_deficiency</span><span class="p">())</span>
+<span class="go">    2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_dim_equilibrium_manifold">
+<code class="descname">get_dim_equilibrium_manifold</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_dim_equilibrium_manifold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_dim_equilibrium_manifold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns integer value representing the dimension of the equilibrium manifold, <img class="math" src="../_images/math/76f1d8ace30435987c01a00ca53a71cba1f40e6c.png" alt="\lambda"/>. This value
+is the number of mass conservation relationships.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_dim_equilibrium_manifold</span><span class="p">())</span>
+<span class="go">    3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_g_edges">
+<code class="descname">get_g_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_g_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_g_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of tuples of strings that represent the order of the edges of the NetworkX DiGraph.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_g_edges</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_g_nodes">
+<code class="descname">get_g_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_g_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_g_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of strings that represent the order of the nodes of the NetworkX DiGraph.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_g_nodes</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_graph">
+<code class="descname">get_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the NetworkX DiGraph representation of the network.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_if_cgraph_weakly_reversible">
+<code class="descname">get_if_cgraph_weakly_reversible</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_if_cgraph_weakly_reversible"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_if_cgraph_weakly_reversible" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weak reversibility of the network. If the network is weakly reversible True is returned, False otherwise.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_if_cgraph_weakly_reversible</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_lambda">
+<code class="descname">get_lambda</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_lambda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_lambda" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns SymPy matrix representing the linkage class matrix, <img class="math" src="../_images/math/5b99ed91598429157b547a2c3700a6b25c52824a.png" alt="\Lambda"/>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_lambda</span><span class="p">())</span>
+<span class="go">    ⎡1  0  0⎤</span>
+<span class="go">    ⎢       ⎥</span>
+<span class="go">    ⎢1  0  0⎥</span>
+<span class="go">    ⎢       ⎥</span>
+<span class="go">    ⎢1  0  0⎥</span>
+<span class="go">    ⎢       ⎥</span>
+<span class="go">    ⎢0  1  0⎥</span>
+<span class="go">    ⎢       ⎥</span>
+<span class="go">    ⎢0  1  0⎥</span>
+<span class="go">    ⎢       ⎥</span>
+<span class="go">    ⎢0  1  0⎥</span>
+<span class="go">    ⎢       ⎥</span>
+<span class="go">    ⎢0  0  1⎥</span>
+<span class="go">    ⎢       ⎥</span>
+<span class="go">    ⎢0  0  1⎥</span>
+<span class="go">    ⎢       ⎥</span>
+<span class="go">    ⎣0  0  1⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_linkage_classes">
+<code class="descname">get_linkage_classes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_linkage_classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_linkage_classes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of NetworkX subgraphs representing the linkage classes.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_linkage_classes</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_linkage_classes_deficiencies">
+<code class="descname">get_linkage_classes_deficiencies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_linkage_classes_deficiencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_linkage_classes_deficiencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an interger list of each linkage class deficiency. Here, the first element corresponds to the first
+linkage class with order as defined by <a class="reference internal" href="#crnt4sbml.Cgraph.get_linkage_classes" title="crnt4sbml.Cgraph.get_linkage_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.Cgraph.get_linkage_classes()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_linkage_classes_deficiencies</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_network_dimensionality_classification">
+<code class="descname">get_network_dimensionality_classification</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_network_dimensionality_classification"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_network_dimensionality_classification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a two element list specifying the dimensionality of the network.
+Possible output:
+[“over-dimensioned”,0]</p>
+<p>or</p>
+<p>[“proper”,1]</p>
+<p>or</p>
+<p>[“under-dimensioned”,2]</p>
+<p>or</p>
+<p>[“NOT DEFINED!”,3]</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_network_dimensionality_classification</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_number_of_terminal_strong_lc_per_lc">
+<code class="descname">get_number_of_terminal_strong_lc_per_lc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_number_of_terminal_strong_lc_per_lc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_number_of_terminal_strong_lc_per_lc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an integer list stating the number of terminally strong linkage classes per linkage class. Here,
+the first element corresponds to the first linkage class with order as defined by
+<a class="reference internal" href="#crnt4sbml.Cgraph.get_linkage_classes" title="crnt4sbml.Cgraph.get_linkage_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.Cgraph.get_linkage_classes()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_number_of_terminal_strong_lc_per_lc</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_ode_system">
+<code class="descname">get_ode_system</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_ode_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_ode_system" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns SymPy matrix representing the ODE system.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the
+provided example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_ode_system</span><span class="p">())</span>
+<span class="go">    ⎡    -re₁⋅s₁⋅s₂ + re1r⋅s₃ + re₄⋅s₁₆ - re₆⋅s₁⋅s₆ + re6r⋅s₁₅     ⎤</span>
+<span class="go">    ⎢                                                              ⎥</span>
+<span class="go">    ⎢                 -re₁⋅s₁⋅s₂ + s₃⋅(re1r + re₂)                 ⎥</span>
+<span class="go">    ⎢                                                              ⎥</span>
+<span class="go">    ⎢                 re₁⋅s₁⋅s₂ + s₃⋅(-re1r - re₂)                 ⎥</span>
+<span class="go">    ⎢                                                              ⎥</span>
+<span class="go">    ⎢re₂⋅s₃ - re₃⋅s₆⋅s₇ + re3r⋅s₁₆ - re₆⋅s₁⋅s₆ + s₁₅⋅(re6r + 2⋅re₈)⎥</span>
+<span class="go">    ⎢                                                              ⎥</span>
+<span class="go">    ⎢                -re₃⋅s₆⋅s₇ + s₁₆⋅(re3r + re₄)                 ⎥</span>
+<span class="go">    ⎢                                                              ⎥</span>
+<span class="go">    ⎢                re₆⋅s₁⋅s₆ + s₁₅⋅(-re6r - re₈)                 ⎥</span>
+<span class="go">    ⎢                                                              ⎥</span>
+<span class="go">    ⎣                re₃⋅s₆⋅s₇ + s₁₆⋅(-re3r - re₄)                 ⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_psi">
+<code class="descname">get_psi</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_psi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_psi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns SymPy matrix representing the mass action monomials, <img class="math" src="../_images/math/499a2ee48b33448e80b97af9df9550828bdbfb59.png" alt="\psi"/>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_psi</span><span class="p">())</span>
+<span class="go">    ⎡s₁⋅s₂⎤</span>
+<span class="go">    ⎢     ⎥</span>
+<span class="go">    ⎢ s₃  ⎥</span>
+<span class="go">    ⎢     ⎥</span>
+<span class="go">    ⎢s₂⋅s₆⎥</span>
+<span class="go">    ⎢     ⎥</span>
+<span class="go">    ⎢s₆⋅s₇⎥</span>
+<span class="go">    ⎢     ⎥</span>
+<span class="go">    ⎢ s₁₆ ⎥</span>
+<span class="go">    ⎢     ⎥</span>
+<span class="go">    ⎢s₁⋅s₇⎥</span>
+<span class="go">    ⎢     ⎥</span>
+<span class="go">    ⎢s₁⋅s₆⎥</span>
+<span class="go">    ⎢     ⎥</span>
+<span class="go">    ⎢ s₁₅ ⎥</span>
+<span class="go">    ⎢     ⎥</span>
+<span class="go">    ⎢   2 ⎥</span>
+<span class="go">    ⎣ s₆  ⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_reactions">
+<code class="descname">get_reactions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_reactions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_reactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Python list of strings representing the reactions of the network.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_reactions</span><span class="p">())</span>
+<span class="go">    [&#39;re1&#39;, &#39;re1r&#39;, &#39;re2&#39;, &#39;re3&#39;, &#39;re3r&#39;, &#39;re4&#39;, &#39;re6&#39;, &#39;re6r&#39;, &#39;re8&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_s">
+<code class="descname">get_s</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_s"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns SymPy matrix representing the stoichiometric matrix, <img class="math" src="../_images/math/1dbc400fcc213305415872f9f625cd2828f97a00.png" alt="S"/>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_s</span><span class="p">())</span>
+<span class="go">    ⎡-1  1   0   0   0   1   -1  1   0 ⎤</span>
+<span class="go">    ⎢                                  ⎥</span>
+<span class="go">    ⎢-1  1   1   0   0   0   0   0   0 ⎥</span>
+<span class="go">    ⎢                                  ⎥</span>
+<span class="go">    ⎢1   -1  -1  0   0   0   0   0   0 ⎥</span>
+<span class="go">    ⎢                                  ⎥</span>
+<span class="go">    ⎢0   0   1   -1  1   0   -1  1   2 ⎥</span>
+<span class="go">    ⎢                                  ⎥</span>
+<span class="go">    ⎢0   0   0   -1  1   1   0   0   0 ⎥</span>
+<span class="go">    ⎢                                  ⎥</span>
+<span class="go">    ⎢0   0   0   0   0   0   1   -1  -1⎥</span>
+<span class="go">    ⎢                                  ⎥</span>
+<span class="go">    ⎣0   0   0   1   -1  -1  0   0   0 ⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_species">
+<code class="descname">get_species</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_species"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_species" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Python list of strings representing the species of the network.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_species</span><span class="p">())</span>
+<span class="go">    [&#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;, &#39;s6&#39;, &#39;s7&#39;, &#39;s15&#39;, &#39;s16&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_weak_reversibility_of_linkage_classes">
+<code class="descname">get_weak_reversibility_of_linkage_classes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_weak_reversibility_of_linkage_classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_weak_reversibility_of_linkage_classes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of Python boolean types for the weak reversibility of each linkage class. If the linkage class is
+weakly reversible then the entry in the list is True, False otherwise with order as defined by
+<a class="reference internal" href="#crnt4sbml.Cgraph.get_linkage_classes" title="crnt4sbml.Cgraph.get_linkage_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.Cgraph.get_linkage_classes()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_weak_reversibility_of_linkage_classes</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.get_y">
+<code class="descname">get_y</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.get_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.get_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns SymPy matrix representing the molecularity matrix, <img class="math" src="../_images/math/0062c26909b3e07ee8f5a6285b2563d69bc979ff.png" alt="Y"/>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_y</span><span class="p">())</span>
+<span class="go">    ⎡1  0  0  0  0  1  1  0  0⎤</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢1  0  1  0  0  0  0  0  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢0  1  0  0  0  0  0  0  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢0  0  1  1  0  0  1  0  2⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢0  0  0  1  0  1  0  0  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢0  0  0  0  0  0  0  1  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎣0  0  0  0  1  0  0  0  0⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots NetworkX DiGraph.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="crnt4sbml.CRNT.html#crnt4sbml.CRNT.plot_c_graph" title="crnt4sbml.CRNT.plot_c_graph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.plot_c_graph()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.plot_save">
+<code class="descname">plot_save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.plot_save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.plot_save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the plot of the NetworkX DiGraph.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="crnt4sbml.CRNT.html#crnt4sbml.CRNT.plot_save_c_graph" title="crnt4sbml.CRNT.plot_save_c_graph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.plot_save_c_graph()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.Cgraph.print">
+<code class="descname">print</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/c_graph.html#Cgraph.print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.Cgraph.print" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints edges and nodes of NetworkX DiGraph.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="crnt4sbml.CRNT.html#crnt4sbml.CRNT.print_c_graph" title="crnt4sbml.CRNT.print_c_graph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.print_c_graph()</span></code></a></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="crnt4sbml.LowDeficiencyApproach.html" class="btn btn-neutral float-right" title="crnt4sbml.LowDeficiencyApproach" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="crnt4sbml.CRNT.html" class="btn btn-neutral float-left" title="crnt4sbml.CRNT" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

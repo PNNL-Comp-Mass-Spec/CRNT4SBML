@@ -1,0 +1,518 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crnt4sbml.crnt &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>crnt4sbml.crnt</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crnt4sbml.crnt</h1><div class="highlight"><pre>
+<span></span>
+import re
+import os
+import warnings
+import libsbml
+import networkx
+
+from .c_graph import Cgraph
+from .low_deficiency_approach import LowDeficiencyApproach
+from .mass_conservation_approach import MassConservationApproach
+from .semi_diffusive_approach import SemiDiffusiveApproach
+from .advanced_deficiency_approach import AdvancedDeficiencyApproach
+
+
+<div class="viewcode-block" id="CRNT"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT">[docs]</a>class CRNT:
+    &quot;&quot;&quot;
+    Class for managing CRNT methods.
+    &quot;&quot;&quot;
+<div class="viewcode-block" id="CRNT.__init__"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.__init__">[docs]</a>    def __init__(self, path):
+        &quot;&quot;&quot;
+        Initialization of CRNT class.
+
+        Parameters
+        -----------
+        path: string
+            String representation of the path to the XML file.
+        Example
+        ---------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &quot;&quot;&quot;
+        self.__path = path
+        self.__sbml_model = None
+
+        self.__validate_path()
+        # self.__read_sbml_model()
+        reader = libsbml.SBMLReader()
+        sbml_doc = reader.readSBMLFromFile(self.__path)
+        self.__sbml_model = sbml_doc.getModel()
+        self.__cgraph = Cgraph(self.__sbml_model)  # init Cgraph object</div>
+
+    def __validate_path(self):
+        if not os.path.isfile(self.__path):
+            raise Exception(&quot;file is missing&quot;)
+
+    def __read_sbml_model(self):
+        reader = libsbml.SBMLReader()
+        sbml_doc = reader.readSBMLFromFile(self.__path)
+        # This is just to warn user. Not considered as a failure at this point.
+        if sbml_doc.validateSBML() &gt; 0:
+            warnings.warn(&quot;Warning, SBML did not pass validation!\nProceeding anyway.&quot;)
+        if sbml_doc.checkConsistency() &gt; 0:
+            warnings.warn(&quot;Warning, SBML did not pass checking of consistency!\nProceeding anyway.&quot;)
+        self.__sbml_model = sbml_doc.getModel()
+        pass
+
+    # public methods
+
+<div class="viewcode-block" id="CRNT.plot_c_graph"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.plot_c_graph">[docs]</a>    def plot_c_graph(self):
+        &quot;&quot;&quot;
+        Generates a matplotlib plot for the C-graph of the network using the networkx.draw function with circular and
+        Kamada Kawai layout.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.plot_c_graph()
+        &quot;&quot;&quot;
+        self.__cgraph.plot()</div>
+
+<div class="viewcode-block" id="CRNT.plot_save_c_graph"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.plot_save_c_graph">[docs]</a>    def plot_save_c_graph(self):
+        &quot;&quot;&quot;
+        Saves the matplotlib plot for the C-graph of the network using the networkx.draw function with circular and
+        Kamada Kawai layout to the file network_cgraph.png
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.plot_save_c_graph()
+        &quot;&quot;&quot;
+        self.__cgraph.plot_save()</div>
+
+<div class="viewcode-block" id="CRNT.print_c_graph"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.print_c_graph">[docs]</a>    def print_c_graph(self):
+        &quot;&quot;&quot;
+        Prints the reactions and reaction labels for the network.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; network.print_c_graph()
+            Reaction graph of the form
+            reaction -- reaction label:
+            s1+s2 -&gt; s3  --  re1
+            s3 -&gt; s1+s2  --  re1r
+            s3 -&gt; s6+s2  --  re2
+            s6+s7 -&gt; s16  --  re3
+            s16 -&gt; s6+s7  --  re3r
+            s16 -&gt; s7+s1  --  re4
+            s1+s6 -&gt; s15  --  re6
+            s15 -&gt; s1+s6  --  re6r
+            s15 -&gt; 2*s6  --  re8
+        &quot;&quot;&quot;
+        self.__cgraph.print()</div>
+
+<div class="viewcode-block" id="CRNT.get_network_graphml"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_network_graphml">[docs]</a>    def get_network_graphml(self):
+        &quot;&quot;&quot;
+        Writes the NetworkX Digraph to the file network.graphml. Note that this generation only includes the names of
+        the nodes, edges, and edge reaction names, it does not include other list attributes of the nodes and edges.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_network_graphml()
+        &quot;&quot;&quot;
+        c_graph = self.__cgraph.get_graph()
+        g = networkx.DiGraph()
+        g.add_nodes_from(c_graph.nodes)
+        g.add_edges_from(c_graph.edges)
+
+        # add reaction names to graph
+        edge_names = [{&quot;label&quot;: c_graph.edges[i][&quot;label&quot;]} for i in c_graph.edges]
+        zip_obj = zip([i for i in g.edges], edge_names)
+        edge_dict = dict(zip_obj)
+        networkx.set_edge_attributes(g, edge_dict)
+
+        networkx.write_graphml(g, &quot;network.graphml&quot;)</div>
+
+<div class="viewcode-block" id="CRNT.basic_report"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.basic_report">[docs]</a>    def basic_report(self):
+        &quot;&quot;&quot;
+        Prints out basic CRNT properties of the network.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; network.basic_report()
+            Number of species: 7
+            Number of complexes: 9
+            Number of reactions: 9
+            Network deficiency: 2
+        &quot;&quot;&quot;
+
+        report = &quot;&quot;&quot;
+        Number of species: %i
+        Number of complexes: %i
+        Number of reactions: %i 
+        Network deficiency: %i
+        &quot;&quot;&quot; % (
+            len(self.__cgraph.get_species()),
+            len(self.__cgraph.get_complexes()),
+            len(self.__cgraph.get_reactions()),
+            self.__cgraph.get_deficiency()
+        )
+        print(&quot;&quot;)
+        print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, report, flags=re.MULTILINE))</div>
+
+<div class="viewcode-block" id="CRNT.get_low_deficiency_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_low_deficiency_approach">[docs]</a>    def get_low_deficiency_approach(self):
+        &quot;&quot;&quot;
+        Initializes and creates an object for the class LowDeficiencyApproach for the CRNT object constructed.
+
+        See also
+        ---------
+        crnt4sbml.LowDeficiencyApproach
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_low_deficiency_approach()
+        &quot;&quot;&quot;
+        return LowDeficiencyApproach(self.__cgraph)</div>
+
+<div class="viewcode-block" id="CRNT.get_mass_conservation_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_mass_conservation_approach">[docs]</a>    def get_mass_conservation_approach(self):
+        &quot;&quot;&quot;
+        Initializes and creates an object for the class MassConservationApproach for the CRNT object constructed.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        See also
+        ---------
+        crnt4sbml.MassConservationApproach
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
+            Creating Equilibrium Manifold ...
+            Elapsed time for creating Equilibrium Manifold: 0.8010799999999998
+            Solving for species&#39; concentrations ...
+            Elapsed time for finding species&#39; concentrations: 1.1221319999999997
+        &quot;&quot;&quot;
+        ldh = LowDeficiencyApproach(self.__cgraph)
+        if ldh.does_satisfy_any_low_deficiency_theorem():
+            message = &quot;&quot;&quot;
+            Network satisfies one of the low deficiency theorems.
+            One should not run the optimization-based methods.
+            &quot;&quot;&quot;
+            print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, message, flags=re.MULTILINE))
+            return None
+        else:
+            return MassConservationApproach(self.__cgraph)</div>
+
+<div class="viewcode-block" id="CRNT.get_semi_diffusive_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_semi_diffusive_approach">[docs]</a>    def get_semi_diffusive_approach(self):
+        &quot;&quot;&quot;
+        Initializes and creates an object for the class SemiDiffusiveApproach for the CRNT object constructed.
+
+        See also
+        ---------
+        crnt4sbml.SemiDiffusiveApproach
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/semi_diffusive_sbml_file.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &quot;&quot;&quot;
+        ldh = LowDeficiencyApproach(self.__cgraph)
+        if ldh.does_satisfy_any_low_deficiency_theorem():
+            message = &quot;&quot;&quot;
+            Network satisfies one of the low deficiency theorems.
+            One should not run the optimization-based methods.
+            &quot;&quot;&quot;
+            print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, message, flags=re.MULTILINE))
+            return None
+        else:
+            return SemiDiffusiveApproach(self.__cgraph)</div>
+
+<div class="viewcode-block" id="CRNT.get_advanced_deficiency_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_advanced_deficiency_approach">[docs]</a>    def get_advanced_deficiency_approach(self):
+        &quot;&quot;&quot;
+        Placeholder for Advanced Deficiency Approach. Future version of crnt4sbml will include the implementation of
+        the Higher Deficiency Algorithm.
+        &quot;&quot;&quot;
+        ldh = LowDeficiencyApproach(self.__cgraph)
+        if ldh.does_satisfy_any_low_deficiency_theorem():
+            message = &quot;&quot;&quot;
+            Network satisfies one of the low deficiency theorems.
+            One should not  run the advanced deficiency method.
+            &quot;&quot;&quot;
+            print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, message, flags=re.MULTILINE))
+            return None
+        else:
+            return AdvancedDeficiencyApproach(self.__cgraph)</div>
+
+<div class="viewcode-block" id="CRNT.get_c_graph"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_c_graph">[docs]</a>    def get_c_graph(self):
+        &quot;&quot;&quot;
+        Allows access to the class C-graph for the constructed CRNT object. Returns C-graph object for the provided
+        CRNT object.
+
+        See also
+        ---------
+        crnt4sbml.Cgraph
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; c_graph = network.get_c_graph()
+        &quot;&quot;&quot;
+        return self.__cgraph</div>
+
+<div class="viewcode-block" id="CRNT.get_physiological_range"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_physiological_range">[docs]</a>    @staticmethod
+    def get_physiological_range(for_what=None):
+        &quot;&quot;&quot;Obtains physiological ranges.
+
+        Parameters
+        -----------
+        for_what: string
+            Accepted values: &quot;concentration&quot;, &quot;complex formation&quot;, &quot;complex dissociation&quot;, or &quot;catalysis&quot;
+
+        Returns
+        --------
+        concentration:
+            5e-1,5e5 pM
+        complex formation:
+            1e-8,1e-4  pM^-1s^-1
+        complex dissociation:
+            1e-5,1e-3 s^-1
+        catalysis:
+            1e-3,1 s^-1
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_physiological_range(&quot;concentration&quot;)
+        &quot;&quot;&quot;
+        valid = {&quot;concentration&quot;, &quot;complex_formation&quot;, &quot;complex_dissociation&quot;, &quot;monomolecular&quot;}
+        if for_what is None:
+            warnings.warn(&quot;Please provide the argument what the range should be provided for.&quot;)
+            return None
+        if for_what not in valid:
+            raise ValueError(&quot;for_what argument must be one of %r.&quot; % valid)
+        if for_what == &quot;concentration&quot;:
+            return 5e-1, 5e5
+        if for_what == &quot;complex_formation&quot;:
+            return 1e-8, 1e-4
+        if for_what == &quot;complex_dissociation&quot;:
+            return 1e-5, 1e-3
+        if for_what == &quot;catalysis&quot;:
+            return 1e-3, 1e0</div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

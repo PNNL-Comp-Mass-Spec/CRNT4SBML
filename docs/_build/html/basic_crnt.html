@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Low Deficiency Approach &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mass Conservation Approach Walkthrough" href="deficiency_walkthrough.html" />
+    <link rel="prev" title="CellDesigner Walkthrough" href="celldesigner_walkthrough.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Low Deficiency Approach</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/basic_crnt.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="low-deficiency-approach">
+<span id="my-basic-label"></span><h1>Low Deficiency Approach<a class="headerlink" href="#low-deficiency-approach" title="Permalink to this headline">¶</a></h1>
+<p>Now that we have constructed the SBML file using the guidelines of <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a>, we will proceed by
+testing the Deficiency Zero and One Theorems of <a class="reference internal" href="zbibliography.html#fein-lecture" id="id1">[Fei79]</a>. We will complete this test for
+<a class="reference external" href="https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a>. The first step we must
+take is importing crnt4sbml. To do this open up a python script and add the following line:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+</pre></div>
+</div>
+<p>Next, we will take the SBML file created using CellDesigner and import it into the code. This is done by instantiating
+CRNT with a string representation of the path to the SBML file. An example of this instantiation is as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once this line is ran the class CRNT takes the SBML file and parses it into a Python
+<a class="reference external" href="https://networkx.github.io/documentation/stable/">NetworkX</a> object which is then used to
+identify the basic Chemical Reaction Network Theory properties of the network. To obtain a full list of what is provided
+by this instantiation, please see the getter methods of <code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml_test.CRNT()</span></code>. To obtain a print out of the
+number of species, complexes, reactions and deficiency of the network complete the following command:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">basic_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>For the closed portion of the C-graph the output should be as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Number of species: 7
+Number of complexes: 9
+Number of reactions: 9
+Network deficiency: 2
+</pre></div>
+</div>
+<p>It is important for the user to verify that the number of species, complexes, reactions, and if possible deficiency
+values are correct at this stage. To provide another check to make sure the parsing and CellDesigner model were
+constructed correctly, one is encouraged to print the network constructed. To do this, add the following command
+to the script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">print_c_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After running this command for the constructed SBML file, the following output is obtained.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Reaction graph of the form
+reaction -- reaction label:
+s1+s2 -&gt; s3  --  re1
+s3 -&gt; s1+s2  --  re1r
+s3 -&gt; s6+s2  --  re2
+s6+s7 -&gt; s16  --  re3
+s16 -&gt; s6+s7  --  re3r
+s16 -&gt; s7+s1  --  re4
+s1+s6 -&gt; s15  --  re6
+s15 -&gt; s1+s6  --  re6r
+s15 -&gt; 2*s6  --  re8
+</pre></div>
+</div>
+<p>Notice that this output describes the reactions in terms of the species’ id and not the species’ name. Along with the
+reactions, the reaction labels constructed during parsing are also returned. For this example the first reaction
+s1+s2 -&gt; s3 has a reaction label of ‘re1’ and the reaction s15 -&gt; s1+ s6 has a reaction label of ‘re6r’.  Please note
+that the species id and reaction labels may be different if the user has constructed the SBML file themselves. Further
+information of the network can be found by analyzing the getter methods of <code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml_test.Cgraph()</span></code>.</p>
+<p>Once one has verified that the network and CellDesigner model were created correctly, we can begin to check the
+properties of the network. If one is only interested in whether or not the network precludes bistability, it is best to
+first check the Deficiency Zero and One Theorems of Chemical Reaction Network Theory. To do this add the following lines
+to the script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ldt</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_low_deficiency_approach</span><span class="p">()</span>
+<span class="n">ldt</span><span class="o">.</span><span class="n">report_deficiency_zero_theorem</span><span class="p">()</span>
+<span class="n">ldt</span><span class="o">.</span><span class="n">report_deficiency_one_theorem</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This provides the following output for the closed portion of the C-graph:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The network does not satisfy Deficiency Zero Theorem.
+The network does not satisfy Deficiency One Theorem.
+</pre></div>
+</div>
+<p>For information on the possible output for this run, please see <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.LowDeficiencyApproach.report_deficiency_one_theorem()</span></code>
+and <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.LowDeficiencyApproach.report_deficiency_zero_theorem()</span></code>.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="deficiency_walkthrough.html" class="btn btn-neutral float-right" title="Mass Conservation Approach Walkthrough" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="celldesigner_walkthrough.html" class="btn btn-neutral float-left" title="CellDesigner Walkthrough" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 """Top-level package for CRNT4SBML."""
 
 __author__ = """Brandon Reyes"""
-__email__ = 'breyes@gmail.com'
+__email__ = 'reyesb123@gmail.com'
 __version__ = '0.0.1'
 
 from .crnt import CRNT

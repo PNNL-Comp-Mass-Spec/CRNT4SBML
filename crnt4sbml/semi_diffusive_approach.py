@@ -19,7 +19,7 @@ class SemiDiffusiveApproach:
 
         See also
         ---------
-        crnt4sbml_test.CRNT.get_semi_diffusive_approach()
+        crnt4sbml.CRNT.get_semi_diffusive_approach()
         """
         self.__cgraph = cgraph
         self.__g = self.__cgraph.get_graph()
@@ -189,7 +189,7 @@ class SemiDiffusiveApproach:
         approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
         parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
         produce jagged or missing sections in the plots provided. To produce better plots one should use the information
-        provided by this routine to run :func:`crnt4sbml_test.SemiDiffusiveApproach.run_continuity_analysis`.
+        provided by this routine to run :func:`crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis`.
 
         Parameters
         ------------
@@ -600,7 +600,7 @@ class SemiDiffusiveApproach:
         """
         Returns SymPy matrix representing the :math:`Y_r` matrix. The columns of which correspond to the true and
         outflow reactions of the molecularity matrix.
-        `Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
         example.
 
         Example
@@ -630,7 +630,7 @@ class SemiDiffusiveApproach:
         """
         Returns SymPy matrix representing the :math:`S_{to}` matrix. The columns of which correspond to the true and
         outflow reactions of the stoichiometric matrix.
-        `Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
         example.
 
         Example
@@ -675,7 +675,7 @@ class SemiDiffusiveApproach:
         """
         Returns a lambda function representation of the objective function of the optimization problem. Here the
         arguments of the lambda function are given by the values provided by
-        :func:`crnt4sbml_test.SemiDiffusiveApproach.get_mu_vector`.
+        :func:`crnt4sbml.SemiDiffusiveApproach.get_mu_vector`.
 
         Example
         --------
@@ -690,7 +690,7 @@ class SemiDiffusiveApproach:
     def get_symbolic_polynomial_fun(self):
         """
         Returns SymPy matrix representing the vector of polynomial functions, :math:`-S_{to} \mu`.
-        `Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
         example.
 
         Example
@@ -720,7 +720,7 @@ class SemiDiffusiveApproach:
         """
         Returns a list of lambda functions for the vector of polynomial functions. The index of the list corresponds to
         the row in the vector of polynomial functions. Here the arguments of the lambda function are given by the values
-        provided by :func:`crnt4sbml_test.SemiDiffusiveApproach.get_mu_vector`.
+        provided by :func:`crnt4sbml.SemiDiffusiveApproach.get_mu_vector`.
 
         Example
         --------
@@ -735,7 +735,7 @@ class SemiDiffusiveApproach:
     def get_key_species(self):
         """
         Returns a list of string variables corresponding to the key species.
-        `Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
         example.
 
         Example
@@ -752,7 +752,7 @@ class SemiDiffusiveApproach:
     def get_non_key_species(self):
         """
         Returns a list of string variables corresponding to those species that are not key species.
-        `Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
         example.
 
         Example
@@ -769,7 +769,7 @@ class SemiDiffusiveApproach:
     def get_boundary_species(self):
         """
         Returns a list of string variables corresponding to those species that are defined as boundary species.
-        `Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
         example.
 
         Example
@@ -786,7 +786,7 @@ class SemiDiffusiveApproach:
     def get_decision_vector(self):
         """
         Returns a list of SymPy variables corresponding to the decision vector for the optimization problem.
-        `Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
         example.
 
         Example
@@ -800,14 +800,14 @@ class SemiDiffusiveApproach:
 
         See also
         ----------
-        crnt4sbml_test.SemiDiffusiveApproach.print_decision_vector
+        crnt4sbml.SemiDiffusiveApproach.print_decision_vector
         """
         return self.__decision_vector
 
     def get_mu_vector(self):
         """
         Returns a list of SymPy variables corresponding to the vector of fluxes, :math:`\mu` .
-        `Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
         example.
 
         Example
@@ -825,7 +825,7 @@ class SemiDiffusiveApproach:
         """
         Prints an easily readable form of the decision vector. It first prints the decision vector and then the
         corresponding reaction labels.
-        `Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
+        `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_ for the provided
         example.
 
         Example
@@ -849,8 +849,8 @@ class SemiDiffusiveApproach:
 
     def generate_report(self):
         """
-        Prints out helpful details constructed by :func:`crnt4sbml_test.SemiDiffusiveApproach.run_optimization` and
-        :func:`crnt4sbml_test.SemiDiffusiveApproach.run_continuity_analysis`.
+        Prints out helpful details constructed by :func:`crnt4sbml.SemiDiffusiveApproach.run_optimization` and
+        :func:`crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis`.
 
         Example
         --------

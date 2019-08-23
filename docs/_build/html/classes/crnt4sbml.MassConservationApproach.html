@@ -1,0 +1,880 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crnt4sbml.MassConservationApproach &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="crnt4sbml.SemiDiffusiveApproach" href="crnt4sbml.SemiDiffusiveApproach.html" />
+    <link rel="prev" title="crnt4sbml.LowDeficiencyApproach" href="crnt4sbml.LowDeficiencyApproach.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more_examples.html">Further Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../reference.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.CRNT.html">crnt4sbml.CRNT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.Cgraph.html">crnt4sbml.Cgraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.LowDeficiencyApproach.html">crnt4sbml.LowDeficiencyApproach</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">crnt4sbml.MassConservationApproach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.SemiDiffusiveApproach.html">crnt4sbml.SemiDiffusiveApproach</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../reference.html">Reference</a> &raquo;</li>
+        
+      <li>crnt4sbml.MassConservationApproach</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/classes/crnt4sbml.MassConservationApproach.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="crnt4sbml-massconservationapproach">
+<h1>crnt4sbml.MassConservationApproach<a class="headerlink" href="#crnt4sbml-massconservationapproach" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="crnt4sbml.MassConservationApproach">
+<em class="property">class </em><code class="descclassname">crnt4sbml.</code><code class="descname">MassConservationApproach</code><span class="sig-paren">(</span><em>cgraph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for constructing variables and methods needed for the mass conservation approach.</p>
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>cgraph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialization of the MassConservationApproach class.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_mass_conservation_approach" title="crnt4sbml.CRNT.get_mass_conservation_approach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.get_mass_conservation_approach()</span></code></a></p>
+</div>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.__init__" title="crnt4sbml.MassConservationApproach.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cgraph)</td>
+<td>Initialization of the MassConservationApproach class.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.generate_report" title="crnt4sbml.MassConservationApproach.generate_report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_report</span></code></a>()</td>
+<td>Prints out helpful details constructed by <a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_optimization" title="crnt4sbml.MassConservationApproach.run_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.run_optimization()</span></code></a> and <a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_continuity_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.run_continuity_analysis()</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_conservation_laws" title="crnt4sbml.MassConservationApproach.get_conservation_laws"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_conservation_laws</span></code></a>()</td>
+<td>Returns a string representation of the conservation laws.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_decision_vector" title="crnt4sbml.MassConservationApproach.get_decision_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_decision_vector</span></code></a>()</td>
+<td>Returns a list of SymPy variables that represent the decision vector of the optimization problem.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_objective_fun_params" title="crnt4sbml.MassConservationApproach.get_objective_fun_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_objective_fun_params</span></code></a>()</td>
+<td>Returns a list of SymPy variables that represent those variables that may be contained in the G matrix, Jacobian of the equilibrium manifold with respect to the species, or objective function.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_concentration_vals" title="crnt4sbml.MassConservationApproach.get_concentration_vals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_concentration_vals</span></code></a>()</td>
+<td>Returns a list of SymPy expressions representing the species in terms of those variables present in the decision vector.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_concentration_solutions" title="crnt4sbml.MassConservationApproach.get_concentration_solutions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_concentration_solutions</span></code></a>()</td>
+<td>Returns a more readable string representation of the species defined in terms of the decision vector.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_concentration_funs" title="crnt4sbml.MassConservationApproach.get_concentration_funs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_concentration_funs</span></code></a>()</td>
+<td>Returns a list of lambda functions representing each of the species.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_concentration_bounds_species" title="crnt4sbml.MassConservationApproach.get_concentration_bounds_species"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_concentration_bounds_species</span></code></a>()</td>
+<td>Returns a list of SymPy variables that represents the order of species for the concentration bounds provided to <a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_optimization" title="crnt4sbml.MassConservationApproach.run_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.run_optimization()</span></code></a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_w_nullspace" title="crnt4sbml.MassConservationApproach.get_w_nullspace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_w_nullspace</span></code></a>()</td>
+<td>Returns a list of SymPy column vectors representing <img class="math" src="../_images/math/7890ad8f328bffd5a77839c5961ad839cf68e8b9.png" alt="Null([Y, \Lambda^T]^T)"/>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_w_matrix" title="crnt4sbml.MassConservationApproach.get_w_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_w_matrix</span></code></a>()</td>
+<td>Returns SymPy matrix <img class="math" src="../_images/math/51b9ac31c95ed3c9522c07bfa41fa5de7ec293ed.png" alt="[Y, \Lambda^T]^T"/>, which we call the W matrix.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_dch_matrix" title="crnt4sbml.MassConservationApproach.get_dch_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dch_matrix</span></code></a>()</td>
+<td>Returns a SymPy matrix representing the Jacobian of the equilibrium manifold with respect to the species.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_lambda_dch_matrix" title="crnt4sbml.MassConservationApproach.get_lambda_dch_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_lambda_dch_matrix</span></code></a>()</td>
+<td>Returns a lambda function representation of the Jacobian of the equilibrium manifold matrix.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_h_vector" title="crnt4sbml.MassConservationApproach.get_h_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_h_vector</span></code></a>()</td>
+<td>Returns a SymPy matrix representing the equilibrium manifold.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_g_matrix" title="crnt4sbml.MassConservationApproach.get_g_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_g_matrix</span></code></a>()</td>
+<td>Returns a SymPy matrix representing the G matrix of the defined optimization problem.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_lambda_g_matrix" title="crnt4sbml.MassConservationApproach.get_lambda_g_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_lambda_g_matrix</span></code></a>()</td>
+<td>Returns a lambda function representation of the G matrix.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_symbolic_objective_fun" title="crnt4sbml.MassConservationApproach.get_symbolic_objective_fun"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_symbolic_objective_fun</span></code></a>()</td>
+<td>Returns SymPy expression for the objective function of the optimization problem.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_lambda_objective_fun" title="crnt4sbml.MassConservationApproach.get_lambda_objective_fun"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_lambda_objective_fun</span></code></a>()</td>
+<td>Returns a lambda function representation of the objective function of the optimization problem.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_optimization" title="crnt4sbml.MassConservationApproach.run_optimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_optimization</span></code></a>([bounds,&nbsp;iterations,&nbsp;…])</td>
+<td>Function for running the optimization problem for the mass conservation approach.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
+<td>Function for running the numerical continuation and bistability analysis portions of the mass conservation approach.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_greedy_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
+<td>Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation approach.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.generate_report">
+<code class="descname">generate_report</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.generate_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.generate_report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints out helpful details constructed by <a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_optimization" title="crnt4sbml.MassConservationApproach.run_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.run_optimization()</span></code></a> and
+<a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_continuity_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.run_continuity_analysis()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<p>See <a class="reference internal" href="../quickstart.html#quickstart-deficiency-label"><span class="std std-ref">Mass Conservation Approach Example</span></a> and <a class="reference internal" href="../deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_concentration_bounds_species">
+<code class="descname">get_concentration_bounds_species</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_concentration_bounds_species"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_concentration_bounds_species" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy variables that represents the order of species for the concentration bounds provided
+to <a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_optimization" title="crnt4sbml.MassConservationApproach.run_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.run_optimization()</span></code></a>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_concentration_bounds_species</span><span class="p">())</span>
+<span class="go">    [s1, s3, s7, s15]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_concentration_funs">
+<code class="descname">get_concentration_funs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_concentration_funs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_concentration_funs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of lambda functions representing each of the species. Here the species are those expressions
+provided by <a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_concentration_vals" title="crnt4sbml.MassConservationApproach.get_concentration_vals"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.get_concentration_vals()</span></code></a> where the arguments of each
+lambda function is provided by <a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_decision_vector" title="crnt4sbml.MassConservationApproach.get_decision_vector"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.get_decision_vector()</span></code></a>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_concentration_funs</span><span class="p">())</span>
+<span class="go">    [&lt;function _lambdifygenerated at 0x12b673f28&gt;, &lt;function _lambdifygenerated at 0x12b7a6ea0&gt;,</span>
+<span class="go">    &lt;function _lambdifygenerated at 0x12b7a6d08&gt;, &lt;function _lambdifygenerated at 0x12b7a67b8&gt;,</span>
+<span class="go">    &lt;function _lambdifygenerated at 0x12b7a6d90&gt;, &lt;function _lambdifygenerated at 0x12b7a6488&gt;,</span>
+<span class="go">    &lt;function _lambdifygenerated at 0x12b7a6950&gt;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_concentration_solutions">
+<code class="descname">get_concentration_solutions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_concentration_solutions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_concentration_solutions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a more readable string representation of the species defined in terms of the decision vector.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_concentration_solutions</span><span class="p">())</span>
+<span class="go">    s1 = re4*s16*(re1r*re6r + re1r*re8 + re2*re6r + re2*re8)/(re1*re2*re6r*s2 + re1*re2*re8*s2 + re1r*re6*re8*s6 + re2*re6*re8*s6)</span>
+<span class="go">    s2 = s2</span>
+<span class="go">    s3 = re1*re4*s16*s2*(re6r + re8)/(re1*re2*re6r*s2 + re1*re2*re8*s2 + re1r*re6*re8*s6 + re2*re6*re8*s6)</span>
+<span class="go">    s6 = s6</span>
+<span class="go">    s7 = s16*(re3r + re4)/(re3*s6)</span>
+<span class="go">    s15 = re4*re6*s16*s6*(re1r + re2)/(re1*re2*re6r*s2 + re1*re2*re8*s2 + re1r*re6*re8*s6 + re2*re6*re8*s6)</span>
+<span class="go">    s16 = s16</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_concentration_vals">
+<code class="descname">get_concentration_vals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_concentration_vals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_concentration_vals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy expressions representing the species in terms of those variables present in the decision
+vector. The order is that established in <a class="reference internal" href="crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_species" title="crnt4sbml.Cgraph.get_species"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.Cgraph.get_species()</span></code></a>. Note that if only a single
+species is provided as an element in the list, this means the species is a free variable.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_concentration_solutions" title="crnt4sbml.MassConservationApproach.get_concentration_solutions"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.get_concentration_solutions()</span></code></a></p>
+</div>
+<p><a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_concentration_vals</span><span class="p">())</span>
+<span class="go">    [re4*s16*(re1r*re6r + re1r*re8 + re2*re6r + re2*re8)/(re1*re2*re6r*s2 + re1*re2*re8*s2 + re1r*re6*re8*s6 +</span>
+<span class="go">    re2*re6*re8*s6), s2, re1*re4*s16*s2*(re6r + re8)/(re1*re2*re6r*s2 + re1*re2*re8*s2 + re1r*re6*re8*s6 +</span>
+<span class="go">    re2*re6*re8*s6), s6, s16*(re3r + re4)/(re3*s6), re4*re6*s16*s6*(re1r + re2)/(re1*re2*re6r*s2 +</span>
+<span class="go">    re1*re2*re8*s2 + re1r*re6*re8*s6 + re2*re6*re8*s6), s16]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_conservation_laws">
+<code class="descname">get_conservation_laws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_conservation_laws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_conservation_laws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string representation of the conservation laws. Here the values on the left hand side of each equation
+are the constants of the conservation laws.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_conservation_laws</span><span class="p">())</span>
+<span class="go">    C1 = 1.0*s16 + 1.0*s7</span>
+<span class="go">    C2 = 1.0*s2 + 1.0*s3</span>
+<span class="go">    C3 = 1.0*s1 + 2.0*s15 + 1.0*s16 + 1.0*s3 + 1.0*s6</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_dch_matrix">
+<code class="descname">get_dch_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_dch_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_dch_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a SymPy matrix representing the Jacobian of the equilibrium manifold with respect to the species.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_dch_matrix</span><span class="p">())</span>
+<span class="go">    ⎡-re₁⋅s₂  -re₁⋅s₁     re1r         0        0          0            0     ⎤</span>
+<span class="go">    ⎢                                                                         ⎥</span>
+<span class="go">    ⎢re₁⋅s₂   re₁⋅s₁   -re1r - re₂     0        0          0            0     ⎥</span>
+<span class="go">    ⎢                                                                         ⎥</span>
+<span class="go">    ⎢   0        0          0       -re₃⋅s₇  -re₃⋅s₆       0          re3r    ⎥</span>
+<span class="go">    ⎢                                                                         ⎥</span>
+<span class="go">    ⎢   0        0          0       re₃⋅s₇   re₃⋅s₆        0       -re3r - re₄⎥</span>
+<span class="go">    ⎢                                                                         ⎥</span>
+<span class="go">    ⎢-re₆⋅s₆     0          0       -re₆⋅s₁     0        re6r           0     ⎥</span>
+<span class="go">    ⎢                                                                         ⎥</span>
+<span class="go">    ⎣re₆⋅s₆      0          0       re₆⋅s₁      0     -re6r - re₈       0     ⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_decision_vector">
+<code class="descname">get_decision_vector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_decision_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_decision_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy variables that represent the decision vector of the optimization problem.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_decision_vector</span><span class="p">())</span>
+<span class="go">    [re1, re1r, re2, re3, re3r, re4, re6, re6r, re8, s2, s6, s16]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_g_matrix">
+<code class="descname">get_g_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_g_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_g_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a SymPy matrix representing the G matrix of the defined optimization problem.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_g_matrix</span><span class="p">())</span>
+<span class="go">    ⎡-re₁⋅s₂  -re₁⋅s₁     re1r         0        0          0            0       1  -1⎤</span>
+<span class="go">    ⎢                                                                                ⎥</span>
+<span class="go">    ⎢re₁⋅s₂   re₁⋅s₁   -re1r - re₂     0        0          0            0       0  0 ⎥</span>
+<span class="go">    ⎢                                                                                ⎥</span>
+<span class="go">    ⎢   0        0          0       -re₃⋅s₇  -re₃⋅s₆       0          re3r      1  0 ⎥</span>
+<span class="go">    ⎢                                                                                ⎥</span>
+<span class="go">    ⎢   0        0          0       re₃⋅s₇   re₃⋅s₆        0       -re3r - re₄  0  0 ⎥</span>
+<span class="go">    ⎢                                                                                ⎥</span>
+<span class="go">    ⎢-re₆⋅s₆     0          0       -re₆⋅s₁     0        re6r           0       0  1 ⎥</span>
+<span class="go">    ⎢                                                                                ⎥</span>
+<span class="go">    ⎢re₆⋅s₆      0          0       re₆⋅s₁      0     -re6r - re₈       0       0  0 ⎥</span>
+<span class="go">    ⎢                                                                                ⎥</span>
+<span class="go">    ⎢   0        0          0          0       1.0         0           1.0      0  0 ⎥</span>
+<span class="go">    ⎢                                                                                ⎥</span>
+<span class="go">    ⎢   0       1.0        1.0         0        0          0            0       0  0 ⎥</span>
+<span class="go">    ⎢                                                                                ⎥</span>
+<span class="go">    ⎣  1.0       0         1.0        1.0       0         2.0          1.0      0  0 ⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_h_vector">
+<code class="descname">get_h_vector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_h_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_h_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a SymPy matrix representing the equilibrium manifold.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_h_vector</span><span class="p">())</span>
+<span class="go">    ⎡a₁ - a₂ - re₁⋅s₁⋅s₂ + re1r⋅s₃⎤</span>
+<span class="go">    ⎢                             ⎥</span>
+<span class="go">    ⎢re₁⋅s₁⋅s₂ + s₃⋅(-re1r - re₂) ⎥</span>
+<span class="go">    ⎢                             ⎥</span>
+<span class="go">    ⎢  a₁ - re₃⋅s₆⋅s₇ + re3r⋅s₁₆  ⎥</span>
+<span class="go">    ⎢                             ⎥</span>
+<span class="go">    ⎢re₃⋅s₆⋅s₇ + s₁₆⋅(-re3r - re₄)⎥</span>
+<span class="go">    ⎢                             ⎥</span>
+<span class="go">    ⎢  a₂ - re₆⋅s₁⋅s₆ + re6r⋅s₁₅  ⎥</span>
+<span class="go">    ⎢                             ⎥</span>
+<span class="go">    ⎣re₆⋅s₁⋅s₆ + s₁₅⋅(-re6r - re₈)⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_lambda_dch_matrix">
+<code class="descname">get_lambda_dch_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_lambda_dch_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_lambda_dch_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a lambda function representation of the Jacobian of the equilibrium manifold matrix. Here the
+arguments of the lambda function are given by the values provided by
+<a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_objective_fun_params" title="crnt4sbml.MassConservationApproach.get_objective_fun_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.get_objective_fun_params()</span></code></a>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_lambda_dch_matrix</span><span class="p">())</span>
+<span class="go">    &lt;function _lambdifygenerated at 0x131a06ea0&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_lambda_g_matrix">
+<code class="descname">get_lambda_g_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_lambda_g_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_lambda_g_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a lambda function representation of the G matrix. Here the arguments of the lambda function are given
+by the values provided by <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.MassConservationApproach.get_objective_fun_params()</span></code>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_lambda_g_matrix</span><span class="p">())</span>
+<span class="go">    &lt;function _lambdifygenerated at 0x13248ac80&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_lambda_objective_fun">
+<code class="descname">get_lambda_objective_fun</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_lambda_objective_fun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_lambda_objective_fun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a lambda function representation of the objective function of the optimization problem. Here the
+arguments of the lambda function are given by the values provided by
+<a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_objective_fun_params" title="crnt4sbml.MassConservationApproach.get_objective_fun_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.get_objective_fun_params()</span></code></a>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_lambda_objective_fun</span><span class="p">())</span>
+<span class="go">    &lt;function _lambdifygenerated at 0x12f6f7ea0&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_objective_fun_params">
+<code class="descname">get_objective_fun_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_objective_fun_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_objective_fun_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy variables that represent those variables that may be contained in the G matrix, Jacobian
+of the equilibrium manifold with respect to the species, or objective function.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_objective_fun_params</span><span class="p">())</span>
+<span class="go">    [re1, re1r, re2, re3, re3r, re4, re6, re6r, re8, s1, s2, s3, s6, s7, s15, s16]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_symbolic_objective_fun">
+<code class="descname">get_symbolic_objective_fun</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_symbolic_objective_fun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_symbolic_objective_fun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns SymPy expression for the objective function of the optimization problem. This is the determinant of the
+G matrix squared.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_symbolic_objective_fun</span><span class="p">())</span>
+<span class="go">    1.0*re1**2*re2**2*re3**2*re4**2*re6**2*re8**2*s1**2*s6**2*s7**2*((1.0*s2/s7 - 1.0*s2*(-re3r - re4)/</span>
+<span class="go">    (re3*s6*s7))/re4 + (1.0 + 1.0*re1r/(re1*s1))/re2 + 1.0/(re1*s1))**2*(-((1.0*s6*(-1.0*s1/s6 + 1.0)/s7 + 1.0</span>
+<span class="go">    - (-re3r - re4)*(-1.0*s1/s6 + 1.0)/(re3*s7))/re4 + 1.0/re2)*(-1.0*re6r*s2/(re6*re8*s1*s6) - 1.0*s2*(1 +</span>
+<span class="go">    re6*s6/(re1*s2))/(re6*s1*s6) - (1.0 + 1.0*re1r/(re1*s1))/re2)/((1.0*s2/s7 - 1.0*s2*(-re3r - re4)/</span>
+<span class="go">    (re3*s6*s7))/re4 + (1.0 + 1.0*re1r/(re1*s1))/re2 + 1.0/(re1*s1)) + (2.0 + 1.0*re6r/(re6*s6))/re8 + 1.0*(1 +</span>
+<span class="go">    re6*s6/(re1*s2))/(re6*s6) - 1.0/re2 - 1.0/(re1*s2))**2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_w_matrix">
+<code class="descname">get_w_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_w_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_w_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns SymPy matrix <img class="math" src="../_images/math/51b9ac31c95ed3c9522c07bfa41fa5de7ec293ed.png" alt="[Y, \Lambda^T]^T"/>, which we call the W matrix.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_w_matrix</span><span class="p">())</span>
+<span class="go">    ⎡1  0  0  0  0  1  1  0  0⎤</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢1  0  1  0  0  0  0  0  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢0  1  0  0  0  0  0  0  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢0  0  1  1  0  0  1  0  2⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢0  0  0  1  0  1  0  0  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢0  0  0  0  0  0  0  1  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢0  0  0  0  1  0  0  0  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢1  1  1  0  0  0  0  0  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎢0  0  0  1  1  1  0  0  0⎥</span>
+<span class="go">    ⎢                         ⎥</span>
+<span class="go">    ⎣0  0  0  0  0  0  1  1  1⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_w_nullspace">
+<code class="descname">get_w_nullspace</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_w_nullspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_w_nullspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy column vectors representing <img class="math" src="../_images/math/7890ad8f328bffd5a77839c5961ad839cf68e8b9.png" alt="Null([Y, \Lambda^T]^T)"/>.
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a> for the provided
+example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_w_nullspace</span><span class="p">())</span>
+<span class="go">    ⎡⎡-1⎤  ⎡1 ⎤⎤</span>
+<span class="go">    ⎢⎢  ⎥  ⎢  ⎥⎥</span>
+<span class="go">    ⎢⎢0 ⎥  ⎢0 ⎥⎥</span>
+<span class="go">    ⎢⎢  ⎥  ⎢  ⎥⎥</span>
+<span class="go">    ⎢⎢1 ⎥  ⎢-1⎥⎥</span>
+<span class="go">    ⎢⎢  ⎥  ⎢  ⎥⎥</span>
+<span class="go">    ⎢⎢-1⎥  ⎢0 ⎥⎥</span>
+<span class="go">    ⎢⎢  ⎥  ⎢  ⎥⎥</span>
+<span class="go">    ⎢⎢0 ⎥, ⎢0 ⎥⎥</span>
+<span class="go">    ⎢⎢  ⎥  ⎢  ⎥⎥</span>
+<span class="go">    ⎢⎢1 ⎥  ⎢0 ⎥⎥</span>
+<span class="go">    ⎢⎢  ⎥  ⎢  ⎥⎥</span>
+<span class="go">    ⎢⎢0 ⎥  ⎢-1⎥⎥</span>
+<span class="go">    ⎢⎢  ⎥  ⎢  ⎥⎥</span>
+<span class="go">    ⎢⎢0 ⎥  ⎢0 ⎥⎥</span>
+<span class="go">    ⎢⎢  ⎥  ⎢  ⎥⎥</span>
+<span class="go">    ⎣⎣0 ⎦  ⎣1 ⎦⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.run_continuity_analysis">
+<code class="descname">run_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_continuity_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for running the numerical continuation and bistability analysis portions of the mass conservation
+approach.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>species</strong> (<em>string</em>) – A string stating the species that is the y-axis of the bifurcation diagram.</li>
+<li><strong>parameters</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+value.</li>
+<li><strong>dir_path</strong> (<em>string</em>) – A string stating the path where the bifurcation diagrams should be saved.</li>
+<li><strong>print_lbls_flag</strong> (<em>bool</em>) – If True the routine will print the special points found by AUTO 2000 and False will not print any
+special points.</li>
+<li><strong>auto_parameters</strong> (<em>dict</em>) – Dictionary defining the parameters for the AUTO 2000 run. Please note that one should <strong>not</strong> set
+‘SBML’ or ‘ScanDirection’ in these parameters as these are automatically assigned. It is absolutely
+necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
+parameters refer to <a class="reference download internal" download="" href="../_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>. ‘NMX’ will default to
+10000 and ‘ITMX’ to 100.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>multistable_param_ind</strong> – A list of those indices in ‘parameters’ that produce multistable plots.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of integers</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>See <a class="reference internal" href="../quickstart.html#quickstart-deficiency-label"><span class="std std-ref">Mass Conservation Approach Example</span></a> and <a class="reference internal" href="../deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis">
+<code class="descname">run_greedy_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_greedy_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
+approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
+parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
+produce jagged or missing sections in the plots provided. To produce better plots one should use the information
+provided by this routine to run <a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_continuity_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.run_continuity_analysis()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>species</strong> (<em>string</em>) – A string stating the species that is the y-axis of the bifurcation diagram.</li>
+<li><strong>parameters</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+value.</li>
+<li><strong>dir_path</strong> (<em>string</em>) – A string stating the path where the bifurcation diagrams should be saved.</li>
+<li><strong>print_lbls_flag</strong> (<em>bool</em>) – If True the routine will print the special points found by AUTO 2000 and False will not print any
+special points.</li>
+<li><strong>auto_parameters</strong> (<em>dict</em>) – Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
+PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
+be set. For more information on these parameters refer to <a class="reference download internal" download="" href="../_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>multistable_param_ind</strong> – A list of those indices in ‘parameters’ that produce multistable plots.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of integers</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>See <a class="reference internal" href="../deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.run_optimization">
+<code class="descname">run_optimization</code><span class="sig-paren">(</span><em>bounds=None</em>, <em>iterations=10</em>, <em>sys_min_val=2.220446049250313e-16</em>, <em>seed=0</em>, <em>print_flag=False</em>, <em>numpy_dtype=&lt;class 'numpy.float64'&gt;</em>, <em>concentration_bounds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_optimization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_optimization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for running the optimization problem for the mass conservation approach.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bounds</strong> (<em>list of tuples</em>) – A list defining the lower and upper bounds for each variable in the decision vector. Here the reactions
+are allowed to be set to a single value.</li>
+<li><strong>iterations</strong> (<em>int</em>) – The number of iterations to run the feasible point method.</li>
+<li><strong>sys_min_val</strong> (<em>float</em>) – The value that should be considered zero for the optimization problem.</li>
+<li><strong>seed</strong> (<em>int</em>) – Seed for the random number generator. None should be used if a random generation is desired.</li>
+<li><strong>print_flag</strong> (<em>bool</em>) – Should be set to True if the user wants the objective function values found in the optimization problem
+and False otherwise.</li>
+<li><strong>numpy_dtype</strong> – The numpy data type used within the optimization routine. All variables in the optimization routine will
+be converted to this data type.</li>
+<li><strong>concentration_bounds</strong> (<em>list of tuples</em>) – A list defining the lower and upper bounds for those species’ concentrations not in the decision vector.
+The user is not allowed to set the species’ concentration to a single value. See also:
+<a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_concentration_bounds_species" title="crnt4sbml.MassConservationApproach.get_concentration_bounds_species"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.get_concentration_bounds_species()</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>params_for_global_min</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays that correspond to the decision vectors of the problem.</li>
+<li><strong>obj_fun_val_for_params</strong> (<em>list of floats</em>) – A list of objective function values produced by the corresponding decision vectors in params_for_global_min.</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>See <a class="reference internal" href="../quickstart.html#quickstart-deficiency-label"><span class="std std-ref">Mass Conservation Approach Example</span></a> and <a class="reference internal" href="../deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="crnt4sbml.SemiDiffusiveApproach.html" class="btn btn-neutral float-right" title="crnt4sbml.SemiDiffusiveApproach" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="crnt4sbml.LowDeficiencyApproach.html" class="btn btn-neutral float-left" title="crnt4sbml.LowDeficiencyApproach" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

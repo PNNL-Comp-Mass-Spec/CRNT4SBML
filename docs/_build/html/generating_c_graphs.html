@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Generating Presentable C-graphs &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Further Examples" href="more_examples.html" />
+    <link rel="prev" title="Creating the Equilibrium Manifold" href="creating_eq_manifold.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Generating Presentable C-graphs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/generating_c_graphs.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="generating-presentable-c-graphs">
+<span id="presentable-graph-label"></span><h1>Generating Presentable C-graphs<a class="headerlink" href="#generating-presentable-c-graphs" title="Permalink to this headline">¶</a></h1>
+<p>In practice complex networks can be difficult to display in terms of the CellDesigner format. For this reason, it is
+usually simpler to present networks in terms of C-graphs. Although CRNT4SBML provides the functions
+<code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.CRNT.plot_c_graph()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.CRNT.plot_save_c_graph()</span></code> to plot and save
+C-graphs using Matplotlib, respectively, for large networks these displays can be cluttered. For example, consider the
+following semi-diffusive network:</p>
+<a class="reference internal image-reference" href="_images/cluttered_cgraph.png"><img alt="_images/cluttered_cgraph.png" class="align-center" src="_images/cluttered_cgraph.png" style="width: 400px; height: 300px;" /></a>
+<p>As mentioned in the NetorkX <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/drawing.html">documentation</a> ,
+the graph visualization tools provided are not up to par with other graph visualization tools. For this reason, we suggest
+using the cross-platform and easily installable tool <a class="reference external" href="https://cytoscape.org/">Cytoscape</a> to create presentable C-graphs.
+Cytoscape allows one to import a network defined in the GraphML format which it can then use to create a C-graph.
+To create a GraphML format of the provided network, CRNT4SBML contains the function <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.CRNT.get_network_graphml()</span></code>.
+Note that this function only extracts the nodes, edges, and edge labels. Below
+we use  use <a class="reference external" href="https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml">Fig1Cii.xml</a>
+to demonstrate turning a network into a GraphML file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml_test</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml_test</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
+
+<span class="n">c</span><span class="o">.</span><span class="n">get_network_graphml</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will provide a GraphML file for the Fig1Cii network in the current directory under the name network.graphml. We may
+then use this file within Cytoscape by opening up the application navigating to the menu bar selecting file -&gt; Import -&gt;
+Network from File… then selecting network.graphml from the appropriate directory. Some simple modifications lead to the
+following C-graph.</p>
+<a class="reference internal image-reference" href="_images/fig1Cii_c_graph.png"><img alt="_images/fig1Cii_c_graph.png" class="align-center" src="_images/fig1Cii_c_graph.png" style="width: 500px; height: 400px;" /></a>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="more_examples.html" class="btn btn-neutral float-right" title="Further Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="creating_eq_manifold.html" class="btn btn-neutral float-left" title="Creating the Equilibrium Manifold" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

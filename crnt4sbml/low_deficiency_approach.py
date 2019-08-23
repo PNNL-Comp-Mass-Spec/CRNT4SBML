@@ -11,7 +11,7 @@ class LowDeficiencyApproach:
 
         See also
         ---------
-        crnt4sbml_test.CRNT.get_low_deficiency_approach()
+        crnt4sbml.CRNT.get_low_deficiency_approach()
         """
         self.__satisfies_deficiency_zero_theorem = False
         self.__satisfies_deficiency_one_theorem = False
@@ -41,7 +41,7 @@ class LowDeficiencyApproach:
         """
         Function to see if the network satisfies the Deficiency Zero or One Theorem. Returns True if the network
         satisfies the Deficiency Zero or One Theorem, False otherwise.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -60,7 +60,7 @@ class LowDeficiencyApproach:
         """
         Function to see if the network satisfies the Deficiency Zero Theorem. Returns True if the network
         satisfies the Deficiency Zero Theorem, False otherwise.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -77,7 +77,7 @@ class LowDeficiencyApproach:
         """
         Function to see if the network satisfies the Deficiency One Theorem. Returns True if the network
         satisfies the Deficiency One Theorem, False otherwise.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -111,7 +111,7 @@ class LowDeficiencyApproach:
 
         "The network does not satisfy Deficiency Zero Theorem."
 
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -162,7 +162,7 @@ class LowDeficiencyApproach:
 
         "The network does not satisfy Deficiency One Theorem."
 
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example

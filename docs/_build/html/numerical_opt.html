@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Numerical Optimization Routine &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Numerical Continuation Routine" href="numerical_cont.html" />
+    <link rel="prev" title="Semi-diffusive Approach Walkthrough" href="injectivity_walkthrough.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Numerical Optimization Routine</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#feasible-point-method">Feasible Point Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hybrid-global-local-searches">Hybrid Global-Local Searches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pseudocode-for-optimization-method">Pseudocode for Optimization Method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Numerical Optimization Routine</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/numerical_opt.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="numerical-optimization-routine">
+<span id="my-optimization-label"></span><h1>Numerical Optimization Routine<a class="headerlink" href="#numerical-optimization-routine" title="Permalink to this headline">¶</a></h1>
+<p>In <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a> it is suggested to use the ESS algorithm in the MEIGO toolbox to solve the constrained global
+optimization problem. Although evolutionary algorithms such as ESS can perform very well, they often need to be coupled
+with multi-start procedures to produce sensible results for complex reaction networks. In addition to this, to use the
+MEIGO toolbox within Python, a Python interface to R is required. This is not desirable, and for this reason we have
+constructed our own multi-start routine that compares favorably with the ESS routine for a general class of
+reaction networks.</p>
+<p>The optimization routine utilizes two steps to achieve a minimization of the objective function:</p>
+<ol class="arabic simple">
+<li>Multi-level feasible point method</li>
+<li>Hybrid global-local searches beginning at the feasibility points</li>
+</ol>
+<div class="section" id="feasible-point-method">
+<h2>Feasible Point Method<a class="headerlink" href="#feasible-point-method" title="Permalink to this headline">¶</a></h2>
+<p>Both the mass conservation and semi-diffusive approach have constraints on the decision vector provided. These extra
+constraints coupled with the global optimization problem are difficult to solve and can often require many multi-starts
+to find a solution. This is due to the fact that multi-start routines often start at randomly generated values pulled
+from a uniform distribution, which do not satisfy the constraints. One way to begin the multi-start procedure in
+favorable positions is to generate starting points that already satisfy the constraints of the problem. We do this by
+conducting a feasible point method.</p>
+<p>The feasible point method attempts to minimize the following objective function</p>
+<blockquote>
+<div><img class="math" src="_images/math/f4d0a1f6dec2d02a1fe7bfdb56bda4dcb527cca2.png" alt="f(\textbf{x}) = \sum_{i = 1}^I [v(g_i(\textbf{x}))]^2 + \sum_{j=1}^J [v(\textbf{x}_j)]^2 ."/></div></blockquote>
+<p>where <img class="math" src="_images/math/1acbdee6f448c12088691f68b6b2d79c8dbca9f0.png" alt="v( \cdot)"/> are violation functions for the constraint equations, <img class="math" src="_images/math/75dcaf8b1aa1f77d311e6cad05da805fab064c0f.png" alt="g_i( \cdot)"/>, and variable bounds,
+<img class="math" src="_images/math/9d1d1cc2a06a0d0f41aff111c0c0b3b0db4d0b3c.png" alt="\textbf{x}_j"/>. The violation functions are defined as follows</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Constraint Type</th>
+<th class="head">Violation Function</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img class="math" src="_images/math/4ea8415da8967e140eefe62062f4acc656cd8b84.png" alt="g_i(\textbf{x}) \leq b"/></td>
+<td><img class="math" src="_images/math/1ee4e46952a1b748c7c42e7186fc1310e7a9a266.png" alt="max(0,g_i(\textbf{x})-b )"/></td>
+</tr>
+<tr class="row-odd"><td><img class="math" src="_images/math/d0b46f882dc308319c9a055a3ce59b3cddfedcb9.png" alt="g_i(\textbf{x}) \geq b"/></td>
+<td><img class="math" src="_images/math/9952b218f9d238c68f0ac09de2017b60a0adbeac.png" alt="max(0,b - g_i(\textbf{x}))"/></td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/372b224e48bb965a62ea23feb002ee34d076c26f.png" alt="g_i(\textbf{x}) = b"/></td>
+<td><img class="math" src="_images/math/6ea10c74cbcf3d949aa1136e0453a7dac2142fb2.png" alt="| g_i(\textbf{x}) - b |"/></td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Variable Bounds</th>
+<th class="head">Violation Function</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img class="math" src="_images/math/14312d10be79dcee3cf6b0f07e1a81c0568bd455.png" alt="\textbf{x}_j \leq b"/></td>
+<td><img class="math" src="_images/math/83d3591fc6464cd494a640745cf3ea00ff143322.png" alt="max(0,\textbf{x}_j -b )"/></td>
+</tr>
+<tr class="row-odd"><td><img class="math" src="_images/math/c112fc18a65008eba0e6ebfd2261b77050c729ec.png" alt="\textbf{x}_j \geq b"/></td>
+<td><img class="math" src="_images/math/2a10a600dd7e4ec1e3627257594fe9b4d1a6dfbf.png" alt="max(0,b - \textbf{x}_j)"/></td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/cc8b68a768540d1e65887bd854c0fb6cf0af8d2b.png" alt="\textbf{x}_j = b"/></td>
+<td><img class="math" src="_images/math/adc25e6ade1a6a627e6a8bb836ca29aab455ebcd.png" alt="| \textbf{x}_j - b |"/></td>
+</tr>
+</tbody>
+</table>
+<p>this is called a penalty method and is outlined in Chapter 18 of <a class="reference internal" href="zbibliography.html#opt-book" id="id2">[Chi14]</a>. For the mass conservation approach
+the constraint equations are defined as <img class="math" src="_images/math/1f45a20e6a3355cfb33645eda6743bc05cd36a2a.png" alt="c_i \geq 0"/>, where <img class="math" src="_images/math/ff90a5f025d9fd305aac19c8dd64fa15f0c789a1.png" alt="c_i"/> are the species’ concentration expressions
+derived from the equilibrium manifold. The variable bounds for this approach are then defined by the bounds established
+for the decision vector. For the semi-diffusive approach the constraint equations are defined as
+<img class="math" src="_images/math/80347a3f9cc7c9c47d4d6aa9bb23198f9be5c223.png" alt="\bar{p}_i(\mu) \geq 0"/> if <img class="math" src="_images/math/ff90a5f025d9fd305aac19c8dd64fa15f0c789a1.png" alt="c_i"/> is a key species. Note that the constraint of <img class="math" src="_images/math/f216cf17de5815430899cc96374fb02c5bbe8fa0.png" alt="\bar{p}_i(\mu) = 0"/>
+if <img class="math" src="_images/math/ff90a5f025d9fd305aac19c8dd64fa15f0c789a1.png" alt="c_i"/> is not a key species is not considered in the optimization directly as they are satisfied by direct
+substitution. The variable bounds are again the bounds established for the decision vector. Notice that in both
+approaches we do not consider the rank constraints. In practice these are very difficult to satisfy via direct
+optimization. However, if the objective function is minimized, then the rank constraints have a very high
+likelihood of being satisfied.</p>
+<p>Once the penalty function <img class="math" src="_images/math/ab9922a98e737c19771f1b35fa99454edc74a2b7.png" alt="f(\cdot)"/> is constructed we can then continue by minimizing it. We do this by conducting
+a multi-level multi-start method. First we generate a user defined amount of decision vectors using a random uniform
+distribution and then put them in the user defined bounds. Next, we minimize <img class="math" src="_images/math/ab9922a98e737c19771f1b35fa99454edc74a2b7.png" alt="f(\cdot)"/> using SciPy’s
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.minimize-slsqp.html#optimize-minimize-slsqp">SLSQP</a>
+function with a tolerance of 1e-16. Although it is often sufficient to just run SLSQP, in some cases if a minimum of
+zero is not achieved by this run, it is beneficial to also perform a minimization using
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.minimize-neldermead.html#optimize-minimize-neldermead">Nelder-Mead</a>
+starting from the minimum point found by SLSQP. To reduce runtimes, we do not run the Nelder-Mead routine if SLSQP returns
+an objective function value that is sufficiently small.</p>
+</div>
+<div class="section" id="hybrid-global-local-searches">
+<h2>Hybrid Global-Local Searches<a class="headerlink" href="#hybrid-global-local-searches" title="Permalink to this headline">¶</a></h2>
+<p>Using those decision vectors produced by the feasible point method, we now address the global optimization problem. For
+the mass conservation approach we let the objective function be:</p>
+<p><img class="math" src="_images/math/53a2a70830e9bf9992b0b2b22e7a338446b09f66.png" alt="F(\textbf{x}) = det(G)^2 + f(\textbf{x})"/>,</p>
+<p>and for the semi-diffusive approach we let the objective function be:</p>
+<p><img class="math" src="_images/math/a8157b05e466aea65f81ad6cf35ea81cbedecbf9.png" alt="F(\textbf{x}) = det(S_{to}diag(\mu)Y_r^T)^2 + f(\textbf{x})"/>,</p>
+<p>where <img class="math" src="_images/math/b6cffeb75ef3495d2b094bc403e2f978800fd6ab.png" alt="f(\textbf{x})"/> is the objective function formed by the feasible point method. Using the decision vectors
+produced by the feasible point method as starting points, we then run SciPy’s global optimization algorithm
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping">Basin-hopping</a>.
+In addition to running this global optimization, we employ
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.minimize-neldermead.html#optimize-minimize-neldermead">Nelder-Mead</a>
+as a local minimizer. If the local minimizer returns an objective function value smaller than a user defined value
+of sys_min_val, then the result solution array from the minimizer is saved and returned to the user.</p>
+</div>
+<div class="section" id="pseudocode-for-optimization-method">
+<h2>Pseudocode for Optimization Method<a class="headerlink" href="#pseudocode-for-optimization-method" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Establish bounds for decision vector.</p>
+<p>Randomly generate <img class="math" src="_images/math/ca6d3830ff8264c353751b1a50dda3558443cf94.png" alt="niter"/> parameter sets of decision vectors within the given bounds, say <img class="math" src="_images/math/f3f5611176e857281e9fff1936aa24ee9b4990c9.png" alt="samples"/>.</p>
+<p>For <img class="math" src="_images/math/2c5c215231488e7c5ce198677103f8bc37553bdc.png" alt="i = 1"/> to <img class="math" src="_images/math/ca6d3830ff8264c353751b1a50dda3558443cf94.png" alt="niter"/></p>
+<blockquote>
+<div><p>Let <img class="math" src="_images/math/0774ded0b353015678c6840924f6fe3f1474fe2b.png" alt="samples_i"/> be a starting point for the feasible point method where <img class="math" src="_images/math/b6cffeb75ef3495d2b094bc403e2f978800fd6ab.png" alt="f(\textbf{x})"/> is the
+objective function</p>
+<dl class="docutils">
+<dt>If <img class="math" src="_images/math/0774ded0b353015678c6840924f6fe3f1474fe2b.png" alt="samples_i"/> provides <img class="math" src="_images/math/2ef3a77288c30061585deda8c9fd115d831b2eea.png" alt="f(\textbf{x}) \leq"/> machine epsilon</dt>
+<dd><p class="first">Run hybrid global-local search for <img class="math" src="_images/math/6be8e1bb704b4017fb70d21c504705465fae0492.png" alt="F(\textbf{x})"/> objective function with <img class="math" src="_images/math/6642220313c835ac29786edbfa4dda384e655a27.png" alt="\textbf{x}"/> as
+starting point, providing <img class="math" src="_images/math/ce2b738e485fc84fd698379eb389b2929ab03f3c.png" alt="\textbf{x}_{best}"/>.</p>
+<p class="last">Store <img class="math" src="_images/math/ce2b738e485fc84fd698379eb389b2929ab03f3c.png" alt="\textbf{x}_{best}"/> and function values that are smaller than sys_min_val</p>
+</dd>
+<dt>Else</dt>
+<dd>Throw away <img class="math" src="_images/math/0774ded0b353015678c6840924f6fe3f1474fe2b.png" alt="samples_i"/></dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="numerical_cont.html" class="btn btn-neutral float-right" title="Numerical Continuation Routine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="injectivity_walkthrough.html" class="btn btn-neutral float-left" title="Semi-diffusive Approach Walkthrough" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

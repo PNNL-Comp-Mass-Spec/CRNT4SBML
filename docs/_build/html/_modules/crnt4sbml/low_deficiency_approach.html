@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crnt4sbml.low_deficiency_approach &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>crnt4sbml.low_deficiency_approach</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crnt4sbml.low_deficiency_approach</h1><div class="highlight"><pre>
+<span></span>import re
+
+
+<div class="viewcode-block" id="LowDeficiencyApproach"><a class="viewcode-back" href="../../classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach">[docs]</a>class LowDeficiencyApproach:
+    &quot;&quot;&quot;
+    Class for testing the Deficiency Zero and One Theorems.
+    &quot;&quot;&quot;
+<div class="viewcode-block" id="LowDeficiencyApproach.__init__"><a class="viewcode-back" href="../../classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.__init__">[docs]</a>    def __init__(self, cgraph):
+        &quot;&quot;&quot;
+        Initialization of LowDeficiency Approach class.
+
+        See also
+        ---------
+        crnt4sbml.CRNT.get_low_deficiency_approach()
+        &quot;&quot;&quot;
+        self.__satisfies_deficiency_zero_theorem = False
+        self.__satisfies_deficiency_one_theorem = False
+        self.__satisfies_relaxed_deficiency_one_theorem = False
+
+        # key conditions
+        self.__cond1 = cgraph.get_if_cgraph_weakly_reversible()
+        cond2 = cgraph.get_deficiency() == 0
+        lcd = cgraph.get_linkage_classes_deficiencies()
+        cond3 = all([i &lt; 2 for i in lcd])
+        cond4 = sum(lcd) == cgraph.get_deficiency()
+        tlc = cgraph.get_number_of_terminal_strong_lc_per_lc()
+        cond5 = all([i &lt; 2 for i in tlc])
+
+        # decision tree for low deficiency theorems
+        if cond2:
+            # deficiency zero theorem
+            self.__satisfies_deficiency_zero_theorem = True
+        elif self.__cond1 and cond3 and cond4:
+            # deficiency one theorem
+            self.__satisfies_deficiency_one_theorem = True
+        elif cond5 and cond3 and cond4:
+            # deficiency one theorem with relaxed criteria
+            self.__satisfies_relaxed_deficiency_one_theorem = True</div>
+
+<div class="viewcode-block" id="LowDeficiencyApproach.does_satisfy_any_low_deficiency_theorem"><a class="viewcode-back" href="../../classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.does_satisfy_any_low_deficiency_theorem">[docs]</a>    def does_satisfy_any_low_deficiency_theorem(self):
+        &quot;&quot;&quot;
+        Function to see if the network satisfies the Deficiency Zero or One Theorem. Returns True if the network
+        satisfies the Deficiency Zero or One Theorem, False otherwise.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_low_deficiency_approach()
+        &gt;&gt;&gt; print(approach.does_satisfy_any_low_deficiency_theorem())
+            False
+        &quot;&quot;&quot;
+        return (self.__satisfies_deficiency_zero_theorem or
+                self.__satisfies_deficiency_one_theorem or
+                self.__satisfies_relaxed_deficiency_one_theorem)</div>
+
+<div class="viewcode-block" id="LowDeficiencyApproach.does_satisfy_deficiency_zero_theorem"><a class="viewcode-back" href="../../classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.does_satisfy_deficiency_zero_theorem">[docs]</a>    def does_satisfy_deficiency_zero_theorem(self):
+        &quot;&quot;&quot;
+        Function to see if the network satisfies the Deficiency Zero Theorem. Returns True if the network
+        satisfies the Deficiency Zero Theorem, False otherwise.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_low_deficiency_approach()
+        &gt;&gt;&gt; print(approach.does_satisfy_deficiency_zero_theorem())
+            False
+        &quot;&quot;&quot;
+        return self.__satisfies_deficiency_zero_theorem</div>
+
+<div class="viewcode-block" id="LowDeficiencyApproach.does_satisfy_deficiency_one_theorem"><a class="viewcode-back" href="../../classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.does_satisfy_deficiency_one_theorem">[docs]</a>    def does_satisfy_deficiency_one_theorem(self):
+        &quot;&quot;&quot;
+        Function to see if the network satisfies the Deficiency One Theorem. Returns True if the network
+        satisfies the Deficiency One Theorem, False otherwise.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_low_deficiency_approach()
+        &gt;&gt;&gt; print(approach.does_satisfy_deficiency_one_theorem())
+            False
+        &quot;&quot;&quot;
+        return (self.__satisfies_deficiency_one_theorem or
+                self.__satisfies_relaxed_deficiency_one_theorem)</div>
+
+<div class="viewcode-block" id="LowDeficiencyApproach.report_deficiency_zero_theorem"><a class="viewcode-back" href="../../classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.report_deficiency_zero_theorem">[docs]</a>    def report_deficiency_zero_theorem(self):
+        &quot;&quot;&quot;
+        Prints out the applicability of the Deficiency Zero Theorem for the provided network.
+        Possible output:
+
+        &quot;By the Deficiency Zero Theorem, the differential equations
+        cannot admit a positive equilibrium or a cyclic composition
+        trajectory containing a positive composition. Thus, multiple
+        equilibria cannot exist for the network.&quot;
+
+        or
+
+        &quot;By the Deficiency Zero Theorem, there exists within each positive
+        stoichiometric compatibility class precisely one equilibrium.
+        Thus, multiple equilibria cannot exist for the network.&quot;
+
+        or
+
+        &quot;The network does not satisfy Deficiency Zero Theorem.&quot;
+
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_low_deficiency_approach()
+        &gt;&gt;&gt; print(approach.report_deficiency_zero_theorem())
+            The network does not satisfy Deficiency Zero Theorem.
+        &quot;&quot;&quot;
+        if self.__satisfies_deficiency_zero_theorem and not self.__cond1:
+            report = (&quot;&quot;&quot;
+            By the Deficiency Zero Theorem, the differential equations 
+            cannot admit a positive equilibrium or a cyclic composition 
+            trajectory containing a positive composition. Thus, multiple 
+            equilibria cannot exist for the network. 
+            &quot;&quot;&quot;)
+            print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, report, flags=re.MULTILINE))
+        elif self.__satisfies_deficiency_zero_theorem and self.__cond1:
+            report = (&quot;&quot;&quot; 
+            By the Deficiency Zero Theorem, there exists within each positive
+            stoichiometric compatibility class precisely one equilibrium.
+            Thus, multiple equilibria cannot exist for the network.
+            &quot;&quot;&quot;)
+            print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, report, flags=re.MULTILINE))
+        else:
+            print(&quot;The network does not satisfy Deficiency Zero Theorem.&quot;)</div>
+
+<div class="viewcode-block" id="LowDeficiencyApproach.report_deficiency_one_theorem"><a class="viewcode-back" href="../../classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.report_deficiency_one_theorem">[docs]</a>    def report_deficiency_one_theorem(self):
+        &quot;&quot;&quot;
+        Prints out the applicability of the Deficiency One Theorem for the provided network.
+        Possible output:
+
+        &quot;By the Deficiency One Theorem, the differential equations
+        admit precisely one equilibrium in each positive stoichiometric
+        compatibility class. Thus, multiple equilibria cannot exist
+        for the network.&quot;
+
+        or
+
+        &quot;The network satisfies relaxed Deficiency One Theorem. That is it
+        is not weakly reversable, but each linkage class contains no more
+        than one terminal linkage class. There can exist within a positive
+        stoichiometric compatibility class at most one equilibrium.
+        Thus, multiple equilibria cannot exist for the network.&quot;
+
+        or
+
+        &quot;The network does not satisfy Deficiency One Theorem.&quot;
+
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_low_deficiency_approach()
+        &gt;&gt;&gt; print(approach.report_deficiency_zero_theorem())
+            The network does not satisfy Deficiency One Theorem.
+        &quot;&quot;&quot;
+        if self.__satisfies_deficiency_one_theorem:
+            report = (&quot;&quot;&quot;
+            By the Deficiency One Theorem, the differential equations
+            admit precisely one equilibrium in each positive stoichiometric
+            compatibility class. Thus, multiple equilibria cannot exist 
+            for the network.
+            &quot;&quot;&quot;)
+            print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, report, flags=re.MULTILINE))
+        elif self.__satisfies_relaxed_deficiency_one_theorem:
+            report = (&quot;&quot;&quot;
+            The network satisfies relaxed Deficiency One Theorem. That is it 
+            is not weakly reversable, but each linkage class contains no more 
+            than one terminal linkage class. There can exist within a positive 
+            stoichiometric compatibility class at most one equilibrium.
+            Thus, multiple equilibria cannot exist for the network.
+            &quot;&quot;&quot;)
+            print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, report, flags=re.MULTILINE))
+        else:
+            print(&quot;The network does not satisfy Deficiency One Theorem.&quot;)</div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

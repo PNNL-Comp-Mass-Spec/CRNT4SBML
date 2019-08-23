@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Semi-diffusive Approach Walkthrough &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Numerical Optimization Routine" href="numerical_opt.html" />
+    <link rel="prev" title="Mass Conservation Approach Walkthrough" href="deficiency_walkthrough.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Semi-diffusive Approach Walkthrough</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/injectivity_walkthrough.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="semi-diffusive-approach-walkthrough">
+<span id="my-injectivity-label"></span><h1>Semi-diffusive Approach Walkthrough<a class="headerlink" href="#semi-diffusive-approach-walkthrough" title="Permalink to this headline">¶</a></h1>
+<p>Using the SBML file constructed as in <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a>, we will proceed by completing a more in-depth
+explanation of running the semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a>. This tutorial will use
+<a class="reference external" href="https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml">Fig1Cii.xml</a>. The following code will
+import crnt4sbml and the SBML file. For a little more detail on this process consider <a class="reference internal" href="basic_crnt.html#my-basic-label"><span class="std std-ref">Low Deficiency Approach</span></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml_test</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml_test</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we then want to conduct the semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a>, we must first initialize the
+optimization_based_injectivity_manager, which is done as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This command creates all the necessary information to construct the optimization problem to be solved. Unlike the mass
+conservation, there should be no output provided by this initialization. Note that if a boundary species is not provided or
+there are conservation laws present, then the semi-diffusive approach will not be able to be ran. If conservation laws are
+found, then the mass conservation approach should be ran.</p>
+<p>As in the mass conservation approach, it is very important to view the decision vector constructed for the optimization routine.
+In the semi-diffusive approach, the decision vector produced is in terms of the fluxes of the reactions. To make the decision
+vector more clear, the following command will print out the decision vector and also the corresponding reaction labels.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">print_decision_vector</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This provides the following output. As in the mass conservation approach, if your are using an SBML file you created yourself,
+the output may differ.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Decision vector for optimization:
+[v_2, v_3, v_4, v_5, v_6, v_7, v_9, v_11, v_13, v_15, v_17, v_18]
+
+Reaction labels for decision vector:
+[&#39;re1r&#39;, &#39;re3&#39;, &#39;re3r&#39;, &#39;re6&#39;, &#39;re6r&#39;, &#39;re2&#39;, &#39;re8&#39;, &#39;re17r&#39;, &#39;re18r&#39;,
+ &#39;re19r&#39;, &#39;re21&#39;, &#39;re22&#39;]
+</pre></div>
+</div>
+<p>As in the mass conservation approach one can just obtain the decision vector by completing the following command:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_decision_vector</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Using the decision vector as a reference, we can now provide the bounds for the optimization routine. A possible definition
+of these bounds for Fig1Cii is as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">)]</span><span class="o">*</span><span class="mi">12</span>
+</pre></div>
+</div>
+<p>Another important check that should be completed for the semi-diffusive approach is to verify that that the key species,
+non key species, and boundary species are correct. This can be done after initializing the semi-diffusive approach as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_key_species</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_non_key_species</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_boundary_species</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>This provides the following results for our example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;s1&#39;, &#39;s2&#39;, &#39;s7&#39;]
+
+[&#39;s3&#39;, &#39;s6&#39;, &#39;s8&#39;, &#39;s11&#39;]
+
+[&#39;s21&#39;]
+</pre></div>
+</div>
+<p>Using this information, we can now run the optimization in a similar manner to the mass conservation approach. First we will
+initialize some variables for demonstration purposes. In practice, the user should only need to define the bounds and
+number of iterations to run the optimization routine. For more information on the defaults of the optimization routine,
+see <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.SemiDiffusiveApproach.run_optimization()</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="n">num_itr</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">sys_min</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">prnt_flg</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">num_dtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">float64</span>
+</pre></div>
+</div>
+<p>We now run the optimization routine for the semi-diffusive approach:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">num_itr</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">sd</span><span class="p">,</span>
+                                                                     <span class="n">print_flag</span><span class="o">=</span><span class="n">prnt_flg</span><span class="p">,</span> <span class="n">numpy_dtype</span><span class="o">=</span><span class="n">num_dtype</span><span class="p">,</span>
+                                                                     <span class="n">sys_min_val</span><span class="o">=</span><span class="n">sys_min</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following is the output obtained by the constructed model:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running feasible point method for 100 iterations ...
+Elapsed time for feasible point method: 3.785042
+
+Running the multistart optimization ...
+
+Smallest value achieved by objective function: 0.0
+
+Elapsed time for multistart method: 383.349612
+</pre></div>
+</div>
+<p>At this point it may also be helpful to generate a report on the optimization routine that provides more information.
+To do this execute the following command:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This provides the following output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The number of feasible points that satisfy the constraints: 100
+Total feasible points that give F(x) = 0: 82
+Total number of points that passed final_check: 82
+</pre></div>
+</div>
+<p>Similar to the mass conservation approach, we can run numerical continuation for the semi-diffusive approach. Note that the principal
+continuation parameter (PCP) now corresponds to a reaction rather than a constant as in the mass conservation approach. However, the
+actual continuation will be performed with respect to the flux of the reaction. The y-axis of the continuation can then be
+set by defining the species, here we choose the species s7. For the semi-diffusive network we conduct the numerical continuation
+for the semi-diffusive approach as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multistable_param_ind</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s1">&#39;s7&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                    <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;re17&#39;</span><span class="p">,</span>
+                                                                     <span class="s1">&#39;RL0&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;RL1&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;A0&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                                                                     <span class="s1">&#39;A1&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>For more information on the AUTO parameters provided, please see <a class="reference download internal" download="" href="_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>. This
+provides the following output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running continuity analysis ...
+Elapsed time for continuity analysis: 309.387856
+</pre></div>
+</div>
+<p>Note that you may receive Error reports to the screen, but these may be ignored for this particular exampels. Again we
+can generate a report that will contain the numerical optimization routine output and the now added information
+provided by the numerical continuation run:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This provides the following output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The number of feasible points that satisfy the constraints: 100
+Total feasible points that give F(x) = 0: 82
+Total number of points that passed final_check: 82
+Number of multistability plots found: 22
+Elements in params_for_global_min that produce multistability:
+[0, 3, 4, 6, 14, 17, 19, 21, 25, 26, 28, 35, 39, 41, 43, 47, 48, 52, 53, 68, 79, 80]
+</pre></div>
+</div>
+<p>Similar to the mass conservation approach, we obtain multistability plots in the directory provided by the dir_path option in
+run_continuity_analysis (here it is the default value), where the plots follow the following format PCP (in terms of p as in the theory)
+_species id_index of params_for_global_min_multistable_region.png. Where multistable_region is an integer
+that corresponds to the different regions of multistability. Note that this value is often just zero.
+The following is one multistability plot produced by index 4 of params_for_global_min.</p>
+<img alt="_images/fig_1Cii_p9_vs_s7_4_0.png" src="_images/fig_1Cii_p9_vs_s7_4_0.png" />
+<p>In addition to providing this more hands on approach to the numerical continuation routine, we also provide a greedy
+version of the numerical continuation routine. With this approach the user just needs to provide the species, parameters,
+and PCP. This routine does not guarantee that all multistability plots will be found, but it does provide a good place to
+start finding multistability plots. Once the greedy routine is ran, it is usually best to return to the more hands on
+approach described above. Note that as stated by the name, this approach is computationally greedy and will take a longer
+time than the more hands on approach. Below is the code used to run the greedy numerical continuation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multistable_param_ind</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s7&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                           <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;re17&#39;</span><span class="p">})</span>
+
+<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This provides the following output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running continuity analysis ...
+Elapsed time for continuity analysis: 522.959491
+
+Number of multistability plots found: 75
+Elements in params_for_global_min that produce multistability:
+[0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34,
+ 35, 36, 37, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
+ 64, 65, 66, 67, 68, 69, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80]
+</pre></div>
+</div>
+<p>Note that some of these plots will be jagged or have missing sections in the plot. To produce better plots the hands on
+approach should be used.</p>
+<p>For more examples of running the semi-diffusive approach please see <a class="reference internal" href="more_examples.html#further-examples-label"><span class="std std-ref">Further Examples</span></a>.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="numerical_opt.html" class="btn btn-neutral float-right" title="Numerical Optimization Routine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="deficiency_walkthrough.html" class="btn btn-neutral float-left" title="Mass Conservation Approach Walkthrough" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -28,7 +28,7 @@ class MassConservationApproach:
 
         See also
         ---------
-        crnt4sbml_test.CRNT.get_mass_conservation_approach()
+        crnt4sbml.CRNT.get_mass_conservation_approach()
         """
         self.__cgraph = cgraph
 
@@ -360,7 +360,7 @@ class MassConservationApproach:
     def get_w_matrix(self):
         """
         Returns SymPy matrix :math:`[Y, \Lambda^T]^T`, which we call the W matrix.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -399,7 +399,7 @@ class MassConservationApproach:
     def get_w_nullspace(self):
         """
         Returns a list of SymPy column vectors representing :math:`Null([Y, \Lambda^T]^T)`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -436,7 +436,7 @@ class MassConservationApproach:
     def get_h_vector(self):
         """
         Returns a SymPy matrix representing the equilibrium manifold.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -467,7 +467,7 @@ class MassConservationApproach:
     def get_g_matrix(self):
         """
         Returns a SymPy matrix representing the G matrix of the defined optimization problem.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -504,7 +504,7 @@ class MassConservationApproach:
     def get_dch_matrix(self):
         """
         Returns a SymPy matrix representing the Jacobian of the equilibrium manifold with respect to the species.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -536,7 +536,7 @@ class MassConservationApproach:
         """
         Returns a lambda function representation of the G matrix. Here the arguments of the lambda function are given
         by the values provided by :func:`crnt4sbml_test.MassConservationApproach.get_objective_fun_params`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -558,8 +558,8 @@ class MassConservationApproach:
         """
         Returns a lambda function representation of the Jacobian of the equilibrium manifold matrix. Here the
         arguments of the lambda function are given by the values provided by
-        :func:`crnt4sbml_test.MassConservationApproach.get_objective_fun_params`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :func:`crnt4sbml.MassConservationApproach.get_objective_fun_params`.
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -581,7 +581,7 @@ class MassConservationApproach:
         """
         Returns SymPy expression for the objective function of the optimization problem. This is the determinant of the
         G matrix squared.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -608,8 +608,8 @@ class MassConservationApproach:
         """
         Returns a lambda function representation of the objective function of the optimization problem. Here the
         arguments of the lambda function are given by the values provided by
-        :func:`crnt4sbml_test.MassConservationApproach.get_objective_fun_params`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        :func:`crnt4sbml.MassConservationApproach.get_objective_fun_params`.
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -630,15 +630,15 @@ class MassConservationApproach:
     def get_concentration_vals(self):
         """
         Returns a list of SymPy expressions representing the species in terms of those variables present in the decision
-        vector. The order is that established in :func:`crnt4sbml_test.Cgraph.get_species`. Note that if only a single
+        vector. The order is that established in :func:`crnt4sbml.Cgraph.get_species`. Note that if only a single
         species is provided as an element in the list, this means the species is a free variable.
 
         See also
         ---------
-        crnt4sbml_test.MassConservationApproach.get_concentration_solutions
+        crnt4sbml.MassConservationApproach.get_concentration_solutions
 
 
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -662,7 +662,7 @@ class MassConservationApproach:
     def get_decision_vector(self):
         """
         Returns a list of SymPy variables that represent the decision vector of the optimization problem.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -682,8 +682,8 @@ class MassConservationApproach:
     def get_concentration_bounds_species(self):
         """
         Returns a list of SymPy variables that represents the order of species for the concentration bounds provided
-        to :func:`crnt4sbml_test.MassConservationApproach.run_optimization`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        to :func:`crnt4sbml.MassConservationApproach.run_optimization`.
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -703,9 +703,9 @@ class MassConservationApproach:
     def get_concentration_funs(self):
         """
         Returns a list of lambda functions representing each of the species. Here the species are those expressions
-        provided by :func:`crnt4sbml_test.MassConservationApproach.get_concentration_vals` where the arguments of each
-        lambda function is provided by :func:`crnt4sbml_test.MassConservationApproach.get_decision_vector`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        provided by :func:`crnt4sbml.MassConservationApproach.get_concentration_vals` where the arguments of each
+        lambda function is provided by :func:`crnt4sbml.MassConservationApproach.get_decision_vector`.
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -730,7 +730,7 @@ class MassConservationApproach:
         """
         Returns a list of SymPy variables that represent those variables that may be contained in the G matrix, Jacobian
         of the equilibrium manifold with respect to the species, or objective function.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -752,7 +752,7 @@ class MassConservationApproach:
         """
         Returns a string representation of the conservation laws. Here the values on the left hand side of each equation
         are the constants of the conservation laws.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -780,7 +780,7 @@ class MassConservationApproach:
     def get_concentration_solutions(self):
         """
         Returns a more readable string representation of the species defined in terms of the decision vector.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -833,7 +833,7 @@ class MassConservationApproach:
             concentration_bounds: list of tuples
                 A list defining the lower and upper bounds for those species' concentrations not in the decision vector.
                 The user is not allowed to set the species' concentration to a single value. See also:
-                :func:`crnt4sbml_test.MassConservationApproach.get_concentration_bounds_species`.
+                :func:`crnt4sbml.MassConservationApproach.get_concentration_bounds_species`.
         Returns
         --------
         params_for_global_min: list of numpy arrays
@@ -949,7 +949,7 @@ class MassConservationApproach:
         approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
         parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
         produce jagged or missing sections in the plots provided. To produce better plots one should use the information
-        provided by this routine to run :func:`crnt4sbml_test.MassConservationApproach.run_continuity_analysis`.
+        provided by this routine to run :func:`crnt4sbml.MassConservationApproach.run_continuity_analysis`.
 
         Parameters
         ------------
@@ -1001,8 +1001,8 @@ class MassConservationApproach:
 
     def generate_report(self):
         """
-        Prints out helpful details constructed by :func:`crnt4sbml_test.MassConservationApproach.run_optimization` and
-        :func:`crnt4sbml_test.MassConservationApproach.run_continuity_analysis`.
+        Prints out helpful details constructed by :func:`crnt4sbml.MassConservationApproach.run_optimization` and
+        :func:`crnt4sbml.MassConservationApproach.run_continuity_analysis`.
 
         Example
         --------

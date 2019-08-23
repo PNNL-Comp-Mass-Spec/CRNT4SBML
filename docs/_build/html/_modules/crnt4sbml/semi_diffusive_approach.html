@@ -1,0 +1,1068 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crnt4sbml.semi_diffusive_approach &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>crnt4sbml.semi_diffusive_approach</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crnt4sbml.semi_diffusive_approach</h1><div class="highlight"><pre>
+<span></span>
+import os
+import numpy
+import sympy
+import sympy.utilities.lambdify
+import sys
+import numpy.linalg
+from .bistability_finder import BistabilityFinder
+
+
+<div class="viewcode-block" id="SemiDiffusiveApproach"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach">[docs]</a>class SemiDiffusiveApproach:
+    &quot;&quot;&quot;
+    Class for constructing variables and methods needed for the semi-diffusive approach.
+    &quot;&quot;&quot;
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.__init__"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.__init__">[docs]</a>    def __init__(self, cgraph):
+        &quot;&quot;&quot;
+        Initialization of the SemiDiffusiveApproach class.
+
+        See also
+        ---------
+        crnt4sbml.CRNT.get_semi_diffusive_approach()
+        &quot;&quot;&quot;
+        self.__cgraph = cgraph
+        self.__g = self.__cgraph.get_graph()
+        self.__important_info = &quot;&quot;
+
+        # getting edges and nodes in the order they were added
+        self.__g_nodes = self.__cgraph.get_g_nodes()
+        self.__g_edges = self.__cgraph.get_g_edges()
+
+        # vars used frequently
+        self.__numpy_dtype = None
+        self.__N = len(self.__cgraph.get_species())
+        self.__R = len(self.__cgraph.get_reactions())
+        self.__species = self.__cgraph.get_species()
+        self.__reactions = self.__cgraph.get_reactions()
+        self.__delta = self.__cgraph.get_deficiency()
+        self.__M = len(self.__cgraph.get_complexes())
+
+        self.__var_nothing_index = [self.__g.nodes[n][&#39;label&#39;] for n in self.__g_nodes if
+                                    self.__g.nodes[n][&#39;species_bc&#39;]]
+
+        if not self.__var_nothing_index:
+            raise Exception(&quot;A boundary species is not present, injectivity approach cannot be ran!&quot;)
+
+        if not self.__cgraph.get_dim_equilibrium_manifold() == 0:
+            print(&quot;Conservation laws present.&quot;)
+            print(&quot;The injectivity approach cannot be ran!&quot;)
+            sys.exit()
+
+        # compute necessary matrices
+        self.__create_y_r_matrix()
+        self.__create_s_to_matrix()
+
+        self.__find_key_species_indices()
+        self.__find_non_key_species_indices()
+        self.__create_symbolic_jacobian_matrix()
+        self.__create_lambda_jacobian_matrix()
+        self.__create_symbolic_objective_function()
+        self.__create_lambda_objective_function()
+        self.__create_symbolic_polynomial_function()
+        self.__create_lambda_polynomial_function()
+        self.__create_concentration_pars()
+        self.__create_decision_vector()
+        self.__create_lambda_equality_poly_fun()</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.run_optimization"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_optimization">[docs]</a>    def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
+                         numpy_dtype=numpy.float64):
+        &quot;&quot;&quot;
+        Function for running the optimization problem for the semi-diffusive approach. Note that there are no bounds
+        enforced on species&#39; concentrations as they are automatically restricted to be greater than zero by the theory.
+
+        Parameters
+        -----------
+            bounds: list of tuples
+                A list defining the lower and upper bounds for each variable in the decision vector. Here the reactions
+                are allowed to be set to a single value.
+            iterations: int
+                The number of iterations to run the feasible point method.
+            sys_min_val: float
+                The value that should be considered zero for the optimization problem.
+            seed: int
+                Seed for the random number generator. None should be used if a random generation is desired.
+            print_flag: bool
+                Should be set to True if the user wants the objective function values found in the optimization problem
+                and False otherwise.
+            numpy_dtype:
+                The numpy data type used within the optimization routine. All variables in the optimization routine will
+                be converted to this data type.
+        Returns
+        --------
+        params_for_global_min: list of numpy arrays
+            A list of numpy arrays that correspond to the decision vectors of the problem.
+        obj_fun_val_for_params: list of floats
+            A list of objective function values produced by the corresponding decision vectors in params_for_global_min.
+
+        Examples
+        ---------
+        See :ref:`quickstart-injectivity-label` and :ref:`my-injectivity-label`.
+        &quot;&quot;&quot;
+        temp_p = numpy.zeros(self.__N, numpy_dtype)
+        self.__numpy_dtype = numpy_dtype
+
+        # testing to see if there are any equalities in bounds
+        equality_bounds_indices = []
+        for i in range(len(bounds)):
+            if not isinstance(bounds[i], tuple):
+                equality_bounds_indices.append(i)
+        
+        # recasting user provided input to numpy_dtype
+        for i in range(len(bounds)):
+            bounds[i] = self.__numpy_dtype(bounds[i])
+        sys_min_val = self.__numpy_dtype(sys_min_val)
+
+        if equality_bounds_indices:
+            print(&quot;Equalities in bounds is not allowed for injectivity approach!&quot;)
+            sys.exit()
+
+        params_for_global_min, obj_fun_val_for_params, self.__important_info = BistabilityFinder.run_optimization(
+            bounds, iterations, sys_min_val, temp_p, self.__penalty_objective_func, self.__feasible_point_check,
+            self.__objective_function_to_optimize, self.__final_constraint_check, seed, equality_bounds_indices,
+            print_flag, numpy_dtype, [])
+
+        return params_for_global_min, obj_fun_val_for_params</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.run_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis">[docs]</a>    def run_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
+                                print_lbls_flag=False, auto_parameters=None):
+        &quot;&quot;&quot;
+        Function for running the numerical continuation and bistability analysis portions of the semi-diffusive
+        approach.
+
+        Parameters
+        ------------
+            species: string
+                A string stating the species that is the y-axis of the bifurcation diagram.
+            parameters: list of numpy arrays
+                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+                value.
+            dir_path: string
+                A string stating the path where the bifurcation diagrams should be saved.
+            print_lbls_flag: bool
+                If True the routine will print the special points found by AUTO 2000 and False will not print any
+                special points.
+            auto_parameters: dict
+                Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
+                &#39;SBML&#39; or &#39;ScanDirection&#39; in these parameters as these are automatically assigned. It is absolutely
+                necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
+                parameters refer to :download:`AUTO parameters &lt;../auto2000_input.pdf&gt;`. &#39;NMX&#39; will default to
+                10000 and &#39;ITMX&#39; to 100.
+        Returns
+        ---------
+            multistable_param_ind: list of integers
+                A list of those indices in &#39;parameters&#39; that produce multistable plots.
+
+        Example
+        ---------
+        See :ref:`quickstart-injectivity-label` and :ref:`my-injectivity-label`.
+        &quot;&quot;&quot;
+        # setting defaults for AUTO
+        if &#39;NMX&#39; not in auto_parameters.keys():
+            auto_parameters[&#39;NMX&#39;] = 10000
+            
+        if &#39;ITMX&#39; not in auto_parameters.keys():
+            auto_parameters[&#39;ITMX&#39;] = 100
+
+        # making the directory if it doesn&#39;t exist
+        if not os.path.isdir(dir_path):
+            os.mkdir(dir_path)
+
+        species_num = self.__species.index(species) + 1
+        species_y = str(self.__species[species_num-1])
+
+        multistable_param_ind, important_info = BistabilityFinder.run_continuity_analysis(species_num, parameters,
+                                                                                          self.__initialize_ant_string,
+                                                                                          self.__finalize_ant_string,
+                                                                                          species_y, dir_path,
+                                                                                          print_lbls_flag,
+                                                                                          auto_parameters)
+
+        self.__important_info += important_info
+
+        return multistable_param_ind</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.run_greedy_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis">[docs]</a>    def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
+                                       print_lbls_flag=False, auto_parameters=None):
+        &quot;&quot;&quot;
+        Function for running the greedy numerical continuation and bistability analysis portions of the semi-diffusive
+        approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
+        parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
+        produce jagged or missing sections in the plots provided. To produce better plots one should use the information
+        provided by this routine to run :func:`crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis`.
+
+        Parameters
+        ------------
+            species: string
+                A string stating the species that is the y-axis of the bifurcation diagram.
+            parameters: list of numpy arrays
+                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+                value.
+            dir_path: string
+                A string stating the path where the bifurcation diagrams should be saved.
+            print_lbls_flag: bool
+                If True the routine will print the special points found by AUTO 2000 and False will not print any
+                special points.
+            auto_parameters: dict
+                Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
+                PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
+                be set. For more information on these parameters refer to :download:`AUTO parameters &lt;../auto2000_input.pdf&gt;`.
+        Returns
+        ---------
+            multistable_param_ind: list of integers
+                A list of those indices in &#39;parameters&#39; that produce multistable plots.
+
+        Example
+        ---------
+        See :ref:`my-injectivity-label`.
+        &quot;&quot;&quot;
+        # setting defaults for AUTO
+        if &#39;NMX&#39; not in auto_parameters.keys():
+            auto_parameters[&#39;NMX&#39;] = 10000
+
+        if &#39;ITMX&#39; not in auto_parameters.keys():
+            auto_parameters[&#39;ITMX&#39;] = 100
+
+        # making the directory if it doesn&#39;t exist
+        if not os.path.isdir(dir_path):
+            os.mkdir(dir_path)
+
+        species_num = self.__species.index(species) + 1
+        species_y = str(self.__species[species_num - 1])
+
+        multistable_param_ind, important_info = BistabilityFinder.run_greedy_continuity_analysis\
+            (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
+             print_lbls_flag, auto_parameters)
+
+        self.__important_info += important_info
+
+        return multistable_param_ind</div>
+
+    def __initialize_ant_string(self, species_num, pcp_x_reaction):
+        self.__create_reaction_rates_vector()
+
+        self.__inflow_vector = sympy.zeros(self.__N, 1)
+
+        edges_inflow = [list(self.__g_edges).index(e) for e in self.__g_edges if e[0] in self.__var_nothing_index]
+
+        [self.__p_symbols.append(sympy.Symbol(&#39;p&#39; + str(i))) for i in edges_inflow]
+
+        count = len(self.__edges_true_outflow)
+        for i in self.__key_species_indices:
+            self.__inflow_vector[i] = self.__p_symbols[count]
+            count += 1
+
+        self.__ode = self.__inflow_vector + self.__S_to*self.__reaction_rates_vector
+
+        ode_str = &#39;var species &#39; + str(self.__species[species_num-1])
+        for i in range(self.__N):
+            if self.__species[i] != self.__species[species_num-1]:
+                ode_str += &#39;,&#39; + str(self.__species[i])
+        ode_str += &#39;; &#39; 
+
+        for i in range(self.__N):
+            ode_str += &#39;J&#39; + str(i) + &#39;: -&gt; &#39; + str(self.__species[i]) + &#39;; &#39; + str(self.__ode[i]) + &#39;; &#39; 
+
+        # replacing any powers with ^ instead of **
+        ode_str = ode_str.replace(&#39;**&#39;, &#39;^&#39;)
+
+        self.__S_to_numpy = numpy.array(self.__S_to).astype(numpy.float64)
+        
+        # finding the PCP in terms of P_symbols rather than reaction
+        edges_indices = self.__edges_true_outflow + edges_inflow
+        edge_labels = [self.__g.edges[list(self.__g_edges)[i]][&#39;label&#39;] for i in edges_indices]
+        pcp_index = edge_labels.index(pcp_x_reaction)
+        pcp_x = str(self.__p_symbols[pcp_index])
+
+        return ode_str, pcp_x
+
+    def __create_reaction_rates_vector(self):
+        source_species = [self.__g.nodes[list(self.__g_nodes)[i]][&#39;species&#39;] for i in self.__sources_true_outflow]
+        
+        source_stoichiometries = [self.__g.nodes[list(self.__g_nodes)[i]][&#39;stoichiometries&#39;]
+                                  for i in self.__sources_true_outflow]
+
+        self.__p_symbols = [sympy.Symbol(&#39;p&#39; + str(i)) for i in self.__edges_true_outflow]
+
+        self.__reaction_rates_vector = sympy.zeros(len(self.__p_symbols), 1)
+        for i in range(len(self.__p_symbols)):
+            temp_list = [sympy.Symbol(source_species[i][j])**source_stoichiometries[i][j]
+                         for j in range(len(source_species[i]))]
+            temp_val = 1
+            for j in range(len(source_species[i])):
+                temp_val *= temp_list[j]
+            self.__reaction_rates_vector[i] = self.__p_symbols[i]*temp_val
+
+    def __finalize_ant_string(self, x, ode_str):
+        p = -self.__S_to_numpy.dot(x)
+
+        for i in range(len(x)):
+            ode_str += str(self.__p_symbols[i]) + &#39; = &#39; + str(x[i]) + &#39;;&#39;
+        temp = [p[i] for i in self.__key_species_indices]
+        count = 0
+        
+        for i in range(len(x), len(self.__p_symbols)):
+            ode_str += str(self.__p_symbols[i]) + &#39; = &#39; + str(temp[count]) + &#39;;&#39;
+            count += 1 
+
+        lam_ode = []
+        temp_sym = self.__p_symbols[:]
+        temp_sym += self.__concentration_pars[:]
+
+        for i in range(len(self.__ode)):
+            lam_ode.append(sympy.utilities.lambdify(temp_sym, self.__ode[i], &#39;numpy&#39;))
+
+        for i in range(self.__N):
+            ode_str += str(self.__species[i]) + &#39; = &#39; + str(1.0) + &#39;;&#39;
+
+        return ode_str
+
+    def __penalty_objective_func(self, x_initial, temp_p, penalty_bounds, equality_bounds_indices, x,
+                                 non_equality_bounds_indices, concentration_bounds):
+        equality_constraints = numpy.zeros(len(self.__mus_solved_for), dtype=self.__numpy_dtype)
+        for i in range(len(self.__mus_solved_for)):
+            equality_constraints[i] = self.__lambda_equality_poly_fun[i](*tuple(x_initial))
+            
+        x = numpy.zeros(len(self.__mu_vec), dtype=self.__numpy_dtype)
+        count = 0 
+        for j in self.__mus_solved_for_indices:
+            x[j] = equality_constraints[count]
+            count += 1 
+
+        count = 0 
+        for j in self.__decision_vector_indices:
+            x[j] = x_initial[count]
+            count += 1 
+
+        temp = numpy.zeros(len(self.__key_species_indices), dtype=self.__numpy_dtype)
+        count = 0
+        for i in self.__key_species_indices:
+            temp[count] = numpy.maximum(self.__numpy_dtype(0.0), -self.__lambda_poly_func[i](*tuple(x)))**2
+            count += 1
+
+        sum1 = numpy.sum(temp)
+
+        temp = numpy.zeros(len(self.__non_key_species_indices), dtype=self.__numpy_dtype)
+        count = 0
+        for j in self.__mus_solved_for_indices:
+            temp[count] = numpy.maximum(self.__numpy_dtype(0.0), -x[j])**2
+            count += 1
+
+        sum2 = numpy.sum(temp)
+
+        sum0 = self.__numpy_dtype(0.0)
+        for j in non_equality_bounds_indices:
+
+            sum0 += numpy.maximum(self.__numpy_dtype(0.0), penalty_bounds[j][0]-x_initial[j])**2
+
+            sum0 += numpy.maximum(self.__numpy_dtype(0.0), x_initial[j] - penalty_bounds[j][1])**2
+
+        sumval = sum1+sum2 + sum0
+
+        return sumval 
+
+    def __feasible_point_check(self, x_initial, result_fun, sys_min_val, equality_bounds_indices,
+                               non_equality_bounds_indices, penalty_bounds, concentration_bounds):
+        finite_chk = numpy.isfinite(x_initial)
+        if numpy.all(finite_chk):
+            
+            test = []
+            for j in non_equality_bounds_indices:
+                test.append(x_initial[j] &gt;= penalty_bounds[j][0] and x_initial[j] &lt;= penalty_bounds[j][1])
+            boundry_chk = numpy.all(test)
+
+            equality_constraints = numpy.zeros(len(self.__mus_solved_for), dtype=self.__numpy_dtype)
+            all_constraints = []
+            for i in range(len(self.__mus_solved_for)):
+                equality_constraints[i] = self.__lambda_equality_poly_fun[i](*tuple(x_initial))
+                all_constraints.append(equality_constraints[i])
+
+            x = numpy.zeros(len(self.__mu_vec), dtype=self.__numpy_dtype)
+            count = 0
+            for j in self.__mus_solved_for_indices:
+                x[j] = equality_constraints[count]
+                count += 1
+
+            count = 0
+            for j in self.__decision_vector_indices:
+                x[j] = x_initial[count]
+                count += 1    
+
+            for i in self.__key_species_indices:  
+                all_constraints.append(self.__lambda_poly_func[i](*tuple(x)))
+
+            constraints_chk = all([i &gt; self.__numpy_dtype(0.0) for i in all_constraints])
+
+            # putting the feasible points in x_candidates
+            if (abs(result_fun) &lt;= self.__numpy_dtype(1e-200)) and boundry_chk and constraints_chk: 
+                return [True, x_initial]
+            else:
+                return [False, x_initial]
+        else:
+            return [False, x_initial]
+
+    def __objective_function_to_optimize(self, x_initial, temp_c, penalty_bounds, sys_min_val, equality_bounds_indices,
+                                         x, non_equality_bounds_indices, concentration_bounds):
+        test = []
+        for j in non_equality_bounds_indices:
+            test.append(x_initial[j] &gt;= penalty_bounds[j][0] and x_initial[j] &lt;= penalty_bounds[j][1])
+        boundry_chk = numpy.all(test)
+
+        if boundry_chk:
+
+            equality_constraints = numpy.zeros(len(self.__mus_solved_for), dtype=self.__numpy_dtype)
+            all_constraints = []
+            for i in range(len(self.__mus_solved_for)):
+                equality_constraints[i] = self.__lambda_equality_poly_fun[i](*tuple(x_initial))
+                all_constraints.append(equality_constraints[i])
+
+            x = numpy.zeros(len(self.__mu_vec), dtype=self.__numpy_dtype)
+            count = 0
+            for j in self.__mus_solved_for_indices:
+                x[j] = equality_constraints[count]
+                count += 1
+
+            count = 0
+            for j in self.__decision_vector_indices:
+                x[j] = x_initial[count]
+                count += 1
+
+            for i in self.__key_species_indices:
+                all_constraints.append(self.__lambda_poly_func[i](*tuple(x)))
+
+            constraints_chk = all([i &gt; self.__numpy_dtype(0.0) for i in all_constraints])
+
+            if constraints_chk:
+                return self.__lambda_objective_fun(*tuple(x))
+            else:
+                return numpy.PINF
+        else:
+            return numpy.PINF
+
+    def __final_constraint_check(self, x_initial, penalty_bounds, sys_min_val, equality_bounds_indices,
+                                 concentration_bounds):
+        non_equality_bounds_indices = [i for i in range(len(penalty_bounds)) if i not in equality_bounds_indices]
+
+        test = []
+        for j in non_equality_bounds_indices:
+            test.append(x_initial[j] &gt;= penalty_bounds[j][0] and x_initial[j] &lt;= penalty_bounds[j][1])
+        boundry_chk = numpy.all(test)
+
+        equality_constraints = numpy.zeros(len(self.__mus_solved_for), dtype=self.__numpy_dtype)
+        all_constraints = []
+        for i in range(len(self.__mus_solved_for)):
+            equality_constraints[i] = self.__lambda_equality_poly_fun[i](*tuple(x_initial))
+            all_constraints.append(equality_constraints[i])
+
+        x = numpy.zeros(len(self.__mu_vec), dtype=self.__numpy_dtype)
+        count = 0
+        for j in self.__mus_solved_for_indices:
+            x[j] = equality_constraints[count]
+            count += 1
+
+        count = 0
+        for j in self.__decision_vector_indices:
+            x[j] = x_initial[count]
+            count += 1
+
+        for i in self.__key_species_indices:
+            all_constraints.append(self.__lambda_poly_func[i](*tuple(x)))
+
+        constraints_chk = all([i &gt; self.__numpy_dtype(0.0) for i in all_constraints])
+
+        # must convert x to numpy.float64 because higher
+        # is not supported in linalg
+        x_converted = numpy.float64(x)
+
+        rank_jacobian = numpy.linalg.matrix_rank(self.__lambda_J(*tuple(x_converted)))
+
+        rank_jacobian_chk = rank_jacobian == self.__N - 1
+
+        if constraints_chk and boundry_chk and rank_jacobian_chk:
+            return [True, x]
+
+        else:
+            return [False, []]
+
+    def __create_y_r_matrix(self):
+        self.__sources_true_outflow = [list(self.__g_nodes).index(e[0]) for e in self.__g_edges if e[0]
+                                       not in self.__var_nothing_index]
+        self.__Y_r = sympy.zeros(self.__N, len(self.__sources_true_outflow))
+
+        for i in range(len(self.__sources_true_outflow)):
+            self.__Y_r[:, i] = self.__cgraph.get_y()[:, self.__sources_true_outflow[i]]
+
+    def __create_s_to_matrix(self):
+        self.__edges_true_outflow = [list(self.__g_edges).index(e) for e in self.__g_edges if
+                                     (e[1] in self.__var_nothing_index) or (e[0] not in self.__var_nothing_index)]
+
+        self.__S_to = sympy.zeros(self.__N, len(self.__edges_true_outflow))
+
+        for i in range(len(self.__edges_true_outflow)): 
+            self.__S_to[:, i] = self.__cgraph.get_s()[:, self.__edges_true_outflow[i]]
+
+    def __create_symbolic_jacobian_matrix(self):
+        self.__mu_vec = [sympy.symbols(&#39;v_&#39; + str(i+1)) for i in self.__edges_true_outflow]
+
+        diag_mu = sympy.diag(*self.__mu_vec)
+
+        self.__symbolic_J = self.__S_to*diag_mu*self.__Y_r.T
+
+    def __create_lambda_jacobian_matrix(self):
+        self.__lambda_J = sympy.utilities.lambdify(self.__mu_vec, self.__symbolic_J, &#39;numpy&#39;)
+
+    def __create_symbolic_objective_function(self):
+        self.__symbolic_objective_fun = (self.__symbolic_J.det(method=&#39;lu&#39;))**2
+
+    def __create_lambda_objective_function(self):
+        self.__lambda_objective_fun = sympy.utilities.lambdify(self.__mu_vec, self.__symbolic_objective_fun, &#39;numpy&#39;)
+
+    def __create_symbolic_polynomial_function(self):
+        mu_sym_mat = sympy.Matrix([[mu] for mu in self.__mu_vec])
+        self.__symbolic_poly_func = -self.__S_to*mu_sym_mat
+        
+    def __create_lambda_polynomial_function(self):
+        self.__lambda_poly_func = []
+        for i in range(self.__N):
+            self.__lambda_poly_func += [sympy.utilities.lambdify(self.__mu_vec, self.__symbolic_poly_func[i], &#39;numpy&#39;)]
+
+    def __create_lambda_equality_poly_fun(self):
+        self.__lambda_equality_poly_fun = []
+        for i in range(len(self.__mus_solved_for)):
+            self.__lambda_equality_poly_fun += [sympy.utilities.lambdify(self.__decision_vector,
+                                                                         self.__symbolic_equality_poly_fun[i][0],
+                                                                         &#39;numpy&#39;)]
+
+    def __find_key_species_indices(self):
+        key_species_vertex = []
+        for e in self.__g_edges:
+            if e[0] in self.__var_nothing_index:
+                key_species_vertex.append(e[1])
+
+        # putting key_species in order
+        key_species = [i for i in self.__species if i in key_species_vertex]
+
+        self.__key_species_indices = [self.__species.index(i) for i in key_species]
+
+    def __find_non_key_species_indices(self):
+        self.__non_key_species_indices = [i for i in range(len(self.__species)) if i not in self.__key_species_indices]
+
+    def __create_concentration_pars(self):
+        self.__concentration_pars = [sympy.Symbol(self.__species[i]) for i in range(self.__N)]
+
+    def __create_decision_vector(self):
+        atoms_of_p_non_key = []
+        for i in self.__non_key_species_indices:
+            atoms_of_p_non_key.append(self.__symbolic_poly_func[i].atoms(sympy.Symbol))
+
+        available_mus = list(set.union(*atoms_of_p_non_key))
+
+        # putting them in order for the sake of reproducibility
+        available_mus = [i for i in self.__mu_vec if i in available_mus]
+
+        # putting them in order for the sake of reproducibility
+        for i in range(len(atoms_of_p_non_key)):
+            atoms_of_p_non_key[i] = [j for j in self.__mu_vec if j in atoms_of_p_non_key[i]]
+
+        self.__mus_solved_for = []
+        for i in range(len(atoms_of_p_non_key)):
+            for j in atoms_of_p_non_key[i]:
+                if j in available_mus:
+                    if not any([j in atoms_of_p_non_key[ii] for ii in range(len(atoms_of_p_non_key)) if i != ii]):
+                    
+                        self.__mus_solved_for.append(j)
+                        available_mus.remove(j)
+                        break
+                    
+        self.__symbolic_equality_poly_fun = []
+        count = 0
+        for i in self.__non_key_species_indices:
+            self.__symbolic_equality_poly_fun.append(sympy.solve(self.__symbolic_poly_func[i],
+                                                                 self.__mus_solved_for[count]))
+            count += 1
+
+        variables_in_decision_vector = list(set(self.__mu_vec) - set(self.__mus_solved_for))
+
+        self.__decision_vector = [i for i in self.__mu_vec if i in variables_in_decision_vector]
+
+        true_outflow_reaction_labels = [self.__g.edges[list(self.__g_edges)[i]][&#39;label&#39;]
+                                        for i in self.__edges_true_outflow]
+
+        self.__decision_vector_indices = [self.__mu_vec.index(i) for i in self.__decision_vector]
+
+        self.__mus_solved_for_indices = [self.__mu_vec.index(i) for i in self.__mus_solved_for]
+
+        self.__decision_vector_reaction_labels = [true_outflow_reaction_labels[i]
+                                                  for i in self.__decision_vector_indices]
+
+    # getters
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_y_r_matrix"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_y_r_matrix">[docs]</a>    def get_y_r_matrix(self):
+        &quot;&quot;&quot;
+        Returns SymPy matrix representing the :math:`Y_r` matrix. The columns of which correspond to the true and
+        outflow reactions of the molecularity matrix.
+        `Fig1Cii.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Cii.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; sympy.pprint(approach.get_y_r_matrix())
+            ⎡1  0  0  0  1  0  0  0  0  1  0  0  0  0  0  0⎤
+            ⎢                                              ⎥
+            ⎢1  0  0  0  0  0  0  0  0  0  1  0  0  0  0  0⎥
+            ⎢                                              ⎥
+            ⎢0  1  0  0  0  0  1  0  0  0  0  0  0  1  0  0⎥
+            ⎢                                              ⎥
+            ⎢0  0  1  0  1  0  0  0  0  0  0  0  1  0  0  0⎥
+            ⎢                                              ⎥
+            ⎢0  0  1  0  0  0  0  0  0  0  0  1  0  0  0  0⎥
+            ⎢                                              ⎥
+            ⎢0  0  0  1  0  0  0  1  0  0  0  0  0  0  1  0⎥
+            ⎢                                              ⎥
+            ⎣0  0  0  0  0  1  0  0  1  0  0  0  0  0  0  1⎦
+        &quot;&quot;&quot;
+        return self.__Y_r</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_s_to_matrix"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_s_to_matrix">[docs]</a>    def get_s_to_matrix(self):
+        &quot;&quot;&quot;
+        Returns SymPy matrix representing the :math:`S_{to}` matrix. The columns of which correspond to the true and
+        outflow reactions of the stoichiometric matrix.
+        `Fig1Cii.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Cii.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; sympy.pprint(approach.get_s_to_matrix())
+            ⎡-1  1   0   0   -1  1   0   1   0   -1  0   0   0   0   0   0 ⎤
+            ⎢                                                              ⎥
+            ⎢-1  1   0   0   0   0   1   0   0   0   -1  0   0   0   0   0 ⎥
+            ⎢                                                              ⎥
+            ⎢1   -1  0   0   0   0   -1  0   0   0   0   0   0   -1  0   0 ⎥
+            ⎢                                                              ⎥
+            ⎢0   0   -1  1   -1  1   1   0   2   0   0   0   -1  0   0   0 ⎥
+            ⎢                                                              ⎥
+            ⎢0   0   -1  1   0   0   0   1   0   0   0   -1  0   0   0   0 ⎥
+            ⎢                                                              ⎥
+            ⎢0   0   1   -1  0   0   0   -1  0   0   0   0   0   0   -1  0 ⎥
+            ⎢                                                              ⎥
+            ⎣0   0   0   0   1   -1  0   0   -1  0   0   0   0   0   0   -1⎦
+        &quot;&quot;&quot;
+        return self.__S_to    </div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_symbolic_objective_fun"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_symbolic_objective_fun">[docs]</a>    def get_symbolic_objective_fun(self):
+        &quot;&quot;&quot;
+        Returns SymPy expression for the objective function of the optimization problem. This is the determinant of
+        :math:`S_{to}diag(\mu)Y_r^T` squared.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; approach.get_symbolic_objective_fun()
+        &quot;&quot;&quot;
+        return self.__symbolic_objective_fun</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_lambda_objective_fun"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_lambda_objective_fun">[docs]</a>    def get_lambda_objective_fun(self):
+        &quot;&quot;&quot;
+        Returns a lambda function representation of the objective function of the optimization problem. Here the
+        arguments of the lambda function are given by the values provided by
+        :func:`crnt4sbml.SemiDiffusiveApproach.get_mu_vector`.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; approach.get_lambda_objective_fun()
+        &quot;&quot;&quot;
+        return self.__lambda_objective_fun</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_symbolic_polynomial_fun"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_symbolic_polynomial_fun">[docs]</a>    def get_symbolic_polynomial_fun(self):
+        &quot;&quot;&quot;
+        Returns SymPy matrix representing the vector of polynomial functions, :math:`-S_{to} \mu`.
+        `Fig1Cii.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Cii.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; sympy.pprint(approach.get_symbolic_polynomial_fun())
+            ⎡   v₁ + v₁₁ - v₂ + v₅ - v₆ - v₈    ⎤
+            ⎢                                   ⎥
+            ⎢        v₁ + v₁₃ - v₂ - v₇         ⎥
+            ⎢                                   ⎥
+            ⎢        -v₁ + v₁₇ + v₂ + v₇        ⎥
+            ⎢                                   ⎥
+            ⎢v₁₆ + v₃ - v₄ + v₅ - v₆ - v₇ - 2⋅v₉⎥
+            ⎢                                   ⎥
+            ⎢        v₁₅ + v₃ - v₄ - v₈         ⎥
+            ⎢                                   ⎥
+            ⎢        v₁₈ - v₃ + v₄ + v₈         ⎥
+            ⎢                                   ⎥
+            ⎣        v₁₉ - v₅ + v₆ + v₉         ⎦
+        &quot;&quot;&quot;
+        return self.__symbolic_poly_func</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_lambda_polynomial_fun"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_lambda_polynomial_fun">[docs]</a>    def get_lambda_polynomial_fun(self):
+        &quot;&quot;&quot;
+        Returns a list of lambda functions for the vector of polynomial functions. The index of the list corresponds to
+        the row in the vector of polynomial functions. Here the arguments of the lambda function are given by the values
+        provided by :func:`crnt4sbml.SemiDiffusiveApproach.get_mu_vector`.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; approach.get_lambda_polynomial_fun()
+        &quot;&quot;&quot;
+        return self.__lambda_poly_func</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_key_species"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_key_species">[docs]</a>    def get_key_species(self):
+        &quot;&quot;&quot;
+        Returns a list of string variables corresponding to the key species.
+        `Fig1Cii.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Cii.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; print(approach.get_key_species())
+            [&#39;s1&#39;, &#39;s2&#39;, &#39;s7&#39;]
+        &quot;&quot;&quot;
+        return [self.__species[i] for i in self.__key_species_indices]</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_non_key_species"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_non_key_species">[docs]</a>    def get_non_key_species(self):
+        &quot;&quot;&quot;
+        Returns a list of string variables corresponding to those species that are not key species.
+        `Fig1Cii.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Cii.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; print(approach.get_non_key_species())
+            [&#39;s3&#39;, &#39;s6&#39;, &#39;s8&#39;, &#39;s11&#39;]
+        &quot;&quot;&quot;
+        return [self.__species[i] for i in self.__non_key_species_indices]</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_boundary_species"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_boundary_species">[docs]</a>    def get_boundary_species(self):
+        &quot;&quot;&quot;
+        Returns a list of string variables corresponding to those species that are defined as boundary species.
+        `Fig1Cii.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Cii.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; print(approach.get_boundary_species())
+            [&#39;s21&#39;]
+        &quot;&quot;&quot;
+        return [i for i in self.__var_nothing_index]</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_decision_vector"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_decision_vector">[docs]</a>    def get_decision_vector(self):
+        &quot;&quot;&quot;
+        Returns a list of SymPy variables corresponding to the decision vector for the optimization problem.
+        `Fig1Cii.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Cii.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; print(approach.get_decision_vector())
+            [v_2, v_3, v_4, v_5, v_6, v_7, v_9, v_11, v_13, v_15, v_17, v_18]
+
+        See also
+        ----------
+        crnt4sbml.SemiDiffusiveApproach.print_decision_vector
+        &quot;&quot;&quot;
+        return self.__decision_vector</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_mu_vector"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_mu_vector">[docs]</a>    def get_mu_vector(self):
+        &quot;&quot;&quot;
+        Returns a list of SymPy variables corresponding to the vector of fluxes, :math:`\mu` .
+        `Fig1Cii.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Cii.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; print(approach.get_mu_vector())
+            [v_1, v_2, v_3, v_4, v_5, v_6, v_7, v_8, v_9, v_11, v_13, v_15, v_16, v_17, v_18, v_19]
+        &quot;&quot;&quot;
+        return self.__mu_vec</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.print_decision_vector"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.print_decision_vector">[docs]</a>    def print_decision_vector(self):
+        &quot;&quot;&quot;
+        Prints an easily readable form of the decision vector. It first prints the decision vector and then the
+        corresponding reaction labels.
+        `Fig1Cii.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Cii.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; approach.print_decision_vector()
+            Decision vector for optimization:
+            [v_2, v_3, v_4, v_5, v_6, v_7, v_9, v_11, v_13, v_15, v_17, v_18]
+            Reaction labels for decision vector:
+            [&#39;re1r&#39;, &#39;re3&#39;, &#39;re3r&#39;, &#39;re6&#39;, &#39;re6r&#39;, &#39;re2&#39;, &#39;re8&#39;, &#39;re17r&#39;, &#39;re18r&#39;, &#39;re19r&#39;, &#39;re21&#39;, &#39;re22&#39;]
+        &quot;&quot;&quot;
+        print(&quot;Decision vector for optimization: &quot;)
+        print(self.__decision_vector)
+        print(&quot;&quot;)
+        print(&quot;Reaction labels for decision vector: &quot;)
+        print(self.__decision_vector_reaction_labels)
+        print(&quot;&quot;)</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.generate_report"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.generate_report">[docs]</a>    def generate_report(self):
+        &quot;&quot;&quot;
+        Prints out helpful details constructed by :func:`crnt4sbml.SemiDiffusiveApproach.run_optimization` and
+        :func:`crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis`.
+
+        Example
+        --------
+        See :ref:`quickstart-injectivity-label` and :ref:`my-injectivity-label`.
+        &quot;&quot;&quot;
+        print(self.__important_info)</div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

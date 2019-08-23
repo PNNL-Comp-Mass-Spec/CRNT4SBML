@@ -45,7 +45,7 @@ setup(
     license="Apache Software License 2.0",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
-    platforms = 'ALL'
+    platforms = 'ALL',
     keywords='crnt4sbml',
     name='crnt4sbml',
     packages=['crnt4sbml'],

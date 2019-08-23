@@ -26,7 +26,7 @@ class Cgraph:
 
         See also
         ---------
-        crnt4sbml_test.CRNT.get_c_graph()
+        crnt4sbml.CRNT.get_c_graph()
         """
         self.__g = networkx.DiGraph()
 
@@ -279,8 +279,8 @@ class Cgraph:
     def get_ode_system(self):
         """
         Returns SymPy matrix representing the ODE system.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
-        example.
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the
+        provided example.
 
         Example
         --------
@@ -319,7 +319,7 @@ class Cgraph:
     def get_species(self):
         """
         Returns Python list of strings representing the species of the network.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -335,7 +335,7 @@ class Cgraph:
     def get_complexes(self):
         """
         Returns Python list of strings representing the complexes of the network.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -351,7 +351,7 @@ class Cgraph:
     def get_reactions(self):
         """
         Returns Python list of strings representing the reactions of the network.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -367,7 +367,7 @@ class Cgraph:
     def get_a(self):
         """
         Returns SymPy matrix representing the kinetic constant matrix, :math:`A`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -399,7 +399,7 @@ class Cgraph:
     def get_y(self):
         """
         Returns SymPy matrix representing the molecularity matrix, :math:`Y`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -427,7 +427,7 @@ class Cgraph:
     def get_s(self):
         """
         Returns SymPy matrix representing the stoichiometric matrix, :math:`S`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -455,7 +455,7 @@ class Cgraph:
     def get_b(self):
         """
         Returns SymPy matrix representing the mass conservation matrix, :math:`B`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -475,7 +475,7 @@ class Cgraph:
     def get_lambda(self):
         """
         Returns SymPy matrix representing the linkage class matrix, :math:`\Lambda`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -507,7 +507,7 @@ class Cgraph:
     def get_psi(self):
         """
         Returns SymPy matrix representing the mass action monomials, :math:`\psi`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -565,7 +565,7 @@ class Cgraph:
         """
         Returns list of Python boolean types for the weak reversibility of each linkage class. If the linkage class is
         weakly reversible then the entry in the list is True, False otherwise with order as defined by
-        :func:`crnt4sbml_test.Cgraph.get_linkage_classes`.
+        :func:`crnt4sbml.Cgraph.get_linkage_classes`.
 
         Example
         --------
@@ -591,7 +591,7 @@ class Cgraph:
         """
         Returns integer value representing the dimension of the equilibrium manifold, :math:`\lambda`. This value
         is the number of mass conservation relationships.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -607,7 +607,7 @@ class Cgraph:
     def get_deficiency(self):
         """
         Returns integer value representing the deficiency of the network, :math:`\delta`.
-        `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
+        `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ for the provided
         example.
 
         Example
@@ -674,7 +674,7 @@ class Cgraph:
     def get_linkage_classes_deficiencies(self):
         """
         Returns an interger list of each linkage class deficiency. Here, the first element corresponds to the first
-        linkage class with order as defined by :func:`crnt4sbml_test.Cgraph.get_linkage_classes`.
+        linkage class with order as defined by :func:`crnt4sbml.Cgraph.get_linkage_classes`.
 
         Example
         ---------
@@ -693,7 +693,7 @@ class Cgraph:
         """
         Returns an integer list stating the number of terminally strong linkage classes per linkage class. Here,
         the first element corresponds to the first linkage class with order as defined by
-        :func:`crnt4sbml_test.Cgraph.get_linkage_classes`.
+        :func:`crnt4sbml.Cgraph.get_linkage_classes`.
 
         Example
         ---------
@@ -722,7 +722,7 @@ class Cgraph:
 
         See also
         ---------
-        crnt4sbml_test.CRNT.print_c_graph
+        crnt4sbml.CRNT.print_c_graph
         """
         print("")
         print("Reaction graph of the form") 
@@ -737,7 +737,7 @@ class Cgraph:
 
         See also
         ---------
-        crnt4sbml_test.CRNT.plot_c_graph
+        crnt4sbml.CRNT.plot_c_graph
         """
         pos = networkx.circular_layout(self.__g, scale=1.5)
         pos = networkx.kamada_kawai_layout(self.__g, pos=pos, scale=1.5)
@@ -755,7 +755,7 @@ class Cgraph:
 
         See also
         ---------
-        crnt4sbml_test.CRNT.plot_save_c_graph
+        crnt4sbml.CRNT.plot_save_c_graph
         """
         pos = networkx.circular_layout(self.__g, scale=1.5)
         pos = networkx.kamada_kawai_layout(self.__g, pos=pos, scale=1.5)

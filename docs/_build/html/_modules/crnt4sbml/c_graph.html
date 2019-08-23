@@ -1,0 +1,977 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crnt4sbml.c_graph &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>crnt4sbml.c_graph</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crnt4sbml.c_graph</h1><div class="highlight"><pre>
+<span></span>import networkx
+import numpy
+import sympy
+import scipy.optimize
+import sys
+import matplotlib.cbook
+import warnings
+from sys import platform as sys_pf
+if sys_pf == &#39;darwin&#39;:
+    import matplotlib
+    matplotlib.use(&quot;TkAgg&quot;)
+    import matplotlib.pyplot as plt
+else:
+    import matplotlib.pyplot as plt
+
+warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDeprecation)
+
+
+<div class="viewcode-block" id="Cgraph"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph">[docs]</a>class Cgraph:
+    &quot;&quot;&quot;
+    Class for constructing core CRNT values and C-graph of the network.
+    &quot;&quot;&quot;
+<div class="viewcode-block" id="Cgraph.__init__"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.__init__">[docs]</a>    def __init__(self, model):
+        &quot;&quot;&quot;
+        Initialization of Cgraph class.
+
+        See also
+        ---------
+        crnt4sbml.CRNT.get_c_graph()
+        &quot;&quot;&quot;
+        self.__g = networkx.DiGraph()
+
+        # list of nodes and edges in the order they were added
+        self.__g_nodes = []
+        self.__g_edges = []
+
+        self.__dic_species_id_bcs = {}
+        for i in model.getListOfSpecies():
+            self.__dic_species_id_bcs.update({i.getId(): i.getBoundaryCondition()})
+
+        self.__species = [i.getId() for i in model.getListOfSpecies() if not i.getBoundaryCondition()]
+
+        # temporary
+        ######################################################################################
+        self.__species_name = [i.getName() for i in model.getListOfSpecies()]
+        self.__dic_species_id_name = {}
+        for i in range(len(self.__species)):
+            self.__dic_species_id_name.update({self.__species[i]: self.__species_name[i]})
+        ######################################################################################
+
+        self.__parse_reactions(model)
+
+        self.__linkage_classes = [self.__g.subgraph(c) for c in networkx.weakly_connected_components(self.__g)]
+
+        self.__complexes = [self.__g.nodes[n][&#39;label&#39;] for n in self.__g_nodes]
+        self.__reactions = [self.__g.edges[e][&#39;label&#39;] for e in self.__g_edges]
+
+        # self.__check_weak_reversibility_of_linkage_classes() # todo: candidate for deletion
+
+        # core calculations
+        self.__create_y_matrix()
+        self.__create_s_matrix()
+        self.__create_a_matrix()
+        self.__create_mass_action_monomials()
+
+        if all([i &lt;= 1 for i in self.get_number_of_terminal_strong_lc_per_lc()]) and \
+                self.get_dim_equilibrium_manifold() &gt; 0:
+            self.__create_b_matrix()
+            self.__create_lambda_matrix()</div>
+
+        # self.__calculate_deficiency() # todo: candidate for deletion
+        # self.__calculate_number_of_conservation_relations() # todo: candidate for deletion
+        # self.__classify_dimensionality() # todo: candidate for deletion
+
+    def __parse_reactants_and_products(self, reaction):
+
+        # extracting reactants
+        reactants = [i.getSpecies() for i in reaction.getListOfReactants()]
+
+        bound_cond = any([self.__dic_species_id_bcs.get(n, n) for n in reactants])
+        if bound_cond:
+            color = &#39;red&#39;
+        else:
+            color = &#39;green&#39;
+
+        stoichiometries = [int(i.getStoichiometry()) for i in reaction.getListOfReactants()]
+        temp = zip([repr(i) if i != 1 else &#39;&#39; for i in stoichiometries], reactants)
+        reactant_complex_name = &#39;+&#39;.join([&#39;*&#39;.join(filter(lambda x: x != &#39;&#39;, i)) for i in temp])
+        if self.__g.number_of_nodes() == 0 or reactant_complex_name not in [self.__g.nodes[v][&#39;label&#39;] for
+                                                                            v in self.__g.nodes]:
+            self.__g.add_node(reactant_complex_name,
+                              label=reactant_complex_name,
+                              species=reactants,
+                              stoichiometries=stoichiometries,
+                              species_bc=bound_cond,
+                              color=color)
+            self.__g_nodes.append(reactant_complex_name)
+
+        # extracting products
+        products = [i.getSpecies() for i in reaction.getListOfProducts()]
+
+        bound_cond = any([self.__dic_species_id_bcs.get(n, n) for n in products])
+        if bound_cond:
+            color = &#39;red&#39;
+        else:
+            color = &#39;green&#39;
+
+        stoichiometries = [int(i.getStoichiometry()) for i in reaction.getListOfProducts()]
+        temp = zip([repr(i) if i != 1 else &#39;&#39; for i in stoichiometries], products)
+        product_complex_name = &#39;+&#39;.join([&#39;*&#39;.join(filter(lambda x: x != &#39;&#39;, i)) for i in temp])
+        if product_complex_name not in [self.__g.nodes[v][&#39;label&#39;] for v in self.__g.nodes]: 
+            self.__g.add_node(product_complex_name,
+                              label=product_complex_name,
+                              species=products,
+                              stoichiometries=stoichiometries,
+                              species_bc=bound_cond,
+                              color=color)
+            self.__g_nodes.append(product_complex_name)
+
+        return [reactant_complex_name, product_complex_name]
+
+    def __extract_direct_reaction(self, reaction):
+        r, p = self.__parse_reactants_and_products(reaction)
+        self.__g.add_edge(r, p,
+                          label=reaction.getId(),
+                          k=None,
+                          sbml_label=reaction.getId())
+        self.__g_edges.append((r, p))
+
+    def __extract_reverse_reaction(self, reaction):
+        r, p = self.__parse_reactants_and_products(reaction)
+        self.__g.add_edge(p, r,
+                          label=reaction.getId() + &#39;r&#39;,
+                          k=None,
+                          sbml_label=reaction.getId())
+        self.__g_edges.append((p, r))
+
+    def __parse_reactions(self, model):
+        for i in model.getListOfReactions():
+            self.__extract_direct_reaction(i)
+            if i.getReversible():
+                self.__extract_reverse_reaction(i)
+
+    # core CRNT calcs
+    def __create_y_matrix(self):
+
+        self.__Y = sympy.zeros(len(self.__species), len(self.__complexes))
+        count = 0
+        for i in self.__g_nodes:
+            v = self.__g.nodes[i]
+            stoich = dict(zip(v[&#39;species&#39;], v[&#39;stoichiometries&#39;]))
+            self.__Y[:, count] = [stoich[i] if i in stoich.keys() else 0 for i in self.__species]
+            count += 1
+            
+    def __create_s_matrix(self):
+
+        self.__S = sympy.zeros(len(self.__species), len(self.__reactions))
+        count = 0 
+        for i in self.__g_edges:
+            target = self.__complexes.index(i[1])
+            source = self.__complexes.index(i[0])
+            self.__S[:, count] = self.__Y[:, target] - self.__Y[:, source]
+            count += 1
+
+    def __create_lambda_matrix(self):
+        self.__Lambda = sympy.zeros(len(self.__complexes), len(self.__linkage_classes))
+        for li in range(len(self.__linkage_classes)):
+            l_complexes = [i for i in self.__linkage_classes[li].nodes]
+            self.__Lambda[:, li] = [1 if i in l_complexes else 0 for i in self.__complexes]
+
+    def __create_a_matrix(self):
+        self.__A = sympy.zeros(len(self.__complexes), len(self.__complexes))
+        inc_list = [list(self.__g.out_edges(n, data=&#39;label&#39;)) for n in self.__g_nodes]
+
+        for i in range(len(self.__complexes)):
+            for ii in inc_list[i]:
+                self.__A[i, i] = self.__A[i, i] - sympy.Symbol(ii[2], positive=True)
+
+        for i in range(len(self.__complexes)):
+            for j in range(len(self.__complexes)):
+                if self.__g.has_edge(self.__complexes[j], self.__complexes[i]):
+                    self.__A[i, j] = self.__A[i, j] + sympy.Symbol(self.__g.get_edge_data(self.__complexes[j],
+                                                                                          self.__complexes[i])[&#39;label&#39;],
+                                                                   positive=True)
+
+    def __create_b_matrix(self):
+        # (bt = NullSpace[Transpose[Y.A]]) // MatrixForm
+        the_null_space = (self.__Y * self.__A).T.nullspace()
+
+        # getting the number of columns given in nullspace computation
+        sizes = len(the_null_space)
+
+        # simplifying the entries given in the columns
+        # produced by the nullspace
+        for i in range(0, sizes):
+            the_null_space[i] = sympy.simplify(the_null_space[i])
+
+        bt_temp = self.__create_non_negative_b_matrix(the_null_space, sizes)
+        
+        # taking out zero rows if they are in unique vectors
+        bt = sympy.Matrix(bt_temp[~numpy.all(bt_temp == 0, axis=1)]).evalf(10)
+
+        # making the dimension of bt be lambda by N, just incase
+        # we have more vectors than we should
+        bt = bt[0:self.get_dim_equilibrium_manifold(), :]
+
+        # putting in a check to make sure that the rows
+        # of bt are linearly independent
+        _, vals = bt.T.rref()
+        if len(vals) != self.get_dim_equilibrium_manifold():
+            print(&quot; &quot;)
+            print(&quot;Error: Not all rows of B^T are linearly independent!&quot;)
+            print(&quot; &quot;)
+            sys.exit()
+
+        self.__B = bt
+
+    def __create_non_negative_b_matrix(self, the_null_space, sizes):
+
+        a_null = numpy.zeros((len(self.__species), sizes))
+        for i in range(len(self.__species)):
+            temp_vec = []
+            for j in range(sizes):
+                temp_vec.append(the_null_space[j][i])
+            a_null[i, :] = temp_vec
+
+        a_eq = numpy.array([numpy.sum(a_null, axis=0)])
+        # must multiply by negative one because in optimization we have the inequality &lt;= 0.0
+        a_ub = -1.0*a_null
+        b_ub = numpy.zeros(len(self.__species))
+        b_eq = numpy.array([1.0])        
+        
+        # defining the number of solutions to simulate
+        num_sols = ((a_ub.shape[0]+1)*(a_ub.shape[1]+1))*10
+
+        # a matrix to hold the different solutions of the method
+        sol = numpy.zeros((num_sols, len(self.__species)))
+
+        # searching the nullspace for nonnegative vectors
+        for i in range(num_sols):
+            # generating a multivariate normal random variates
+            crit = numpy.random.normal(0, 1.0, a_ub.shape[1])
+
+            # Solving the linear programming problem
+            out = scipy.optimize.linprog(crit, A_eq=a_eq, b_eq=b_eq, A_ub=a_ub, b_ub=b_ub, bounds=(None, None),
+                                         method=&#39;simplex&#39;)
+            # multiplying our nullspace vectors with the minimized value
+            # to create a nonnegative vector
+            sol[i, :] = numpy.dot(a_null, out.x)
+            sol[i, [numpy.abs(sol[i, :]) &lt; numpy.finfo(float).eps][0]] = numpy.float64(0.0)
+
+        # getting the unique vectors
+        unique_vecs = numpy.unique(sol, axis=0)
+        num_rows = numpy.size(unique_vecs, 0)
+
+        # taking the smallest nonzero entry of the unique vectors
+        # and dividing by it this will hopfully create nice
+        # looking vectors that are whole numbers
+        for i in range(num_rows):
+            minval = numpy.min(unique_vecs[i, numpy.nonzero(unique_vecs[i, :])])
+            unique_vecs[i, :] = unique_vecs[i, :]/numpy.float64(minval)
+            
+        unique_vecs = numpy.unique(unique_vecs.round(decimals=10), axis=0)
+
+        return unique_vecs
+
+    def __create_mass_action_monomials(self):
+        self.__psi = sympy.ones(len(self.__complexes), 1)
+        for j in range(len(self.__complexes)):
+            for i in range(len(self.__species)):
+                self.__psi[j] *= sympy.Symbol(self.__species[i], positive=True)**self.__Y[i, j]
+                
+                # TODO: possibly make concetrations positive
+
+    # public getters
+    def get_dict_id_name(self):
+        return self.__dic_species_id_name
+
+<div class="viewcode-block" id="Cgraph.get_ode_system"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_ode_system">[docs]</a>    def get_ode_system(self):
+        &quot;&quot;&quot;
+        Returns SymPy matrix representing the ODE system.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the
+        provided example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; sympy.pprint(network.get_c_graph().get_ode_system())
+            ⎡    -re₁⋅s₁⋅s₂ + re1r⋅s₃ + re₄⋅s₁₆ - re₆⋅s₁⋅s₆ + re6r⋅s₁₅     ⎤
+            ⎢                                                              ⎥
+            ⎢                 -re₁⋅s₁⋅s₂ + s₃⋅(re1r + re₂)                 ⎥
+            ⎢                                                              ⎥
+            ⎢                 re₁⋅s₁⋅s₂ + s₃⋅(-re1r - re₂)                 ⎥
+            ⎢                                                              ⎥
+            ⎢re₂⋅s₃ - re₃⋅s₆⋅s₇ + re3r⋅s₁₆ - re₆⋅s₁⋅s₆ + s₁₅⋅(re6r + 2⋅re₈)⎥
+            ⎢                                                              ⎥
+            ⎢                -re₃⋅s₆⋅s₇ + s₁₆⋅(re3r + re₄)                 ⎥
+            ⎢                                                              ⎥
+            ⎢                re₆⋅s₁⋅s₆ + s₁₅⋅(-re6r - re₈)                 ⎥
+            ⎢                                                              ⎥
+            ⎣                re₃⋅s₆⋅s₇ + s₁₆⋅(-re3r - re₄)                 ⎦
+        &quot;&quot;&quot;
+        return self.__Y*self.__A*self.__psi</div>
+
+<div class="viewcode-block" id="Cgraph.get_graph"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_graph">[docs]</a>    def get_graph(self):
+        &quot;&quot;&quot;
+        Returns the NetworkX DiGraph representation of the network.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_c_graph().get_graph()
+        &quot;&quot;&quot;
+        return self.__g</div>
+
+<div class="viewcode-block" id="Cgraph.get_species"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_species">[docs]</a>    def get_species(self):
+        &quot;&quot;&quot;
+        Returns Python list of strings representing the species of the network.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; print(network.get_c_graph().get_species())
+            [&#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;, &#39;s6&#39;, &#39;s7&#39;, &#39;s15&#39;, &#39;s16&#39;]
+        &quot;&quot;&quot;
+        return self.__species</div>
+
+<div class="viewcode-block" id="Cgraph.get_complexes"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_complexes">[docs]</a>    def get_complexes(self):
+        &quot;&quot;&quot;
+        Returns Python list of strings representing the complexes of the network.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; print(network.get_c_graph().get_complexes())
+            [&#39;s1+s2&#39;, &#39;s3&#39;, &#39;s6+s2&#39;, &#39;s6+s7&#39;, &#39;s16&#39;, &#39;s7+s1&#39;, &#39;s1+s6&#39;, &#39;s15&#39;, &#39;2*s6&#39;]
+        &quot;&quot;&quot;
+        return self.__complexes</div>
+
+<div class="viewcode-block" id="Cgraph.get_reactions"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_reactions">[docs]</a>    def get_reactions(self):
+        &quot;&quot;&quot;
+        Returns Python list of strings representing the reactions of the network.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; print(network.get_c_graph().get_reactions())
+            [&#39;re1&#39;, &#39;re1r&#39;, &#39;re2&#39;, &#39;re3&#39;, &#39;re3r&#39;, &#39;re4&#39;, &#39;re6&#39;, &#39;re6r&#39;, &#39;re8&#39;]
+        &quot;&quot;&quot;
+        return self.__reactions</div>
+
+<div class="viewcode-block" id="Cgraph.get_a"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_a">[docs]</a>    def get_a(self):
+        &quot;&quot;&quot;
+        Returns SymPy matrix representing the kinetic constant matrix, :math:`A`.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; sympy.pprint(network.get_c_graph().get_a())
+            ⎡-re₁     re1r      0   0         0       0   0         0       0⎤
+            ⎢                                                                ⎥
+            ⎢re₁   -re1r - re₂  0   0         0       0   0         0       0⎥
+            ⎢                                                                ⎥
+            ⎢ 0        re₂      0   0         0       0   0         0       0⎥
+            ⎢                                                                ⎥
+            ⎢ 0         0       0  -re₃     re3r      0   0         0       0⎥
+            ⎢                                                                ⎥
+            ⎢ 0         0       0  re₃   -re3r - re₄  0   0         0       0⎥
+            ⎢                                                                ⎥
+            ⎢ 0         0       0   0        re₄      0   0         0       0⎥
+            ⎢                                                                ⎥
+            ⎢ 0         0       0   0         0       0  -re₆     re6r      0⎥
+            ⎢                                                                ⎥
+            ⎢ 0         0       0   0         0       0  re₆   -re6r - re₈  0⎥
+            ⎢                                                                ⎥
+            ⎣ 0         0       0   0         0       0   0        re₈      0⎦
+        &quot;&quot;&quot;
+        return self.__A</div>
+
+<div class="viewcode-block" id="Cgraph.get_y"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_y">[docs]</a>    def get_y(self):
+        &quot;&quot;&quot;
+        Returns SymPy matrix representing the molecularity matrix, :math:`Y`.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; sympy.pprint(network.get_c_graph().get_y())
+            ⎡1  0  0  0  0  1  1  0  0⎤
+            ⎢                         ⎥
+            ⎢1  0  1  0  0  0  0  0  0⎥
+            ⎢                         ⎥
+            ⎢0  1  0  0  0  0  0  0  0⎥
+            ⎢                         ⎥
+            ⎢0  0  1  1  0  0  1  0  2⎥
+            ⎢                         ⎥
+            ⎢0  0  0  1  0  1  0  0  0⎥
+            ⎢                         ⎥
+            ⎢0  0  0  0  0  0  0  1  0⎥
+            ⎢                         ⎥
+            ⎣0  0  0  0  1  0  0  0  0⎦
+        &quot;&quot;&quot;
+        return self.__Y</div>
+
+<div class="viewcode-block" id="Cgraph.get_s"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_s">[docs]</a>    def get_s(self):
+        &quot;&quot;&quot;
+        Returns SymPy matrix representing the stoichiometric matrix, :math:`S`.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; sympy.pprint(network.get_c_graph().get_s())
+            ⎡-1  1   0   0   0   1   -1  1   0 ⎤
+            ⎢                                  ⎥
+            ⎢-1  1   1   0   0   0   0   0   0 ⎥
+            ⎢                                  ⎥
+            ⎢1   -1  -1  0   0   0   0   0   0 ⎥
+            ⎢                                  ⎥
+            ⎢0   0   1   -1  1   0   -1  1   2 ⎥
+            ⎢                                  ⎥
+            ⎢0   0   0   -1  1   1   0   0   0 ⎥
+            ⎢                                  ⎥
+            ⎢0   0   0   0   0   0   1   -1  -1⎥
+            ⎢                                  ⎥
+            ⎣0   0   0   1   -1  -1  0   0   0 ⎦
+        &quot;&quot;&quot;
+        return self.__S</div>
+
+<div class="viewcode-block" id="Cgraph.get_b"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_b">[docs]</a>    def get_b(self):
+        &quot;&quot;&quot;
+        Returns SymPy matrix representing the mass conservation matrix, :math:`B`.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; sympy.pprint(network.get_c_graph().get_b())
+            ⎡ 0    0    0    0   1.0   0   1.0⎤
+            ⎢                                 ⎥
+            ⎢ 0   1.0  1.0   0    0    0    0 ⎥
+            ⎢                                 ⎥
+            ⎣1.0   0   1.0  1.0   0   2.0  1.0⎦
+        &quot;&quot;&quot;
+        return self.__B</div>
+
+<div class="viewcode-block" id="Cgraph.get_lambda"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_lambda">[docs]</a>    def get_lambda(self):
+        &quot;&quot;&quot;
+        Returns SymPy matrix representing the linkage class matrix, :math:`\Lambda`.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; sympy.pprint(network.get_c_graph().get_lambda())
+            ⎡1  0  0⎤
+            ⎢       ⎥
+            ⎢1  0  0⎥
+            ⎢       ⎥
+            ⎢1  0  0⎥
+            ⎢       ⎥
+            ⎢0  1  0⎥
+            ⎢       ⎥
+            ⎢0  1  0⎥
+            ⎢       ⎥
+            ⎢0  1  0⎥
+            ⎢       ⎥
+            ⎢0  0  1⎥
+            ⎢       ⎥
+            ⎢0  0  1⎥
+            ⎢       ⎥
+            ⎣0  0  1⎦
+        &quot;&quot;&quot;
+        return self.__Lambda</div>
+
+<div class="viewcode-block" id="Cgraph.get_psi"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_psi">[docs]</a>    def get_psi(self):
+        &quot;&quot;&quot;
+        Returns SymPy matrix representing the mass action monomials, :math:`\psi`.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; sympy.pprint(network.get_c_graph().get_psi())
+            ⎡s₁⋅s₂⎤
+            ⎢     ⎥
+            ⎢ s₃  ⎥
+            ⎢     ⎥
+            ⎢s₂⋅s₆⎥
+            ⎢     ⎥
+            ⎢s₆⋅s₇⎥
+            ⎢     ⎥
+            ⎢ s₁₆ ⎥
+            ⎢     ⎥
+            ⎢s₁⋅s₇⎥
+            ⎢     ⎥
+            ⎢s₁⋅s₆⎥
+            ⎢     ⎥
+            ⎢ s₁₅ ⎥
+            ⎢     ⎥
+            ⎢   2 ⎥
+            ⎣ s₆  ⎦
+        &quot;&quot;&quot;
+        return self.__psi</div>
+
+<div class="viewcode-block" id="Cgraph.get_g_nodes"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_g_nodes">[docs]</a>    def get_g_nodes(self):
+        &quot;&quot;&quot;
+        Returns a list of strings that represent the order of the nodes of the NetworkX DiGraph.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_c_graph().get_g_nodes()
+        &quot;&quot;&quot;
+        return self.__g_nodes</div>
+
+<div class="viewcode-block" id="Cgraph.get_g_edges"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_g_edges">[docs]</a>    def get_g_edges(self):
+        &quot;&quot;&quot;
+        Returns a list of tuples of strings that represent the order of the edges of the NetworkX DiGraph.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_c_graph().get_g_edges()
+        &quot;&quot;&quot;
+        return self.__g_edges</div>
+
+<div class="viewcode-block" id="Cgraph.get_weak_reversibility_of_linkage_classes"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_weak_reversibility_of_linkage_classes">[docs]</a>    def get_weak_reversibility_of_linkage_classes(self):
+        &quot;&quot;&quot;
+        Returns list of Python boolean types for the weak reversibility of each linkage class. If the linkage class is
+        weakly reversible then the entry in the list is True, False otherwise with order as defined by
+        :func:`crnt4sbml.Cgraph.get_linkage_classes`.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_c_graph().get_weak_reversibility_of_linkage_classes()
+        &quot;&quot;&quot;
+        return [networkx.is_strongly_connected(i) for i in self.__linkage_classes]</div>
+
+<div class="viewcode-block" id="Cgraph.get_if_cgraph_weakly_reversible"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_if_cgraph_weakly_reversible">[docs]</a>    def get_if_cgraph_weakly_reversible(self):
+        &quot;&quot;&quot;
+        Returns weak reversibility of the network. If the network is weakly reversible True is returned, False otherwise.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_c_graph().get_if_cgraph_weakly_reversible()
+        &quot;&quot;&quot;
+        return all(self.get_weak_reversibility_of_linkage_classes())</div>
+
+<div class="viewcode-block" id="Cgraph.get_dim_equilibrium_manifold"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_dim_equilibrium_manifold">[docs]</a>    def get_dim_equilibrium_manifold(self):
+        &quot;&quot;&quot;
+        Returns integer value representing the dimension of the equilibrium manifold, :math:`\lambda`. This value
+        is the number of mass conservation relationships.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; print(network.get_c_graph().get_dim_equilibrium_manifold())
+            3
+        &quot;&quot;&quot;
+        return len(self.__species) - self.__S.rank()</div>
+
+<div class="viewcode-block" id="Cgraph.get_deficiency"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_deficiency">[docs]</a>    def get_deficiency(self):
+        &quot;&quot;&quot;
+        Returns integer value representing the deficiency of the network, :math:`\delta`.
+        `Fig1Ci.xml &lt;https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml&gt;`_ for the provided
+        example.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; import sympy
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
+        &gt;&gt;&gt; print(network.get_c_graph().get_deficiency())
+            2
+        &quot;&quot;&quot;
+        return len(self.__complexes) - len(self.__linkage_classes) - self.__S.rank()</div>
+
+<div class="viewcode-block" id="Cgraph.get_linkage_classes"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_linkage_classes">[docs]</a>    def get_linkage_classes(self):
+        &quot;&quot;&quot;
+        Returns list of NetworkX subgraphs representing the linkage classes.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_c_graph().get_linkage_classes()
+        &quot;&quot;&quot;
+        return self.__linkage_classes</div>
+
+<div class="viewcode-block" id="Cgraph.get_network_dimensionality_classification"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_network_dimensionality_classification">[docs]</a>    def get_network_dimensionality_classification(self):
+        &quot;&quot;&quot;
+        Returns a two element list specifying the dimensionality of the network.
+        Possible output:
+        [&quot;over-dimensioned&quot;,0]
+
+        or
+
+        [&quot;proper&quot;,1]
+
+        or
+
+        [&quot;under-dimensioned&quot;,2]
+
+        or
+
+        [&quot;NOT DEFINED!&quot;,3]
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_c_graph().get_network_dimensionality_classification()
+        &quot;&quot;&quot;
+        temp = self.get_dim_equilibrium_manifold() - self.get_deficiency()
+        if temp &lt; 0:
+            network_class = &quot;over-dimensioned&quot;
+            classification = 0
+        elif temp == 0:
+            network_class = &quot;proper&quot;
+            classification = 1
+        elif temp &gt; 0:
+            network_class = &quot;under-dimensioned&quot;
+            classification = 2
+        else:
+            network_class = &quot;NOT DEFINED!&quot;
+            classification = 3
+        return [network_class, classification]</div>
+
+<div class="viewcode-block" id="Cgraph.get_linkage_classes_deficiencies"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_linkage_classes_deficiencies">[docs]</a>    def get_linkage_classes_deficiencies(self):
+        &quot;&quot;&quot;
+        Returns an interger list of each linkage class deficiency. Here, the first element corresponds to the first
+        linkage class with order as defined by :func:`crnt4sbml.Cgraph.get_linkage_classes`.
+
+        Example
+        ---------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_c_graph().get_linkage_classes_deficiencies()
+        &quot;&quot;&quot;
+        deficiencies = []
+        for l in self.__linkage_classes:
+            temp = [self.__g.edges[e][&#39;label&#39;] for e in l.edges]
+            reactions_idx = [self.__reactions.index(i) for i in temp]
+            deficiencies.append(networkx.number_of_nodes(l) - 1 - self.__S[:, reactions_idx].rank())
+        return deficiencies</div>
+
+<div class="viewcode-block" id="Cgraph.get_number_of_terminal_strong_lc_per_lc"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_number_of_terminal_strong_lc_per_lc">[docs]</a>    def get_number_of_terminal_strong_lc_per_lc(self):
+        &quot;&quot;&quot;
+        Returns an integer list stating the number of terminally strong linkage classes per linkage class. Here,
+        the first element corresponds to the first linkage class with order as defined by
+        :func:`crnt4sbml.Cgraph.get_linkage_classes`.
+
+        Example
+        ---------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; network.get_c_graph().get_number_of_terminal_strong_lc_per_lc()
+        &quot;&quot;&quot;
+        number_of_terminal_strong_lc_per_lc = []
+        for lc_i in self.__linkage_classes:
+            num_term_strong = 0
+            strong_lcs = [lc_i.subgraph(c).copy() for c in networkx.strongly_connected_components(lc_i)]
+            for slc_j in strong_lcs:
+                slc_j_lbls = [i for i in slc_j.nodes]
+                x = [lc_i.successors(v_i) for v_i in slc_j_lbls]
+                connected_out_vertices = [item for sublist in x for item in sublist]
+                d = set(connected_out_vertices) - set(slc_j_lbls)
+                if d == set():
+                    num_term_strong += 1
+            number_of_terminal_strong_lc_per_lc.append(num_term_strong)
+        return number_of_terminal_strong_lc_per_lc</div>
+
+    # public methods
+<div class="viewcode-block" id="Cgraph.print"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.print">[docs]</a>    def print(self):
+        &quot;&quot;&quot;
+        Prints edges and nodes of NetworkX DiGraph.
+
+        See also
+        ---------
+        crnt4sbml.CRNT.print_c_graph
+        &quot;&quot;&quot;
+        print(&quot;&quot;)
+        print(&quot;Reaction graph of the form&quot;) 
+        print(&quot;reaction -- reaction label:&quot;)
+        for e in self.__g_edges:
+            print(e[0] + &#39; -&gt; &#39; + e[1] + &#39;  --  &#39; + self.__g.edges[e][&#39;label&#39;])
+        print(&quot;&quot;)</div>
+
+<div class="viewcode-block" id="Cgraph.plot"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.plot">[docs]</a>    def plot(self):
+        &quot;&quot;&quot;
+        Plots NetworkX DiGraph.
+
+        See also
+        ---------
+        crnt4sbml.CRNT.plot_c_graph
+        &quot;&quot;&quot;
+        pos = networkx.circular_layout(self.__g, scale=1.5)
+        pos = networkx.kamada_kawai_layout(self.__g, pos=pos, scale=1.5)
+        node_colors = [self.__g.nodes[n][&#39;color&#39;] for n in self.__g_nodes]
+        networkx.draw(self.__g, pos, node_color=node_colors)
+        node_labels = networkx.get_node_attributes(self.__g, &#39;label&#39;)
+        networkx.draw_networkx_labels(self.__g, pos, labels=node_labels)
+        edge_labels = networkx.get_edge_attributes(self.__g, &#39;label&#39;)
+        networkx.draw_networkx_edge_labels(self.__g, pos, edge_labels, label_pos=0.3)
+        plt.show()</div>
+
+<div class="viewcode-block" id="Cgraph.plot_save"><a class="viewcode-back" href="../../classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.plot_save">[docs]</a>    def plot_save(self):
+        &quot;&quot;&quot;
+        Saves the plot of the NetworkX DiGraph.
+
+        See also
+        ---------
+        crnt4sbml.CRNT.plot_save_c_graph
+        &quot;&quot;&quot;
+        pos = networkx.circular_layout(self.__g, scale=1.5)
+        pos = networkx.kamada_kawai_layout(self.__g, pos=pos, scale=1.5)
+        node_colors = [self.__g.nodes[n][&#39;color&#39;] for n in self.__g_nodes]
+        networkx.draw(self.__g, pos, node_color=node_colors)
+        node_labels = networkx.get_node_attributes(self.__g, &#39;label&#39;)
+        networkx.draw_networkx_labels(self.__g, pos, labels=node_labels)
+        edge_labels = networkx.get_edge_attributes(self.__g, &#39;label&#39;)
+        networkx.draw_networkx_edge_labels(self.__g, pos, edge_labels, label_pos=0.3)
+        plt.savefig(&#39;network_cgraph.png&#39;)</div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quick Start &mdash; CRNT4SBML 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CellDesigner Walkthrough" href="celldesigner_walkthrough.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mass-conservation-approach-example">Mass Conservation Approach Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#semi-diffusive-approach-example">Semi-diffusive Approach Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Quick Start</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<p>To begin using CRNT4SBML, start by following the process outlined in <a class="reference internal" href="installation.html#my-installation-label"><span class="std std-ref">Installation</span></a>. Once you have
+correctly installed CRNT4SBML follow the steps below to obtain a general idea of how one can perform the mass conservation
+and semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a>. If you are interested in running the Deficiency Zero and One theorems please
+consult <a class="reference internal" href="basic_crnt.html#my-basic-label"><span class="std std-ref">Low Deficiency Approach</span></a>.</p>
+<div class="section" id="mass-conservation-approach-example">
+<span id="quickstart-deficiency-label"></span><h2>Mass Conservation Approach Example<a class="headerlink" href="#mass-conservation-approach-example" title="Permalink to this headline">¶</a></h2>
+<p>In order to run the mass conservation approach one needs to first create an SBML file of the reaction network. The
+SBML file representing the reaction network for this example is given by
+<a class="reference external" href="https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a>. It is highly encouraged
+that the user consult <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a> when considering their own individual network as the format of the
+SBML file must follow a certain construction to be easily used by crnt4sbml.</p>
+<p>To run the mass conservation approach create the following python script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml_test</span>
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml_test</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+
+<span class="n">bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">)]</span><span class="o">*</span><span class="mi">12</span>
+<span class="n">concentration_bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">)]</span><span class="o">*</span><span class="mi">4</span>
+
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+                                                                     <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">concentration_bounds</span><span class="p">,</span>
+                                                                     <span class="n">iterations</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">multistable_param_ind</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s15&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                           <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;C3&#39;</span><span class="p">})</span>
+
+<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will provide the following output along with creating the directory “num_cont_graphs” in your current
+directory that contains multistability plots. Please note that runtimes and the number of multistability plots produced
+may vary among different operating systems. Please see <a class="reference internal" href="deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a> for a more detailed explanation of
+running the mass conservation approach and the provided output.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Creating Equilibrium Manifold ...
+Elapsed time for creating Equilibrium Manifold: 0.294473
+
+Solving for species&#39; concentrations ...
+Elapsed time for finding species&#39; concentrations: 0.5590229999999998
+
+Running feasible point method for 15 iterations ...
+Elapsed time for feasible point method: 0.10936699999999977
+
+Running the multistart optimization ...
+
+Smallest value achieved by objective function: 0.0
+
+Elapsed time for multistart method: 17.663542
+
+Running continuity analysis ...
+Elapsed time for continuity analysis: 18.639788999999997
+
+The number of feasible points that satisfy the constraints: 15
+Total feasible points that give F(x) = 0: 6
+Total number of points that passed final_check: 6
+Number of multistability plots found: 6
+Elements in params_for_global_min that produce multistability:
+[0, 1, 2, 3, 4, 5]
+</pre></div>
+</div>
+</div>
+<div class="section" id="semi-diffusive-approach-example">
+<span id="quickstart-injectivity-label"></span><h2>Semi-diffusive Approach Example<a class="headerlink" href="#semi-diffusive-approach-example" title="Permalink to this headline">¶</a></h2>
+<p>To run the semi-diffusive approach one needs to create the SBML file specific for semi-diffusive networks. The SBML file
+representing the reaction network for this example is given by
+<a class="reference external" href="https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml">Fig1Cii.xml</a>. It is highly encouraged
+that the user consult <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a> when considering their own individual network as the format of the
+SBML file must follow a certain construction to be easily used by crnt4sbml.</p>
+<p>To run the semi-diffusive approach create the following python script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml_test</span>
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml_test</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
+
+<span class="n">bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">)]</span><span class="o">*</span><span class="mi">12</span>
+
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
+
+<span class="n">multistable_param_ind</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s7&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                           <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;re17&#39;</span><span class="p">})</span>
+
+<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will provide the following output along with creating the directory “num_cont_graphs” in your current
+directory that contains multistability plots. Please note that runtimes and the number of multistability plots produced
+may vary among different operating systems. Please see <a class="reference internal" href="injectivity_walkthrough.html#my-injectivity-label"><span class="std std-ref">Semi-diffusive Approach Walkthrough</span></a> for a more detailed explanation of
+running the semi-diffusive approach and the provided output.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running feasible point method for 10 iterations ...
+Elapsed time for feasible point method: 0.6484119999999995
+
+Running the multistart optimization ...
+
+Smallest value achieved by objective function: 0.0
+
+Elapsed time for multistart method: 43.25512
+
+Running continuity analysis ...
+Elapsed time for continuity analysis: 34.786898
+
+The number of feasible points that satisfy the constraints: 10
+Total feasible points that give F(x) = 0: 9
+Total number of points that passed final_check: 9
+Number of multistability plots found: 9
+Elements in params_for_global_min that produce multistability:
+[0, 1, 2, 3, 4, 5, 6, 7, 8]
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="celldesigner_walkthrough.html" class="btn btn-neutral float-right" title="CellDesigner Walkthrough" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
