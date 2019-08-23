@@ -6,7 +6,7 @@ Low Deficiency Approach
 
 Now that we have constructed the SBML file using the guidelines of :ref:`my-celldesigner-label`, we will proceed by
 testing the Deficiency Zero and One Theorems of :cite:`fein_lecture`. We will complete this test for
-`Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_. The first step we must
+`Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_. The first step we must
 take is importing crnt4sbml. To do this open up a python script and add the following line:
 
 .. code-block:: python
@@ -23,7 +23,7 @@ CRNT with a string representation of the path to the SBML file. An example of th
 Once this line is ran the class CRNT takes the SBML file and parses it into a Python
 `NetworkX <https://networkx.github.io/documentation/stable/>`_ object which is then used to
 identify the basic Chemical Reaction Network Theory properties of the network. To obtain a full list of what is provided
-by this instantiation, please see the getter methods of :meth:`crnt4sbml_test.CRNT`. To obtain a print out of the
+by this instantiation, please see the getter methods of :meth:`crnt4sbml.CRNT`. To obtain a print out of the
 number of species, complexes, reactions and deficiency of the network complete the following command:
 
 .. code-block:: python
@@ -66,7 +66,7 @@ Notice that this output describes the reactions in terms of the species' id and 
 reactions, the reaction labels constructed during parsing are also returned. For this example the first reaction
 s1+s2 -> s3 has a reaction label of 're1' and the reaction s15 -> s1+ s6 has a reaction label of 're6r'.  Please note
 that the species id and reaction labels may be different if the user has constructed the SBML file themselves. Further
-information of the network can be found by analyzing the getter methods of :meth:`crnt4sbml_test.Cgraph`.
+information of the network can be found by analyzing the getter methods of :meth:`crnt4sbml.Cgraph`.
 
 Once one has verified that the network and CellDesigner model were created correctly, we can begin to check the
 properties of the network. If one is only interested in whether or not the network precludes bistability, it is best to
@@ -84,5 +84,5 @@ This provides the following output for the closed portion of the C-graph::
         The network does not satisfy Deficiency Zero Theorem.
         The network does not satisfy Deficiency One Theorem.
 
-For information on the possible output for this run, please see :func:`crnt4sbml_test.LowDeficiencyApproach.report_deficiency_one_theorem`
-and :func:`crnt4sbml_test.LowDeficiencyApproach.report_deficiency_zero_theorem`.
+For information on the possible output for this run, please see :func:`crnt4sbml.LowDeficiencyApproach.report_deficiency_one_theorem`
+and :func:`crnt4sbml.LowDeficiencyApproach.report_deficiency_zero_theorem`.

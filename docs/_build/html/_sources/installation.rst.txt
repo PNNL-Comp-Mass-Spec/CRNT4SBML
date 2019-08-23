@@ -80,17 +80,11 @@ From sources
 
 The sources for crnt4sbml can be downloaded from the `Github repo`_.
 
-You can either clone the public repository:
+You can also clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/breye12/crnt4sbml
-
-Or download the `tarball`_:
-
-.. code-block:: console
-
-    $ curl  -OL https://github.com/breye12/crnt4sbml_test/tarball/master
+    $ git clone https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML.git
 
 Once you have a copy of the source, you can install it with:
 
@@ -99,5 +93,4 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/breye12/crnt4sbml
-.. _tarball: https://github.com/breye12/crnt4sbml/tarball/master
+.. _Github repo: https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML

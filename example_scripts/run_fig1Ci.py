@@ -1,5 +1,6 @@
-import crnt4sbml_test
-c = crnt4sbml_test.CRNT("../sbml_files/Fig1Ci.xml")
+import crnt4sbml
+
+c = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
 
 opt = c.get_mass_conservation_approach()
 

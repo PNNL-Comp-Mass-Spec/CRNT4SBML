@@ -1,7 +1,7 @@
-import crnt4sbml_test
+import crnt4sbml
 import numpy
 
-c = crnt4sbml_test.CRNT("../sbml_files/Fig1Cii.xml")
+c = crnt4sbml.CRNT("../sbml_files/Fig1Cii.xml")
 
 c.basic_report()
 

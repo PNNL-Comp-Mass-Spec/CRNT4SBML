@@ -1,6 +1,6 @@
-import crnt4sbml_test
+import crnt4sbml
 
-network = crnt4sbml_test.CRNT("../sbml_files/feinberg_ex_3_D_3.xml")
+network = crnt4sbml.CRNT("../sbml_files/feinberg_ex_3_D_3.xml")
 
 network.basic_report()
 

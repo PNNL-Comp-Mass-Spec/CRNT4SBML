@@ -87,7 +87,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
@@ -172,7 +172,7 @@
 <span id="my-basic-label"></span><h1>Low Deficiency Approach<a class="headerlink" href="#low-deficiency-approach" title="Permalink to this headline">¶</a></h1>
 <p>Now that we have constructed the SBML file using the guidelines of <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a>, we will proceed by
 testing the Deficiency Zero and One Theorems of <a class="reference internal" href="zbibliography.html#fein-lecture" id="id1">[Fei79]</a>. We will complete this test for
-<a class="reference external" href="https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a>. The first step we must
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a>. The first step we must
 take is importing crnt4sbml. To do this open up a python script and add the following line:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 </pre></div>
@@ -185,7 +185,7 @@ CRNT with a string representation of the path to the SBML file. An example of th
 <p>Once this line is ran the class CRNT takes the SBML file and parses it into a Python
 <a class="reference external" href="https://networkx.github.io/documentation/stable/">NetworkX</a> object which is then used to
 identify the basic Chemical Reaction Network Theory properties of the network. To obtain a full list of what is provided
-by this instantiation, please see the getter methods of <code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml_test.CRNT()</span></code>. To obtain a print out of the
+by this instantiation, please see the getter methods of <a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT" title="crnt4sbml.CRNT"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.CRNT()</span></code></a>. To obtain a print out of the
 number of species, complexes, reactions and deficiency of the network complete the following command:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">basic_report</span><span class="p">()</span>
 </pre></div>
@@ -222,7 +222,7 @@ s15 -&gt; 2*s6  --  re8
 reactions, the reaction labels constructed during parsing are also returned. For this example the first reaction
 s1+s2 -&gt; s3 has a reaction label of ‘re1’ and the reaction s15 -&gt; s1+ s6 has a reaction label of ‘re6r’.  Please note
 that the species id and reaction labels may be different if the user has constructed the SBML file themselves. Further
-information of the network can be found by analyzing the getter methods of <code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml_test.Cgraph()</span></code>.</p>
+information of the network can be found by analyzing the getter methods of <a class="reference internal" href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph" title="crnt4sbml.Cgraph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.Cgraph()</span></code></a>.</p>
 <p>Once one has verified that the network and CellDesigner model were created correctly, we can begin to check the
 properties of the network. If one is only interested in whether or not the network precludes bistability, it is best to
 first check the Deficiency Zero and One Theorems of Chemical Reaction Network Theory. To do this add the following lines
@@ -237,8 +237,8 @@ to the script:</p>
 The network does not satisfy Deficiency One Theorem.
 </pre></div>
 </div>
-<p>For information on the possible output for this run, please see <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.LowDeficiencyApproach.report_deficiency_one_theorem()</span></code>
-and <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.LowDeficiencyApproach.report_deficiency_zero_theorem()</span></code>.</p>
+<p>For information on the possible output for this run, please see <a class="reference internal" href="classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.report_deficiency_one_theorem" title="crnt4sbml.LowDeficiencyApproach.report_deficiency_one_theorem"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.LowDeficiencyApproach.report_deficiency_one_theorem()</span></code></a>
+and <a class="reference internal" href="classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.report_deficiency_zero_theorem" title="crnt4sbml.LowDeficiencyApproach.report_deficiency_zero_theorem"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.LowDeficiencyApproach.report_deficiency_zero_theorem()</span></code></a>.</p>
 </div>
 
 

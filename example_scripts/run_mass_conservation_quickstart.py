@@ -1,6 +1,6 @@
-import crnt4sbml_test
+import crnt4sbml
 
-network = crnt4sbml_test.CRNT("../sbml_files/Fig1Ci.xml")
+network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
 
 opt = network.get_mass_conservation_approach()
 

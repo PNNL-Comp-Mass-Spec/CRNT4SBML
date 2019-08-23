@@ -7,14 +7,14 @@ Mass Conservation Approach Walkthrough
 Using the SBML file constructed as in :ref:`my-celldesigner-label`, we will proceed by completing a more in-depth
 explanation of running the mass conservation approach of :cite:`irene`. Note that the mass conservation approach can
 be ran on any network that has conservation laws, even if that network does have a sink/source. One can test whether or
-not there are conservation laws by seeing if the output of :func:`crnt4sbml_test.Cgraph.get_dim_equilibrium_manifold` is
-greater than zero. This tutorial will use `Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_.
+not there are conservation laws by seeing if the output of :func:`crnt4sbml.Cgraph.get_dim_equilibrium_manifold` is
+greater than zero. This tutorial will use `Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_.
 The following code will import crnt4sbml and the SBML file. For a little more detail on this process consider :ref:`my-basic-label`.
 
 .. code-block:: python
    
-   import crnt4sbml_test
-   c = crnt4sbml_test.CRNT("/path/to/Fig1Ci.xml")
+   import crnt4sbml
+   c = crnt4sbml.CRNT("/path/to/Fig1Ci.xml")
 
 If we then want to conduct the mass conservation approach of :cite:`irene`, we must first initialize the
 mass\_conservation\_approach, which is done as follows:
@@ -47,11 +47,11 @@ This provides the following output::
 
     [re1, re1r, re2, re3, re3r, re4, re6, re6r, re8, s2, s6, s16]
 
-To obtain more available functions  that this initialization provides, see :meth:`crnt4sbml_test.MassConservationApproach`.
+To obtain more available functions  that this initialization provides, see :meth:`crnt4sbml.MassConservationApproach`.
 Using the decision vector provided, one can then construct the bounds which are necessary for the optimization problem
 by creating a list of tuples where the first element corresponds to the lower bound value of the parameter and the second
 element is the upper bound value of the parameter. One such set of bounds for
-`Fig1Ci.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml>`_ could be as follows:
+`Fig1Ci.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml>`_ could be as follows:
 
 .. code-block:: python
 
@@ -97,7 +97,7 @@ want the method to be random), the print\_flag which tells the program if the ob
 vector for the feasible point and multi-start method should be printed out (here we set it to False, which means no
 output will be provided), and numpy\_dtype which tells the program the numpy data type that should be used in the
 optimization method (here we set it to a float with 64 bits). Note that higher precision data types will increase the
-runtime of the optimization, but may produce better results. See :func:`crnt4sbml_test.MassConservationApproach.run_optimization`
+runtime of the optimization, but may produce better results. See :func:`crnt4sbml.MassConservationApproach.run_optimization`
 for the default values of the routine.
 
 .. code-block:: python

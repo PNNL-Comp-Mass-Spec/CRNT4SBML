@@ -87,7 +87,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#mass-conservation-approach-example">Mass Conservation Approach Example</a></li>
@@ -182,13 +182,13 @@ consult <a class="reference internal" href="basic_crnt.html#my-basic-label"><spa
 <span id="quickstart-deficiency-label"></span><h2>Mass Conservation Approach Example<a class="headerlink" href="#mass-conservation-approach-example" title="Permalink to this headline">¶</a></h2>
 <p>In order to run the mass conservation approach one needs to first create an SBML file of the reaction network. The
 SBML file representing the reaction network for this example is given by
-<a class="reference external" href="https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a>. It is highly encouraged
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Ci.xml">Fig1Ci.xml</a>. It is highly encouraged
 that the user consult <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a> when considering their own individual network as the format of the
 SBML file must follow a certain construction to be easily used by crnt4sbml.</p>
 <p>To run the mass conservation approach create the following python script:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml_test</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 
-<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml_test</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 
 <span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 
@@ -240,13 +240,13 @@ Elements in params_for_global_min that produce multistability:
 <span id="quickstart-injectivity-label"></span><h2>Semi-diffusive Approach Example<a class="headerlink" href="#semi-diffusive-approach-example" title="Permalink to this headline">¶</a></h2>
 <p>To run the semi-diffusive approach one needs to create the SBML file specific for semi-diffusive networks. The SBML file
 representing the reaction network for this example is given by
-<a class="reference external" href="https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml">Fig1Cii.xml</a>. It is highly encouraged
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml">Fig1Cii.xml</a>. It is highly encouraged
 that the user consult <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a> when considering their own individual network as the format of the
 SBML file must follow a certain construction to be easily used by crnt4sbml.</p>
 <p>To run the semi-diffusive approach create the following python script:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml_test</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 
-<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml_test</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
 
 <span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
 

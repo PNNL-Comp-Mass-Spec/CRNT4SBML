@@ -1,7 +1,7 @@
-import crnt4sbml_test
+import crnt4sbml
 import numpy
 
-network = crnt4sbml_test.CRNT("../sbml_files/p85-p110-PTEN.xml")
+network = crnt4sbml.CRNT("../sbml_files/p85-p110-PTEN.xml")
 
 network.basic_report()
 

@@ -6,13 +6,13 @@ Semi-diffusive Approach Walkthrough
 
 Using the SBML file constructed as in :ref:`my-celldesigner-label`, we will proceed by completing a more in-depth
 explanation of running the semi-diffusive approach of :cite:`irene`. This tutorial will use
-`Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_. The following code will
+`Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_. The following code will
 import crnt4sbml and the SBML file. For a little more detail on this process consider :ref:`my-basic-label`.
 
 .. code-block:: python
 
-   import crnt4sbml_test
-   c = crnt4sbml_test.CRNT("/path/to/Fig1Ci.xml")
+   import crnt4sbml
+   c = crnt4sbml.CRNT("/path/to/Fig1Ci.xml")
 
 If we then want to conduct the semi-diffusive approach of :cite:`irene`, we must first initialize the
 optimization\_based\_injectivity\_manager, which is done as follows:
@@ -79,7 +79,7 @@ This provides the following results for our example::
 Using this information, we can now run the optimization in a similar manner to the mass conservation approach. First we will
 initialize some variables for demonstration purposes. In practice, the user should only need to define the bounds and
 number of iterations to run the optimization routine. For more information on the defaults of the optimization routine,
-see :func:`crnt4sbml_test.SemiDiffusiveApproach.run_optimization`.
+see :func:`crnt4sbml.SemiDiffusiveApproach.run_optimization`.
 
 .. code-block:: python
 

@@ -5,7 +5,7 @@ Generating Presentable C-graphs
 
 In practice complex networks can be difficult to display in terms of the CellDesigner format. For this reason, it is
 usually simpler to present networks in terms of C-graphs. Although CRNT4SBML provides the functions
-:func:`crnt4sbml_test.CRNT.plot_c_graph` and :func:`crnt4sbml_test.CRNT.plot_save_c_graph` to plot and save
+:func:`crnt4sbml.CRNT.plot_c_graph` and :func:`crnt4sbml.CRNT.plot_save_c_graph` to plot and save
 C-graphs using Matplotlib, respectively, for large networks these displays can be cluttered. For example, consider the
 following semi-diffusive network:
 
@@ -18,16 +18,16 @@ As mentioned in the NetorkX `documentation <https://networkx.github.io/documenta
 the graph visualization tools provided are not up to par with other graph visualization tools. For this reason, we suggest
 using the cross-platform and easily installable tool `Cytoscape <https://cytoscape.org/>`_ to create presentable C-graphs.
 Cytoscape allows one to import a network defined in the GraphML format which it can then use to create a C-graph.
-To create a GraphML format of the provided network, CRNT4SBML contains the function :func:`crnt4sbml_test.CRNT.get_network_graphml`.
+To create a GraphML format of the provided network, CRNT4SBML contains the function :func:`crnt4sbml.CRNT.get_network_graphml`.
 Note that this function only extracts the nodes, edges, and edge labels. Below
-we use  use `Fig1Cii.xml <https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml>`_
+we use  use `Fig1Cii.xml <https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml>`_
 to demonstrate turning a network into a GraphML file.
 
 .. code-block:: python
 
-    import crnt4sbml_test
+    import crnt4sbml
 
-    c = crnt4sbml_test.CRNT("path/to/Fig1Cii.xml")
+    c = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
 
     c.get_network_graphml()
 

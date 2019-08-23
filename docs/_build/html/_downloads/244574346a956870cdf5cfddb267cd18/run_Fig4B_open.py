@@ -1,6 +1,6 @@
-import crnt4sbml_test
+import crnt4sbml
 
-network = crnt4sbml_test.CRNT("../sbml_files/Fig4B_open.xml")
+network = crnt4sbml.CRNT("../sbml_files/Fig4B_open.xml")
 
 network.basic_report()
 

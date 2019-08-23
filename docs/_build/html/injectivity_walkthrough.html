@@ -87,7 +87,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
@@ -172,10 +172,10 @@
 <span id="my-injectivity-label"></span><h1>Semi-diffusive Approach Walkthrough<a class="headerlink" href="#semi-diffusive-approach-walkthrough" title="Permalink to this headline">¶</a></h1>
 <p>Using the SBML file constructed as in <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a>, we will proceed by completing a more in-depth
 explanation of running the semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a>. This tutorial will use
-<a class="reference external" href="https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml">Fig1Cii.xml</a>. The following code will
+<a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml">Fig1Cii.xml</a>. The following code will
 import crnt4sbml and the SBML file. For a little more detail on this process consider <a class="reference internal" href="basic_crnt.html#my-basic-label"><span class="std std-ref">Low Deficiency Approach</span></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml_test</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml_test</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If we then want to conduct the semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a>, we must first initialize the
@@ -230,7 +230,7 @@ non key species, and boundary species are correct. This can be done after initia
 <p>Using this information, we can now run the optimization in a similar manner to the mass conservation approach. First we will
 initialize some variables for demonstration purposes. In practice, the user should only need to define the bounds and
 number of iterations to run the optimization routine. For more information on the defaults of the optimization routine,
-see <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.SemiDiffusiveApproach.run_optimization()</span></code>.</p>
+see <a class="reference internal" href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_optimization" title="crnt4sbml.SemiDiffusiveApproach.run_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.SemiDiffusiveApproach.run_optimization()</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="n">num_itr</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">sys_min</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>

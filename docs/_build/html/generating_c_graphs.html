@@ -87,7 +87,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="readme.html">crnt4sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
@@ -172,7 +172,7 @@
 <span id="presentable-graph-label"></span><h1>Generating Presentable C-graphs<a class="headerlink" href="#generating-presentable-c-graphs" title="Permalink to this headline">¶</a></h1>
 <p>In practice complex networks can be difficult to display in terms of the CellDesigner format. For this reason, it is
 usually simpler to present networks in terms of C-graphs. Although CRNT4SBML provides the functions
-<code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.CRNT.plot_c_graph()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.CRNT.plot_save_c_graph()</span></code> to plot and save
+<a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.plot_c_graph" title="crnt4sbml.CRNT.plot_c_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.plot_c_graph()</span></code></a> and <a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.plot_save_c_graph" title="crnt4sbml.CRNT.plot_save_c_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.plot_save_c_graph()</span></code></a> to plot and save
 C-graphs using Matplotlib, respectively, for large networks these displays can be cluttered. For example, consider the
 following semi-diffusive network:</p>
 <a class="reference internal image-reference" href="_images/cluttered_cgraph.png"><img alt="_images/cluttered_cgraph.png" class="align-center" src="_images/cluttered_cgraph.png" style="width: 400px; height: 300px;" /></a>
@@ -180,13 +180,13 @@ following semi-diffusive network:</p>
 the graph visualization tools provided are not up to par with other graph visualization tools. For this reason, we suggest
 using the cross-platform and easily installable tool <a class="reference external" href="https://cytoscape.org/">Cytoscape</a> to create presentable C-graphs.
 Cytoscape allows one to import a network defined in the GraphML format which it can then use to create a C-graph.
-To create a GraphML format of the provided network, CRNT4SBML contains the function <code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml_test.CRNT.get_network_graphml()</span></code>.
+To create a GraphML format of the provided network, CRNT4SBML contains the function <a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_network_graphml" title="crnt4sbml.CRNT.get_network_graphml"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.get_network_graphml()</span></code></a>.
 Note that this function only extracts the nodes, edges, and edge labels. Below
-we use  use <a class="reference external" href="https://github.com/breye12/crnt4sbml_test/tree/master/sbml_files/Fig1Cii.xml">Fig1Cii.xml</a>
+we use  use <a class="reference external" href="https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML/tree/master/sbml_files/Fig1Cii.xml">Fig1Cii.xml</a>
 to demonstrate turning a network into a GraphML file.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml_test</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 
-<span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml_test</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
 
 <span class="n">c</span><span class="o">.</span><span class="n">get_network_graphml</span><span class="p">()</span>
 </pre></div>
