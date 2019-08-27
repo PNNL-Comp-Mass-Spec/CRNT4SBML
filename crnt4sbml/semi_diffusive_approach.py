@@ -42,11 +42,11 @@ class SemiDiffusiveApproach:
                                     self.__g.nodes[n]['species_bc']]
 
         if not self.__var_nothing_index:
-            raise Exception("A boundary species is not present, injectivity approach cannot be ran!")
+            raise Exception("A boundary species is not present, semi-diffusive approach cannot be ran!")
 
         if not self.__cgraph.get_dim_equilibrium_manifold() == 0:
             print("Conservation laws present.")
-            print("The injectivity approach cannot be ran!")
+            print("The semi-diffusive approach cannot be ran!")
             sys.exit()
 
         # compute necessary matrices

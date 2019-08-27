@@ -38,7 +38,7 @@ class MassConservationApproach:
 
         if not self.__cgraph.get_dim_equilibrium_manifold() > 0:
             print("# of species - rank(S) is not greater than zero!")
-            print("The deficiency approach cannot be ran!")
+            print("The mass conservation approach cannot be ran!")
             sys.exit()
 
         # declare key fields

@@ -7,6 +7,7 @@ Welcome to CRNT4SBML's documentation!
 
    readme
    installation
+   detect_bistability
    quickstart
    celldesigner_walkthrough
    basic_crnt

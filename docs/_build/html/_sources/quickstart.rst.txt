@@ -5,7 +5,8 @@ Quick Start
 To begin using CRNT4SBML, start by following the process outlined in :ref:`my-installation-label`. Once you have
 correctly installed CRNT4SBML follow the steps below to obtain a general idea of how one can perform the mass conservation
 and semi-diffusive approach of :cite:`irene`. If you are interested in running the Deficiency Zero and One theorems please
-consult :ref:`my-basic-label`.
+consult :ref:`my-basic-label`. If one is interested in the general steps to follow in order to detect bistability, one
+should consult :ref:`detect-bistability-label`.
 
 .. _quickstart-deficiency-label:
 
