@@ -213,10 +213,8 @@ optimization problem and produce an objective function value smaller than sys\_m
 
 In addition to putting the multistability plots found into the path dir\_path, this routine will also return the indices of
 params\_for\_global\_min that correspond to these plots. Also note that if multistability plots are produced, the plot names
-will have the following form: PCP\_species id\_index of params\_for\_global\_min _multistable\_region.png. Where
-multistable\_region is an integer that corresponds to the different regions of multistability. Note that this value is often
-just zero. The output provided by the numerical continuation run is as follows (note you may receive errors from failed
-point sets, you may ignore these)::
+will have the following form: PCP\_species id\_index of params\_for\_global.png. The output provided by the numerical
+continuation run is as follows (note you may receive errors from failed point sets, you may ignore these)::
 
     Running continuity analysis ...
     Elapsed time for continuity analysis = 158.717126
@@ -243,11 +241,11 @@ parameter may be needed, but this will increase the runtime of the numerical con
     [4, 5, 13, 16, 21, 23, 26, 27, 31, 35, 52, 53, 63, 64]
 
 
-The following is a bistability plot produced by element 35 of params\_for\_global\_min. Here the solid blue line
+The following is a bistability plot produced by element 26 of params\_for\_global\_min. Here the solid blue line
 indicates stability, the dashed blue line is instability, and the red stars are the special points produced by the
 numerical continuation.
 
-.. image:: ./images_for_docs/fig_1Ci_C3_vs_s15_35_0.png
+.. image:: ./images_for_docs/fig_1Ci_C3_vs_s15_26.png
 
 In addition to providing this more hands on approach to the numerical continuation routine, we also provide a greedy
 version of the numerical continuation routine. With this approach the user just needs to provide the species, parameters,

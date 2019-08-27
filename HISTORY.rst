@@ -11,3 +11,8 @@ History
 ------------------
 
 * Addition of Cytoscape functionality.
+
+0.0.3 (2019-08-26)
+------------------
+
+* Improvements to the plots produced by the continuity analysis.

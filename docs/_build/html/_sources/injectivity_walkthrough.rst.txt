@@ -162,11 +162,10 @@ This provides the following output::
 
 Similar to the mass conservation approach, we obtain multistability plots in the directory provided by the dir\_path option in
 run\_continuity\_analysis (here it is the default value), where the plots follow the following format PCP (in terms of p as in the theory)
-\_species id\_index of params\_for\_global\_min\_multistable\_region.png. Where multistable\_region is an integer
-that corresponds to the different regions of multistability. Note that this value is often just zero.
-The following is one multistability plot produced by index 4 of params\_for\_global\_min.
+\_species id\_index of params\_for\_global.png. The following is one multistability plot produced by index 3
+of params\_for\_global\_min.
 
-.. image:: ./images_for_docs/fig_1Cii_p9_vs_s7_4_0.png
+.. image:: ./images_for_docs/fig_1Cii_p9_vs_s7_3.png
 
 In addition to providing this more hands on approach to the numerical continuation routine, we also provide a greedy
 version of the numerical continuation routine. With this approach the user just needs to provide the species, parameters,

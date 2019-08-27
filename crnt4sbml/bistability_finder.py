@@ -271,7 +271,6 @@ class BistabilityFinder:
         multistable_param_ind = []
         auto = rrplugins.Plugin("tel_auto2000")
         cont_direction = ["Positive", "Negative"]
-
         for param_ind in range(len(params_for_global_min)):
 
             final_ant_str = finalize_ant_string(params_for_global_min[param_ind], init_ant)
@@ -310,9 +309,43 @@ class BistabilityFinder:
                         multistable = cls.detect_multi_stability(chnk_stable, chnk_unstable, bi_data_np)
 
                         if multistable:
-                            cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np, sp_y_ind,
-                                                    pcp_x,
-                                                    species_y, param_ind, dir_path, cls)
+
+                            # running another numerical continuation with a smaller step size to try and get
+                            # better looking plots
+                            scnd_check = True
+                            if os.path.isdir("./auto_fort_files"):
+                                shutil.rmtree("./auto_fort_files")
+
+                                ind_ds_val = ds_vals.index(ds_val)
+                                ds_val = ds_vals[ind_ds_val + 1]
+
+                                auto_parameters['DS'] = ds_val
+                                for dir_ind2 in range(2):
+                                    if os.path.isdir("./auto_fort_files"):
+                                        shutil.rmtree("./auto_fort_files")
+
+                                    pts2, lbls2, bi_data_np2, antimony_r, flag2 = cls.run_numerical_continuation \
+                                        (final_ant_str, cont_direction[dir_ind2], auto, auto_parameters)
+
+                                    if flag2 and lbls2 != ['EP', 'EP']:
+                                        chnk_stable2, chnk_unstable2, special_points2, sp_y_ind2 = \
+                                            cls.find_stable_unstable_regions(antimony_r, species_y)
+
+                                        multistable2 = cls.detect_multi_stability(chnk_stable2, chnk_unstable2,
+                                                                                  bi_data_np2)
+
+                                        if multistable2:
+                                            cls.plot_pcp_vs_species(chnk_stable2, chnk_unstable2, special_points2,
+                                                                    bi_data_np2, sp_y_ind2,
+                                                                    pcp_x, species_y, param_ind, dir_path, cls)
+                                            scnd_check = False
+                                            break
+
+                                if scnd_check:
+                                    cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points,
+                                                            bi_data_np, sp_y_ind, pcp_x, species_y, param_ind,
+                                                            dir_path, cls)
+
                             if param_ind not in multistable_param_ind:
                                 multistable_param_ind.append(param_ind)
                             break
@@ -535,51 +568,87 @@ class BistabilityFinder:
             plt.plot(bi_data_np[i[0], 0], bi_data_np[i[0], sp_y_ind], marker='*', color='r')
             plt.annotate(i[1], (bi_data_np[i[0], 0], bi_data_np[i[0], sp_y_ind]))
         
-        count = 0
+        #count = 0
         margin = 1e-6
-        # going through all the multistationary regions
-        for j in cls.__xlabel_interval:
-            # setting xlim based on multistationary region
-            if sympy.utilities.iterables.iterable(j):
-                start = float(list(j)[0] - list(j)[0]*margin)
-                end = float(list(j)[0] + list(j)[0]*margin)
-                xlim_list = [start, end]
-            elif type(j) == sympy.Union:
-                start = float(j.inf)
-                end = float(j.sup)
-                diff_x = start - end
-                xlim_list = [start - margin * diff_x, end + margin * diff_x]
-            else:
-                start = float(j.start)
-                end = float(j.end)
-                diff_x = start - end
-                xlim_list = [start - margin*diff_x, end + margin*diff_x]
+        plt.xlabel(pcp_x)
+        plt.ylabel(species_y)
 
+        pcp_values = []
+        for i in special_points:
+            if i[1] != 'EP':
+                pcp_values.append(bi_data_np[i[0], 0])
+
+        pcp_min = min(pcp_values)
+        pcp_max = max(pcp_values)
+
+        if abs(pcp_min - pcp_max) > 1e-16:
+            diff_x = pcp_max - pcp_min
+            start = pcp_min - diff_x
+            end = pcp_max + diff_x
+            xlim_list = [start, end]
+            plt.xlim(xlim_list)
+        else:
+            start = pcp_min - pcp_min*margin
+            end = pcp_max + pcp_max*margin
+            xlim_list = [start, end]
             plt.xlim(xlim_list)
 
-            # reformatting the y axis based on xlim chosen
-            lims = plt.gca().get_xlim()
-            x = bi_data_np[:, 0]
-            y = bi_data_np[:, sp_y_ind]
-            i = numpy.where((x > lims[0]) & (x < lims[1]))[0]
+        lims = plt.gca().get_xlim()
+        x = bi_data_np[:, 0]
+        y = bi_data_np[:, sp_y_ind]
+        i = numpy.where((x > lims[0]) & (x < lims[1]))[0]
 
-            if len(i) != 0:
-                if len(i) == 1:
-                    first = y[i] - y[i]*0.03
-                    second = y[i] + y[i]*0.03
-                else:
-                    h = y[i].max()-y[i].min()
-                    first = y[i].min() - 0.1*h
-                    second = y[i].max() + 0.1*h
-                plt.gca().set_ylim(first, second)
+        h = y[i].max() - y[i].min()
+        first = y[i].min() - 0.1*h
+        second = y[i].max() + 0.1*h
+        plt.gca().set_ylim(first, second)
 
-                # setting labels
-                plt.xlabel(pcp_x)
-                plt.ylabel(species_y)
+        plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
+        plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + '.png') #'.pdf')
 
-                plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
-                plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + '_' + str(count) + '.pdf')
-                count += 1
+        # going through all the multistationary regions
+        # for j in cls.__xlabel_interval:
+        #     # setting xlim based on multistationary region
+        #     if sympy.utilities.iterables.iterable(j):
+        #         start = float(list(j)[0] - list(j)[0]*margin)
+        #         end = float(list(j)[0] + list(j)[0]*margin)
+        #         xlim_list = [start, end]
+        #     elif type(j) == sympy.Union:
+        #         start = float(j.inf)
+        #         end = float(j.sup)
+        #         diff_x = start - end
+        #         xlim_list = [start - margin * diff_x, end + margin * diff_x]
+        #     else:
+        #         start = float(j.start)
+        #         end = float(j.end)
+        #         diff_x = start - end
+        #         xlim_list = [start - margin*diff_x, end + margin*diff_x]
+        #
+        #     plt.xlim(xlim_list)
+        #
+        #     # reformatting the y axis based on xlim chosen
+        #     lims = plt.gca().get_xlim()
+        #     x = bi_data_np[:, 0]
+        #     y = bi_data_np[:, sp_y_ind]
+        #     i = numpy.where((x > lims[0]) & (x < lims[1]))[0]
+        #
+        #     if len(i) != 0:
+        #         if len(i) == 1:
+        #             first = y[i] - y[i]*0.03
+        #             second = y[i] + y[i]*0.03
+        #         else:
+        #             h = y[i].max()-y[i].min()
+        #             first = y[i].min() - 0.1*h
+        #             second = y[i].max() + 0.1*h
+        #         plt.gca().set_ylim(first, second)
+        #
+        #         # setting labels
+        #         plt.xlabel(pcp_x)
+        #         plt.ylabel(species_y)
+        #
+        #         plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
+        #         plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + '_' + str(count) + '.pdf')
+        #         count += 1
 
         plt.close()
 

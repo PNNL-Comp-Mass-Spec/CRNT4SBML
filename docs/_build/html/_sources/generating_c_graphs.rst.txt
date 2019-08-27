@@ -37,7 +37,7 @@ Network from File... then selecting network.graphml from the appropriate directo
 :download:`CRNT4SBML Cytoscape Style <../sbml_files/crnt4sbml_cytoscape_style.xml>` by navigating to the menu bar selecting File ->
 Import -> Styles from File ... then selecting crnt4sbml_cytoscape_style.xml from the appropriate directory. Once the style
 has been imported, we can use this style by selecting "Style" in the Control Panel and selecting "CRNT4SBML Style" in
-the Current Style drop down box. Using the CRNT4SBML style leads to the following C-graph.
+the Current Style drop down box. Using the CRNT4SBML Style leads to the following C-graph.
 
 .. image:: ./images_for_docs/fig1Cii_c_graph.png
    :width: 500px

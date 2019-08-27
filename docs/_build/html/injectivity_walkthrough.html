@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Semi-diffusive Approach Walkthrough &mdash; CRNT4SBML 0.0.1 documentation</title>
+  <title>Semi-diffusive Approach Walkthrough &mdash; CRNT4SBML 0.0.2 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.1
+                0.0.2
               </div>
             
           
@@ -301,10 +301,9 @@ Elements in params_for_global_min that produce multistability:
 </div>
 <p>Similar to the mass conservation approach, we obtain multistability plots in the directory provided by the dir_path option in
 run_continuity_analysis (here it is the default value), where the plots follow the following format PCP (in terms of p as in the theory)
-_species id_index of params_for_global_min_multistable_region.png. Where multistable_region is an integer
-that corresponds to the different regions of multistability. Note that this value is often just zero.
-The following is one multistability plot produced by index 4 of params_for_global_min.</p>
-<img alt="_images/fig_1Cii_p9_vs_s7_4_0.png" src="_images/fig_1Cii_p9_vs_s7_4_0.png" />
+_species id_index of params_for_global.png. The following is one multistability plot produced by index 3
+of params_for_global_min.</p>
+<img alt="_images/fig_1Cii_p9_vs_s7_3.png" src="_images/fig_1Cii_p9_vs_s7_3.png" />
 <p>In addition to providing this more hands on approach to the numerical continuation routine, we also provide a greedy
 version of the numerical continuation routine. With this approach the user just needs to provide the species, parameters,
 and PCP. This routine does not guarantee that all multistability plots will be found, but it does provide a good place to
