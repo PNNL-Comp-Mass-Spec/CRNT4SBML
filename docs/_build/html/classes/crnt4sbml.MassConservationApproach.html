@@ -182,11 +182,11 @@
 <h1>crnt4sbml.MassConservationApproach<a class="headerlink" href="#crnt4sbml-massconservationapproach" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="crnt4sbml.MassConservationApproach">
-<em class="property">class </em><code class="descclassname">crnt4sbml.</code><code class="descname">MassConservationApproach</code><span class="sig-paren">(</span><em>cgraph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">crnt4sbml.</code><code class="descname">MassConservationApproach</code><span class="sig-paren">(</span><em>cgraph</em>, <em>get_physiological_range</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for constructing variables and methods needed for the mass conservation approach.</p>
 <dl class="method">
 <dt id="crnt4sbml.MassConservationApproach.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>cgraph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>cgraph</em>, <em>get_physiological_range</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialization of the MassConservationApproach class.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
@@ -201,7 +201,7 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.__init__" title="crnt4sbml.MassConservationApproach.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cgraph)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.__init__" title="crnt4sbml.MassConservationApproach.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cgraph,&nbsp;get_physiological_range)</td>
 <td>Initialization of the MassConservationApproach class.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.generate_report" title="crnt4sbml.MassConservationApproach.generate_report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_report</span></code></a>()</td>
@@ -254,6 +254,12 @@
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_lambda_objective_fun" title="crnt4sbml.MassConservationApproach.get_lambda_objective_fun"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_lambda_objective_fun</span></code></a>()</td>
 <td>Returns a lambda function representation of the objective function of the optimization problem.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_type_of_reaction" title="crnt4sbml.MassConservationApproach.get_type_of_reaction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_type_of_reaction</span></code></a>(reaction_label)</td>
+<td>Determines the type of reaction based on the C-graph for a particular reaction</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_optimization_bounds" title="crnt4sbml.MassConservationApproach.get_optimization_bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimization_bounds</span></code></a>()</td>
+<td>Builds all of the necessary physiological bounds for the optimization routine.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_optimization" title="crnt4sbml.MassConservationApproach.run_optimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_optimization</span></code></a>([bounds,&nbsp;iterations,&nbsp;…])</td>
 <td>Function for running the optimization problem for the mass conservation approach.</td>
@@ -613,6 +619,44 @@ example.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_optimization_bounds">
+<code class="descname">get_optimization_bounds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_optimization_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_optimization_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds all of the necessary physiological bounds for the optimization routine.
+<a class="reference download internal" download="" href="../_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided
+example.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li><strong>bounds</strong> (<em>list of tuples</em>) – List of tuples defining the upper and lower bounds for the decision vector variables based on physiological
+ranges.</li>
+<li><strong>concentration_bounds</strong> (<em>list of tuples</em>) – List of tuples defining the upper and lower bounds for those concentrations not in the decision vector
+based on physiological ranges.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+<span class="go">    [(1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0),</span>
+<span class="go">    (1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">concentration_bounds</span><span class="p">)</span>
+<span class="go">    [(0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="crnt4sbml.MassConservationApproach.get_symbolic_objective_fun">
 <code class="descname">get_symbolic_objective_fun</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_symbolic_objective_fun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_symbolic_objective_fun" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns SymPy expression for the objective function of the optimization problem. This is the determinant of the
@@ -635,6 +679,39 @@ example.</p>
 <span class="go">    re6*s6/(re1*s2))/(re6*s1*s6) - (1.0 + 1.0*re1r/(re1*s1))/re2)/((1.0*s2/s7 - 1.0*s2*(-re3r - re4)/</span>
 <span class="go">    (re3*s6*s7))/re4 + (1.0 + 1.0*re1r/(re1*s1))/re2 + 1.0/(re1*s1)) + (2.0 + 1.0*re6r/(re6*s6))/re8 + 1.0*(1 +</span>
 <span class="go">    re6*s6/(re1*s2))/(re6*s6) - 1.0/re2 - 1.0/(re1*s2))**2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_type_of_reaction">
+<code class="descname">get_type_of_reaction</code><span class="sig-paren">(</span><em>reaction_label</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_type_of_reaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_type_of_reaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines the type of reaction based on the C-graph for a particular reaction</p>
+<dl class="docutils">
+<dt>reaction_label: SymPy positive symbol</dt>
+<dd>Positive SymPy symbol of the reaction label one wants to find physiological bounds for.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>type_of_reaction</strong> – The type of reaction. Possible choices: “complex formation”, “complex dissociation”, or “catalysis”</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="go">    Creating Equilibrium Manifold ...</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.7020819999999999</span>
+<span class="go">    Solving for species&#39; concentrations ...</span>
+<span class="go">    Elapsed time for finding species&#39; concentrations: 0.888776</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_type_of_reaction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;re1&#39;</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
+<span class="go">    complex formation</span>
 </pre></div>
 </div>
 </dd></dl>

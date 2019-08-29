@@ -219,7 +219,7 @@ class CRNT:
             print(re.sub(r"^\s+", "", message, flags=re.MULTILINE))
             return None
         else:
-            return MassConservationApproach(self.__cgraph)
+            return MassConservationApproach(self.__cgraph, self.get_physiological_range)
 
     def get_semi_diffusive_approach(self):
         """
@@ -244,7 +244,7 @@ class CRNT:
             print(re.sub(r"^\s+", "", message, flags=re.MULTILINE))
             return None
         else:
-            return SemiDiffusiveApproach(self.__cgraph)
+            return SemiDiffusiveApproach(self.__cgraph, self.get_physiological_range)
 
     def get_advanced_deficiency_approach(self):
         """
@@ -286,18 +286,21 @@ class CRNT:
         Parameters
         -----------
         for_what: string
-            Accepted values: "concentration", "complex formation", "complex dissociation", or "catalysis"
+            Accepted values: "concentration", "complex formation", "complex dissociation", "catalysis", or "flux"
 
         Returns
         --------
-        concentration:
-            5e-1,5e5 pM
-        complex formation:
-            1e-8,1e-4  pM^-1s^-1
-        complex dissociation:
-            1e-5,1e-3 s^-1
-        catalysis:
-            1e-3,1 s^-1
+        concentration: tuple
+            (5e-1,5e5) pM
+        complex formation: tuple
+            (1e-8,1e-4)  pM^-1s^-1
+        complex dissociation: tuple
+            (1e-5,1e-3) s^-1
+        catalysis: tuple
+            (1e-3,1) s^-1
+        flux: tuple
+            (0, 55) M s^-1
+
 
         Example
         --------
@@ -305,17 +308,19 @@ class CRNT:
         >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
         >>> network.get_physiological_range("concentration")
         """
-        valid = {"concentration", "complex_formation", "complex_dissociation", "monomolecular"}
+        valid = {"concentration", "complex formation", "complex dissociation", "catalysis", "flux"}
         if for_what is None:
             warnings.warn("Please provide the argument what the range should be provided for.")
             return None
         if for_what not in valid:
             raise ValueError("for_what argument must be one of %r." % valid)
         if for_what == "concentration":
-            return 5e-1, 5e5
-        if for_what == "complex_formation":
-            return 1e-8, 1e-4
-        if for_what == "complex_dissociation":
-            return 1e-5, 1e-3
+            return (5e-1, 5e5)
+        if for_what == "complex formation":
+            return (1e-8, 1e-4)
+        if for_what == "complex dissociation":
+            return (1e-5, 1e-3)
         if for_what == "catalysis":
-            return 1e-3, 1e0
+            return (1e-3, 1e0)
+        if for_what == "flux":
+            return (0, 55) #e12)

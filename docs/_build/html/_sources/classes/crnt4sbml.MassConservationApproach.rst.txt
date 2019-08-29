@@ -31,6 +31,8 @@ crnt4sbml.MassConservationApproach
       ~MassConservationApproach.get_lambda_g_matrix
       ~MassConservationApproach.get_symbolic_objective_fun
       ~MassConservationApproach.get_lambda_objective_fun
+      ~MassConservationApproach.get_type_of_reaction
+      ~MassConservationApproach.get_optimization_bounds
       ~MassConservationApproach.run_optimization
       ~MassConservationApproach.run_continuity_analysis
       ~MassConservationApproach.run_greedy_continuity_analysis

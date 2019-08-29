@@ -6,23 +6,6 @@
 <celldesigner:modelVersion>4.0</celldesigner:modelVersion>
 <celldesigner:modelDisplay sizeX="600" sizeY="400"/>
 <celldesigner:listOfIncludedSpecies>
-<celldesigner:species id="s4" name="A">
-<celldesigner:notes>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title/>
-</head>
-<body/>
-</html>
-</celldesigner:notes>
-<celldesigner:annotation>
-<celldesigner:complexSpecies>s3</celldesigner:complexSpecies>
-<celldesigner:speciesIdentity>
-<celldesigner:class>PROTEIN</celldesigner:class>
-<celldesigner:proteinReference>pr1</celldesigner:proteinReference>
-</celldesigner:speciesIdentity>
-</celldesigner:annotation>
-</celldesigner:species>
 <celldesigner:species id="s5" name="E1">
 <celldesigner:notes>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -115,6 +98,23 @@
 <celldesigner:modification residue="rs1" state="phosphorylated"/>
 </celldesigner:listOfModifications>
 </celldesigner:state>
+</celldesigner:speciesIdentity>
+</celldesigner:annotation>
+</celldesigner:species>
+<celldesigner:species id="s4" name="A">
+<celldesigner:notes>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title/>
+</head>
+<body/>
+</html>
+</celldesigner:notes>
+<celldesigner:annotation>
+<celldesigner:complexSpecies>s3</celldesigner:complexSpecies>
+<celldesigner:speciesIdentity>
+<celldesigner:class>PROTEIN</celldesigner:class>
+<celldesigner:proteinReference>pr1</celldesigner:proteinReference>
 </celldesigner:speciesIdentity>
 </celldesigner:annotation>
 </celldesigner:species>
@@ -212,25 +212,6 @@
 <celldesigner:view state="usual"/>
 <celldesigner:usualView>
 <celldesigner:innerPosition x="0.0" y="0.0"/>
-<celldesigner:boxSize width="80.0" height="40.0"/>
-<celldesigner:singleLine width="1.0"/>
-<celldesigner:paint color="ffccffcc" scheme="Color"/>
-</celldesigner:usualView>
-<celldesigner:briefView>
-<celldesigner:innerPosition x="0.0" y="0.0"/>
-<celldesigner:boxSize width="80.0" height="60.0"/>
-<celldesigner:singleLine width="1.0"/>
-<celldesigner:paint color="3fff0000" scheme="Color"/>
-</celldesigner:briefView>
-<celldesigner:info state="empty" angle="-1.5707963267948966"/>
-</celldesigner:speciesAlias>
-<celldesigner:speciesAlias id="sa3" species="s4" complexSpeciesAlias="csa1">
-<celldesigner:activity>inactive</celldesigner:activity>
-<celldesigner:bounds x="190.0" y="214.0" w="80.0" h="40.0"/>
-<celldesigner:font size="12"/>
-<celldesigner:view state="usual"/>
-<celldesigner:usualView>
-<celldesigner:innerPosition x="10.0" y="10.0"/>
 <celldesigner:boxSize width="80.0" height="40.0"/>
 <celldesigner:singleLine width="1.0"/>
 <celldesigner:paint color="ffccffcc" scheme="Color"/>
@@ -364,6 +345,25 @@
 <celldesigner:view state="usual"/>
 <celldesigner:usualView>
 <celldesigner:innerPosition x="10.0" y="60.0"/>
+<celldesigner:boxSize width="80.0" height="40.0"/>
+<celldesigner:singleLine width="1.0"/>
+<celldesigner:paint color="ffccffcc" scheme="Color"/>
+</celldesigner:usualView>
+<celldesigner:briefView>
+<celldesigner:innerPosition x="0.0" y="0.0"/>
+<celldesigner:boxSize width="80.0" height="60.0"/>
+<celldesigner:singleLine width="1.0"/>
+<celldesigner:paint color="3fff0000" scheme="Color"/>
+</celldesigner:briefView>
+<celldesigner:info state="empty" angle="-1.5707963267948966"/>
+</celldesigner:speciesAlias>
+<celldesigner:speciesAlias id="sa3" species="s4" complexSpeciesAlias="csa1">
+<celldesigner:activity>inactive</celldesigner:activity>
+<celldesigner:bounds x="190.0" y="214.0" w="80.0" h="40.0"/>
+<celldesigner:font size="12"/>
+<celldesigner:view state="usual"/>
+<celldesigner:usualView>
+<celldesigner:innerPosition x="10.0" y="10.0"/>
 <celldesigner:boxSize width="80.0" height="40.0"/>
 <celldesigner:singleLine width="1.0"/>
 <celldesigner:paint color="ffccffcc" scheme="Color"/>
@@ -736,7 +736,7 @@
 </speciesReference>
 </listOfProducts>
 </reaction>
-<reaction metaid="re6" id="re6">
+<reaction metaid="re6" id="re5">
 <annotation>
 <celldesigner:extension>
 <celldesigner:reactionType>HETERODIMER_ASSOCIATION</celldesigner:reactionType>
@@ -795,7 +795,7 @@
 </speciesReference>
 </listOfProducts>
 </reaction>
-<reaction metaid="re8" id="re8" reversible="false">
+<reaction metaid="re8" id="re6" reversible="false">
 <annotation>
 <celldesigner:extension>
 <celldesigner:reactionType>STATE_TRANSITION</celldesigner:reactionType>

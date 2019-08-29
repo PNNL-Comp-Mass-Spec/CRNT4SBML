@@ -182,11 +182,11 @@
 <h1>crnt4sbml.SemiDiffusiveApproach<a class="headerlink" href="#crnt4sbml-semidiffusiveapproach" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="crnt4sbml.SemiDiffusiveApproach">
-<em class="property">class </em><code class="descclassname">crnt4sbml.</code><code class="descname">SemiDiffusiveApproach</code><span class="sig-paren">(</span><em>cgraph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">crnt4sbml.</code><code class="descname">SemiDiffusiveApproach</code><span class="sig-paren">(</span><em>cgraph</em>, <em>get_physiological_range</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for constructing variables and methods needed for the semi-diffusive approach.</p>
 <dl class="method">
 <dt id="crnt4sbml.SemiDiffusiveApproach.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>cgraph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>cgraph</em>, <em>get_physiological_range</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialization of the SemiDiffusiveApproach class.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
@@ -201,7 +201,7 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.__init__" title="crnt4sbml.SemiDiffusiveApproach.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cgraph)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.__init__" title="crnt4sbml.SemiDiffusiveApproach.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cgraph,&nbsp;get_physiological_range)</td>
 <td>Initialization of the SemiDiffusiveApproach class.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.generate_report" title="crnt4sbml.SemiDiffusiveApproach.generate_report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_report</span></code></a>()</td>
@@ -243,13 +243,16 @@
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.get_lambda_objective_fun" title="crnt4sbml.SemiDiffusiveApproach.get_lambda_objective_fun"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_lambda_objective_fun</span></code></a>()</td>
 <td>Returns a lambda function representation of the objective function of the optimization problem.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_optimization" title="crnt4sbml.SemiDiffusiveApproach.run_optimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_optimization</span></code></a>([bounds,&nbsp;iterations,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds" title="crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimization_bounds</span></code></a>()</td>
+<td>Returns a list of tuples defining the upper and lower bounds for the decision vector variables based on physiological ranges.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_optimization" title="crnt4sbml.SemiDiffusiveApproach.run_optimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_optimization</span></code></a>([bounds,&nbsp;iterations,&nbsp;…])</td>
 <td>Function for running the optimization problem for the semi-diffusive approach.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis" title="crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis" title="crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
 <td>Function for running the numerical continuation and bistability analysis portions of the semi-diffusive approach.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis" title="crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_greedy_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis" title="crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_greedy_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
 <td>Function for running the greedy numerical continuation and bistability analysis portions of the semi-diffusive approach.</td>
 </tr>
 </tbody>
@@ -380,6 +383,23 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_non_key_species</span><span class="p">())</span>
 <span class="go">    [&#39;s3&#39;, &#39;s6&#39;, &#39;s8&#39;, &#39;s11&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds">
+<code class="descname">get_optimization_bounds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach.get_optimization_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of tuples defining the upper and lower bounds for the decision vector variables based on
+physiological ranges.
+<a class="reference download internal" download="" href="../_downloads/7f1ab99200c896bb88c0011e47723e78/Fig1Cii.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Cii.xml</span></code></a> for the provided example.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bounds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+<span class="go">    [(0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55)]</span>
 </pre></div>
 </div>
 </dd></dl>

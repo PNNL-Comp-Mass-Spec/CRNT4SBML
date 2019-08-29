@@ -387,7 +387,7 @@ from .advanced_deficiency_approach import AdvancedDeficiencyApproach
             print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, message, flags=re.MULTILINE))
             return None
         else:
-            return MassConservationApproach(self.__cgraph)</div>
+            return MassConservationApproach(self.__cgraph, self.get_physiological_range)</div>
 
 <div class="viewcode-block" id="CRNT.get_semi_diffusive_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_semi_diffusive_approach">[docs]</a>    def get_semi_diffusive_approach(self):
         &quot;&quot;&quot;
@@ -412,7 +412,7 @@ from .advanced_deficiency_approach import AdvancedDeficiencyApproach
             print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, message, flags=re.MULTILINE))
             return None
         else:
-            return SemiDiffusiveApproach(self.__cgraph)</div>
+            return SemiDiffusiveApproach(self.__cgraph, self.get_physiological_range)</div>
 
 <div class="viewcode-block" id="CRNT.get_advanced_deficiency_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_advanced_deficiency_approach">[docs]</a>    def get_advanced_deficiency_approach(self):
         &quot;&quot;&quot;
@@ -454,18 +454,21 @@ from .advanced_deficiency_approach import AdvancedDeficiencyApproach
         Parameters
         -----------
         for_what: string
-            Accepted values: &quot;concentration&quot;, &quot;complex formation&quot;, &quot;complex dissociation&quot;, or &quot;catalysis&quot;
+            Accepted values: &quot;concentration&quot;, &quot;complex formation&quot;, &quot;complex dissociation&quot;, &quot;catalysis&quot;, or &quot;flux&quot;
 
         Returns
         --------
-        concentration:
-            5e-1,5e5 pM
-        complex formation:
-            1e-8,1e-4  pM^-1s^-1
-        complex dissociation:
-            1e-5,1e-3 s^-1
-        catalysis:
-            1e-3,1 s^-1
+        concentration: tuple
+            (5e-1,5e5) pM
+        complex formation: tuple
+            (1e-8,1e-4)  pM^-1s^-1
+        complex dissociation: tuple
+            (1e-5,1e-3) s^-1
+        catalysis: tuple
+            (1e-3,1) s^-1
+        flux: tuple
+            (0, 55) M s^-1
+
 
         Example
         --------
@@ -473,20 +476,22 @@ from .advanced_deficiency_approach import AdvancedDeficiencyApproach
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
         &gt;&gt;&gt; network.get_physiological_range(&quot;concentration&quot;)
         &quot;&quot;&quot;
-        valid = {&quot;concentration&quot;, &quot;complex_formation&quot;, &quot;complex_dissociation&quot;, &quot;monomolecular&quot;}
+        valid = {&quot;concentration&quot;, &quot;complex formation&quot;, &quot;complex dissociation&quot;, &quot;catalysis&quot;, &quot;flux&quot;}
         if for_what is None:
             warnings.warn(&quot;Please provide the argument what the range should be provided for.&quot;)
             return None
         if for_what not in valid:
             raise ValueError(&quot;for_what argument must be one of %r.&quot; % valid)
         if for_what == &quot;concentration&quot;:
-            return 5e-1, 5e5
-        if for_what == &quot;complex_formation&quot;:
-            return 1e-8, 1e-4
-        if for_what == &quot;complex_dissociation&quot;:
-            return 1e-5, 1e-3
+            return (5e-1, 5e5)
+        if for_what == &quot;complex formation&quot;:
+            return (1e-8, 1e-4)
+        if for_what == &quot;complex dissociation&quot;:
+            return (1e-5, 1e-3)
         if for_what == &quot;catalysis&quot;:
-            return 1e-3, 1e0</div></div>
+            return (1e-3, 1e0)
+        if for_what == &quot;flux&quot;:
+            return (0, 55) #e12)</div></div>
 </pre></div>
 
            </div>

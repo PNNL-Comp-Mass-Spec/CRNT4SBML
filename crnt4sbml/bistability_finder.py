@@ -519,27 +519,50 @@ class BistabilityFinder:
         # building intersections of unstable branch with stable branches
         unstable_intersections = []
         for i in chnk_unstable_pcp_intervals:
-            unstable_intersections.append([1 for j in chnk_stable_pcp_intervals if i.intersect(j) != sympy.EmptySet()])
+            temp_list = []
+            for j in chnk_stable_pcp_intervals:
+                temp = i.intersect(j)
+                if temp != sympy.EmptySet():
+
+                    if not temp.is_FiniteSet:
+                        temp_list.append(1)
+                    elif temp.is_FiniteSet and len(list(temp)) > 1:
+                        temp_list.append(1)
+
+            unstable_intersections.append(temp_list)
+
+            #unstable_intersections.append([1 for j in chnk_stable_pcp_intervals if i.intersect(j) != sympy.EmptySet()])
 
         # creating an object to store x axis limits based on intervals
-        xlabel_interval_list = []
-        for i in chnk_unstable_pcp_intervals:
-            xlabel_interval_list.append([i.intersect(j) for j in chnk_stable_pcp_intervals])
+        #xlabel_interval_list = []
+        #for i in chnk_unstable_pcp_intervals:
+        #    xlabel_interval_list.append([i.intersect(j) for j in chnk_stable_pcp_intervals])
 
-        cls.__xlabel_interval = []
-        for i in xlabel_interval_list:
-            total_interval = sympy.S.EmptySet
-            for j in i:
-                total_interval = sympy.Union(total_interval, j)
-            if total_interval != sympy.EmptySet():
+        #cls.__xlabel_interval = []
+        #for i in xlabel_interval_list:
+        #    total_interval = sympy.S.EmptySet
+        #    for j in i:
+        #        total_interval = sympy.Union(total_interval, j)
+        #    if total_interval != sympy.EmptySet():
 
-                if not cls.is_list_empty(cls.__xlabel_interval):
-                    intersections = [total_interval.intersect(i) for i in cls.__xlabel_interval]
-                else:
-                    intersections = [sympy.EmptySet()]
+        #        if not cls.is_list_empty(cls.__xlabel_interval):
+        #            intersections = [total_interval.intersect(i) for i in cls.__xlabel_interval]
+        #        else:
+        #            intersections = [sympy.EmptySet()]
 
-                if sympy.EmptySet() in intersections:
-                    cls.__xlabel_interval.append(total_interval)
+        #        if sympy.EmptySet() in intersections:
+        #            cls.__xlabel_interval.append(total_interval)
+
+        #print("cls.__xlabel_interval")
+        #print(cls.__xlabel_interval)
+        #print([type(i) for i in cls.__xlabel_interval])
+        #print(unstable_intersections)
+        #print([sum(i) >= 2 for i in unstable_intersections])
+        #print("is_FiniteSet")
+        #for i in cls.__xlabel_interval:
+        #    print(i.is_FiniteSet)
+        #    if i.is_FiniteSet:
+        #        print(len(list(i)))
 
         return any([sum(i) >= 2 for i in unstable_intersections])
 

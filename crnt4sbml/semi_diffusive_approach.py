@@ -13,7 +13,7 @@ class SemiDiffusiveApproach:
     Class for constructing variables and methods needed for the semi-diffusive approach.
     """
 
-    def __init__(self, cgraph):
+    def __init__(self, cgraph, get_physiological_range):
         """
         Initialization of the SemiDiffusiveApproach class.
 
@@ -22,6 +22,8 @@ class SemiDiffusiveApproach:
         crnt4sbml.CRNT.get_semi_diffusive_approach()
         """
         self.__cgraph = cgraph
+        self.get_physiological_range = get_physiological_range
+
         self.__g = self.__cgraph.get_graph()
         self.__important_info = ""
 
@@ -64,6 +66,24 @@ class SemiDiffusiveApproach:
         self.__create_concentration_pars()
         self.__create_decision_vector()
         self.__create_lambda_equality_poly_fun()
+
+    def get_optimization_bounds(self):
+        """
+        Returns a list of tuples defining the upper and lower bounds for the decision vector variables based on
+        physiological ranges.
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided example.
+
+        Examples
+        ---------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
+        >>> approach = network.get_semi_diffusive_approach()
+        >>> bounds = approach.get_optimization_bounds()
+        >>> print(bounds)
+            [(0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55)]
+        """
+
+        return [self.get_physiological_range("flux")]*len(self.get_decision_vector())
 
     def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
                          numpy_dtype=numpy.float64):

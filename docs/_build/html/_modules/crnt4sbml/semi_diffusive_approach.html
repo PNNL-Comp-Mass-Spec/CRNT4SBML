@@ -181,7 +181,7 @@ from .bistability_finder import BistabilityFinder
     Class for constructing variables and methods needed for the semi-diffusive approach.
     &quot;&quot;&quot;
 
-<div class="viewcode-block" id="SemiDiffusiveApproach.__init__"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.__init__">[docs]</a>    def __init__(self, cgraph):
+<div class="viewcode-block" id="SemiDiffusiveApproach.__init__"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.__init__">[docs]</a>    def __init__(self, cgraph, get_physiological_range):
         &quot;&quot;&quot;
         Initialization of the SemiDiffusiveApproach class.
 
@@ -190,6 +190,8 @@ from .bistability_finder import BistabilityFinder
         crnt4sbml.CRNT.get_semi_diffusive_approach()
         &quot;&quot;&quot;
         self.__cgraph = cgraph
+        self.get_physiological_range = get_physiological_range
+
         self.__g = self.__cgraph.get_graph()
         self.__important_info = &quot;&quot;
 
@@ -232,6 +234,24 @@ from .bistability_finder import BistabilityFinder
         self.__create_concentration_pars()
         self.__create_decision_vector()
         self.__create_lambda_equality_poly_fun()</div>
+
+<div class="viewcode-block" id="SemiDiffusiveApproach.get_optimization_bounds"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds">[docs]</a>    def get_optimization_bounds(self):
+        &quot;&quot;&quot;
+        Returns a list of tuples defining the upper and lower bounds for the decision vector variables based on
+        physiological ranges.
+        :download:`Fig1Cii.xml &lt;../../sbml_files/Fig1Cii.xml&gt;` for the provided example.
+
+        Examples
+        ---------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Cii.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_semi_diffusive_approach()
+        &gt;&gt;&gt; bounds = approach.get_optimization_bounds()
+        &gt;&gt;&gt; print(bounds)
+            [(0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55)]
+        &quot;&quot;&quot;
+
+        return [self.get_physiological_range(&quot;flux&quot;)]*len(self.get_decision_vector())</div>
 
 <div class="viewcode-block" id="SemiDiffusiveApproach.run_optimization"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_optimization">[docs]</a>    def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
                          numpy_dtype=numpy.float64):
