@@ -859,8 +859,8 @@ class MassConservationApproach:
         """
         Determines the type of reaction based on the C-graph for a particular reaction
 
-        Parameter
-        ----------
+        Parameters
+        -------------
         reaction_label: SymPy positive symbol
             Positive SymPy symbol of the reaction label one wants to find physiological bounds for.
 

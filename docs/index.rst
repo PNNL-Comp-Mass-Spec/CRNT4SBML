@@ -9,6 +9,7 @@ Welcome to CRNT4SBML's documentation!
    installation
    detect_bistability
    quickstart
+   physiological_bounds
    celldesigner_walkthrough
    basic_crnt
    deficiency_walkthrough

@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../detect_bistability.html">Steps for Detecting Bistability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physiological_bounds.html">Creating Physiological Bounds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../basic_crnt.html">Low Deficiency Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
@@ -687,17 +688,15 @@ example.</p>
 <dt id="crnt4sbml.MassConservationApproach.get_type_of_reaction">
 <code class="descname">get_type_of_reaction</code><span class="sig-paren">(</span><em>reaction_label</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_type_of_reaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_type_of_reaction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines the type of reaction based on the C-graph for a particular reaction</p>
-<dl class="docutils">
-<dt>reaction_label: SymPy positive symbol</dt>
-<dd>Positive SymPy symbol of the reaction label one wants to find physiological bounds for.</dd>
-</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>type_of_reaction</strong> – The type of reaction. Possible choices: “complex formation”, “complex dissociation”, or “catalysis”</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>reaction_label</strong> (<em>SymPy positive symbol</em>) – Positive SymPy symbol of the reaction label one wants to find physiological bounds for.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>type_of_reaction</strong> – The type of reaction. Possible choices: “complex formation”, “complex dissociation”, or “catalysis”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">string</td>
 </tr>
 </tbody>
 </table>
