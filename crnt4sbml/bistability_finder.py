@@ -1,5 +1,6 @@
 from sys import platform as sys_pf
 import os
+import multiprocessing
 import antimony
 import roadrunner
 import rrplugins
@@ -15,9 +16,13 @@ if sys_pf == 'darwin':
     import matplotlib.pyplot as plt
 else:
     import matplotlib.pyplot as plt
-roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
-rrplugins.setLogLevel('error')
-
+#roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
+#roadrunner.Logger.disableLogging()
+#roadrunner.Logger.disableConsoleLogging()
+#roadrunner.Logger.disableFileLogging()
+#rrplugins.setLogLevel('error')
+#print(roadrunner.Logger.getLevel())
+#print(roadrunner.Logger.LOG_FATAL)
 
 class BistabilityFinder:
 
@@ -203,12 +208,20 @@ class BistabilityFinder:
         
     @classmethod
     def run_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string, finalize_ant_string,
-                                species_y, dir_path, print_lbls_flag, auto_parameters):
+                                species_y, dir_path, print_lbls_flag, auto_parameters, error_log_flag):
 
         print("Running continuity analysis ...")
+
+        if error_log_flag:
+            roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
+            roadrunner.Logger.disableLogging()
+            roadrunner.Logger.disableConsoleLogging()
+            roadrunner.Logger.disableFileLogging()
+            rrplugins.setLogLevel('error')
+
         init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
         auto_parameters['PrincipalContinuationParameter'] = pcp_x
-        start = time.process_time()
+        start = time.time()
         multistable_param_ind = []
         auto = rrplugins.Plugin("tel_auto2000")
         cont_direction = ["Positive", "Negative"]
@@ -220,8 +233,8 @@ class BistabilityFinder:
                 if os.path.isdir("./auto_fort_files"):
                     shutil.rmtree("./auto_fort_files")
 
-                pts, lbls, bi_data_np, antimony_r, flag = cls.run_numerical_continuation\
-                    (final_ant_str, cont_direction[dir_ind], auto, auto_parameters)
+                pts, lbls, antimony_r, flag, bi_data_np = cls.run_safety_wrapper(final_ant_str, cont_direction[dir_ind],
+                                                                                 auto, auto_parameters)
 
                 if print_lbls_flag:
                     print("Labels from numerical continuation: ")
@@ -242,7 +255,7 @@ class BistabilityFinder:
         if os.path.isdir("./auto_fort_files"):
             shutil.rmtree("./auto_fort_files")
 
-        end = time.process_time()
+        end = time.time()
         print("Elapsed time for continuity analysis: " + str(end - start))
         print("")
 
@@ -256,9 +269,17 @@ class BistabilityFinder:
     @classmethod
     def run_greedy_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string,
                                        finalize_ant_string,
-                                       species_y, dir_path, print_lbls_flag, auto_parameters):
+                                       species_y, dir_path, print_lbls_flag, auto_parameters, error_log_flag):
 
         print("Running continuity analysis ...")
+
+        if error_log_flag:
+            roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
+            roadrunner.Logger.disableLogging()
+            roadrunner.Logger.disableConsoleLogging()
+            roadrunner.Logger.disableFileLogging()
+            rrplugins.setLogLevel('error')
+
         init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
         auto_parameters['PrincipalContinuationParameter'] = pcp_x
         auto_parameters['IADS'] = 0
@@ -267,7 +288,7 @@ class BistabilityFinder:
         auto_parameters['NTST'] = 100
         auto_parameters['NCOL'] = 100
 
-        start = time.process_time()
+        start = time.time()
         multistable_param_ind = []
         auto = rrplugins.Plugin("tel_auto2000")
         cont_direction = ["Positive", "Negative"]
@@ -294,8 +315,9 @@ class BistabilityFinder:
                     if os.path.isdir("./auto_fort_files"):
                         shutil.rmtree("./auto_fort_files")
 
-                    pts, lbls, bi_data_np, antimony_r, flag = cls.run_numerical_continuation \
-                        (final_ant_str, cont_direction[dir_ind], auto, auto_parameters)
+                    pts, lbls, antimony_r, flag, bi_data_np = cls.run_safety_wrapper(final_ant_str,
+                                                                                     cont_direction[dir_ind],
+                                                                                     auto, auto_parameters)
 
                     if print_lbls_flag:
                         print("Labels from numerical continuation: ")
@@ -324,8 +346,10 @@ class BistabilityFinder:
                                     if os.path.isdir("./auto_fort_files"):
                                         shutil.rmtree("./auto_fort_files")
 
-                                    pts2, lbls2, bi_data_np2, antimony_r, flag2 = cls.run_numerical_continuation \
-                                        (final_ant_str, cont_direction[dir_ind2], auto, auto_parameters)
+                                    pts2, lbls2, antimony_r, flag2, bi_data_np2 = cls.run_safety_wrapper(final_ant_str,
+                                                                                                         cont_direction[dir_ind2],
+                                                                                                         auto,
+                                                                                                         auto_parameters)
 
                                     if flag2 and lbls2 != ['EP', 'EP']:
                                         chnk_stable2, chnk_unstable2, special_points2, sp_y_ind2 = \
@@ -357,7 +381,7 @@ class BistabilityFinder:
         if os.path.isdir("./auto_fort_files"):
             shutil.rmtree("./auto_fort_files")
 
-        end = time.process_time()
+        end = time.time()
         print("Elapsed time for continuity analysis: " + str(end - start))
         print("")
 
@@ -396,8 +420,36 @@ class BistabilityFinder:
         return [rl0, rl1, mag + 1]
 
     @classmethod
-    def run_numerical_continuation(cls, ant_str, direction, auto, auto_parameters):
-        flag = True
+    def run_safety_wrapper(cls, final_ant_str, cont_direction, auto, auto_parameters):
+
+        queue = multiprocessing.Queue()
+        p = multiprocessing.Process(target=cls.run_numerical_continuation, args=(queue, final_ant_str,
+                                                                                 cont_direction,
+                                                                                 auto, auto_parameters))
+
+        p.start()
+        p.join()  # this blocks until the process terminates
+
+        if p.exitcode == 0:
+            pts, lbls, antimony_r, flag = queue.get()
+            bi_data_np = numpy.load('bi_data_np.npy')
+            os.remove('./bi_data_np.npy')
+            p.terminate()
+            queue.close()
+        else:
+            flag = False
+            pts = []
+            lbls = []
+            antimony_r = []
+            bi_data_np = numpy.zeros(1)
+            p.terminate()
+            queue.close()
+
+        return pts, lbls, antimony_r, flag, bi_data_np
+
+
+    @classmethod
+    def run_numerical_continuation(cls, q, ant_str, direction, auto, auto_parameters):
         antimony_r = cls.__loada(ant_str)
 
         # making the directory auto_fort_files if is does not exist
@@ -413,6 +465,7 @@ class BistabilityFinder:
         # assigning values provided by the user
         for i in auto_parameters.keys():
             auto.setProperty(i, auto_parameters[i])
+
         try:
 
             auto.execute()
@@ -427,14 +480,17 @@ class BistabilityFinder:
             # column is the principal continuation parameter and
             # the rest of the columns are the species
             bi_data_np = bi_data.toNumpy
+            flag = True
 
         except Exception as e:
             flag = False
             pts = []
             lbls = []
-            bi_data_np = []
+            bi_data_np = numpy.zeros(2)
 
-        return pts, lbls, bi_data_np, antimony_r, flag
+        ant_float_ids = antimony_r.model.getFloatingSpeciesIds()
+        numpy.save('bi_data_np.npy', bi_data_np)
+        q.put([pts, lbls, ant_float_ids, flag])
 
     @staticmethod
     def find_stable_unstable_regions(antimony_r, species_y):
@@ -478,7 +534,7 @@ class BistabilityFinder:
         chnk_unstable = [unstable[b:e] for (b, e) in [(spl[i-1], spl[i]) for i in range(1, len(spl))]]
 
         # species ids according to AUTO also order in biData
-        spec_id = antimony_r.model.getFloatingSpeciesIds()
+        spec_id = antimony_r #.model.getFloatingSpeciesIds()
 
         # index of species_y in biData
         sp_y_ind = spec_id.index(species_y) + 1
