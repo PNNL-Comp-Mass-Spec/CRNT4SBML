@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quick Start &mdash; CRNT4SBML 0.0.3 documentation</title>
+  <title>Quick Start &mdash; CRNT4SBML 0.0.4 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.3
+                0.0.4
               </div>
             
           
@@ -194,12 +194,10 @@ as the format of the SBML file must follow a certain construction to be easily u
 
 <span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 
-<span class="n">bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">)]</span><span class="o">*</span><span class="mi">12</span>
-<span class="n">concentration_bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">)]</span><span class="o">*</span><span class="mi">4</span>
+<span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
 
 <span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
-                                                                     <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">concentration_bounds</span><span class="p">,</span>
-                                                                     <span class="n">iterations</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+                                                                     <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">concentration_bounds</span><span class="p">)</span>
 
 <span class="n">multistable_param_ind</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s15&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
                                                            <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;C3&#39;</span><span class="p">})</span>
@@ -212,29 +210,30 @@ directory that contains multistability plots. Please note that runtimes and the 
 may vary among different operating systems. Please see <a class="reference internal" href="deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a> for a more detailed explanation of
 running the mass conservation approach and the provided output.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold: 0.294473
+Elapsed time for creating Equilibrium Manifold: 0.34515500000000054
 
 Solving for species&#39; concentrations ...
-Elapsed time for finding species&#39; concentrations: 0.5590229999999998
+Elapsed time for finding species&#39; concentrations: 0.5767569999999997
 
-Running feasible point method for 15 iterations ...
-Elapsed time for feasible point method: 0.10936699999999977
+
+Running feasible point method for 10 iterations ...
+Elapsed time for feasible point method: 0.5893409999999992
 
 Running the multistart optimization ...
 
 Smallest value achieved by objective function: 0.0
 
-Elapsed time for multistart method: 17.663542
+Elapsed time for multistart method: 8.733386000000001
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 18.639788999999997
+Elapsed time for continuity analysis: 22.524571180343628
 
-The number of feasible points that satisfy the constraints: 15
-Total feasible points that give F(x) = 0: 6
-Total number of points that passed final_check: 6
-Number of multistability plots found: 6
+The number of feasible points that satisfy the constraints: 10
+Total feasible points that give F(x) = 0: 4
+Total number of points that passed final_check: 4
+Number of multistability plots found: 2
 Elements in params_for_global_min that produce multistability:
-[0, 1, 2, 3, 4, 5]
+[1, 2]
 </pre></div>
 </div>
 </div>
@@ -251,7 +250,7 @@ the format of the SBML file must follow a certain construction to be easily used
 
 <span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
 
-<span class="n">bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">)]</span><span class="o">*</span><span class="mi">12</span>
+<span class="n">bounds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
 
 <span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
 
@@ -266,16 +265,16 @@ directory that contains multistability plots. Please note that runtimes and the 
 may vary among different operating systems. Please see <a class="reference internal" href="injectivity_walkthrough.html#my-injectivity-label"><span class="std std-ref">Semi-diffusive Approach Walkthrough</span></a> for a more detailed explanation of
 running the semi-diffusive approach and the provided output.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running feasible point method for 10 iterations ...
-Elapsed time for feasible point method: 0.6484119999999995
+Elapsed time for feasible point method: 0.41235700000000053
 
 Running the multistart optimization ...
 
 Smallest value achieved by objective function: 0.0
 
-Elapsed time for multistart method: 43.25512
+Elapsed time for multistart method: 34.854986000000004
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 34.786898
+Elapsed time for continuity analysis: 67.59781122207642
 
 The number of feasible points that satisfy the constraints: 10
 Total feasible points that give F(x) = 0: 9

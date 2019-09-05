@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.mass_conservation_approach &mdash; CRNT4SBML 0.0.3 documentation</title>
+  <title>crnt4sbml.mass_conservation_approach &mdash; CRNT4SBML 0.0.4 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.3
+                0.0.4
               </div>
             
           
@@ -1142,7 +1142,7 @@ from .bistability_finder import BistabilityFinder
         return params_for_global_min, obj_fun_val_for_params</div>
 
 <div class="viewcode-block" id="MassConservationApproach.run_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_continuity_analysis">[docs]</a>    def run_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
-                                print_lbls_flag=False, auto_parameters=None):
+                                print_lbls_flag=False, auto_parameters=None, error_log_flag=True):
         &quot;&quot;&quot;
         Function for running the numerical continuation and bistability analysis portions of the mass conservation
         approach.
@@ -1165,6 +1165,9 @@ from .bistability_finder import BistabilityFinder
                 necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
                 parameters refer to :download:`AUTO parameters &lt;../auto2000_input.pdf&gt;`. &#39;NMX&#39; will default to
                 10000 and &#39;ITMX&#39; to 100.
+            error_log_flag: bool
+                If True the routine will suppress all log output produced by AUTO 2000 and False will print all log
+                information produced by AUTO 2000.
         Returns
         ---------
             multistable_param_ind: list of integers
@@ -1194,14 +1197,15 @@ from .bistability_finder import BistabilityFinder
                                                                                           self.__finalize_ant_string,
                                                                                           species_y, dir_path,
                                                                                           print_lbls_flag,
-                                                                                          auto_parameters)
+                                                                                          auto_parameters,
+                                                                                          error_log_flag)
 
         self.__important_info += important_info
 
         return multistable_param_ind</div>
 
 <div class="viewcode-block" id="MassConservationApproach.run_greedy_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis">[docs]</a>    def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
-                                       print_lbls_flag=False, auto_parameters=None):
+                                       print_lbls_flag=False, auto_parameters=None, error_log_flag=True):
         &quot;&quot;&quot;
         Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
         approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
@@ -1225,6 +1229,9 @@ from .bistability_finder import BistabilityFinder
                 Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
                 PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
                 be set. For more information on these parameters refer to :download:`AUTO parameters &lt;../auto2000_input.pdf&gt;`.
+            error_log_flag: bool
+                If True the routine will suppress all log output produced by AUTO 2000 and False will print all log
+                information produced by AUTO 2000.
         Returns
         ---------
             multistable_param_ind: list of integers
@@ -1251,7 +1258,7 @@ from .bistability_finder import BistabilityFinder
 
         multistable_param_ind, important_info = BistabilityFinder.run_greedy_continuity_analysis\
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters)
+             print_lbls_flag, auto_parameters, error_log_flag)
 
         self.__important_info += important_info
 

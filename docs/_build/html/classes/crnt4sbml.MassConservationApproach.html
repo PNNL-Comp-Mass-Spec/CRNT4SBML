@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.MassConservationApproach &mdash; CRNT4SBML 0.0.3 documentation</title>
+  <title>crnt4sbml.MassConservationApproach &mdash; CRNT4SBML 0.0.4 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.3
+                0.0.4
               </div>
             
           
@@ -793,7 +793,7 @@ example.</p>
 
 <dl class="method">
 <dt id="crnt4sbml.MassConservationApproach.run_continuity_analysis">
-<code class="descname">run_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_continuity_analysis" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em>, <em>error_log_flag=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_continuity_analysis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for running the numerical continuation and bistability analysis portions of the mass conservation
 approach.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -812,6 +812,8 @@ special points.</li>
 necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
 parameters refer to <a class="reference download internal" download="" href="../_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>. ‘NMX’ will default to
 10000 and ‘ITMX’ to 100.</li>
+<li><strong>error_log_flag</strong> (<em>bool</em>) – If True the routine will suppress all log output produced by AUTO 2000 and False will print all log
+information produced by AUTO 2000.</li>
 </ul>
 </td>
 </tr>
@@ -829,7 +831,7 @@ parameters refer to <a class="reference download internal" download="" href="../
 
 <dl class="method">
 <dt id="crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis">
-<code class="descname">run_greedy_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_greedy_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_greedy_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em>, <em>error_log_flag=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_greedy_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
 approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
 parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
@@ -849,6 +851,8 @@ special points.</li>
 <li><strong>auto_parameters</strong> (<em>dict</em>) – Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
 PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
 be set. For more information on these parameters refer to <a class="reference download internal" download="" href="../_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>.</li>
+<li><strong>error_log_flag</strong> (<em>bool</em>) – If True the routine will suppress all log output produced by AUTO 2000 and False will print all log
+information produced by AUTO 2000.</li>
 </ul>
 </td>
 </tr>

@@ -1,2 +1,4 @@
-Creating Physiological Bounds 
+.. _physio-bnds-label:
+
+Creating Physiological Bounds
 ===============================

@@ -70,8 +70,7 @@ crnt4sbml can be obtained through a standard `pip`_ install as follows:
 
     $ pip install crnt4sbml
 
-This is the preferred method to install crnt4sbml, as it will always install the most recent stable release. Note that
-crnt4sbml requires Python version 3.6.
+This will always install the most recent stable release. Note that crnt4sbml requires Python version 3.6.
 
 .. _pip: https://pip.pypa.io
 
