@@ -5,24 +5,24 @@ Semi-diffusive Approach Walkthrough
 ==========================================
 
 Using the SBML file constructed as in :ref:`my-celldesigner-label`, we will proceed by completing a more in-depth
-explanation of running the semi-diffusive approach of :cite:`irene`. This tutorial will use
+explanation of running the semi-diffusive approach of :cite:`irene`. This tutorial will use the SBML file
 :download:`Fig1Cii.xml <../sbml_files/Fig1Cii.xml>`. The following code will
 import crnt4sbml and the SBML file. For a little more detail on this process consider :ref:`my-basic-label`.
 
 .. code-block:: python
 
    import crnt4sbml
-   c = crnt4sbml.CRNT("/path/to/Fig1Cii.xml")
+   network = crnt4sbml.CRNT("/path/to/Fig1Cii.xml")
 
 If we then want to conduct the semi-diffusive approach of :cite:`irene`, we must first initialize the
-optimization\_based\_injectivity\_manager, which is done as follows:
+semi\_diffusive\_approach, which is done as follows:
 
 .. code-block:: python
 
-    opt = c.get_semi_diffusive_approach()
+    opt = network.get_semi_diffusive_approach()
 
 This command creates all the necessary information to construct the optimization problem to be solved. Unlike the mass
-conservation, there should be no output provided by this initialization. Note that if a boundary species is not provided or
+conservation approach, there should be no output provided by this initialization. Note that if a boundary species is not provided or
 there are conservation laws present, then the semi-diffusive approach will not be able to be ran. If conservation laws are
 found, then the mass conservation approach should be ran.
 
@@ -34,10 +34,7 @@ vector more clear, the following command will print out the decision vector and 
 
    opt.print_decision_vector()
 
-This provides the following output. As in the mass conservation approach, if your are using an SBML file you created yourself,
-the output may differ.
-
-::
+This provides the following output::
 
 	Decision vector for optimization: 
 	[v_2, v_3, v_4, v_5, v_6, v_7, v_9, v_11, v_13, v_15, v_17, v_18]
@@ -46,21 +43,29 @@ the output may differ.
 	['re1r', 're3', 're3r', 're6', 're6r', 're2', 're8', 're17r', 're18r', 
 	 're19r', 're21', 're22']
 
-As in the mass conservation approach one can just obtain the decision vector by completing the following command:
+As in the mass conservation approach, if your are using an SBML file you created yourself, the output may differ. If you
+would like an explicit list of the decision vector you can use the following command:
 
 .. code-block:: python
 
     print(opt.get_decision_vector())
 
-Using the decision vector as a reference, we can now provide the bounds for the optimization routine. A possible definition
-of these bounds for Fig1Cii is as follows:
+Using the decision vector as a reference, we can now provide the bounds for the optimization routine. As creating these
+bounds is not initially apparent to novice users or may become cumbersome, we have created a function call that will
+automatically generate physiological bounds based on the C-graph. To use this functionality one can add the following
+code:
 
 .. code-block:: python
 
-    bounds = [(1e-3, 1e2)]*12
+    bounds = opt.get_optimization_bounds()
 
-Another important check that should be completed for the semi-diffusive approach is to verify that that the key species,
-non key species, and boundary species are correct. This can be done after initializing the semi-diffusive approach as follows:
+This provides the following values::
+
+    bounds = [(0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55)]
+
+For more information and the correctness on these bounds please refer to :ref:`physio-bnds-label`. An important
+check that should be completed for the semi-diffusive approach is to verify that that the key species, non key species,
+and boundary species are correct. This can be done after initializing the semi-diffusive approach as follows:
 
 .. code-block:: python
 
@@ -101,16 +106,17 @@ We now run the optimization routine for the semi-diffusive approach:
 The following is the output obtained by the constructed model::
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 3.785042
+    Elapsed time for feasible point method: 1.734039
 
     Running the multistart optimization ...
 
     Smallest value achieved by objective function: 0.0
 
-    Elapsed time for multistart method: 383.349612
+    Elapsed time for multistart method: 294.015166
 
-At this point it may also be helpful to generate a report on the optimization routine that provides more information.
-To do this execute the following command:
+For a detailed description of the optimization routine see :ref:`my-optimization-label`. At this point it may also be
+helpful to generate a report on the optimization routine that provides more information. To do this execute the
+following command:
 
 .. code-block:: python
 
@@ -119,9 +125,24 @@ To do this execute the following command:
 
 This provides the following output:: 
 
-     The number of feasible points that satisfy the constraints: 100
-     Total feasible points that give F(x) = 0: 82
-     Total number of points that passed final_check: 82
+    The number of feasible points that satisfy the constraints: 100
+    Total feasible points that give F(x) = 0: 76
+    Total number of points that passed final_check: 76
+
+The first line tells one how many initial points satisfy the constraints after the feasible point method is ran. Note
+that there should always be a nonzero amount provided here, if a nonzero amount is not given, new bounds should be
+considered. The second line describes how many feasible points provide an objective function value smaller than sys\_min\_val.
+The last line outputs the number of feasible points that produce an objective function value smaller than sys\_min\_val
+that also pass all of the constraints of the optimization problem. Note that it is not uncommon for the value provided
+in the last line to be smaller than the value provided in the second line. Given the optimization may take a long time
+to complete, it may be important to save the parameters produced by the optimization. This can be done as follows::
+
+	numpy.save('params.npy', params_for_global_min)
+
+this saves the list of numpy arrays representing the parameters into the npy file params. The user can then load these
+values at a later time by using the following command::
+
+	params_for_global_min = numpy.load('params.npy')
 
 Similar to the mass conservation approach, we can run numerical continuation for the semi-diffusive approach. Note that the principal
 continuation parameter (PCP) now corresponds to a reaction rather than a constant as in the mass conservation approach. However, the
@@ -136,14 +157,13 @@ for the semi-diffusive approach as follows:
                                                                          'RL0': 0.1, 'RL1': 100, 'A0': 0.0,
                                                                          'A1': 10000})
 
-For more information on the AUTO parameters provided, please see :download:`AUTO parameters <auto2000_input.pdf>`. This
-provides the following output::
+For more information on the AUTO parameters provided and the continuation routine itself, refer to
+:ref:`my-continuation-label`. This provides the following output::
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 309.387856
+    Elapsed time for continuity analysis: 116.65277481079102
 
-Note that you may receive Error reports to the screen, but these may be ignored for this particular exampels. Again we
-can generate a report that will contain the numerical optimization routine output and the now added information
+Again we can generate a report that will contain the numerical optimization routine output and the now added information
 provided by the numerical continuation run:
 
 .. code-block:: python
@@ -153,12 +173,12 @@ provided by the numerical continuation run:
 This provides the following output::
 
     The number of feasible points that satisfy the constraints: 100
-    Total feasible points that give F(x) = 0: 82
-    Total number of points that passed final_check: 82
-    Number of multistability plots found: 22
+    Total feasible points that give F(x) = 0: 76
+    Total number of points that passed final_check: 76
+    Number of multistability plots found: 56
     Elements in params_for_global_min that produce multistability:
-    [0, 3, 4, 6, 14, 17, 19, 21, 25, 26, 28, 35, 39, 41, 43, 47, 48, 52, 53, 68, 79, 80]
-
+    [0, 1, 2, 3, 4, 5, 7, 8, 9, 11, 13, 14, 15, 16, 17, 19, 20, 21, 23, 24, 26, 28, 29, 30, 31, 32, 33, 34, 35, 37, 38,
+     39, 40, 41, 43, 44, 45, 46, 48, 49, 52, 53, 54, 55, 56, 58, 62, 63, 64, 65, 66, 70, 71, 72, 74, 75]
 
 Similar to the mass conservation approach, we obtain multistability plots in the directory provided by the dir\_path option in
 run\_continuity\_analysis (here it is the default value), where the plots follow the following format PCP (in terms of p as in the theory)
@@ -184,13 +204,13 @@ time than the more hands on approach. Below is the code used to run the greedy n
 This provides the following output::
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 522.959491
+    Elapsed time for continuity analysis: 545.6255731582642
 
-    Number of multistability plots found: 75
+    Number of multistability plots found: 73
     Elements in params_for_global_min that produce multistability:
-    [0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34,
-     35, 36, 37, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
-     64, 65, 66, 67, 68, 69, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80]
+    [0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+    34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62,
+    63, 64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75]
 
 Note that some of these plots will be jagged or have missing sections in the plot. To produce better plots the hands on
 approach should be used.

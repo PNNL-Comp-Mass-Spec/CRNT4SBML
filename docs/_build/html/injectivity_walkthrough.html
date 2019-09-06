@@ -173,20 +173,20 @@
   <div class="section" id="semi-diffusive-approach-walkthrough">
 <span id="my-injectivity-label"></span><h1>Semi-diffusive Approach Walkthrough<a class="headerlink" href="#semi-diffusive-approach-walkthrough" title="Permalink to this headline">¶</a></h1>
 <p>Using the SBML file constructed as in <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a>, we will proceed by completing a more in-depth
-explanation of running the semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a>. This tutorial will use
+explanation of running the semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a>. This tutorial will use the SBML file
 <a class="reference download internal" download="" href="_downloads/7f1ab99200c896bb88c0011e47723e78/Fig1Cii.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Cii.xml</span></code></a>. The following code will
 import crnt4sbml and the SBML file. For a little more detail on this process consider <a class="reference internal" href="basic_crnt.html#my-basic-label"><span class="std std-ref">Low Deficiency Approach</span></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If we then want to conduct the semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a>, we must first initialize the
-optimization_based_injectivity_manager, which is done as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
+semi_diffusive_approach, which is done as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This command creates all the necessary information to construct the optimization problem to be solved. Unlike the mass
-conservation, there should be no output provided by this initialization. Note that if a boundary species is not provided or
+conservation approach, there should be no output provided by this initialization. Note that if a boundary species is not provided or
 there are conservation laws present, then the semi-diffusive approach will not be able to be ran. If conservation laws are
 found, then the mass conservation approach should be ran.</p>
 <p>As in the mass conservation approach, it is very important to view the decision vector constructed for the optimization routine.
@@ -195,8 +195,7 @@ vector more clear, the following command will print out the decision vector and 
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">print_decision_vector</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>This provides the following output. As in the mass conservation approach, if your are using an SBML file you created yourself,
-the output may differ.</p>
+<p>This provides the following output:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Decision vector for optimization:
 [v_2, v_3, v_4, v_5, v_6, v_7, v_9, v_11, v_13, v_15, v_17, v_18]
 
@@ -205,17 +204,25 @@ Reaction labels for decision vector:
  &#39;re19r&#39;, &#39;re21&#39;, &#39;re22&#39;]
 </pre></div>
 </div>
-<p>As in the mass conservation approach one can just obtain the decision vector by completing the following command:</p>
+<p>As in the mass conservation approach, if your are using an SBML file you created yourself, the output may differ. If you
+would like an explicit list of the decision vector you can use the following command:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_decision_vector</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>Using the decision vector as a reference, we can now provide the bounds for the optimization routine. A possible definition
-of these bounds for Fig1Cii is as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">)]</span><span class="o">*</span><span class="mi">12</span>
+<p>Using the decision vector as a reference, we can now provide the bounds for the optimization routine. As creating these
+bounds is not initially apparent to novice users or may become cumbersome, we have created a function call that will
+automatically generate physiological bounds based on the C-graph. To use this functionality one can add the following
+code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bounds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Another important check that should be completed for the semi-diffusive approach is to verify that that the key species,
-non key species, and boundary species are correct. This can be done after initializing the semi-diffusive approach as follows:</p>
+<p>This provides the following values:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bounds = [(0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55)]
+</pre></div>
+</div>
+<p>For more information and the correctness on these bounds please refer to <a class="reference internal" href="physiological_bounds.html#physio-bnds-label"><span class="std std-ref">Creating Physiological Bounds</span></a>. An important
+check that should be completed for the semi-diffusive approach is to verify that that the key species, non key species,
+and boundary species are correct. This can be done after initializing the semi-diffusive approach as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_key_species</span><span class="p">())</span>
 <span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_non_key_species</span><span class="p">())</span>
 <span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_boundary_species</span><span class="p">())</span>
@@ -249,24 +256,40 @@ see <a class="reference internal" href="classes/crnt4sbml.SemiDiffusiveApproach.
 </div>
 <p>The following is the output obtained by the constructed model:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 3.785042
+Elapsed time for feasible point method: 1.734039
 
 Running the multistart optimization ...
 
 Smallest value achieved by objective function: 0.0
 
-Elapsed time for multistart method: 383.349612
+Elapsed time for multistart method: 294.015166
 </pre></div>
 </div>
-<p>At this point it may also be helpful to generate a report on the optimization routine that provides more information.
-To do this execute the following command:</p>
+<p>For a detailed description of the optimization routine see <a class="reference internal" href="numerical_opt.html#my-optimization-label"><span class="std std-ref">Numerical Optimization Routine</span></a>. At this point it may also be
+helpful to generate a report on the optimization routine that provides more information. To do this execute the
+following command:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This provides the following output:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The number of feasible points that satisfy the constraints: 100
-Total feasible points that give F(x) = 0: 82
-Total number of points that passed final_check: 82
+Total feasible points that give F(x) = 0: 76
+Total number of points that passed final_check: 76
+</pre></div>
+</div>
+<p>The first line tells one how many initial points satisfy the constraints after the feasible point method is ran. Note
+that there should always be a nonzero amount provided here, if a nonzero amount is not given, new bounds should be
+considered. The second line describes how many feasible points provide an objective function value smaller than sys_min_val.
+The last line outputs the number of feasible points that produce an objective function value smaller than sys_min_val
+that also pass all of the constraints of the optimization problem. Note that it is not uncommon for the value provided
+in the last line to be smaller than the value provided in the second line. Given the optimization may take a long time
+to complete, it may be important to save the parameters produced by the optimization. This can be done as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>numpy.save(&#39;params.npy&#39;, params_for_global_min)
+</pre></div>
+</div>
+<p>this saves the list of numpy arrays representing the parameters into the npy file params. The user can then load these
+values at a later time by using the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>params_for_global_min = numpy.load(&#39;params.npy&#39;)
 </pre></div>
 </div>
 <p>Similar to the mass conservation approach, we can run numerical continuation for the semi-diffusive approach. Note that the principal
@@ -280,25 +303,25 @@ for the semi-diffusive approach as follows:</p>
                                                                      <span class="s1">&#39;A1&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>For more information on the AUTO parameters provided, please see <a class="reference download internal" download="" href="_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>. This
-provides the following output:</p>
+<p>For more information on the AUTO parameters provided and the continuation routine itself, refer to
+<a class="reference internal" href="numerical_cont.html#my-continuation-label"><span class="std std-ref">Numerical Continuation Routine</span></a>. This provides the following output:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running continuity analysis ...
-Elapsed time for continuity analysis: 309.387856
+Elapsed time for continuity analysis: 116.65277481079102
 </pre></div>
 </div>
-<p>Note that you may receive Error reports to the screen, but these may be ignored for this particular exampels. Again we
-can generate a report that will contain the numerical optimization routine output and the now added information
+<p>Again we can generate a report that will contain the numerical optimization routine output and the now added information
 provided by the numerical continuation run:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This provides the following output:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The number of feasible points that satisfy the constraints: 100
-Total feasible points that give F(x) = 0: 82
-Total number of points that passed final_check: 82
-Number of multistability plots found: 22
+Total feasible points that give F(x) = 0: 76
+Total number of points that passed final_check: 76
+Number of multistability plots found: 56
 Elements in params_for_global_min that produce multistability:
-[0, 3, 4, 6, 14, 17, 19, 21, 25, 26, 28, 35, 39, 41, 43, 47, 48, 52, 53, 68, 79, 80]
+[0, 1, 2, 3, 4, 5, 7, 8, 9, 11, 13, 14, 15, 16, 17, 19, 20, 21, 23, 24, 26, 28, 29, 30, 31, 32, 33, 34, 35, 37, 38,
+ 39, 40, 41, 43, 44, 45, 46, 48, 49, 52, 53, 54, 55, 56, 58, 62, 63, 64, 65, 66, 70, 71, 72, 74, 75]
 </pre></div>
 </div>
 <p>Similar to the mass conservation approach, we obtain multistability plots in the directory provided by the dir_path option in
@@ -320,13 +343,13 @@ time than the more hands on approach. Below is the code used to run the greedy n
 </div>
 <p>This provides the following output:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running continuity analysis ...
-Elapsed time for continuity analysis: 522.959491
+Elapsed time for continuity analysis: 545.6255731582642
 
-Number of multistability plots found: 75
+Number of multistability plots found: 73
 Elements in params_for_global_min that produce multistability:
-[0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34,
- 35, 36, 37, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
- 64, 65, 66, 67, 68, 69, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80]
+[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62,
+63, 64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75]
 </pre></div>
 </div>
 <p>Note that some of these plots will be jagged or have missing sections in the plot. To produce better plots the hands on

@@ -10,19 +10,15 @@ import numpy.linalg
 import time
 import math
 import shutil
+import contextlib
+import io
+import sys
 if sys_pf == 'darwin':
     import matplotlib
     matplotlib.use("TkAgg")
     import matplotlib.pyplot as plt
 else:
     import matplotlib.pyplot as plt
-#roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
-#roadrunner.Logger.disableLogging()
-#roadrunner.Logger.disableConsoleLogging()
-#roadrunner.Logger.disableFileLogging()
-#rrplugins.setLogLevel('error')
-#print(roadrunner.Logger.getLevel())
-#print(roadrunner.Logger.LOG_FATAL)
 
 class BistabilityFinder:
 
@@ -218,6 +214,11 @@ class BistabilityFinder:
             roadrunner.Logger.disableConsoleLogging()
             roadrunner.Logger.disableFileLogging()
             rrplugins.setLogLevel('error')
+            stderr_fileno = sys.stderr.fileno()
+            stderr_save = os.dup(stderr_fileno)
+            stderr_pipe = os.pipe()
+            os.dup2(stderr_pipe[1], stderr_fileno)
+            os.close(stderr_pipe[1])
 
         init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
         auto_parameters['PrincipalContinuationParameter'] = pcp_x
@@ -255,6 +256,12 @@ class BistabilityFinder:
         if os.path.isdir("./auto_fort_files"):
             shutil.rmtree("./auto_fort_files")
 
+        if error_log_flag:
+            os.close(stderr_pipe[0])
+            os.dup2(stderr_save, stderr_fileno)
+            os.close(stderr_save)
+            os.close(stderr_fileno)
+
         end = time.time()
         print("Elapsed time for continuity analysis: " + str(end - start))
         print("")
@@ -279,6 +286,11 @@ class BistabilityFinder:
             roadrunner.Logger.disableConsoleLogging()
             roadrunner.Logger.disableFileLogging()
             rrplugins.setLogLevel('error')
+            stderr_fileno = sys.stderr.fileno()
+            stderr_save = os.dup(stderr_fileno)
+            stderr_pipe = os.pipe()
+            os.dup2(stderr_pipe[1], stderr_fileno)
+            os.close(stderr_pipe[1])
 
         init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
         auto_parameters['PrincipalContinuationParameter'] = pcp_x
@@ -381,6 +393,12 @@ class BistabilityFinder:
         if os.path.isdir("./auto_fort_files"):
             shutil.rmtree("./auto_fort_files")
 
+        if error_log_flag:
+            os.close(stderr_pipe[0])
+            os.dup2(stderr_save, stderr_fileno)
+            os.close(stderr_save)
+            os.close(stderr_fileno)
+
         end = time.time()
         print("Elapsed time for continuity analysis: " + str(end - start))
         print("")
@@ -452,41 +470,43 @@ class BistabilityFinder:
     def run_numerical_continuation(cls, q, ant_str, direction, auto, auto_parameters):
         antimony_r = cls.__loada(ant_str)
 
-        # making the directory auto_fort_files if is does not exist
-        if not os.path.isdir("./auto_fort_files"):
-            os.mkdir("./auto_fort_files")
-        auto.setProperty("SBML", antimony_r.getCurrentSBML())
-        auto.setProperty("ScanDirection", direction)
-        auto.setProperty("PreSimulation", "True")
-        auto.setProperty("PreSimulationDuration", 1.0)
-        auto.setProperty('KeepTempFiles', True)
-        auto.setProperty("TempFolder", "./auto_fort_files")
+        if True:
 
-        # assigning values provided by the user
-        for i in auto_parameters.keys():
-            auto.setProperty(i, auto_parameters[i])
+            # making the directory auto_fort_files if is does not exist
+            if not os.path.isdir("./auto_fort_files"):
+                os.mkdir("./auto_fort_files")
+            auto.setProperty("SBML", antimony_r.getCurrentSBML())
+            auto.setProperty("ScanDirection", direction)
+            auto.setProperty("PreSimulation", "True")
+            auto.setProperty("PreSimulationDuration", 1.0)
+            auto.setProperty('KeepTempFiles', True)
+            auto.setProperty("TempFolder", "./auto_fort_files")
 
-        try:
+            # assigning values provided by the user
+            for i in auto_parameters.keys():
+                auto.setProperty(i, auto_parameters[i])
 
-            auto.execute()
-            # indices where special points are
-            pts = auto.BifurcationPoints
-            # labeling of special points
-            lbls = auto.BifurcationLabels
-            # all data for parameters and species found by continuation
-            bi_data = auto.BifurcationData
+            try:
 
-            # convertes bi_data to numpy array, where first
-            # column is the principal continuation parameter and
-            # the rest of the columns are the species
-            bi_data_np = bi_data.toNumpy
-            flag = True
+                auto.execute()
+                # indices where special points are
+                pts = auto.BifurcationPoints
+                # labeling of special points
+                lbls = auto.BifurcationLabels
+                # all data for parameters and species found by continuation
+                bi_data = auto.BifurcationData
 
-        except Exception as e:
-            flag = False
-            pts = []
-            lbls = []
-            bi_data_np = numpy.zeros(2)
+                # convertes bi_data to numpy array, where first
+                # column is the principal continuation parameter and
+                # the rest of the columns are the species
+                bi_data_np = bi_data.toNumpy
+                flag = True
+
+            except Exception as e:
+                flag = False
+                pts = []
+                lbls = []
+                bi_data_np = numpy.zeros(2)
 
         ant_float_ids = antimony_r.model.getFloatingSpeciesIds()
         numpy.save('bi_data_np.npy', bi_data_np)

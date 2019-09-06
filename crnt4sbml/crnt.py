@@ -56,6 +56,20 @@ class CRNT:
 
     # public methods
 
+    def get_celldesigner_reaction_names(self):
+
+        for i in self.__sbml_model.getListOfReactions():
+
+            print(i.getId())
+            print(i.getReversible())
+            print(i.getAnnotation().getChild(0).getName())
+            num_children = i.getAnnotation().getChild(0).getNumChildren()
+            print([i.getAnnotation().getChild(0).getChild(ii).getName() for ii in range(num_children)])
+            print(i.getAnnotation().getChild(0).getChild(0).getName())
+            print(i.getAnnotation().getChild(0).getChild(0).getChild(0).toXMLString())
+            print(i.getAnnotation().getChild(0).getChild(1).getChild(0).toXMLString())
+            print("")
+
     def plot_c_graph(self):
         """
         Generates a matplotlib plot for the C-graph of the network using the networkx.draw function with circular and
