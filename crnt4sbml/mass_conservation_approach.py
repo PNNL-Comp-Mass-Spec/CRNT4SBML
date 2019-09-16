@@ -841,61 +841,32 @@ class MassConservationApproach:
         >>> print(concentration_bounds)
             [(0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]
         """
+
+        graph_edges = self.__cgraph.get_g_edges()
         dec_vec_var_def = []
         for i in self.get_decision_vector():
 
             if i in self.__concentration_pars:
                 dec_vec_var_def.append("concentration")
             elif i in self.__reaction_pars:
-                dec_vec_var_def.append(self.get_type_of_reaction(i))
+
+                ind = self.__reaction_pars.index(i)
+                reaction = graph_edges[ind]
+
+                reaction_type = self.__cgraph.get_graph().edges[reaction]['type']
+                dec_vec_var_def.append(reaction_type)
+
+                if reaction_type is None:
+                    output_statement = "The reaction type of reaction " + self.__cgraph.get_graph().edges[reaction]['label'] \
+                                       + " could not be identified as it does not fit any biological criteria " +\
+                                       "established. \n" + "You must enter bounds manually for this reaction! \n"
+                    print(output_statement)
 
         concentration_bounds = [self.get_physiological_range("concentration")]*len(self.get_concentration_bounds_species())
 
         bounds = [self.get_physiological_range(i) for i in dec_vec_var_def]
 
         return bounds, concentration_bounds
-
-    def get_type_of_reaction(self, reaction_label):
-        """
-        Determines the type of reaction based on the C-graph for a particular reaction
-
-        Parameters
-        -------------
-        reaction_label: SymPy positive symbol
-            Positive SymPy symbol of the reaction label one wants to find physiological bounds for.
-
-        Returns
-        --------
-        type_of_reaction: string
-            The type of reaction. Possible choices: "complex formation", "complex dissociation", or "catalysis"
-
-        Example
-        --------
-        >>> import crnt4sbml
-        >>> import sympy
-        >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
-        >>> approach = network.get_mass_conservation_approach()
-            Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
-            Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
-        >>> print(approach.get_type_of_reaction(sympy.Symbol('re1', positive=True)))
-            complex formation
-        """
-
-        graph_edges = self.__cgraph.get_g_edges()
-        ind = self.__reaction_pars.index(reaction_label)
-
-        reaction = graph_edges[ind]
-
-        if ((reaction[1], reaction[0]) in graph_edges) and ('+' in reaction[0]) and ('+' not in reaction[1]):
-            type_of_reaction = "complex formation"
-        elif ((reaction[1], reaction[0]) in graph_edges) and ('+' in reaction[1]) and ('+' not in reaction[0]):
-            type_of_reaction = "complex dissociation"
-        else:
-            type_of_reaction = "catalysis"
-
-        return type_of_reaction
 
     def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
                          numpy_dtype=numpy.float64, concentration_bounds=None):

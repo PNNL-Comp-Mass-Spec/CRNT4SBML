@@ -20,5 +20,10 @@ History
 0.0.4 (09-5-2019)
 ------------------
 
-* Addition of automatically generated physiological bounds for optimization routines.
 * Addition of safety precautions for numerical continuation.
+
+0.0.5 (09-16-2019)
+------------------
+
+* Addition of routines to parse catalysis in SBML.
+* Addition of routines to automatically generate physiological bounds.

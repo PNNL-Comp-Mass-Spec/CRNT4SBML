@@ -58,17 +58,81 @@ class CRNT:
 
     def get_celldesigner_reaction_names(self):
 
+        reaction_type_and_modification = []
+
         for i in self.__sbml_model.getListOfReactions():
 
-            print(i.getId())
-            print(i.getReversible())
-            print(i.getAnnotation().getChild(0).getName())
-            num_children = i.getAnnotation().getChild(0).getNumChildren()
-            print([i.getAnnotation().getChild(0).getChild(ii).getName() for ii in range(num_children)])
-            print(i.getAnnotation().getChild(0).getChild(0).getName())
-            print(i.getAnnotation().getChild(0).getChild(0).getChild(0).toXMLString())
-            print(i.getAnnotation().getChild(0).getChild(1).getChild(0).toXMLString())
-            print("")
+            i_initial = i.getAnnotation().getChild(0)
+
+            child_number = self.__get_child_number(i_initial, 'reactionType')
+
+            if child_number is not None:
+
+                reaction_type = i_initial.getChild(child_number).getChild(0).toXMLString()
+
+                if i.getNumModifiers() != 0:
+
+                    child_number1 = self.__get_child_number(i_initial, 'listOfModification')
+
+                    if child_number1 is not None:
+
+                        child_number2 = self.__get_child_number(i_initial.getChild(child_number1), 'modification')
+
+                        ii = i_initial.getChild(child_number1).getChild(child_number2)
+                        modification = self.__get_modification_type(ii)
+
+                        reaction_type_and_modification.append((reaction_type, modification))
+                    else:
+                        reaction_type_and_modification.append((reaction_type, None))
+                else:
+                    reaction_type_and_modification.append((reaction_type, None))
+
+            else:
+                reaction_type_and_modification.append((None, None))
+
+            reactants = [ii.getSpecies() for ii in i.getListOfReactants()]
+            products = [ii.getSpecies() for ii in i.getListOfProducts()]
+            modifiers = [ii.getSpecies() for ii in i.getListOfModifiers()]
+            print([i.getModifier(ii) for ii in modifiers])
+            print("reactants")
+            print(reactants)
+            print("products")
+            print(products)
+            print("modifiers")
+            print(modifiers)
+
+
+        is_any_none = any([i[0] is None for i in reaction_type_and_modification])
+
+        if is_any_none:
+
+            print("Some reaction types cannot be found, CellDesigner may not have been used to generate SBML file.")
+
+        return reaction_type_and_modification
+
+    def __get_child_number(self, i, string_value):
+
+        num_children = i.getNumChildren()
+        children_strings = [i.getChild(ii).getName() for ii in range(num_children)]
+        if string_value in children_strings:
+            child_number = children_strings.index(string_value)
+        else:
+            child_number = None
+
+        return child_number
+
+    def __get_modification_type(self, ii):
+
+        attribute_names = [ii.getAttrName(iii) for iii in range(ii.getAttributesLength())]
+
+        if 'type' in attribute_names:
+
+            indx_type = attribute_names.index('type')
+            attribute_values = [ii.getAttrValue(iii) for iii in attribute_names]
+
+            return attribute_values[indx_type]
+        else:
+            return None
 
     def plot_c_graph(self):
         """
@@ -120,6 +184,38 @@ class CRNT:
             s15 -> 2*s6  --  re8
         """
         self.__cgraph.print()
+
+    def print_biological_reaction_types(self):
+        """
+        Prints the reactions, reaction labels, and biological reaction type for the network.
+        :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided example.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
+        >>> network.print_biological_reaction_types()
+            Reaction graph of the form
+            reaction -- reaction label -- biological reaction type:
+            s1+s2 -> s3  --  re1 -- complex formation
+            s3 -> s1+s2  --  re1r -- complex dissociation
+            s3 -> s6+s2  --  re2 -- catalysis
+            s6+s7 -> s16  --  re3 -- complex formation
+            s16 -> s6+s7  --  re3r -- complex dissociation
+            s16 -> s7+s1  --  re4 -- catalysis
+            s1+s6 -> s15  --  re5 -- complex formation
+            s15 -> s1+s6  --  re5r -- complex dissociation
+            s15 -> 2*s6  --  re6 -- catalysis
+        """
+
+        print("")
+        print("Reaction graph of the form")
+        print("reaction -- reaction label -- biological reaction type:")
+        for e in self.__cgraph.get_g_edges():
+            print(e[0] + ' -> ' + e[1] + '  --  ' + self.__cgraph.get_graph().edges[e]['label'] + ' -- ' + \
+                  self.__cgraph.get_graph().edges[e]['type'])
+        print("")
+
 
     def get_network_graphml(self):
         """

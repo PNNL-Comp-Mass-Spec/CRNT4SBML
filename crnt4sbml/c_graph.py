@@ -38,17 +38,21 @@ class Cgraph:
         for i in model.getListOfSpecies():
             self.__dic_species_id_bcs.update({i.getId(): i.getBoundaryCondition()})
 
-        self.__species = [i.getId() for i in model.getListOfSpecies() if not i.getBoundaryCondition()]
-
-        # temporary
-        ######################################################################################
-        self.__species_name = [i.getName() for i in model.getListOfSpecies()]
-        self.__dic_species_id_name = {}
-        for i in range(len(self.__species)):
-            self.__dic_species_id_name.update({self.__species[i]: self.__species_name[i]})
-        ######################################################################################
+        self.__species = []
 
         self.__parse_reactions(model)
+
+        self.__assign_reaction_type()
+
+        # self.__species = [i.getId() for i in model.getListOfSpecies() if not i.getBoundaryCondition()]
+
+        # temporary makes testing of higher deficiency theory easier
+        ######################################################################################
+        #self.__species_name = [i.getName() for i in model.getListOfSpecies()]
+        #self.__dic_species_id_name = {}
+        #for i in range(len(self.__species)):
+        #    self.__dic_species_id_name.update({self.__species[i]: self.__species_name[i]})
+        ######################################################################################
 
         self.__linkage_classes = [self.__g.subgraph(c) for c in networkx.weakly_connected_components(self.__g)]
 
@@ -117,14 +121,109 @@ class Cgraph:
                               color=color)
             self.__g_nodes.append(product_complex_name)
 
+        [self.__species.append(i) for i in reactants if (i not in self.__species) and (not self.__dic_species_id_bcs[i])]
+        [self.__species.append(i) for i in products if (i not in self.__species) and (not self.__dic_species_id_bcs[i])]
+
         return [reactant_complex_name, product_complex_name]
+
+    def __parse_reactants_products_and_modifiers(self, reaction):
+
+        modifiers = [i.getSpecies() for i in reaction.getListOfModifiers()]
+
+        # extracting reactants
+        reactants = [i.getSpecies() for i in reaction.getListOfReactants()]
+
+        reactant_complex_name = self.__create_reactant_or_product_complex(reaction, reactants, modifiers, "reactant")
+
+        # extracting products
+        products = [i.getSpecies() for i in reaction.getListOfProducts()]
+
+        product_complex_name = self.__create_reactant_or_product_complex(reaction, products, modifiers, "product")
+
+        # extracting modifiers
+        bound_cond = any([self.__dic_species_id_bcs.get(n, n) for n in modifiers])
+        if bound_cond:
+            color = 'red'
+        else:
+            color = 'green'
+
+        stoichiometries = [int(1.0)]
+        modifiers_complex_name = "".join(modifiers) + "".join(reactants)
+
+        if modifiers_complex_name not in [self.__g.nodes[v]['label'] for v in self.__g.nodes]:
+            self.__g.add_node(modifiers_complex_name,
+                              label=modifiers_complex_name,
+                              species=[modifiers_complex_name],
+                              stoichiometries=stoichiometries,
+                              species_bc=bound_cond,
+                              color=color)
+            self.__g_nodes.append(modifiers_complex_name)
+
+        [self.__species.append(i) for i in reactants if (i not in self.__species) and (not self.__dic_species_id_bcs[i])]
+        [self.__species.append(i) for i in products if (i not in self.__species) and (not self.__dic_species_id_bcs[i])]
+        [self.__species.append(i) for i in modifiers if (i not in self.__species) and (not self.__dic_species_id_bcs[i])]
+        [self.__species.append(i) for i in [modifiers_complex_name] if (i not in self.__species)]
+
+        return [reactant_complex_name, product_complex_name, modifiers_complex_name]
+
+    def __create_reactant_or_product_complex(self, reaction, non_modifier, modifiers, comp):
+
+        bound_cond = any([self.__dic_species_id_bcs.get(n, n) for n in non_modifier + modifiers])
+        if bound_cond:
+            color = 'red'
+        else:
+            color = 'green'
+
+        # this statement assumes one species in modifier
+        indices = [i for i in range(len(non_modifier)) if modifiers[0] == non_modifier[i]]
+        if comp == 'reactant':
+
+            reactants_stoich = [int(i.getStoichiometry()) for i in reaction.getListOfReactants()]
+
+            # assumes only one modifier
+            modifiers_sotich = int(1.0)
+
+            if indices:
+                stoich_sum = sum([reactants_stoich[i] for i in indices]) + modifiers_sotich
+                stoichiometries = [reactants_stoich[i] for i in range(len(reactants_stoich)) if i not in indices] + \
+                                  [stoich_sum]
+                species_list = [non_modifier[i] for i in range(len(non_modifier)) if i not in indices] + modifiers
+
+            else:
+                stoichiometries = reactants_stoich + [modifiers_sotich]
+                species_list = non_modifier + modifiers
+        else:
+            products_stoich = [int(i.getStoichiometry()) for i in reaction.getListOfProducts()]
+            # assumes only one modifier
+            modifiers_sotich = int(1.0)
+
+            if indices:
+                stoich_sum = sum([products_stoich[i] for i in indices]) + modifiers_sotich
+                stoichiometries = [products_stoich[i] for i in range(len(products_stoich)) if i not in indices] + \
+                                  [stoich_sum]
+                species_list = [non_modifier[i] for i in range(len(non_modifier)) if i not in indices] + modifiers
+            else:
+                stoichiometries = products_stoich + [modifiers_sotich]
+                species_list = non_modifier + modifiers
+
+        temp = zip([repr(i) if i != 1 else '' for i in stoichiometries], species_list)
+        complex_name = '+'.join(['*'.join(filter(lambda x: x != '', i)) for i in temp])
+
+        if self.__g.number_of_nodes() == 0 or complex_name not in [self.__g.nodes[v]['label'] for
+                                                                   v in self.__g.nodes]:
+            self.__g.add_node(complex_name, label=complex_name, species=species_list, stoichiometries=stoichiometries,
+                              species_bc=bound_cond, color=color)
+            self.__g_nodes.append(complex_name)
+
+        return complex_name
 
     def __extract_direct_reaction(self, reaction):
         r, p = self.__parse_reactants_and_products(reaction)
         self.__g.add_edge(r, p,
                           label=reaction.getId(),
                           k=None,
-                          sbml_label=reaction.getId())
+                          sbml_label=reaction.getId(),
+                          type=None)
         self.__g_edges.append((r, p))
 
     def __extract_reverse_reaction(self, reaction):
@@ -132,14 +231,143 @@ class Cgraph:
         self.__g.add_edge(p, r,
                           label=reaction.getId() + 'r',
                           k=None,
-                          sbml_label=reaction.getId())
+                          sbml_label=reaction.getId(),
+                          type=None)
         self.__g_edges.append((p, r))
+
+    def __extract_catalysis_reaction(self, reaction):
+
+        modifier = self.__get_celldesigner_reaction_type(reaction)
+
+        if modifier != 'CATALYSIS':
+
+            exception_statement = "For reaction " + reaction.getId() + " there is a modifier that cannot be " \
+                                                                       "identified, there are multiple modifiers," \
+                                                                       " or is not catalysis. \nThis may be" \
+                                                                       " a result of not constructing the SBML file " \
+                                                                       "using CellDesigner. \nPlease make the appropriate" \
+                                                                       " changes to this reaction to continue."
+            raise Exception(exception_statement)
+
+        r, p, m = self.__parse_reactants_products_and_modifiers(reaction)
+
+        # add complex formation
+        self.__g.add_edge(r, m,
+                          label=reaction.getId() + 'f',
+                          k=None,
+                          sbml_label=reaction.getId(),
+                          type="complex formation")
+        self.__g_edges.append((r, m))
+
+        # add complex dissociation
+        self.__g.add_edge(m, r,
+                          label=reaction.getId() + 'd',
+                          k=None,
+                          sbml_label=reaction.getId(),
+                          type="complex dissociation")
+        self.__g_edges.append((m, r))
+
+        # add catalysis
+        self.__g.add_edge(m, p,
+                          label=reaction.getId() + 'c',
+                          k=None,
+                          sbml_label=reaction.getId(),
+                          type="catalysis")
+        self.__g_edges.append((m, p))
 
     def __parse_reactions(self, model):
         for i in model.getListOfReactions():
-            self.__extract_direct_reaction(i)
-            if i.getReversible():
-                self.__extract_reverse_reaction(i)
+            if i.getNumModifiers() != 0:
+                self.__extract_catalysis_reaction(i)
+            else:
+                self.__extract_direct_reaction(i)
+                if i.getReversible():
+                    self.__extract_reverse_reaction(i)
+
+    def __get_celldesigner_reaction_type(self, i):
+
+        i_initial = i.getAnnotation().getChild(0)
+
+        child_number = self.__get_child_number(i_initial, 'reactionType')
+
+        if child_number is not None:
+
+            if i.getNumModifiers() == 1:
+
+                child_number1 = self.__get_child_number(i_initial, 'listOfModification')
+
+                if child_number1 is not None:
+
+                    child_number2 = self.__get_child_number(i_initial.getChild(child_number1), 'modification')
+
+                    ii = i_initial.getChild(child_number1).getChild(child_number2)
+                    modification = self.__get_modification_type(ii)
+
+                    return modification
+                else:
+                    return None
+            else:
+                return None
+
+        else:
+            return None
+
+    def __get_child_number(self, i, string_value):
+
+        num_children = i.getNumChildren()
+        children_strings = [i.getChild(ii).getName() for ii in range(num_children)]
+        if string_value in children_strings:
+            child_number = children_strings.index(string_value)
+        else:
+            child_number = None
+
+        return child_number
+
+    def __get_modification_type(self, ii):
+
+        attribute_names = [ii.getAttrName(iii) for iii in range(ii.getAttributesLength())]
+
+        if 'type' in attribute_names:
+
+            indx_type = attribute_names.index('type')
+            attribute_values = [ii.getAttrValue(iii) for iii in attribute_names]
+
+            return attribute_values[indx_type]
+        else:
+            return None
+
+    def __assign_reaction_type(self):
+
+        for i in self.get_g_edges():
+
+            current_edge = self.__g.edges[i]
+
+            if current_edge['type'] is None:
+
+                reactant_node = self.__g.nodes[i[0]]
+                product_node = self.__g.nodes[i[1]]
+
+                if sum(reactant_node['stoichiometries']) == 2 and sum(product_node['stoichiometries']) == 1:
+                    current_edge['type'] = "complex formation"
+
+                elif sum(reactant_node['stoichiometries']) == 1 and sum(product_node['stoichiometries']) == 2:
+                    if (i[1], i[0]) in self.get_g_edges():
+                        current_edge['type'] = "complex dissociation"
+                    else:
+                        current_edge['type'] = "catalysis"
+
+                elif sum(reactant_node['stoichiometries']) == 1 and sum(product_node['stoichiometries']) == 1:
+                    current_edge['type'] = "catalysis"
+
+                elif sum(reactant_node['stoichiometries']) == 1 and sum(product_node['stoichiometries']) == 3:
+                    current_edge['type'] = "catalysis"
+
+                else:
+                    output_statement = "The reaction type of reaction " + current_edge['label'] + " could not be " +\
+                                       "identified as it does not fit any biological criteria established. \n" +\
+                                       "Automatic creation of bounds for optimization routines cannot be completed. \n"
+
+                    print(output_statement)
 
     # core CRNT calcs
     def __create_y_matrix(self):
@@ -151,7 +379,7 @@ class Cgraph:
             stoich = dict(zip(v['species'], v['stoichiometries']))
             self.__Y[:, count] = [stoich[i] if i in stoich.keys() else 0 for i in self.__species]
             count += 1
-            
+
     def __create_s_matrix(self):
 
         self.__S = sympy.zeros(len(self.__species), len(self.__reactions))

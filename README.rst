@@ -5,8 +5,8 @@ CRNT4SBML
 
 .. image:: https://img.shields.io/pypi/v/crnt4sbml.svg
         :target: https://pypi.python.org/pypi/crnt4sbml
-..
-    .. image:: https://img.shields.io/travis/PNNL-Comp-Mass-Spec/CRNT4SBML.svg
+
+.. image:: https://img.shields.io/travis/PNNL-Comp-Mass-Spec/CRNT4SBML.svg
         :target: https://travis-ci.org/PNNL-Comp-Mass-Spec/CRNT4SBML
 
 .. image:: https://readthedocs.org/projects/crnt4sbml/badge/?version=latest
