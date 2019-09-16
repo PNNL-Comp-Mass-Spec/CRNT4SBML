@@ -1,6 +1,6 @@
 language: python
 python:
-- 3.6
+- 3.7
 dist: xenial
 os:
 - linux
@@ -15,4 +15,4 @@ deploy:
   on:
     tags: true
     repo: PNNL-Comp-Mass-Spec/CRNT4SBML
-    python: 3.6
+    python: 3.7

@@ -1,4 +1,4 @@
-import crnt4sbml_test
+import crnt4sbml
 import pickle
 import contextlib
 import io
@@ -60,7 +60,7 @@ def generate_mass_con_list(crnt_obj):
     concentration_vals = approach.get_concentration_vals()
     conservation_laws = approach.get_conservation_laws()
     dch_matrix = approach.get_dch_matrix()
-    decision_vector = approach.get_decision_vector_x()
+    decision_vector = approach.get_decision_vector()
     g_matrix = approach.get_g_matrix()
     h_vector = approach.get_h_vector()
     objective_fun_params = approach.get_objective_fun_params()
@@ -94,29 +94,34 @@ def generate_semi_diff_list(crnt_obj):
             symbolic_objective_fun, symbolic_polynomial_fun, y_r_matrix, print_decision_vector]
 
 
-#mass_con_crnt_obj = crnt4sbml_test.CRNT("../sbml_files/Fig1Ci.xml")
-#mass_con_c_graph_list = generate_c_graph_list(mass_con_crnt_obj, True)
-#mass_con_low_def_list = generate_low_def_list(mass_con_crnt_obj)
-#mass_con_list = generate_mass_con_list(mass_con_crnt_obj)
+# mass_con_crnt_obj = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
+# mass_con_c_graph_list = generate_c_graph_list(mass_con_crnt_obj, True)
+# mass_con_low_def_list = generate_low_def_list(mass_con_crnt_obj)
+# mass_con_list = generate_mass_con_list(mass_con_crnt_obj)
 
-semi_diff_crnt_obj = crnt4sbml_test.CRNT("../sbml_files/Fig1Cii.xml")
-#semi_diff_c_graph_list = generate_c_graph_list(semi_diff_crnt_obj, False)
-#semi_diff_low_def_list = generate_low_def_list(semi_diff_crnt_obj)
-semi_diff_list = generate_semi_diff_list(semi_diff_crnt_obj)
+# semi_diff_crnt_obj = crnt4sbml.CRNT("../sbml_files/Fig1Cii.xml")
+# semi_diff_c_graph_list = generate_c_graph_list(semi_diff_crnt_obj, False)
+# semi_diff_low_def_list = generate_low_def_list(semi_diff_crnt_obj)
+# semi_diff_list = generate_semi_diff_list(semi_diff_crnt_obj)
 #print(semi_diff_list)
 
 
-#low_def_crnt_obj = crnt4sbml_test.CRNT("../sbml_files/feinberg_ex3_13.xml")
-#low_def_c_graph_list = generate_c_graph_list(low_def_crnt_obj, False)
-#low_def_low_def_list = generate_low_def_list(low_def_crnt_obj)
+low_def_crnt_obj = crnt4sbml.CRNT("../sbml_files/feinberg_ex3_13.xml")
+low_def_c_graph_list = generate_c_graph_list(low_def_crnt_obj, False)
+low_def_low_def_list = generate_low_def_list(low_def_crnt_obj)
 
+# with open('semi_diff_c_graph_list.pickle', 'wb') as outf:
+#     outf.write(pickle.dumps(semi_diff_c_graph_list))
+#
+# with open('semi_diff_list.pickle', 'wb') as outf:
+#     outf.write(pickle.dumps(semi_diff_list))
+#
+# with open('semi_diff_low_def_list.pickle', 'wb') as outf:
+#     outf.write(pickle.dumps(semi_diff_low_def_list))
 
-#with open('mass_con_list.pickle', 'wb') as outf:
-#    outf.write(pickle.dumps(mass_con_list))
+with open('low_def_c_graph_list.pickle', 'wb') as outf:
+   outf.write(pickle.dumps(low_def_c_graph_list))
 
-with open('semi_diff_list.pickle', 'wb') as outf:
-    outf.write(pickle.dumps(semi_diff_list))
-
-#with open('low_def_low_def_list.pickle', 'wb') as outf:
-#    outf.write(pickle.dumps(low_def_low_def_list))
+with open('low_def_low_def_list.pickle', 'wb') as outf:
+   outf.write(pickle.dumps(low_def_low_def_list))
 
