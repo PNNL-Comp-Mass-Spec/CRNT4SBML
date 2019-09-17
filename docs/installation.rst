@@ -19,7 +19,7 @@ installed versions. Here we will give a brief description of creating a virtual 
 
     $ pip install virtualenv
 
-Once virtualenv is installed, download the latest version of `Python 3.6 <https://www.python.org/downloads/>`_ (be sure
+Once virtualenv is installed, download the latest version of `Python 3.7 <https://www.python.org/downloads/>`_ (be sure
 to take note of the download location). Next we will create a directory to hold all of the virtual environments that we
 may create called "python\_environments":
 
@@ -27,16 +27,16 @@ may create called "python\_environments":
 
     $ mkdir python_environments
 
-Now that we have virtualenv and Python version 3.6, we can create the virtual environment crnt4sbml\_env in the
+Now that we have virtualenv and Python version 3.7, we can create the virtual environment crnt4sbml\_env in the
 directory python\_environments as follows:
 
 .. code-block:: console
 
     $ cd python_environments
-    $ virtualenv -p /path/to/python/3.6/interpreter crnt4sbml_env
+    $ virtualenv -p /path/to/python/3.7/interpreter crnt4sbml_env
 
 The flag "-p" tells virtualenv to create an environment using a specific Python interpreter, note that if a standard
-download of Python was followed, then the path to the interpreter is as follows "/usr/local/bin/python3.6". One can now
+download of Python was followed, then the path to the interpreter is as follows "/usr/local/bin/python3.7". One can now
 see a directory called "crnt4sbml\_env" is created in the directory python\_environments. We can now activate this
 environment as follows:
 
@@ -70,7 +70,8 @@ crnt4sbml can be obtained through a standard `pip`_ install as follows:
 
     $ pip install crnt4sbml
 
-This will always install the most recent stable release. Note that crnt4sbml requires Python version 3.6.
+This will always install the most recent stable release. Note that crnt4sbml has only been tested with Python version
+3.7.
 
 .. _pip: https://pip.pypa.io
 

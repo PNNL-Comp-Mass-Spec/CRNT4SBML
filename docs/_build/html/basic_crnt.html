@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Low Deficiency Approach &mdash; CRNT4SBML 0.0.4 documentation</title>
+  <title>Low Deficiency Approach &mdash; CRNT4SBML 0.0.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -181,7 +181,7 @@ take is importing crnt4sbml. To do this open up a python script and add the foll
 </div>
 <p>Next, we will take the SBML file created using CellDesigner and import it into the code. This is done by instantiating
 CRNT with a string representation of the path to the SBML file. An example of this instantiation is as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Once this line is ran the class CRNT takes the SBML file and parses it into a Python
@@ -189,7 +189,7 @@ CRNT with a string representation of the path to the SBML file. An example of th
 identify the basic Chemical Reaction Network Theory properties of the network. To obtain a full list of what is provided
 by this instantiation, please see the getter methods of <a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT" title="crnt4sbml.CRNT"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.CRNT()</span></code></a>. To obtain a print out of the
 number of species, complexes, reactions and deficiency of the network complete the following command:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">basic_report</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">network</span><span class="o">.</span><span class="n">basic_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>For the closed portion of the C-graph the output should be as follows:</p>
@@ -203,7 +203,7 @@ Network deficiency: 2
 values are correct at this stage. To provide another check to make sure the parsing and CellDesigner model were
 constructed correctly, one is encouraged to print the network constructed. To do this, add the following command
 to the script:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">print_c_graph</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">network</span><span class="o">.</span><span class="n">print_c_graph</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>After running this command for the constructed SBML file, the following output is obtained.</p>
@@ -215,21 +215,21 @@ s3 -&gt; s6+s2  --  re2
 s6+s7 -&gt; s16  --  re3
 s16 -&gt; s6+s7  --  re3r
 s16 -&gt; s7+s1  --  re4
-s1+s6 -&gt; s15  --  re6
-s15 -&gt; s1+s6  --  re6r
-s15 -&gt; 2*s6  --  re8
+s1+s6 -&gt; s15  --  re5
+s15 -&gt; s1+s6  --  re5r
+s15 -&gt; 2*s6  --  re6
 </pre></div>
 </div>
 <p>Notice that this output describes the reactions in terms of the species’ id and not the species’ name. Along with the
 reactions, the reaction labels constructed during parsing are also returned. For this example the first reaction
-s1+s2 -&gt; s3 has a reaction label of ‘re1’ and the reaction s15 -&gt; s1+ s6 has a reaction label of ‘re6r’.  Please note
+s1+s2 -&gt; s3 has a reaction label of ‘re1’ and the reaction s15 -&gt; s1+s6 has a reaction label of ‘re5r’.  Please note
 that the species id and reaction labels may be different if the user has constructed the SBML file themselves. Further
 information of the network can be found by analyzing the getter methods of <a class="reference internal" href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph" title="crnt4sbml.Cgraph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.Cgraph()</span></code></a>.</p>
 <p>Once one has verified that the network and CellDesigner model were created correctly, we can begin to check the
 properties of the network. If one is only interested in whether or not the network precludes bistability, it is best to
 first check the Deficiency Zero and One Theorems of Chemical Reaction Network Theory. To do this add the following lines
 to the script:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ldt</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_low_deficiency_approach</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ldt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_low_deficiency_approach</span><span class="p">()</span>
 <span class="n">ldt</span><span class="o">.</span><span class="n">report_deficiency_zero_theorem</span><span class="p">()</span>
 <span class="n">ldt</span><span class="o">.</span><span class="n">report_deficiency_one_theorem</span><span class="p">()</span>
 </pre></div>

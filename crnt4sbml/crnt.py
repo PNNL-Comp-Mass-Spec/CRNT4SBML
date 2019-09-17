@@ -179,9 +179,9 @@ class CRNT:
             s6+s7 -> s16  --  re3
             s16 -> s6+s7  --  re3r
             s16 -> s7+s1  --  re4
-            s1+s6 -> s15  --  re6
-            s15 -> s1+s6  --  re6r
-            s15 -> 2*s6  --  re8
+            s1+s6 -> s15  --  re5
+            s15 -> s1+s6  --  re5r
+            s15 -> 2*s6  --  re6
         """
         self.__cgraph.print()
 

@@ -516,19 +516,19 @@ class Cgraph:
         >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> sympy.pprint(network.get_c_graph().get_ode_system())
-            ⎡    -re₁⋅s₁⋅s₂ + re1r⋅s₃ + re₄⋅s₁₆ - re₆⋅s₁⋅s₆ + re6r⋅s₁₅     ⎤
+            ⎡    -re₁⋅s₁⋅s₂ + re1r⋅s₃ + re₄⋅s₁₆ - re₅⋅s₁⋅s₆ + re5r⋅s₁₅     ⎤
             ⎢                                                              ⎥
             ⎢                 -re₁⋅s₁⋅s₂ + s₃⋅(re1r + re₂)                 ⎥
             ⎢                                                              ⎥
             ⎢                 re₁⋅s₁⋅s₂ + s₃⋅(-re1r - re₂)                 ⎥
             ⎢                                                              ⎥
-            ⎢re₂⋅s₃ - re₃⋅s₆⋅s₇ + re3r⋅s₁₆ - re₆⋅s₁⋅s₆ + s₁₅⋅(re6r + 2⋅re₈)⎥
+            ⎢re₂⋅s₃ - re₃⋅s₆⋅s₇ + re3r⋅s₁₆ - re₅⋅s₁⋅s₆ + s₁₅⋅(re5r + 2⋅re₆)⎥
             ⎢                                                              ⎥
             ⎢                -re₃⋅s₆⋅s₇ + s₁₆⋅(re3r + re₄)                 ⎥
             ⎢                                                              ⎥
-            ⎢                re₆⋅s₁⋅s₆ + s₁₅⋅(-re6r - re₈)                 ⎥
+            ⎢                re₃⋅s₆⋅s₇ + s₁₆⋅(-re3r - re₄)                 ⎥
             ⎢                                                              ⎥
-            ⎣                re₃⋅s₆⋅s₇ + s₁₆⋅(-re3r - re₄)                 ⎦
+            ⎣                re₅⋅s₁⋅s₆ + s₁₅⋅(-re5r - re₆)                 ⎦
         """
         return self.__Y*self.__A*self.__psi
 
@@ -553,10 +553,9 @@ class Cgraph:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> print(network.get_c_graph().get_species())
-            ['s1', 's2', 's3', 's6', 's7', 's15', 's16']
+            ['s1', 's2', 's3', 's6', 's7', 's16', 's15']
         """
         return self.__species
 
@@ -569,7 +568,6 @@ class Cgraph:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> print(network.get_c_graph().get_complexes())
             ['s1+s2', 's3', 's6+s2', 's6+s7', 's16', 's7+s1', 's1+s6', 's15', '2*s6']
@@ -585,10 +583,9 @@ class Cgraph:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> print(network.get_c_graph().get_reactions())
-            ['re1', 're1r', 're2', 're3', 're3r', 're4', 're6', 're6r', 're8']
+            ['re1', 're1r', 're2', 're3', 're3r', 're4', 're5', 're5r', 're6']
         """
         return self.__reactions
 
@@ -616,11 +613,11 @@ class Cgraph:
             ⎢                                                                ⎥
             ⎢ 0         0       0   0        re₄      0   0         0       0⎥
             ⎢                                                                ⎥
-            ⎢ 0         0       0   0         0       0  -re₆     re6r      0⎥
+            ⎢ 0         0       0   0         0       0  -re₅     re5r      0⎥
             ⎢                                                                ⎥
-            ⎢ 0         0       0   0         0       0  re₆   -re6r - re₈  0⎥
+            ⎢ 0         0       0   0         0       0  re₅   -re5r - re₆  0⎥
             ⎢                                                                ⎥
-            ⎣ 0         0       0   0         0       0   0        re₈      0⎦
+            ⎣ 0         0       0   0         0       0   0        re₆      0⎦
         """
         return self.__A
 
@@ -646,9 +643,9 @@ class Cgraph:
             ⎢                         ⎥
             ⎢0  0  0  1  0  1  0  0  0⎥
             ⎢                         ⎥
-            ⎢0  0  0  0  0  0  0  1  0⎥
+            ⎢0  0  0  0  1  0  0  0  0⎥
             ⎢                         ⎥
-            ⎣0  0  0  0  1  0  0  0  0⎦
+            ⎣0  0  0  0  0  0  0  1  0⎦
         """
         return self.__Y
 
@@ -674,9 +671,9 @@ class Cgraph:
             ⎢                                  ⎥
             ⎢0   0   0   -1  1   1   0   0   0 ⎥
             ⎢                                  ⎥
-            ⎢0   0   0   0   0   0   1   -1  -1⎥
+            ⎢0   0   0   1   -1  -1  0   0   0 ⎥
             ⎢                                  ⎥
-            ⎣0   0   0   1   -1  -1  0   0   0 ⎦
+            ⎣0   0   0   0   0   0   1   -1  -1⎦
         """
         return self.__S
 
@@ -692,11 +689,11 @@ class Cgraph:
         >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> sympy.pprint(network.get_c_graph().get_b())
-            ⎡ 0    0    0    0   1.0   0   1.0⎤
+            ⎡ 0    0    0    0   1.0  1.0   0 ⎤
             ⎢                                 ⎥
             ⎢ 0   1.0  1.0   0    0    0    0 ⎥
             ⎢                                 ⎥
-            ⎣1.0   0   1.0  1.0   0   2.0  1.0⎦
+            ⎣1.0   0   1.0  1.0   0   1.0  2.0⎦
         """
         return self.__B
 
@@ -825,7 +822,6 @@ class Cgraph:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> print(network.get_c_graph().get_dim_equilibrium_manifold())
             3
@@ -841,7 +837,6 @@ class Cgraph:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> print(network.get_c_graph().get_deficiency())
             2

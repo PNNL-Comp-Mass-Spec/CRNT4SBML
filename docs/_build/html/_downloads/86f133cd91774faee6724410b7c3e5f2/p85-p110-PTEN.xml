@@ -1064,27 +1064,27 @@
 <listOfUnitDefinitions>
 <unitDefinition metaid="substance" id="substance" name="substance">
 <listOfUnits>
-<unit metaid="CDMT00030" kind="mole"/>
+<unit metaid="CDMT00031" kind="mole"/>
 </listOfUnits>
 </unitDefinition>
 <unitDefinition metaid="volume" id="volume" name="volume">
 <listOfUnits>
-<unit metaid="CDMT00031" kind="litre"/>
+<unit metaid="CDMT00032" kind="litre"/>
 </listOfUnits>
 </unitDefinition>
 <unitDefinition metaid="area" id="area" name="area">
 <listOfUnits>
-<unit metaid="CDMT00032" kind="metre" exponent="2"/>
+<unit metaid="CDMT00033" kind="metre" exponent="2"/>
 </listOfUnits>
 </unitDefinition>
 <unitDefinition metaid="length" id="length" name="length">
 <listOfUnits>
-<unit metaid="CDMT00033" kind="metre"/>
+<unit metaid="CDMT00034" kind="metre"/>
 </listOfUnits>
 </unitDefinition>
 <unitDefinition metaid="time" id="time" name="time">
 <listOfUnits>
-<unit metaid="CDMT00034" kind="second"/>
+<unit metaid="CDMT00035" kind="second"/>
 </listOfUnits>
 </unitDefinition>
 </listOfUnitDefinitions>
@@ -1374,7 +1374,7 @@
 </celldesigner:extension>
 </annotation>
 <listOfReactants>
-<speciesReference metaid="CDMT00007" species="s3">
+<speciesReference metaid="CDMT00036" species="s3" stoichiometry="2">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa3</celldesigner:alias>
@@ -1383,7 +1383,7 @@
 </speciesReference>
 </listOfReactants>
 <listOfProducts>
-<speciesReference metaid="CDMT00008" species="s4">
+<speciesReference metaid="CDMT00009" species="s4">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa4</celldesigner:alias>
@@ -1477,14 +1477,14 @@
 </celldesigner:extension>
 </annotation>
 <listOfReactants>
-<speciesReference metaid="CDMT00009" species="s24">
+<speciesReference metaid="CDMT00010" species="s24">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>csa2</celldesigner:alias>
 </celldesigner:extension>
 </annotation>
 </speciesReference>
-<speciesReference metaid="CDMT00010" species="s14">
+<speciesReference metaid="CDMT00011" species="s14">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa12</celldesigner:alias>
@@ -1493,7 +1493,7 @@
 </speciesReference>
 </listOfReactants>
 <listOfProducts>
-<speciesReference metaid="CDMT00011" species="s36">
+<speciesReference metaid="CDMT00012" species="s36">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>csa5</celldesigner:alias>
@@ -1534,7 +1534,7 @@
 </celldesigner:extension>
 </annotation>
 <listOfReactants>
-<speciesReference metaid="CDMT00012" species="s36">
+<speciesReference metaid="CDMT00013" species="s36">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>csa5</celldesigner:alias>
@@ -1543,14 +1543,14 @@
 </speciesReference>
 </listOfReactants>
 <listOfProducts>
-<speciesReference metaid="CDMT00013" species="s37">
+<speciesReference metaid="CDMT00014" species="s37">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa24</celldesigner:alias>
 </celldesigner:extension>
 </annotation>
 </speciesReference>
-<speciesReference metaid="CDMT00014" species="s24">
+<speciesReference metaid="CDMT00015" species="s24">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>csa2</celldesigner:alias>
@@ -1592,14 +1592,14 @@
 </celldesigner:extension>
 </annotation>
 <listOfReactants>
-<speciesReference metaid="CDMT00015" species="s16">
+<speciesReference metaid="CDMT00019" species="s16">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>csa3</celldesigner:alias>
 </celldesigner:extension>
 </annotation>
 </speciesReference>
-<speciesReference metaid="CDMT00019" species="s37">
+<speciesReference metaid="CDMT00020" species="s37">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa24</celldesigner:alias>
@@ -1608,7 +1608,7 @@
 </speciesReference>
 </listOfReactants>
 <listOfProducts>
-<speciesReference metaid="CDMT00020" species="s41">
+<speciesReference metaid="CDMT00021" species="s41">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>csa7</celldesigner:alias>
@@ -1647,7 +1647,7 @@
 </celldesigner:extension>
 </annotation>
 <listOfReactants>
-<speciesReference metaid="CDMT00021" species="s41">
+<speciesReference metaid="CDMT00022" species="s41">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>csa7</celldesigner:alias>
@@ -1656,14 +1656,14 @@
 </speciesReference>
 </listOfReactants>
 <listOfProducts>
-<speciesReference metaid="CDMT00022" species="s16">
+<speciesReference metaid="CDMT00023" species="s16">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>csa3</celldesigner:alias>
 </celldesigner:extension>
 </annotation>
 </speciesReference>
-<speciesReference metaid="CDMT00023" species="s14">
+<speciesReference metaid="CDMT00024" species="s14">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa12</celldesigner:alias>
@@ -1704,14 +1704,14 @@
 </celldesigner:extension>
 </annotation>
 <listOfReactants>
-<speciesReference metaid="CDMT00024" species="s9">
+<speciesReference metaid="CDMT00025" species="s9">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa8</celldesigner:alias>
 </celldesigner:extension>
 </annotation>
 </speciesReference>
-<speciesReference metaid="CDMT00025" species="s37">
+<speciesReference metaid="CDMT00026" species="s37">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa24</celldesigner:alias>
@@ -1720,7 +1720,7 @@
 </speciesReference>
 </listOfReactants>
 <listOfProducts>
-<speciesReference metaid="CDMT00026" species="s45">
+<speciesReference metaid="CDMT00027" species="s45">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>csa8</celldesigner:alias>
@@ -1761,7 +1761,7 @@
 </celldesigner:extension>
 </annotation>
 <listOfReactants>
-<speciesReference metaid="CDMT00027" species="s45">
+<speciesReference metaid="CDMT00028" species="s45">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>csa8</celldesigner:alias>
@@ -1770,14 +1770,14 @@
 </speciesReference>
 </listOfReactants>
 <listOfProducts>
-<speciesReference metaid="CDMT00028" species="s9">
+<speciesReference metaid="CDMT00029" species="s9">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa8</celldesigner:alias>
 </celldesigner:extension>
 </annotation>
 </speciesReference>
-<speciesReference metaid="CDMT00029" species="s14">
+<speciesReference metaid="CDMT00030" species="s14">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa12</celldesigner:alias>

@@ -29,11 +29,10 @@ several minutes for larger networks. For more detail on this process consider :r
 output provided by the initialization::
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.8010799999999998
+    Elapsed time for creating Equilibrium Manifold: 0.6395479999999996
 
     Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 1.1221319999999997
-
+    Elapsed time for finding species' concentrations: 1.3528160000000007
 
 One very important value that must be provided to the optimization problem are the bounds for the decision vector of the
 optimization problem. For this reason, it is useful to see what decision vector was constructed. To do this one can add
@@ -45,7 +44,7 @@ the following command to the script:
 
 This provides the following output::
 
-    [re1, re1r, re2, re3, re3r, re4, re6, re6r, re8, s2, s6, s16]
+    [re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, s2, s6, s15]
 
 To obtain more available functions  that this initialization provides, see :meth:`crnt4sbml.MassConservationApproach`.
 Using the decision vector provided, one can then construct the bounds which are necessary for the optimization problem
@@ -62,10 +61,10 @@ bounds for, we can use the following command:
 
 This provides the following output::
 
-    [s1, s3, s7, s15]
+    [s1, s3, s7, s16]
 
 This tells us that we need to provide a list of four tuples that correspond to the lower and upper bounds for the
-species s1, s3, s7, and s15, in that order.
+species s1, s3, s7, and s16, in that order.
 
 As creating these bounds is not initially apparent to novice users or may become cumbersome, we have created a function
 call that will automatically generate physiological bounds based on the C-graph. To use this functionality one can
@@ -128,13 +127,13 @@ value smaller than machine epsilon.
 The following is the output obtained by the constructed model::
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 5.955913000000001
+    Elapsed time for feasible point method: 29.199651999999997
 
     Running the multistart optimization ...
 
     Smallest value achieved by objective function: 0.0
 
-    Elapsed time for multistart method: 83.9882
+    Elapsed time for multistart method: 136.14538600000003
 
 At this point it may also be helpful to generate a report on the optimization routine that provides more information.
 To do this execute the following command:
@@ -145,9 +144,9 @@ To do this execute the following command:
 
 This will provide the following output::
 
-    The number of feasible points that satisfy the constraints: 100
-    Total feasible points that give F(x) = 0: 53
-    Total number of points that passed final_check: 53
+    The number of feasible points that satisfy the constraints: 99
+    Total feasible points that give F(x) = 0: 28
+    Total number of points that passed final_check: 28
 
 The first line tells one how many initial points satisfy the constraints after the feasible point method is ran. Note
 that there should always be a nonzero amount provided here, if a nonzero amount is not given, new bounds should be
@@ -229,7 +228,7 @@ will have the following form: PCP\_species id\_index of params\_for\_global.png.
 continuation run is as follows::
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis = 52.484663009643555
+    Elapsed time for continuity analysis: 25.02327585220337
 
 Again, we can generate a report that will contain the numerical optimization routine output and the now added information
 provided by the numerical continuation run.
@@ -238,20 +237,19 @@ provided by the numerical continuation run.
 
     opt.generate_report()
 
-This provides the following output that describes that of the 53 parameter sets that passed the constraints of the
-optimization problem, 35 of them produce multistability for the given input. In addition to this, it also tells one the
+This provides the following output that describes that of the 28 parameter sets that passed the constraints of the
+optimization problem, 14 of them produce multistability for the given input. In addition to this, it also tells one the
 indices in params\_for\_global\_min that produce multistability. In practice, larger ranges for the principal continuation
 parameter may be needed, but this will increase the runtime of the numerical continuation routine.
 
 ::
 
-    The number of feasible points that satisfy the constraints: 100
-    Total feasible points that give F(x) = 0: 53
-    Total number of points that passed final_check: 53
-    Number of multistability plots found: 35
+    The number of feasible points that satisfy the constraints: 99
+    Total feasible points that give F(x) = 0: 28
+    Total number of points that passed final_check: 28
+    Number of multistability plots found: 14
     Elements in params_for_global_min that produce multistability:
-    [0, 1, 2, 4, 9, 10, 11, 15, 16, 17, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 37, 38, 39,
-     44, 47, 48, 49, 50, 52]
+    [4, 11, 12, 14, 15, 16, 19, 20, 21, 22, 23, 24, 26, 27]
 
 
 The following is a bistability plot produced by element 26 of params\_for\_global\_min. Here the solid blue line
@@ -277,13 +275,14 @@ time than the more hands on approach. Below is the code used to run the greedy n
 This provides the following output::
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 264.2287697792053
+    Elapsed time for continuity analysis: 143.82169270515442
 
-    Number of multistability plots found: 44
+    The number of feasible points that satisfy the constraints: 99
+    Total feasible points that give F(x) = 0: 28
+    Total number of points that passed final_check: 28
+    Number of multistability plots found: 19
     Elements in params_for_global_min that produce multistability:
-    [0, 1, 2, 3, 4, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-    35, 36, 37, 38, 39, 41, 44, 46, 47, 48, 49, 50, 51, 52]
-
+    [3, 4, 6, 7, 11, 12, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27]
 
 Note that some of these plots will be jagged or have missing sections in the plot. To produce better plots the hands on
 approach should be used.

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Semi-diffusive Approach Walkthrough &mdash; CRNT4SBML 0.0.4 documentation</title>
+  <title>Semi-diffusive Approach Walkthrough &mdash; CRNT4SBML 0.0.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -256,13 +256,13 @@ see <a class="reference internal" href="classes/crnt4sbml.SemiDiffusiveApproach.
 </div>
 <p>The following is the output obtained by the constructed model:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 1.734039
+Elapsed time for feasible point method: 3.119248
 
 Running the multistart optimization ...
 
 Smallest value achieved by objective function: 0.0
 
-Elapsed time for multistart method: 294.015166
+Elapsed time for multistart method: 372.495578
 </pre></div>
 </div>
 <p>For a detailed description of the optimization routine see <a class="reference internal" href="numerical_opt.html#my-optimization-label"><span class="std std-ref">Numerical Optimization Routine</span></a>. At this point it may also be
@@ -326,8 +326,7 @@ Elements in params_for_global_min that produce multistability:
 </div>
 <p>Similar to the mass conservation approach, we obtain multistability plots in the directory provided by the dir_path option in
 run_continuity_analysis (here it is the default value), where the plots follow the following format PCP (in terms of p as in the theory)
-_species id_index of params_for_global.png. The following is one multistability plot produced by index 3
-of params_for_global_min.</p>
+_species id_index of params_for_global.png. The following is one multistability plot produced.</p>
 <img alt="_images/fig_1Cii_p9_vs_s7_3.png" src="_images/fig_1Cii_p9_vs_s7_3.png" />
 <p>In addition to providing this more hands on approach to the numerical continuation routine, we also provide a greedy
 version of the numerical continuation routine. With this approach the user just needs to provide the species, parameters,

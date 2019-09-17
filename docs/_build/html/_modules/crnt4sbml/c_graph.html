@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.c_graph &mdash; CRNT4SBML 0.0.4 documentation</title>
+  <title>crnt4sbml.c_graph &mdash; CRNT4SBML 0.0.5 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -207,17 +207,21 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
         for i in model.getListOfSpecies():
             self.__dic_species_id_bcs.update({i.getId(): i.getBoundaryCondition()})
 
-        self.__species = [i.getId() for i in model.getListOfSpecies() if not i.getBoundaryCondition()]
-
-        # temporary
-        ######################################################################################
-        self.__species_name = [i.getName() for i in model.getListOfSpecies()]
-        self.__dic_species_id_name = {}
-        for i in range(len(self.__species)):
-            self.__dic_species_id_name.update({self.__species[i]: self.__species_name[i]})
-        ######################################################################################
+        self.__species = []
 
         self.__parse_reactions(model)
+
+        self.__assign_reaction_type()
+
+        # self.__species = [i.getId() for i in model.getListOfSpecies() if not i.getBoundaryCondition()]
+
+        # temporary makes testing of higher deficiency theory easier
+        ######################################################################################
+        #self.__species_name = [i.getName() for i in model.getListOfSpecies()]
+        #self.__dic_species_id_name = {}
+        #for i in range(len(self.__species)):
+        #    self.__dic_species_id_name.update({self.__species[i]: self.__species_name[i]})
+        ######################################################################################
 
         self.__linkage_classes = [self.__g.subgraph(c) for c in networkx.weakly_connected_components(self.__g)]
 
@@ -286,14 +290,109 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
                               color=color)
             self.__g_nodes.append(product_complex_name)
 
+        [self.__species.append(i) for i in reactants if (i not in self.__species) and (not self.__dic_species_id_bcs[i])]
+        [self.__species.append(i) for i in products if (i not in self.__species) and (not self.__dic_species_id_bcs[i])]
+
         return [reactant_complex_name, product_complex_name]
+
+    def __parse_reactants_products_and_modifiers(self, reaction):
+
+        modifiers = [i.getSpecies() for i in reaction.getListOfModifiers()]
+
+        # extracting reactants
+        reactants = [i.getSpecies() for i in reaction.getListOfReactants()]
+
+        reactant_complex_name = self.__create_reactant_or_product_complex(reaction, reactants, modifiers, &quot;reactant&quot;)
+
+        # extracting products
+        products = [i.getSpecies() for i in reaction.getListOfProducts()]
+
+        product_complex_name = self.__create_reactant_or_product_complex(reaction, products, modifiers, &quot;product&quot;)
+
+        # extracting modifiers
+        bound_cond = any([self.__dic_species_id_bcs.get(n, n) for n in modifiers])
+        if bound_cond:
+            color = &#39;red&#39;
+        else:
+            color = &#39;green&#39;
+
+        stoichiometries = [int(1.0)]
+        modifiers_complex_name = &quot;&quot;.join(modifiers) + &quot;&quot;.join(reactants)
+
+        if modifiers_complex_name not in [self.__g.nodes[v][&#39;label&#39;] for v in self.__g.nodes]:
+            self.__g.add_node(modifiers_complex_name,
+                              label=modifiers_complex_name,
+                              species=[modifiers_complex_name],
+                              stoichiometries=stoichiometries,
+                              species_bc=bound_cond,
+                              color=color)
+            self.__g_nodes.append(modifiers_complex_name)
+
+        [self.__species.append(i) for i in reactants if (i not in self.__species) and (not self.__dic_species_id_bcs[i])]
+        [self.__species.append(i) for i in products if (i not in self.__species) and (not self.__dic_species_id_bcs[i])]
+        [self.__species.append(i) for i in modifiers if (i not in self.__species) and (not self.__dic_species_id_bcs[i])]
+        [self.__species.append(i) for i in [modifiers_complex_name] if (i not in self.__species)]
+
+        return [reactant_complex_name, product_complex_name, modifiers_complex_name]
+
+    def __create_reactant_or_product_complex(self, reaction, non_modifier, modifiers, comp):
+
+        bound_cond = any([self.__dic_species_id_bcs.get(n, n) for n in non_modifier + modifiers])
+        if bound_cond:
+            color = &#39;red&#39;
+        else:
+            color = &#39;green&#39;
+
+        # this statement assumes one species in modifier
+        indices = [i for i in range(len(non_modifier)) if modifiers[0] == non_modifier[i]]
+        if comp == &#39;reactant&#39;:
+
+            reactants_stoich = [int(i.getStoichiometry()) for i in reaction.getListOfReactants()]
+
+            # assumes only one modifier
+            modifiers_sotich = int(1.0)
+
+            if indices:
+                stoich_sum = sum([reactants_stoich[i] for i in indices]) + modifiers_sotich
+                stoichiometries = [reactants_stoich[i] for i in range(len(reactants_stoich)) if i not in indices] + \
+                                  [stoich_sum]
+                species_list = [non_modifier[i] for i in range(len(non_modifier)) if i not in indices] + modifiers
+
+            else:
+                stoichiometries = reactants_stoich + [modifiers_sotich]
+                species_list = non_modifier + modifiers
+        else:
+            products_stoich = [int(i.getStoichiometry()) for i in reaction.getListOfProducts()]
+            # assumes only one modifier
+            modifiers_sotich = int(1.0)
+
+            if indices:
+                stoich_sum = sum([products_stoich[i] for i in indices]) + modifiers_sotich
+                stoichiometries = [products_stoich[i] for i in range(len(products_stoich)) if i not in indices] + \
+                                  [stoich_sum]
+                species_list = [non_modifier[i] for i in range(len(non_modifier)) if i not in indices] + modifiers
+            else:
+                stoichiometries = products_stoich + [modifiers_sotich]
+                species_list = non_modifier + modifiers
+
+        temp = zip([repr(i) if i != 1 else &#39;&#39; for i in stoichiometries], species_list)
+        complex_name = &#39;+&#39;.join([&#39;*&#39;.join(filter(lambda x: x != &#39;&#39;, i)) for i in temp])
+
+        if self.__g.number_of_nodes() == 0 or complex_name not in [self.__g.nodes[v][&#39;label&#39;] for
+                                                                   v in self.__g.nodes]:
+            self.__g.add_node(complex_name, label=complex_name, species=species_list, stoichiometries=stoichiometries,
+                              species_bc=bound_cond, color=color)
+            self.__g_nodes.append(complex_name)
+
+        return complex_name
 
     def __extract_direct_reaction(self, reaction):
         r, p = self.__parse_reactants_and_products(reaction)
         self.__g.add_edge(r, p,
                           label=reaction.getId(),
                           k=None,
-                          sbml_label=reaction.getId())
+                          sbml_label=reaction.getId(),
+                          type=None)
         self.__g_edges.append((r, p))
 
     def __extract_reverse_reaction(self, reaction):
@@ -301,14 +400,143 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
         self.__g.add_edge(p, r,
                           label=reaction.getId() + &#39;r&#39;,
                           k=None,
-                          sbml_label=reaction.getId())
+                          sbml_label=reaction.getId(),
+                          type=None)
         self.__g_edges.append((p, r))
+
+    def __extract_catalysis_reaction(self, reaction):
+
+        modifier = self.__get_celldesigner_reaction_type(reaction)
+
+        if modifier != &#39;CATALYSIS&#39;:
+
+            exception_statement = &quot;For reaction &quot; + reaction.getId() + &quot; there is a modifier that cannot be &quot; \
+                                                                       &quot;identified, there are multiple modifiers,&quot; \
+                                                                       &quot; or is not catalysis. \nThis may be&quot; \
+                                                                       &quot; a result of not constructing the SBML file &quot; \
+                                                                       &quot;using CellDesigner. \nPlease make the appropriate&quot; \
+                                                                       &quot; changes to this reaction to continue.&quot;
+            raise Exception(exception_statement)
+
+        r, p, m = self.__parse_reactants_products_and_modifiers(reaction)
+
+        # add complex formation
+        self.__g.add_edge(r, m,
+                          label=reaction.getId() + &#39;f&#39;,
+                          k=None,
+                          sbml_label=reaction.getId(),
+                          type=&quot;complex formation&quot;)
+        self.__g_edges.append((r, m))
+
+        # add complex dissociation
+        self.__g.add_edge(m, r,
+                          label=reaction.getId() + &#39;d&#39;,
+                          k=None,
+                          sbml_label=reaction.getId(),
+                          type=&quot;complex dissociation&quot;)
+        self.__g_edges.append((m, r))
+
+        # add catalysis
+        self.__g.add_edge(m, p,
+                          label=reaction.getId() + &#39;c&#39;,
+                          k=None,
+                          sbml_label=reaction.getId(),
+                          type=&quot;catalysis&quot;)
+        self.__g_edges.append((m, p))
 
     def __parse_reactions(self, model):
         for i in model.getListOfReactions():
-            self.__extract_direct_reaction(i)
-            if i.getReversible():
-                self.__extract_reverse_reaction(i)
+            if i.getNumModifiers() != 0:
+                self.__extract_catalysis_reaction(i)
+            else:
+                self.__extract_direct_reaction(i)
+                if i.getReversible():
+                    self.__extract_reverse_reaction(i)
+
+    def __get_celldesigner_reaction_type(self, i):
+
+        i_initial = i.getAnnotation().getChild(0)
+
+        child_number = self.__get_child_number(i_initial, &#39;reactionType&#39;)
+
+        if child_number is not None:
+
+            if i.getNumModifiers() == 1:
+
+                child_number1 = self.__get_child_number(i_initial, &#39;listOfModification&#39;)
+
+                if child_number1 is not None:
+
+                    child_number2 = self.__get_child_number(i_initial.getChild(child_number1), &#39;modification&#39;)
+
+                    ii = i_initial.getChild(child_number1).getChild(child_number2)
+                    modification = self.__get_modification_type(ii)
+
+                    return modification
+                else:
+                    return None
+            else:
+                return None
+
+        else:
+            return None
+
+    def __get_child_number(self, i, string_value):
+
+        num_children = i.getNumChildren()
+        children_strings = [i.getChild(ii).getName() for ii in range(num_children)]
+        if string_value in children_strings:
+            child_number = children_strings.index(string_value)
+        else:
+            child_number = None
+
+        return child_number
+
+    def __get_modification_type(self, ii):
+
+        attribute_names = [ii.getAttrName(iii) for iii in range(ii.getAttributesLength())]
+
+        if &#39;type&#39; in attribute_names:
+
+            indx_type = attribute_names.index(&#39;type&#39;)
+            attribute_values = [ii.getAttrValue(iii) for iii in attribute_names]
+
+            return attribute_values[indx_type]
+        else:
+            return None
+
+    def __assign_reaction_type(self):
+
+        for i in self.get_g_edges():
+
+            current_edge = self.__g.edges[i]
+
+            if current_edge[&#39;type&#39;] is None:
+
+                reactant_node = self.__g.nodes[i[0]]
+                product_node = self.__g.nodes[i[1]]
+
+                if sum(reactant_node[&#39;stoichiometries&#39;]) == 2 and sum(product_node[&#39;stoichiometries&#39;]) == 1:
+                    current_edge[&#39;type&#39;] = &quot;complex formation&quot;
+
+                elif sum(reactant_node[&#39;stoichiometries&#39;]) == 1 and sum(product_node[&#39;stoichiometries&#39;]) == 2:
+                    if (i[1], i[0]) in self.get_g_edges():
+                        current_edge[&#39;type&#39;] = &quot;complex dissociation&quot;
+                    else:
+                        current_edge[&#39;type&#39;] = &quot;catalysis&quot;
+
+                elif sum(reactant_node[&#39;stoichiometries&#39;]) == 1 and sum(product_node[&#39;stoichiometries&#39;]) == 1:
+                    current_edge[&#39;type&#39;] = &quot;catalysis&quot;
+
+                elif sum(reactant_node[&#39;stoichiometries&#39;]) == 1 and sum(product_node[&#39;stoichiometries&#39;]) == 3:
+                    current_edge[&#39;type&#39;] = &quot;catalysis&quot;
+
+                else:
+                    output_statement = &quot;The reaction type of reaction &quot; + current_edge[&#39;label&#39;] + &quot; could not be &quot; +\
+                                       &quot;identified as it does not fit any biological criteria established. \n&quot; +\
+                                       &quot;Automatic creation of bounds for optimization routines cannot be completed. \n&quot;
+
+                    print(output_statement)
 
     # core CRNT calcs
     def __create_y_matrix(self):
@@ -320,7 +548,7 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
             stoich = dict(zip(v[&#39;species&#39;], v[&#39;stoichiometries&#39;]))
             self.__Y[:, count] = [stoich[i] if i in stoich.keys() else 0 for i in self.__species]
             count += 1
-            
+
     def __create_s_matrix(self):
 
         self.__S = sympy.zeros(len(self.__species), len(self.__reactions))
@@ -457,19 +685,19 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
         &gt;&gt;&gt; import sympy
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; sympy.pprint(network.get_c_graph().get_ode_system())
-            ⎡    -re₁⋅s₁⋅s₂ + re1r⋅s₃ + re₄⋅s₁₆ - re₆⋅s₁⋅s₆ + re6r⋅s₁₅     ⎤
+            ⎡    -re₁⋅s₁⋅s₂ + re1r⋅s₃ + re₄⋅s₁₆ - re₅⋅s₁⋅s₆ + re5r⋅s₁₅     ⎤
             ⎢                                                              ⎥
             ⎢                 -re₁⋅s₁⋅s₂ + s₃⋅(re1r + re₂)                 ⎥
             ⎢                                                              ⎥
             ⎢                 re₁⋅s₁⋅s₂ + s₃⋅(-re1r - re₂)                 ⎥
             ⎢                                                              ⎥
-            ⎢re₂⋅s₃ - re₃⋅s₆⋅s₇ + re3r⋅s₁₆ - re₆⋅s₁⋅s₆ + s₁₅⋅(re6r + 2⋅re₈)⎥
+            ⎢re₂⋅s₃ - re₃⋅s₆⋅s₇ + re3r⋅s₁₆ - re₅⋅s₁⋅s₆ + s₁₅⋅(re5r + 2⋅re₆)⎥
             ⎢                                                              ⎥
             ⎢                -re₃⋅s₆⋅s₇ + s₁₆⋅(re3r + re₄)                 ⎥
             ⎢                                                              ⎥
-            ⎢                re₆⋅s₁⋅s₆ + s₁₅⋅(-re6r - re₈)                 ⎥
+            ⎢                re₃⋅s₆⋅s₇ + s₁₆⋅(-re3r - re₄)                 ⎥
             ⎢                                                              ⎥
-            ⎣                re₃⋅s₆⋅s₇ + s₁₆⋅(-re3r - re₄)                 ⎦
+            ⎣                re₅⋅s₁⋅s₆ + s₁₅⋅(-re5r - re₆)                 ⎦
         &quot;&quot;&quot;
         return self.__Y*self.__A*self.__psi</div>
 
@@ -494,10 +722,9 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
         Example
         --------
         &gt;&gt;&gt; import crnt4sbml
-        &gt;&gt;&gt; import sympy
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; print(network.get_c_graph().get_species())
-            [&#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;, &#39;s6&#39;, &#39;s7&#39;, &#39;s15&#39;, &#39;s16&#39;]
+            [&#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;, &#39;s6&#39;, &#39;s7&#39;, &#39;s16&#39;, &#39;s15&#39;]
         &quot;&quot;&quot;
         return self.__species</div>
 
@@ -510,7 +737,6 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
         Example
         --------
         &gt;&gt;&gt; import crnt4sbml
-        &gt;&gt;&gt; import sympy
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; print(network.get_c_graph().get_complexes())
             [&#39;s1+s2&#39;, &#39;s3&#39;, &#39;s6+s2&#39;, &#39;s6+s7&#39;, &#39;s16&#39;, &#39;s7+s1&#39;, &#39;s1+s6&#39;, &#39;s15&#39;, &#39;2*s6&#39;]
@@ -526,10 +752,9 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
         Example
         --------
         &gt;&gt;&gt; import crnt4sbml
-        &gt;&gt;&gt; import sympy
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; print(network.get_c_graph().get_reactions())
-            [&#39;re1&#39;, &#39;re1r&#39;, &#39;re2&#39;, &#39;re3&#39;, &#39;re3r&#39;, &#39;re4&#39;, &#39;re6&#39;, &#39;re6r&#39;, &#39;re8&#39;]
+            [&#39;re1&#39;, &#39;re1r&#39;, &#39;re2&#39;, &#39;re3&#39;, &#39;re3r&#39;, &#39;re4&#39;, &#39;re5&#39;, &#39;re5r&#39;, &#39;re6&#39;]
         &quot;&quot;&quot;
         return self.__reactions</div>
 
@@ -557,11 +782,11 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
             ⎢                                                                ⎥
             ⎢ 0         0       0   0        re₄      0   0         0       0⎥
             ⎢                                                                ⎥
-            ⎢ 0         0       0   0         0       0  -re₆     re6r      0⎥
+            ⎢ 0         0       0   0         0       0  -re₅     re5r      0⎥
             ⎢                                                                ⎥
-            ⎢ 0         0       0   0         0       0  re₆   -re6r - re₈  0⎥
+            ⎢ 0         0       0   0         0       0  re₅   -re5r - re₆  0⎥
             ⎢                                                                ⎥
-            ⎣ 0         0       0   0         0       0   0        re₈      0⎦
+            ⎣ 0         0       0   0         0       0   0        re₆      0⎦
         &quot;&quot;&quot;
         return self.__A</div>
 
@@ -587,9 +812,9 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
             ⎢                         ⎥
             ⎢0  0  0  1  0  1  0  0  0⎥
             ⎢                         ⎥
-            ⎢0  0  0  0  0  0  0  1  0⎥
+            ⎢0  0  0  0  1  0  0  0  0⎥
             ⎢                         ⎥
-            ⎣0  0  0  0  1  0  0  0  0⎦
+            ⎣0  0  0  0  0  0  0  1  0⎦
         &quot;&quot;&quot;
         return self.__Y</div>
 
@@ -615,9 +840,9 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
             ⎢                                  ⎥
             ⎢0   0   0   -1  1   1   0   0   0 ⎥
             ⎢                                  ⎥
-            ⎢0   0   0   0   0   0   1   -1  -1⎥
+            ⎢0   0   0   1   -1  -1  0   0   0 ⎥
             ⎢                                  ⎥
-            ⎣0   0   0   1   -1  -1  0   0   0 ⎦
+            ⎣0   0   0   0   0   0   1   -1  -1⎦
         &quot;&quot;&quot;
         return self.__S</div>
 
@@ -633,11 +858,11 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
         &gt;&gt;&gt; import sympy
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; sympy.pprint(network.get_c_graph().get_b())
-            ⎡ 0    0    0    0   1.0   0   1.0⎤
+            ⎡ 0    0    0    0   1.0  1.0   0 ⎤
             ⎢                                 ⎥
             ⎢ 0   1.0  1.0   0    0    0    0 ⎥
             ⎢                                 ⎥
-            ⎣1.0   0   1.0  1.0   0   2.0  1.0⎦
+            ⎣1.0   0   1.0  1.0   0   1.0  2.0⎦
         &quot;&quot;&quot;
         return self.__B</div>
 
@@ -766,7 +991,6 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
         Example
         --------
         &gt;&gt;&gt; import crnt4sbml
-        &gt;&gt;&gt; import sympy
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; print(network.get_c_graph().get_dim_equilibrium_manifold())
             3
@@ -782,7 +1006,6 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
         Example
         --------
         &gt;&gt;&gt; import crnt4sbml
-        &gt;&gt;&gt; import sympy
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; print(network.get_c_graph().get_deficiency())
             2

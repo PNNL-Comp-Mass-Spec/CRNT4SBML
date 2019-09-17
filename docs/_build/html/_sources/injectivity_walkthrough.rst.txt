@@ -106,13 +106,13 @@ We now run the optimization routine for the semi-diffusive approach:
 The following is the output obtained by the constructed model::
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 1.734039
+    Elapsed time for feasible point method: 3.119248
 
     Running the multistart optimization ...
 
     Smallest value achieved by objective function: 0.0
 
-    Elapsed time for multistart method: 294.015166
+    Elapsed time for multistart method: 372.495578
 
 For a detailed description of the optimization routine see :ref:`my-optimization-label`. At this point it may also be
 helpful to generate a report on the optimization routine that provides more information. To do this execute the
@@ -182,8 +182,7 @@ This provides the following output::
 
 Similar to the mass conservation approach, we obtain multistability plots in the directory provided by the dir\_path option in
 run\_continuity\_analysis (here it is the default value), where the plots follow the following format PCP (in terms of p as in the theory)
-\_species id\_index of params\_for\_global.png. The following is one multistability plot produced by index 3
-of params\_for\_global\_min.
+\_species id\_index of params\_for\_global.png. The following is one multistability plot produced.
 
 .. image:: ./images_for_docs/fig_1Cii_p9_vs_s7_3.png
 

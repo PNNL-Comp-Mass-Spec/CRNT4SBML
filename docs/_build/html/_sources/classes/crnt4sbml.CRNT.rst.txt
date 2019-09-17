@@ -22,6 +22,7 @@ crnt4sbml.CRNT
       ~CRNT.get_advanced_deficiency_approach
       ~CRNT.get_c_graph
       ~CRNT.print_c_graph
+      ~CRNT.print_biological_reaction_types
       ~CRNT.plot_c_graph
       ~CRNT.plot_save_c_graph
       ~CRNT.get_network_graphml

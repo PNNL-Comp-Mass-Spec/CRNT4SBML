@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; CRNT4SBML 0.0.4 documentation</title>
+  <title>Installation &mdash; CRNT4SBML 0.0.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -187,20 +187,20 @@ installed versions. Here we will give a brief description of creating a virtual 
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install virtualenv
 </pre></div>
 </div>
-<p>Once virtualenv is installed, download the latest version of <a class="reference external" href="https://www.python.org/downloads/">Python 3.6</a> (be sure
+<p>Once virtualenv is installed, download the latest version of <a class="reference external" href="https://www.python.org/downloads/">Python 3.7</a> (be sure
 to take note of the download location). Next we will create a directory to hold all of the virtual environments that we
 may create called “python_environments”:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mkdir python_environments
 </pre></div>
 </div>
-<p>Now that we have virtualenv and Python version 3.6, we can create the virtual environment crnt4sbml_env in the
+<p>Now that we have virtualenv and Python version 3.7, we can create the virtual environment crnt4sbml_env in the
 directory python_environments as follows:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> python_environments
-<span class="gp">$</span> virtualenv -p /path/to/python/3.6/interpreter crnt4sbml_env
+<span class="gp">$</span> virtualenv -p /path/to/python/3.7/interpreter crnt4sbml_env
 </pre></div>
 </div>
 <p>The flag “-p” tells virtualenv to create an environment using a specific Python interpreter, note that if a standard
-download of Python was followed, then the path to the interpreter is as follows “/usr/local/bin/python3.6”. One can now
+download of Python was followed, then the path to the interpreter is as follows “/usr/local/bin/python3.7”. One can now
 see a directory called “crnt4sbml_env” is created in the directory python_environments. We can now activate this
 environment as follows:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> /path/to/python_environments/crnt4sbml_env/bin/activate
@@ -225,7 +225,8 @@ above.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install crnt4sbml
 </pre></div>
 </div>
-<p>This will always install the most recent stable release. Note that crnt4sbml requires Python version 3.6.</p>
+<p>This will always install the most recent stable release. Note that crnt4sbml has only been tested with Python version
+3.7.</p>
 </div>
 <div class="section" id="from-sources">
 <h2>From sources<a class="headerlink" href="#from-sources" title="Permalink to this headline">¶</a></h2>

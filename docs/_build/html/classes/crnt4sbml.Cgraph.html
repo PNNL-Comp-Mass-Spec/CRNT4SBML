@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.Cgraph &mdash; CRNT4SBML 0.0.4 documentation</title>
+  <title>crnt4sbml.Cgraph &mdash; CRNT4SBML 0.0.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -302,11 +302,11 @@ example.</p>
 <span class="go">    ⎢                                                                ⎥</span>
 <span class="go">    ⎢ 0         0       0   0        re₄      0   0         0       0⎥</span>
 <span class="go">    ⎢                                                                ⎥</span>
-<span class="go">    ⎢ 0         0       0   0         0       0  -re₆     re6r      0⎥</span>
+<span class="go">    ⎢ 0         0       0   0         0       0  -re₅     re5r      0⎥</span>
 <span class="go">    ⎢                                                                ⎥</span>
-<span class="go">    ⎢ 0         0       0   0         0       0  re₆   -re6r - re₈  0⎥</span>
+<span class="go">    ⎢ 0         0       0   0         0       0  re₅   -re5r - re₆  0⎥</span>
 <span class="go">    ⎢                                                                ⎥</span>
-<span class="go">    ⎣ 0         0       0   0         0       0   0        re₈      0⎦</span>
+<span class="go">    ⎣ 0         0       0   0         0       0   0        re₆      0⎦</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -322,11 +322,11 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_b</span><span class="p">())</span>
-<span class="go">    ⎡ 0    0    0    0   1.0   0   1.0⎤</span>
+<span class="go">    ⎡ 0    0    0    0   1.0  1.0   0 ⎤</span>
 <span class="go">    ⎢                                 ⎥</span>
 <span class="go">    ⎢ 0   1.0  1.0   0    0    0    0 ⎥</span>
 <span class="go">    ⎢                                 ⎥</span>
-<span class="go">    ⎣1.0   0   1.0  1.0   0   2.0  1.0⎦</span>
+<span class="go">    ⎣1.0   0   1.0  1.0   0   1.0  2.0⎦</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -339,7 +339,6 @@ example.</p>
 example.</p>
 <p class="rubric">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_complexes</span><span class="p">())</span>
 <span class="go">    [&#39;s1+s2&#39;, &#39;s3&#39;, &#39;s6+s2&#39;, &#39;s6+s7&#39;, &#39;s16&#39;, &#39;s7+s1&#39;, &#39;s1+s6&#39;, &#39;s15&#39;, &#39;2*s6&#39;]</span>
@@ -355,7 +354,6 @@ example.</p>
 example.</p>
 <p class="rubric">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_deficiency</span><span class="p">())</span>
 <span class="go">    2</span>
@@ -372,7 +370,6 @@ is the number of mass conservation relationships.
 example.</p>
 <p class="rubric">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_dim_equilibrium_manifold</span><span class="p">())</span>
 <span class="go">    3</span>
@@ -530,19 +527,19 @@ provided example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_ode_system</span><span class="p">())</span>
-<span class="go">    ⎡    -re₁⋅s₁⋅s₂ + re1r⋅s₃ + re₄⋅s₁₆ - re₆⋅s₁⋅s₆ + re6r⋅s₁₅     ⎤</span>
+<span class="go">    ⎡    -re₁⋅s₁⋅s₂ + re1r⋅s₃ + re₄⋅s₁₆ - re₅⋅s₁⋅s₆ + re5r⋅s₁₅     ⎤</span>
 <span class="go">    ⎢                                                              ⎥</span>
 <span class="go">    ⎢                 -re₁⋅s₁⋅s₂ + s₃⋅(re1r + re₂)                 ⎥</span>
 <span class="go">    ⎢                                                              ⎥</span>
 <span class="go">    ⎢                 re₁⋅s₁⋅s₂ + s₃⋅(-re1r - re₂)                 ⎥</span>
 <span class="go">    ⎢                                                              ⎥</span>
-<span class="go">    ⎢re₂⋅s₃ - re₃⋅s₆⋅s₇ + re3r⋅s₁₆ - re₆⋅s₁⋅s₆ + s₁₅⋅(re6r + 2⋅re₈)⎥</span>
+<span class="go">    ⎢re₂⋅s₃ - re₃⋅s₆⋅s₇ + re3r⋅s₁₆ - re₅⋅s₁⋅s₆ + s₁₅⋅(re5r + 2⋅re₆)⎥</span>
 <span class="go">    ⎢                                                              ⎥</span>
 <span class="go">    ⎢                -re₃⋅s₆⋅s₇ + s₁₆⋅(re3r + re₄)                 ⎥</span>
 <span class="go">    ⎢                                                              ⎥</span>
-<span class="go">    ⎢                re₆⋅s₁⋅s₆ + s₁₅⋅(-re6r - re₈)                 ⎥</span>
+<span class="go">    ⎢                re₃⋅s₆⋅s₇ + s₁₆⋅(-re3r - re₄)                 ⎥</span>
 <span class="go">    ⎢                                                              ⎥</span>
-<span class="go">    ⎣                re₃⋅s₆⋅s₇ + s₁₆⋅(-re3r - re₄)                 ⎦</span>
+<span class="go">    ⎣                re₅⋅s₁⋅s₆ + s₁₅⋅(-re5r - re₆)                 ⎦</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -588,10 +585,9 @@ example.</p>
 example.</p>
 <p class="rubric">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_reactions</span><span class="p">())</span>
-<span class="go">    [&#39;re1&#39;, &#39;re1r&#39;, &#39;re2&#39;, &#39;re3&#39;, &#39;re3r&#39;, &#39;re4&#39;, &#39;re6&#39;, &#39;re6r&#39;, &#39;re8&#39;]</span>
+<span class="go">    [&#39;re1&#39;, &#39;re1r&#39;, &#39;re2&#39;, &#39;re3&#39;, &#39;re3r&#39;, &#39;re4&#39;, &#39;re5&#39;, &#39;re5r&#39;, &#39;re6&#39;]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -617,9 +613,9 @@ example.</p>
 <span class="go">    ⎢                                  ⎥</span>
 <span class="go">    ⎢0   0   0   -1  1   1   0   0   0 ⎥</span>
 <span class="go">    ⎢                                  ⎥</span>
-<span class="go">    ⎢0   0   0   0   0   0   1   -1  -1⎥</span>
+<span class="go">    ⎢0   0   0   1   -1  -1  0   0   0 ⎥</span>
 <span class="go">    ⎢                                  ⎥</span>
-<span class="go">    ⎣0   0   0   1   -1  -1  0   0   0 ⎦</span>
+<span class="go">    ⎣0   0   0   0   0   0   1   -1  -1⎦</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -632,10 +628,9 @@ example.</p>
 example.</p>
 <p class="rubric">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_species</span><span class="p">())</span>
-<span class="go">    [&#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;, &#39;s6&#39;, &#39;s7&#39;, &#39;s15&#39;, &#39;s16&#39;]</span>
+<span class="go">    [&#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;, &#39;s6&#39;, &#39;s7&#39;, &#39;s16&#39;, &#39;s15&#39;]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -675,9 +670,9 @@ example.</p>
 <span class="go">    ⎢                         ⎥</span>
 <span class="go">    ⎢0  0  0  1  0  1  0  0  0⎥</span>
 <span class="go">    ⎢                         ⎥</span>
-<span class="go">    ⎢0  0  0  0  0  0  0  1  0⎥</span>
+<span class="go">    ⎢0  0  0  0  1  0  0  0  0⎥</span>
 <span class="go">    ⎢                         ⎥</span>
-<span class="go">    ⎣0  0  0  0  1  0  0  0  0⎦</span>
+<span class="go">    ⎣0  0  0  0  0  0  0  1  0⎦</span>
 </pre></div>
 </div>
 </dd></dl>

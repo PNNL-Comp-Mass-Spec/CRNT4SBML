@@ -47,30 +47,30 @@ running the mass conservation approach and the provided output.
 ::
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.34515500000000054
+    Elapsed time for creating Equilibrium Manifold: 0.6399860000000004
 
     Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 0.5767569999999997
+    Elapsed time for finding species' concentrations: 1.3815660000000003
 
 
     Running feasible point method for 10 iterations ...
-    Elapsed time for feasible point method: 0.5893409999999992
+    Elapsed time for feasible point method: 2.8791220000000006
 
     Running the multistart optimization ...
 
     Smallest value achieved by objective function: 0.0
 
-    Elapsed time for multistart method: 8.733386000000001
+    Elapsed time for multistart method: 12.578572000000001
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 22.524571180343628
+    Elapsed time for continuity analysis: 21.159530878067017
 
     The number of feasible points that satisfy the constraints: 10
     Total feasible points that give F(x) = 0: 4
     Total number of points that passed final_check: 4
     Number of multistability plots found: 2
     Elements in params_for_global_min that produce multistability:
-    [1, 2]
+    [2, 3]
 
 .. _`quickstart-injectivity-label`:
 
@@ -111,16 +111,16 @@ running the semi-diffusive approach and the provided output.
 ::
 
     Running feasible point method for 10 iterations ...
-    Elapsed time for feasible point method: 0.41235700000000053
+    Elapsed time for feasible point method: 0.7991039999999998
 
     Running the multistart optimization ...
 
     Smallest value achieved by objective function: 0.0
 
-    Elapsed time for multistart method: 34.854986000000004
+    Elapsed time for multistart method: 45.470756
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 67.59781122207642
+    Elapsed time for continuity analysis: 67.03238201141357
 
     The number of feasible points that satisfy the constraints: 10
     Total feasible points that give F(x) = 0: 9

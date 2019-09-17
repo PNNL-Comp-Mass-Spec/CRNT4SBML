@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.mass_conservation_approach &mdash; CRNT4SBML 0.0.4 documentation</title>
+  <title>crnt4sbml.mass_conservation_approach &mdash; CRNT4SBML 0.0.5 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -1010,61 +1010,32 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; print(concentration_bounds)
             [(0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]
         &quot;&quot;&quot;
+
+        graph_edges = self.__cgraph.get_g_edges()
         dec_vec_var_def = []
         for i in self.get_decision_vector():
 
             if i in self.__concentration_pars:
                 dec_vec_var_def.append(&quot;concentration&quot;)
             elif i in self.__reaction_pars:
-                dec_vec_var_def.append(self.get_type_of_reaction(i))
+
+                ind = self.__reaction_pars.index(i)
+                reaction = graph_edges[ind]
+
+                reaction_type = self.__cgraph.get_graph().edges[reaction][&#39;type&#39;]
+                dec_vec_var_def.append(reaction_type)
+
+                if reaction_type is None:
+                    output_statement = &quot;The reaction type of reaction &quot; + self.__cgraph.get_graph().edges[reaction][&#39;label&#39;] \
+                                       + &quot; could not be identified as it does not fit any biological criteria &quot; +\
+                                       &quot;established. \n&quot; + &quot;You must enter bounds manually for this reaction! \n&quot;
+                    print(output_statement)
 
         concentration_bounds = [self.get_physiological_range(&quot;concentration&quot;)]*len(self.get_concentration_bounds_species())
 
         bounds = [self.get_physiological_range(i) for i in dec_vec_var_def]
 
         return bounds, concentration_bounds</div>
-
-<div class="viewcode-block" id="MassConservationApproach.get_type_of_reaction"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_type_of_reaction">[docs]</a>    def get_type_of_reaction(self, reaction_label):
-        &quot;&quot;&quot;
-        Determines the type of reaction based on the C-graph for a particular reaction
-
-        Parameters
-        -------------
-        reaction_label: SymPy positive symbol
-            Positive SymPy symbol of the reaction label one wants to find physiological bounds for.
-
-        Returns
-        --------
-        type_of_reaction: string
-            The type of reaction. Possible choices: &quot;complex formation&quot;, &quot;complex dissociation&quot;, or &quot;catalysis&quot;
-
-        Example
-        --------
-        &gt;&gt;&gt; import crnt4sbml
-        &gt;&gt;&gt; import sympy
-        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
-        &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
-            Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 0.888776
-        &gt;&gt;&gt; print(approach.get_type_of_reaction(sympy.Symbol(&#39;re1&#39;, positive=True)))
-            complex formation
-        &quot;&quot;&quot;
-
-        graph_edges = self.__cgraph.get_g_edges()
-        ind = self.__reaction_pars.index(reaction_label)
-
-        reaction = graph_edges[ind]
-
-        if ((reaction[1], reaction[0]) in graph_edges) and (&#39;+&#39; in reaction[0]) and (&#39;+&#39; not in reaction[1]):
-            type_of_reaction = &quot;complex formation&quot;
-        elif ((reaction[1], reaction[0]) in graph_edges) and (&#39;+&#39; in reaction[1]) and (&#39;+&#39; not in reaction[0]):
-            type_of_reaction = &quot;complex dissociation&quot;
-        else:
-            type_of_reaction = &quot;catalysis&quot;
-
-        return type_of_reaction</div>
 
 <div class="viewcode-block" id="MassConservationApproach.run_optimization"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_optimization">[docs]</a>    def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
                          numpy_dtype=numpy.float64, concentration_bounds=None):

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.CRNT &mdash; CRNT4SBML 0.0.4 documentation</title>
+  <title>crnt4sbml.CRNT &mdash; CRNT4SBML 0.0.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -238,13 +238,16 @@
 <tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.CRNT.print_c_graph" title="crnt4sbml.CRNT.print_c_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_c_graph</span></code></a>()</td>
 <td>Prints the reactions and reaction labels for the network.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.CRNT.plot_c_graph" title="crnt4sbml.CRNT.plot_c_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_c_graph</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.CRNT.print_biological_reaction_types" title="crnt4sbml.CRNT.print_biological_reaction_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_biological_reaction_types</span></code></a>()</td>
+<td>Prints the reactions, reaction labels, and biological reaction type for the network.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.CRNT.plot_c_graph" title="crnt4sbml.CRNT.plot_c_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_c_graph</span></code></a>()</td>
 <td>Generates a matplotlib plot for the C-graph of the network using the networkx.draw function with circular and Kamada Kawai layout.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.CRNT.plot_save_c_graph" title="crnt4sbml.CRNT.plot_save_c_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_save_c_graph</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.CRNT.plot_save_c_graph" title="crnt4sbml.CRNT.plot_save_c_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_save_c_graph</span></code></a>()</td>
 <td>Saves the matplotlib plot for the C-graph of the network using the networkx.draw function with circular and Kamada Kawai layout to the file network_cgraph.png</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.CRNT.get_network_graphml" title="crnt4sbml.CRNT.get_network_graphml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_network_graphml</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.CRNT.get_network_graphml" title="crnt4sbml.CRNT.get_network_graphml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_network_graphml</span></code></a>()</td>
 <td>Writes the NetworkX Digraph to the file network.graphml.</td>
 </tr>
 </tbody>
@@ -414,6 +417,30 @@ Kamada Kawai layout to the file network_cgraph.png</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="crnt4sbml.CRNT.print_biological_reaction_types">
+<code class="descname">print_biological_reaction_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/crnt.html#CRNT.print_biological_reaction_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.CRNT.print_biological_reaction_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the reactions, reaction labels, and biological reaction type for the network.
+<a class="reference download internal" download="" href="../_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided example.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span><span class="o">.</span><span class="n">print_biological_reaction_types</span><span class="p">()</span>
+<span class="go">    Reaction graph of the form</span>
+<span class="go">    reaction -- reaction label -- biological reaction type:</span>
+<span class="go">    s1+s2 -&gt; s3  --  re1 -- complex formation</span>
+<span class="go">    s3 -&gt; s1+s2  --  re1r -- complex dissociation</span>
+<span class="go">    s3 -&gt; s6+s2  --  re2 -- catalysis</span>
+<span class="go">    s6+s7 -&gt; s16  --  re3 -- complex formation</span>
+<span class="go">    s16 -&gt; s6+s7  --  re3r -- complex dissociation</span>
+<span class="go">    s16 -&gt; s7+s1  --  re4 -- catalysis</span>
+<span class="go">    s1+s6 -&gt; s15  --  re5 -- complex formation</span>
+<span class="go">    s15 -&gt; s1+s6  --  re5r -- complex dissociation</span>
+<span class="go">    s15 -&gt; 2*s6  --  re6 -- catalysis</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="crnt4sbml.CRNT.print_c_graph">
 <code class="descname">print_c_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/crnt.html#CRNT.print_c_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.CRNT.print_c_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints the reactions and reaction labels for the network.
@@ -431,9 +458,9 @@ example.</p>
 <span class="go">    s6+s7 -&gt; s16  --  re3</span>
 <span class="go">    s16 -&gt; s6+s7  --  re3r</span>
 <span class="go">    s16 -&gt; s7+s1  --  re4</span>
-<span class="go">    s1+s6 -&gt; s15  --  re6</span>
-<span class="go">    s15 -&gt; s1+s6  --  re6r</span>
-<span class="go">    s15 -&gt; 2*s6  --  re8</span>
+<span class="go">    s1+s6 -&gt; s15  --  re5</span>
+<span class="go">    s15 -&gt; s1+s6  --  re5r</span>
+<span class="go">    s15 -&gt; 2*s6  --  re6</span>
 </pre></div>
 </div>
 </dd></dl>
