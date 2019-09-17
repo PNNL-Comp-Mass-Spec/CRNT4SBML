@@ -691,7 +691,6 @@ class SemiDiffusiveApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
         >>> approach = network.get_semi_diffusive_approach()
         >>> approach.get_symbolic_objective_fun()
@@ -707,7 +706,6 @@ class SemiDiffusiveApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
         >>> approach = network.get_semi_diffusive_approach()
         >>> approach.get_lambda_objective_fun()
@@ -752,7 +750,6 @@ class SemiDiffusiveApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
         >>> approach = network.get_semi_diffusive_approach()
         >>> approach.get_lambda_polynomial_fun()
@@ -768,7 +765,6 @@ class SemiDiffusiveApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
         >>> approach = network.get_semi_diffusive_approach()
         >>> print(approach.get_key_species())
@@ -785,7 +781,6 @@ class SemiDiffusiveApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
         >>> approach = network.get_semi_diffusive_approach()
         >>> print(approach.get_non_key_species())
@@ -802,7 +797,6 @@ class SemiDiffusiveApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
         >>> approach = network.get_semi_diffusive_approach()
         >>> print(approach.get_boundary_species())
@@ -819,7 +813,6 @@ class SemiDiffusiveApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
         >>> approach = network.get_semi_diffusive_approach()
         >>> print(approach.get_decision_vector())
@@ -840,7 +833,6 @@ class SemiDiffusiveApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
         >>> approach = network.get_semi_diffusive_approach()
         >>> print(approach.get_mu_vector())
@@ -858,7 +850,6 @@ class SemiDiffusiveApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
         >>> approach = network.get_semi_diffusive_approach()
         >>> approach.print_decision_vector()

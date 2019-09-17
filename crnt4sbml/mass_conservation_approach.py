@@ -372,9 +372,10 @@ class MassConservationApproach:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> sympy.pprint(approach.get_w_matrix())
             ⎡1  0  0  0  0  1  1  0  0⎤
             ⎢                         ⎥
@@ -386,9 +387,9 @@ class MassConservationApproach:
             ⎢                         ⎥
             ⎢0  0  0  1  0  1  0  0  0⎥
             ⎢                         ⎥
-            ⎢0  0  0  0  0  0  0  1  0⎥
-            ⎢                         ⎥
             ⎢0  0  0  0  1  0  0  0  0⎥
+            ⎢                         ⎥
+            ⎢0  0  0  0  0  0  0  1  0⎥
             ⎢                         ⎥
             ⎢1  1  1  0  0  0  0  0  0⎥
             ⎢                         ⎥
@@ -411,9 +412,10 @@ class MassConservationApproach:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> sympy.pprint(approach.get_w_nullspace())
             ⎡⎡-1⎤  ⎡1 ⎤⎤
             ⎢⎢  ⎥  ⎢  ⎥⎥
@@ -448,9 +450,10 @@ class MassConservationApproach:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> sympy.pprint(approach.get_h_vector())
             ⎡a₁ - a₂ - re₁⋅s₁⋅s₂ + re1r⋅s₃⎤
             ⎢                             ⎥
@@ -460,9 +463,9 @@ class MassConservationApproach:
             ⎢                             ⎥
             ⎢re₃⋅s₆⋅s₇ + s₁₆⋅(-re3r - re₄)⎥
             ⎢                             ⎥
-            ⎢  a₂ - re₆⋅s₁⋅s₆ + re6r⋅s₁₅  ⎥
+            ⎢  a₂ - re₅⋅s₁⋅s₆ + re5r⋅s₁₅  ⎥
             ⎢                             ⎥
-            ⎣re₆⋅s₁⋅s₆ + s₁₅⋅(-re6r - re₈)⎦
+            ⎣re₅⋅s₁⋅s₆ + s₁₅⋅(-re5r - re₆)⎦
         """
         return self.__H
 
@@ -479,27 +482,28 @@ class MassConservationApproach:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> sympy.pprint(approach.get_g_matrix())
             ⎡-re₁⋅s₂  -re₁⋅s₁     re1r         0        0          0            0       1  -1⎤
             ⎢                                                                                ⎥
             ⎢re₁⋅s₂   re₁⋅s₁   -re1r - re₂     0        0          0            0       0  0 ⎥
             ⎢                                                                                ⎥
-            ⎢   0        0          0       -re₃⋅s₇  -re₃⋅s₆       0          re3r      1  0 ⎥
+            ⎢   0        0          0       -re₃⋅s₇  -re₃⋅s₆     re3r           0       1  0 ⎥
             ⎢                                                                                ⎥
-            ⎢   0        0          0       re₃⋅s₇   re₃⋅s₆        0       -re3r - re₄  0  0 ⎥
+            ⎢   0        0          0       re₃⋅s₇   re₃⋅s₆   -re3r - re₄       0       0  0 ⎥
             ⎢                                                                                ⎥
-            ⎢-re₆⋅s₆     0          0       -re₆⋅s₁     0        re6r           0       0  1 ⎥
+            ⎢-re₅⋅s₆     0          0       -re₅⋅s₁     0          0          re5r      0  1 ⎥
             ⎢                                                                                ⎥
-            ⎢re₆⋅s₆      0          0       re₆⋅s₁      0     -re6r - re₈       0       0  0 ⎥
+            ⎢re₅⋅s₆      0          0       re₅⋅s₁      0          0       -re5r - re₆  0  0 ⎥
             ⎢                                                                                ⎥
-            ⎢   0        0          0          0       1.0         0           1.0      0  0 ⎥
+            ⎢   0        0          0          0       1.0        1.0           0       0  0 ⎥
             ⎢                                                                                ⎥
             ⎢   0       1.0        1.0         0        0          0            0       0  0 ⎥
             ⎢                                                                                ⎥
-            ⎣  1.0       0         1.0        1.0       0         2.0          1.0      0  0 ⎦
+            ⎣  1.0       0         1.0        1.0       0         1.0          2.0      0  0 ⎦
         """
         return self.__G
 
@@ -516,21 +520,22 @@ class MassConservationApproach:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> sympy.pprint(approach.get_dch_matrix())
             ⎡-re₁⋅s₂  -re₁⋅s₁     re1r         0        0          0            0     ⎤
             ⎢                                                                         ⎥
             ⎢re₁⋅s₂   re₁⋅s₁   -re1r - re₂     0        0          0            0     ⎥
             ⎢                                                                         ⎥
-            ⎢   0        0          0       -re₃⋅s₇  -re₃⋅s₆       0          re3r    ⎥
+            ⎢   0        0          0       -re₃⋅s₇  -re₃⋅s₆     re3r           0     ⎥
             ⎢                                                                         ⎥
-            ⎢   0        0          0       re₃⋅s₇   re₃⋅s₆        0       -re3r - re₄⎥
+            ⎢   0        0          0       re₃⋅s₇   re₃⋅s₆   -re3r - re₄       0     ⎥
             ⎢                                                                         ⎥
-            ⎢-re₆⋅s₆     0          0       -re₆⋅s₁     0        re6r           0     ⎥
+            ⎢-re₅⋅s₆     0          0       -re₅⋅s₁     0          0          re5r    ⎥
             ⎢                                                                         ⎥
-            ⎣re₆⋅s₆      0          0       re₆⋅s₁      0     -re6r - re₈       0     ⎦
+            ⎣re₅⋅s₆      0          0       re₅⋅s₁      0          0       -re5r - re₆⎦
         """
         return self.__DCH
 
@@ -544,13 +549,13 @@ class MassConservationApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_lambda_g_matrix())
             <function _lambdifygenerated at 0x13248ac80>
         """
@@ -567,13 +572,13 @@ class MassConservationApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_lambda_dch_matrix())
             <function _lambdifygenerated at 0x131a06ea0>
         """
@@ -589,20 +594,20 @@ class MassConservationApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_symbolic_objective_fun())
-            1.0*re1**2*re2**2*re3**2*re4**2*re6**2*re8**2*s1**2*s6**2*s7**2*((1.0*s2/s7 - 1.0*s2*(-re3r - re4)/
-            (re3*s6*s7))/re4 + (1.0 + 1.0*re1r/(re1*s1))/re2 + 1.0/(re1*s1))**2*(-((1.0*s6*(-1.0*s1/s6 + 1.0)/s7 + 1.0
-            - (-re3r - re4)*(-1.0*s1/s6 + 1.0)/(re3*s7))/re4 + 1.0/re2)*(-1.0*re6r*s2/(re6*re8*s1*s6) - 1.0*s2*(1 +
-            re6*s6/(re1*s2))/(re6*s1*s6) - (1.0 + 1.0*re1r/(re1*s1))/re2)/((1.0*s2/s7 - 1.0*s2*(-re3r - re4)/
-            (re3*s6*s7))/re4 + (1.0 + 1.0*re1r/(re1*s1))/re2 + 1.0/(re1*s1)) + (2.0 + 1.0*re6r/(re6*s6))/re8 + 1.0*(1 +
-            re6*s6/(re1*s2))/(re6*s6) - 1.0/re2 - 1.0/(re1*s2))**2
+            1.0*re1**2*re2**2*re3**2*re4**2*re5**2*re6**2*s1**2*s6**2*s7**2*((1.0*s2/s7 - 1.0*s2*(-re3r - re4)/
+            (re3*s6*s7))/re4 + (1.0 + 1.0*re1r/(re1*s1))/re2 + 1.0/(re1*s1))**2*(-((1.0*s6*(-1.0*s1/s6 + 1.0)/s7 +
+            1.0 - (-re3r - re4)*(-1.0*s1/s6 + 1.0)/(re3*s7))/re4 + 1.0/re2)*(-1.0*re5r*s2/(re5*re6*s1*s6) -
+            1.0*s2*(1 + re5*s6/(re1*s2))/(re5*s1*s6) - (1.0 + 1.0*re1r/(re1*s1))/re2)/((1.0*s2/s7 - 1.0*s2*
+            (-re3r - re4)/(re3*s6*s7))/re4 + (1.0 + 1.0*re1r/(re1*s1))/re2 + 1.0/(re1*s1)) + (2.0 + 1.0*re5r/(re5*s6))/
+            re6 + 1.0*(1 + re5*s6/(re1*s2))/(re5*s6) - 1.0/re2 - 1.0/(re1*s2))**2
         """
         return self.__symbolic_objective_fun
 
@@ -617,13 +622,13 @@ class MassConservationApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_lambda_objective_fun())
             <function _lambdifygenerated at 0x12f6f7ea0>
         """
@@ -646,18 +651,18 @@ class MassConservationApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_concentration_vals())
-            [re4*s16*(re1r*re6r + re1r*re8 + re2*re6r + re2*re8)/(re1*re2*re6r*s2 + re1*re2*re8*s2 + re1r*re6*re8*s6 +
-            re2*re6*re8*s6), s2, re1*re4*s16*s2*(re6r + re8)/(re1*re2*re6r*s2 + re1*re2*re8*s2 + re1r*re6*re8*s6 +
-            re2*re6*re8*s6), s6, s16*(re3r + re4)/(re3*s6), re4*re6*s16*s6*(re1r + re2)/(re1*re2*re6r*s2 +
-            re1*re2*re8*s2 + re1r*re6*re8*s6 + re2*re6*re8*s6), s16]
+            [s15*(re5r + re6)/(re5*s6), s2, re1*s15*s2*(re5r + re6)/(re5*s6*(re1r + re2)), s6,
+            -s15*(re5*re5r*s6*(re1r + re2)*(re3r + re4) - (re5r + re6)*(-re1*re1r*re3r*s2 - re1*re1r*re4*s2 +
+            re1*re3r*s2*(re1r + re2) + re1*re4*s2*(re1r + re2) + re5*s6*(re1r + re2)*(re3r + re4)))/(re3*re4*re5*s6**2*
+            (re1r + re2)), s15*(re1*re2*re5r*s2 + re1*re2*re6*s2 + re1r*re5*re6*s6 + re2*re5*re6*s6)/(re4*re5*s6*(re1r + re2)), s15]
         """
         return self.__concentration_vals
 
@@ -673,11 +678,12 @@ class MassConservationApproach:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_decision_vector())
-            [re1, re1r, re2, re3, re3r, re4, re6, re6r, re8, s2, s6, s16]
+            [re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, s2, s6, s15]
         """
         return self.__decision_vector_x
 
@@ -694,11 +700,12 @@ class MassConservationApproach:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_concentration_bounds_species())
-            [s1, s3, s7, s15]
+            [s1, s3, s7, s16]
         """
         return self.__concentration_bounds_species
 
@@ -713,18 +720,18 @@ class MassConservationApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_concentration_funs())
-            [<function _lambdifygenerated at 0x12b673f28>, <function _lambdifygenerated at 0x12b7a6ea0>,
-            <function _lambdifygenerated at 0x12b7a6d08>, <function _lambdifygenerated at 0x12b7a67b8>,
-            <function _lambdifygenerated at 0x12b7a6d90>, <function _lambdifygenerated at 0x12b7a6488>,
-            <function _lambdifygenerated at 0x12b7a6950>]
+            [<function _lambdifygenerated at 0x135f8b4d0>, <function _lambdifygenerated at 0x135f72050>,
+            <function _lambdifygenerated at 0x135f728c0>, <function _lambdifygenerated at 0x135f725f0>,
+            <function _lambdifygenerated at 0x135f5f830>, <function _lambdifygenerated at 0x135fa0170>,
+            <function _lambdifygenerated at 0x135fa04d0>]
         """
         return self.__concentration_funs
 
@@ -738,15 +745,15 @@ class MassConservationApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_objective_fun_params())
-            [re1, re1r, re2, re3, re3r, re4, re6, re6r, re8, s1, s2, s3, s6, s7, s15, s16]
+            [re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, s1, s2, s3, s6, s7, s16, s15]
         """
         return self.__objective_fun_params
 
@@ -760,13 +767,13 @@ class MassConservationApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_conservation_laws())
             C1 = 1.0*s16 + 1.0*s7
             C2 = 1.0*s2 + 1.0*s3
@@ -788,21 +795,21 @@ class MassConservationApproach:
         Example
         --------
         >>> import crnt4sbml
-        >>> import sympy
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> print(approach.get_concentration_solutions())
-            s1 = re4*s16*(re1r*re6r + re1r*re8 + re2*re6r + re2*re8)/(re1*re2*re6r*s2 + re1*re2*re8*s2 + re1r*re6*re8*s6 + re2*re6*re8*s6)
+            s1 = s15*(re5r + re6)/(re5*s6)
             s2 = s2
-            s3 = re1*re4*s16*s2*(re6r + re8)/(re1*re2*re6r*s2 + re1*re2*re8*s2 + re1r*re6*re8*s6 + re2*re6*re8*s6)
+            s3 = re1*s15*s2*(re5r + re6)/(re5*s6*(re1r + re2))
             s6 = s6
-            s7 = s16*(re3r + re4)/(re3*s6)
-            s15 = re4*re6*s16*s6*(re1r + re2)/(re1*re2*re6r*s2 + re1*re2*re8*s2 + re1r*re6*re8*s6 + re2*re6*re8*s6)
-            s16 = s16
+            s7 = -s15*(re5*re5r*s6*(re1r + re2)*(re3r + re4) - (re5r + re6)*(-re1*re1r*re3r*s2 - re1*re1r*re4*s2 + re1*re3r*s2*(re1r + re2) + re1*re4*s2*(re1r + re2) + re5*s6*(re1r + re2)*(re3r + re4)))/(re3*re4*re5*s6**2*(re1r + re2))
+            s16 = s15*(re1*re2*re5r*s2 + re1*re2*re6*s2 + re1r*re5*re6*s6 + re2*re5*re6*s6)/(re4*re5*s6*(re1r + re2))
+            s15 = s15
         """
         sols = ""
         for i in range(self.__N):
@@ -831,13 +838,15 @@ class MassConservationApproach:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.7020819999999999
+            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
             Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 0.888776
+            Elapsed time for finding species' concentrations: 1.432065999999999
+
         >>> bounds, concentration_bounds = approach.get_optimization_bounds()
         >>> print(bounds)
             [(1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0),
             (1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]
+
         >>> print(concentration_bounds)
             [(0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]
         """

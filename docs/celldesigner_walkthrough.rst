@@ -18,11 +18,10 @@ this demonstration we will be using version 4.4.2 of CellDesigner on a Mac.
 .. image:: ./images_for_docs/fig_1c_ii_irene.png
 
 +++++++++++++++++++++++++++++
-Mass Conservation Approach
+Creating a Species
 +++++++++++++++++++++++++++++
 
-For the mass conservation approach representing the C-graph in CellDesigner is fairly straightforward. To begin,
-launch CellDesigner and create a new document. The following new document box will then appear. The name provided in
+To begin, launch CellDesigner and create a new document. The following new document box will then appear. The name provided in
 this box can be set to anything the user desires and a specific name is not required. In addition to a name, this box
 also asks for the dimension of white space available in the workspace. The default width of 600 and height of 400 will
 be appropriate for most small networks.
@@ -73,6 +72,10 @@ representation of complex :math:`AE1`.
    :width: 150px
    :align: center
    :height: 160px
+
++++++++++++++++++++++++++++++
+Creating a Reaction
++++++++++++++++++++++++++++++
 
 Using species and complexes the C-graph of the mass conservation approach can be completed once the reactions of the network
 are constructed. In CellDesigner there are three types of reactions that are important when recreating a C-graph: State
@@ -143,7 +146,19 @@ In the reaction box produced by selecting "Edit Reaction....", we can specify th
 species :math:`A` are produced by selecting the "listOfProducts" tab then clicking the species corresponding to the
 phosphorylated species :math:`A` and then selecting Edit and changing stoichiometry to 2.0. We can confirm this change
 by choosing Update. A similar process can be completed if you want to change the number of molecules of any species in
-the reactants, but in this case one would instead choose the "listOfReactants" tab. Using the tools we have outlined so
+the reactants, but in this case one would instead choose the "listOfReactants" tab.
+
+++++++++++++++++++++++++
+Representing Catalysis
+++++++++++++++++++++++++
+
+Under Development
+
++++++++++++++++++++++++++++++++++++
+Basic Mass Conservation SBML File
++++++++++++++++++++++++++++++++++++
+
+Using the tools we have outlined so
 far we can represent the provided network in the C-graph using CellDesigner. One particular layout of this
 CellDesigner representation can be seen below. In this diagram we have manipulated the shape of the reactions by right
 clicking them and choosing "Add Anchor Point". Note that when saving the CellDesigner diagram, it will be saved as an
@@ -155,8 +170,14 @@ xml file produced can be imported into the code.
    :align: center
    :height: 400px
 
++++++++++++++++++++++++++++++++++++++++
+Catalysis Mass Conservation SBML File
++++++++++++++++++++++++++++++++++++++++
+
+To be filled in.
+
 +++++++++++++++++++++++++++++
-Semi-diffusive Approach
+Adding Inflow and Outflow
 +++++++++++++++++++++++++++++
 
 Now that we have completed the mass conserving network of the provided C-graph we will continue by implementing the semi-diffusive network.
@@ -179,7 +200,13 @@ created item and choose "Edit species", the box provided below should appear.
 
 In this box set boundaryCondition to true and choose "Update" to confirm the change. One last word of caution: according
 to the semi-diffusive approach if there is formation of a species there must also be degradation of that species. However,
-one can allow for just degradation of a species. Using this convention and the ideas established in the previous
+one can allow for just degradation of a species.
+
++++++++++++++++++++++++++++++
+Semi-diffusive SBML File
++++++++++++++++++++++++++++++
+
+Using this convention and the ideas established in the previous
 subsection we can recreate the open version of the provided C-graph using CellDesigner. One possible layout of this
 C-graph in CellDesigner is provided below.
 

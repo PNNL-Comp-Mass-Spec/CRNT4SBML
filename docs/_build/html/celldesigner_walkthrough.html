@@ -93,8 +93,13 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physiological_bounds.html">Creating Physiological Bounds</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">CellDesigner Walkthrough</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#mass-conservation-approach">Mass Conservation Approach</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#semi-diffusive-approach">Semi-diffusive Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-species">Creating a Species</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-reaction">Creating a Reaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#representing-catalysis">Representing Catalysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-mass-conservation-sbml-file">Basic Mass Conservation SBML File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#catalysis-mass-conservation-sbml-file">Catalysis Mass Conservation SBML File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-inflow-and-outflow">Adding Inflow and Outflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#semi-diffusive-sbml-file">Semi-diffusive SBML File</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
@@ -187,10 +192,9 @@ software that produces an SBML file. We will continue by demonstrating how to re
 <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a> (provided below) for both mass conserving and semi-diffusive networks in CellDesigner. For
 this demonstration we will be using version 4.4.2 of CellDesigner on a Mac.</p>
 <img alt="_images/fig_1c_ii_irene.png" src="_images/fig_1c_ii_irene.png" />
-<div class="section" id="mass-conservation-approach">
-<h2>Mass Conservation Approach<a class="headerlink" href="#mass-conservation-approach" title="Permalink to this headline">¶</a></h2>
-<p>For the mass conservation approach representing the C-graph in CellDesigner is fairly straightforward. To begin,
-launch CellDesigner and create a new document. The following new document box will then appear. The name provided in
+<div class="section" id="creating-a-species">
+<h2>Creating a Species<a class="headerlink" href="#creating-a-species" title="Permalink to this headline">¶</a></h2>
+<p>To begin, launch CellDesigner and create a new document. The following new document box will then appear. The name provided in
 this box can be set to anything the user desires and a specific name is not required. In addition to a name, this box
 also asks for the dimension of white space available in the workspace. The default width of 600 and height of 400 will
 be appropriate for most small networks.</p>
@@ -216,6 +220,9 @@ select the symbol “Complex” and click in the workspace, again a specific nam
 can then place species within this complex using the generic protein approach outlined above. Below is the CellDesigner
 representation of complex <img class="math" src="_images/math/34b00cf47dec942fab1bdfd57b5ffac0a61649a8.png" alt="AE1"/>.</p>
 <a class="reference internal image-reference" href="_images/complex_AE1_cell_designer.png"><img alt="_images/complex_AE1_cell_designer.png" class="align-center" src="_images/complex_AE1_cell_designer.png" style="width: 150px; height: 160px;" /></a>
+</div>
+<div class="section" id="creating-a-reaction">
+<h2>Creating a Reaction<a class="headerlink" href="#creating-a-reaction" title="Permalink to this headline">¶</a></h2>
 <p>Using species and complexes the C-graph of the mass conservation approach can be completed once the reactions of the network
 are constructed. In CellDesigner there are three types of reactions that are important when recreating a C-graph: State
 Transition, Heterodimer Association, and Dissociation (depicted from top to bottom below as in CellDesigner, respectively).</p>
@@ -253,7 +260,15 @@ CellDesigner and selecting the “Species” tab, an example of this box can be 
 species <img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/> are produced by selecting the “listOfProducts” tab then clicking the species corresponding to the
 phosphorylated species <img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/> and then selecting Edit and changing stoichiometry to 2.0. We can confirm this change
 by choosing Update. A similar process can be completed if you want to change the number of molecules of any species in
-the reactants, but in this case one would instead choose the “listOfReactants” tab. Using the tools we have outlined so
+the reactants, but in this case one would instead choose the “listOfReactants” tab.</p>
+</div>
+<div class="section" id="representing-catalysis">
+<h2>Representing Catalysis<a class="headerlink" href="#representing-catalysis" title="Permalink to this headline">¶</a></h2>
+<p>Under Development</p>
+</div>
+<div class="section" id="basic-mass-conservation-sbml-file">
+<h2>Basic Mass Conservation SBML File<a class="headerlink" href="#basic-mass-conservation-sbml-file" title="Permalink to this headline">¶</a></h2>
+<p>Using the tools we have outlined so
 far we can represent the provided network in the C-graph using CellDesigner. One particular layout of this
 CellDesigner representation can be seen below. In this diagram we have manipulated the shape of the reactions by right
 clicking them and choosing “Add Anchor Point”. Note that when saving the CellDesigner diagram, it will be saved as an
@@ -261,8 +276,12 @@ xml file, this is an xml file with the layout of an SBML file. At this point no 
 xml file produced can be imported into the code.</p>
 <a class="reference internal image-reference" href="_images/figure_1C_closed_cell_designer.png"><img alt="_images/figure_1C_closed_cell_designer.png" class="align-center" src="_images/figure_1C_closed_cell_designer.png" style="width: 600px; height: 400px;" /></a>
 </div>
-<div class="section" id="semi-diffusive-approach">
-<h2>Semi-diffusive Approach<a class="headerlink" href="#semi-diffusive-approach" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="catalysis-mass-conservation-sbml-file">
+<h2>Catalysis Mass Conservation SBML File<a class="headerlink" href="#catalysis-mass-conservation-sbml-file" title="Permalink to this headline">¶</a></h2>
+<p>To be filled in.</p>
+</div>
+<div class="section" id="adding-inflow-and-outflow">
+<h2>Adding Inflow and Outflow<a class="headerlink" href="#adding-inflow-and-outflow" title="Permalink to this headline">¶</a></h2>
 <p>Now that we have completed the mass conserving network of the provided C-graph we will continue by implementing the semi-diffusive network.
 Since we are now considering the degradation and formation of a species we have to consider how to implement a source
 and a sink in the SBML file. Here a source is a node providing an inflow of a species and a sink is an outflow of a
@@ -278,7 +297,11 @@ created item and choose “Edit species”, the box provided below should appear
 <a class="reference internal image-reference" href="_images/edit_species_cell_designer.png"><img alt="_images/edit_species_cell_designer.png" class="align-center" src="_images/edit_species_cell_designer.png" style="width: 300px; height: 230px;" /></a>
 <p>In this box set boundaryCondition to true and choose “Update” to confirm the change. One last word of caution: according
 to the semi-diffusive approach if there is formation of a species there must also be degradation of that species. However,
-one can allow for just degradation of a species. Using this convention and the ideas established in the previous
+one can allow for just degradation of a species.</p>
+</div>
+<div class="section" id="semi-diffusive-sbml-file">
+<h2>Semi-diffusive SBML File<a class="headerlink" href="#semi-diffusive-sbml-file" title="Permalink to this headline">¶</a></h2>
+<p>Using this convention and the ideas established in the previous
 subsection we can recreate the open version of the provided C-graph using CellDesigner. One possible layout of this
 C-graph in CellDesigner is provided below.</p>
 <a class="reference internal image-reference" href="_images/figure_1C_open_cell_designer.png"><img alt="_images/figure_1C_open_cell_designer.png" class="align-center" src="_images/figure_1C_open_cell_designer.png" style="width: 600px; height: 410px;" /></a>
