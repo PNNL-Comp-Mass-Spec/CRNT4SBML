@@ -223,18 +223,14 @@ representation of complex <img class="math" src="_images/math/34b00cf47dec942fab
 </div>
 <div class="section" id="creating-a-reaction">
 <h2>Creating a Reaction<a class="headerlink" href="#creating-a-reaction" title="Permalink to this headline">¶</a></h2>
-<p>Using species and complexes the C-graph of the mass conservation approach can be completed once the reactions of the network
-are constructed. In CellDesigner there are three types of reactions that are important when recreating a C-graph: State
-Transition, Heterodimer Association, and Dissociation (depicted from top to bottom below as in CellDesigner, respectively).</p>
-<img alt="_images/state_transition_cell_designer.png" class="align-center" src="_images/state_transition_cell_designer.png" />
-<img alt="_images/heterodimer_association_cell_designer.png" class="align-center" src="_images/heterodimer_association_cell_designer.png" />
-<img alt="_images/dissociation_cell_designer.png" class="align-center" src="_images/dissociation_cell_designer.png" />
-<p>We will first demonstrate Heterodimer Association and Dissociation reactions by creating reactions <img class="math" src="_images/math/0fb7c059a407719739c6bdedbf9a099f6f01ee79.png" alt="r_1,r_2,"/> and
-<img class="math" src="_images/math/a1345eb447a7821edf1c9413bcc0a59c24755d5b.png" alt="r_3"/> of the Cgraph. We will then address State Transition reactions by creating <img class="math" src="_images/math/faf7d865b46e63d2b9e1dbf482d1895e28a336e4.png" alt="r_9"/>. To create reactions
+<p>In CellDesigner there are three types of reactions that are important when recreating a C-graph: State
+Transition <a class="reference internal" href="_images/state_transition_cell_designer.png"><img alt="state_transition" src="_images/state_transition_cell_designer.png" style="height: 25px;" /></a>, Heterodimer Association <a class="reference internal" href="_images/heterodimer_association_cell_designer.png"><img alt="association" src="_images/heterodimer_association_cell_designer.png" style="height: 25px;" /></a>, and Dissociation <a class="reference internal" href="_images/dissociation_cell_designer.png"><img alt="dissociation" src="_images/dissociation_cell_designer.png" style="height: 25px;" /></a>. We will first
+demonstrate Heterodimer Association and Dissociation reactions by creating reactions <img class="math" src="_images/math/0fb7c059a407719739c6bdedbf9a099f6f01ee79.png" alt="r_1,r_2,"/> and
+<img class="math" src="_images/math/a1345eb447a7821edf1c9413bcc0a59c24755d5b.png" alt="r_3"/> of the C-graph. We will then address State Transition reactions by creating <img class="math" src="_images/math/faf7d865b46e63d2b9e1dbf482d1895e28a336e4.png" alt="r_9"/>. To create reactions
 <img class="math" src="_images/math/d38709382cadc57f64e07c8c9825825f28f3523c.png" alt="r_1"/> and <img class="math" src="_images/math/b5a62766d32031aa265dd3a6e29ea830f82691fb.png" alt="r_2"/>, first create species <img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/> and <img class="math" src="_images/math/48d17007ed8d0e3a7ec77951bde670dd200c55a1.png" alt="E1"/>, in addition to complex <img class="math" src="_images/math/34b00cf47dec942fab1bdfd57b5ffac0a61649a8.png" alt="AE1"/>. Then
 using the top toolbox select “Heterodimer Association” and first select the two species <img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/> and <img class="math" src="_images/math/48d17007ed8d0e3a7ec77951bde670dd200c55a1.png" alt="E1"/>
-(order of selection does not matter) then select the complex <img class="math" src="_images/math/34b00cf47dec942fab1bdfd57b5ffac0a61649a8.png" alt="AE1"/>. This concludes the creation of <img class="math" src="_images/math/d38709382cadc57f64e07c8c9825825f28f3523c.png" alt="r_1"/> and
-should be similar to the picture provided below.</p>
+(order of selection does not matter) then select the complex <img class="math" src="_images/math/34b00cf47dec942fab1bdfd57b5ffac0a61649a8.png" alt="AE1"/>. This concludes the creation of <img class="math" src="_images/math/d38709382cadc57f64e07c8c9825825f28f3523c.png" alt="r_1"/>, and
+the CellDesigner depiction should be similar to the picture provided below.</p>
 <a class="reference internal image-reference" href="_images/reaction_one_cell_designer.png"><img alt="_images/reaction_one_cell_designer.png" class="align-center" src="_images/reaction_one_cell_designer.png" style="width: 290px; height: 130px;" /></a>
 <p>To create <img class="math" src="_images/math/b5a62766d32031aa265dd3a6e29ea830f82691fb.png" alt="r_2"/> we need to make the heterodimer reaction reversible. To make a reaction reversible right click the
 reaction and select “Change Identity…”, then select True under the reversible category. This provides the CellDesigner
@@ -264,36 +260,55 @@ the reactants, but in this case one would instead choose the “listOfReactants�
 </div>
 <div class="section" id="representing-catalysis">
 <h2>Representing Catalysis<a class="headerlink" href="#representing-catalysis" title="Permalink to this headline">¶</a></h2>
-<p>Under Development</p>
+<p>Another useful feature that has been implemented in crnt4sbml is the ability to represent catalysis. In CellDesigner
+catalysis is fairly straightforward to implement and can often lead to simpler looking diagrams. If we consider the
+C-graph provided, one can see that the reactions <img class="math" src="_images/math/0fb7c059a407719739c6bdedbf9a099f6f01ee79.png" alt="r_1,r_2,"/> and <img class="math" src="_images/math/a1345eb447a7821edf1c9413bcc0a59c24755d5b.png" alt="r_3"/> depict catalysis, where <img class="math" src="_images/math/48d17007ed8d0e3a7ec77951bde670dd200c55a1.png" alt="E1"/> is
+the catalyst. To represent this in CellDesigner, we first create the species <img class="math" src="_images/math/dbc80ac1caf79e421ce78dbc2055ccbdc1231c92.png" alt="A, E1,"/> and phosphorylated species
+<img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/>. Once these species are created, we then construct a State Transition from species <img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/> to the
+phosphorylated species <img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/>. Note that the State Transition cannot be reversible. We can now specify catalysis,
+which is represented in CellDesigner as the symbol <a class="reference internal" href="_images/catalysis_cell_designer.png"><img alt="catalysis" src="_images/catalysis_cell_designer.png" style="height: 25px;" /></a>, by selecting the symbol for catalysis, selecting
+species <img class="math" src="_images/math/48d17007ed8d0e3a7ec77951bde670dd200c55a1.png" alt="E1"/> and then clicking on the square box of the State Transition. If these steps are followed, the
+following CellDesigner layout should be produced:</p>
+<a class="reference internal image-reference" href="_images/catalysis_reaction_st.png"><img alt="_images/catalysis_reaction_st.png" class="align-center" src="_images/catalysis_reaction_st.png" style="width: 260px; height: 130px;" /></a>
+<p>When parsing this type of SBML file, crnt4sbml will construct the underlying C-graph appropriately. For example, if we
+say the species <img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/> is given by species id ‘s1’, phosphorylated species <img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/> by species id ‘s2’, and species
+<img class="math" src="_images/math/48d17007ed8d0e3a7ec77951bde670dd200c55a1.png" alt="E1"/> by species id ‘s3’, then crnt4sbml will construct the following reactions s1+s3 -&gt; s3s1, s3s1 -&gt; s1+s3, and
+s3s1 -&gt; s2+s3. These reactions will then have the reaction labels ‘re1f’, ‘re1d’, and ‘re1c’, respectively, specifying
+complex formation, complex dissociation, and catalysis, respectively, when referenced in crnt4sbml.</p>
+<p>In addition to this type of catalysis, we also allow for catalysis involving a complex dissociation reaction. However,
+we do not allow for catalysis involving a complex formation reaction. Below we depict these two scenarios.</p>
+<p><a class="reference internal" href="_images/catalysis_dissociation_cd.png"><img alt="cat_dissociation" src="_images/catalysis_dissociation_cd.png" style="width: 49%; height: 150px;" /></a> <a class="reference internal" href="_images/catalysis_association_cd.png"><img alt="cat_association" src="_images/catalysis_association_cd.png" style="width: 49%; height: 150px;" /></a></p>
 </div>
 <div class="section" id="basic-mass-conservation-sbml-file">
 <h2>Basic Mass Conservation SBML File<a class="headerlink" href="#basic-mass-conservation-sbml-file" title="Permalink to this headline">¶</a></h2>
-<p>Using the tools we have outlined so
-far we can represent the provided network in the C-graph using CellDesigner. One particular layout of this
-CellDesigner representation can be seen below. In this diagram we have manipulated the shape of the reactions by right
-clicking them and choosing “Add Anchor Point”. Note that when saving the CellDesigner diagram, it will be saved as an
-xml file, this is an xml file with the layout of an SBML file. At this point no conversion to SBML is necessary and the
-xml file produced can be imported into the code.</p>
+<p>Using the tools we have outlined so far, we can represent the mass conservation portion of the provided C-graph using
+CellDesigner. One particular layout of this CellDesigner representation can be seen below. In this diagram we have
+manipulated the shape of the reactions by right clicking them and choosing “Add Anchor Point”. Note that when saving
+the CellDesigner diagram, it will be saved as an xml file, this is an xml file with the layout of an SBML file.
+At this point no conversion to SBML is necessary and the xml file produced can be imported into the code.</p>
 <a class="reference internal image-reference" href="_images/figure_1C_closed_cell_designer.png"><img alt="_images/figure_1C_closed_cell_designer.png" class="align-center" src="_images/figure_1C_closed_cell_designer.png" style="width: 600px; height: 400px;" /></a>
 </div>
 <div class="section" id="catalysis-mass-conservation-sbml-file">
 <h2>Catalysis Mass Conservation SBML File<a class="headerlink" href="#catalysis-mass-conservation-sbml-file" title="Permalink to this headline">¶</a></h2>
-<p>To be filled in.</p>
+<p>Although the CellDesigner layout produced above is perfectly fine, it may become congested especially if more reactions
+and species are added. In this case, it may be beneficial to represent particular groups of reactions as catalysis
+instead. Using the guidelines established in the sections above, we can construct the mass conservation portion of
+the C-graph as follows in CellDesigner.</p>
+<a class="reference internal image-reference" href="_images/catalysis_figure_1C_closed_cell_designer.png"><img alt="_images/catalysis_figure_1C_closed_cell_designer.png" class="align-center" src="_images/catalysis_figure_1C_closed_cell_designer.png" style="width: 400px; height: 250px;" /></a>
 </div>
 <div class="section" id="adding-inflow-and-outflow">
 <h2>Adding Inflow and Outflow<a class="headerlink" href="#adding-inflow-and-outflow" title="Permalink to this headline">¶</a></h2>
-<p>Now that we have completed the mass conserving network of the provided C-graph we will continue by implementing the semi-diffusive network.
-Since we are now considering the degradation and formation of a species we have to consider how to implement a source
-and a sink in the SBML file. Here a source is a node providing an inflow of a species and a sink is an outflow of a
-species.  To do this, we will pick one species to be a boundary species in CellDesigner, for graphical purposes we will
-use the degradation symbol in CellDesigner (i.e. <img class="math" src="_images/math/baa569b5c9cf5a24e743880c39ed1eb55315dd2a.png" alt="\varnothing"/>). This symbol will serve as a sink, source, or both
-a sink and a source. This usage will prevent unnecessary clutter and make it simpler to create SBML files for open
-networks. One very important thing to note here is that <strong>the user must specify that this species is a boundary
-species!</strong> If the user does not do this then the sink/source will be considered as a normal species, this will create
-incorrect results and will not allow the semi-diffusive approach to be constructed. To create a boundary species right click
-the “Degraded” symbol in the top toolbox and then click in the workspace. At this point the item produced is just a
-species, although its appearance differs from a species or a complex. To make this species a source/sink right click the
-created item and choose “Edit species”, the box provided below should appear.</p>
+<p>In a semi-diffusive network we consider the degradation and formation of a species and we have to consider how to
+implement a source and a sink in the SBML file. Here a source is a node providing an inflow of a species and a sink is
+an outflow of a species.  To do this, we will pick one species to be a boundary species in CellDesigner, for graphical
+purposes we will use the degradation symbol in CellDesigner (i.e. <img class="math" src="_images/math/baa569b5c9cf5a24e743880c39ed1eb55315dd2a.png" alt="\varnothing"/>). This symbol will serve as a
+sink, source, or both a sink and a source. This usage will prevent unnecessary clutter and make it simpler to create
+SBML files for semi-diffusive networks. One very important thing to note here is that <strong>the user must specify that this
+species is a boundary species!</strong> If the user does not do this then the sink/source will be considered as a normal
+species, this will create incorrect results and will not allow the semi-diffusive approach to be constructed. To create
+a boundary species right click the “Degraded” symbol in the top toolbox and then click in the workspace. At this point
+the item produced is just a species, although its appearance differs from a species or a complex. To make this species
+a source/sink right click the created item and choose “Edit species”, the box provided below should appear.</p>
 <a class="reference internal image-reference" href="_images/edit_species_cell_designer.png"><img alt="_images/edit_species_cell_designer.png" class="align-center" src="_images/edit_species_cell_designer.png" style="width: 300px; height: 230px;" /></a>
 <p>In this box set boundaryCondition to true and choose “Update” to confirm the change. One last word of caution: according
 to the semi-diffusive approach if there is formation of a species there must also be degradation of that species. However,
@@ -301,9 +316,9 @@ one can allow for just degradation of a species.</p>
 </div>
 <div class="section" id="semi-diffusive-sbml-file">
 <h2>Semi-diffusive SBML File<a class="headerlink" href="#semi-diffusive-sbml-file" title="Permalink to this headline">¶</a></h2>
-<p>Using this convention and the ideas established in the previous
-subsection we can recreate the open version of the provided C-graph using CellDesigner. One possible layout of this
-C-graph in CellDesigner is provided below.</p>
+<p>Using the inflow and outflow convention, and the ideas established in the previous subsections, we can recreate the
+semi-diffusive portion of the provided C-graph using CellDesigner. One possible layout of this C-graph in CellDesigner
+is provided below.</p>
 <a class="reference internal image-reference" href="_images/figure_1C_open_cell_designer.png"><img alt="_images/figure_1C_open_cell_designer.png" class="align-center" src="_images/figure_1C_open_cell_designer.png" style="width: 600px; height: 410px;" /></a>
 </div>
 </div>

@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="detect_bistability.html">Steps for Detecting Bistability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Creating Physiological Bounds</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#assigning-reaction-types">Assigning Reaction Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mass-conservation-approach">Mass Conservation Approach</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#semi-diffusive-approach">Semi-diffusive Approach</a></li>
 </ul>
@@ -176,10 +177,25 @@
             
   <div class="section" id="creating-physiological-bounds">
 <span id="physio-bnds-label"></span><h1>Creating Physiological Bounds<a class="headerlink" href="#creating-physiological-bounds" title="Permalink to this headline">¶</a></h1>
+<p>To make crnt4sbml more user friendly and make its search limited to physiological problems, we have constructed the
+functions <a class="reference internal" href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_optimization_bounds" title="crnt4sbml.MassConservationApproach.get_optimization_bounds"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.get_optimization_bounds()</span></code></a> and
+<a class="reference internal" href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds" title="crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds()</span></code></a>, which constructs the appropriate bounds that must be
+provided to the mass conservation and semi-diffusive optimization routines, respectively. Although this feature can be
+extremely useful especially if the user is continually changing the SBML file, it should be used with some amount of
+caution.</p>
+<div class="section" id="assigning-reaction-types">
+<h2>Assigning Reaction Types<a class="headerlink" href="#assigning-reaction-types" title="Permalink to this headline">¶</a></h2>
+<p>To provide these physiological bounds, crnt4sbml first identifies the reactions of the network. A reaction can be
+identified as complex formation, complex dissociation, or catalysis, no other type of reaction is considered. To
+make this assignment, the reactants and products of the reaction along with the associated stoichiometries are
+found for the particular reaction. Using the sum of the stoichiometries for the reactants and products the decision
+tree below is used to determine the type of reaction. If the reaction is not identified as complex formation, complex
+dissociation, or catalysis, then an error message will be provided and the reaction type will be specified as “None”.</p>
+<a class="reference internal image-reference" href="_images/decision_tree_for_reaction_type.png"><img alt="_images/decision_tree_for_reaction_type.png" class="align-center" src="_images/decision_tree_for_reaction_type.png" style="width: 680px; height: 420px;" /></a>
+</div>
 <div class="section" id="mass-conservation-approach">
 <h2>Mass Conservation Approach<a class="headerlink" href="#mass-conservation-approach" title="Permalink to this headline">¶</a></h2>
 <p>Under Development</p>
-<a class="reference internal image-reference" href="_images/decision_tree_for_reaction_type.png"><img alt="_images/decision_tree_for_reaction_type.png" class="align-center" src="_images/decision_tree_for_reaction_type.png" style="width: 680px; height: 420px;" /></a>
 </div>
 <div class="section" id="semi-diffusive-approach">
 <h2>Semi-diffusive Approach<a class="headerlink" href="#semi-diffusive-approach" title="Permalink to this headline">¶</a></h2>
