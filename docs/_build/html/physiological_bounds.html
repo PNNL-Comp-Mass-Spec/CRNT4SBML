@@ -92,9 +92,11 @@
 <li class="toctree-l1"><a class="reference internal" href="detect_bistability.html">Steps for Detecting Bistability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Creating Physiological Bounds</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#assigning-reaction-types">Assigning Reaction Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mass-conservation-approach">Mass Conservation Approach</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#semi-diffusive-approach">Semi-diffusive Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preprocessing">Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mass-conservation-approach">Mass Conservation Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#semi-diffusive-approach">Semi-diffusive Approach</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
@@ -183,8 +185,8 @@ functions <a class="reference internal" href="classes/crnt4sbml.MassConservation
 provided to the mass conservation and semi-diffusive optimization routines, respectively. Although this feature can be
 extremely useful especially if the user is continually changing the SBML file, it should be used with some amount of
 caution.</p>
-<div class="section" id="assigning-reaction-types">
-<h2>Assigning Reaction Types<a class="headerlink" href="#assigning-reaction-types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="preprocessing">
+<h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h2>
 <p>To provide these physiological bounds, crnt4sbml first identifies the reactions of the network. A reaction can be
 identified as complex formation, complex dissociation, or catalysis, no other type of reaction is considered. To
 make this assignment, the reactants and products of the reaction along with the associated stoichiometries are
@@ -192,14 +194,118 @@ found for the particular reaction. Using the sum of the stoichiometries for the 
 tree below is used to determine the type of reaction. If the reaction is not identified as complex formation, complex
 dissociation, or catalysis, then an error message will be provided and the reaction type will be specified as “None”.</p>
 <a class="reference internal image-reference" href="_images/decision_tree_for_reaction_type.png"><img alt="_images/decision_tree_for_reaction_type.png" class="align-center" src="_images/decision_tree_for_reaction_type.png" style="width: 680px; height: 420px;" /></a>
+<p>The type of reaction assigned by crnt4sbml can always be found by running the following script where we let
+<a class="reference download internal" download="" href="_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> be our SBML file</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+<span class="n">network</span><span class="o">.</span><span class="n">print_biological_reaction_types</span><span class="p">()</span>
+</pre></div>
 </div>
+<p>this provides the output below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Reaction graph of the form
+reaction -- reaction label -- biological reaction type:
+s1+s2 -&gt; s3  --  re1 -- complex formation
+s3 -&gt; s1+s2  --  re1r -- complex dissociation
+s3 -&gt; s6+s2  --  re2 -- catalysis
+s6+s7 -&gt; s16  --  re3 -- complex formation
+s16 -&gt; s6+s7  --  re3r -- complex dissociation
+s16 -&gt; s7+s1  --  re4 -- catalysis
+s1+s6 -&gt; s15  --  re5 -- complex formation
+s15 -&gt; s1+s6  --  re5r -- complex dissociation
+s15 -&gt; 2*s6  --  re6 -- catalysis
+</pre></div>
+</div>
+<p>Creating the proper constraints for the optimization routine for the mass conservation approach differs from that of the
+semi-diffusive approach. This is because the mass conservation approach requires bounds for the rate constants and
+species’ concentrations while the semi-diffusive approach only requires bounds for the fluxes of the reactions.</p>
 <div class="section" id="mass-conservation-approach">
-<h2>Mass Conservation Approach<a class="headerlink" href="#mass-conservation-approach" title="Permalink to this headline">¶</a></h2>
-<p>Under Development</p>
+<h3>Mass Conservation Approach<a class="headerlink" href="#mass-conservation-approach" title="Permalink to this headline">¶</a></h3>
+<p>To construct physiological bounds for the rate constants we first identify the type of the reaction and then we use the
+function <a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_physiological_range" title="crnt4sbml.CRNT.get_physiological_range"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.get_physiological_range()</span></code></a>, which provides a tuple corresponding to the lower and upper
+bounds. The values for these bounds are in picomolar (pM). Here we assign pM values rather than molar values because
+these values are larger and tend to make running the optimization routine much easier. In molar ranges or values close
+to zero, the optimization becomes difficult because the routine is attempting to minimize an objective function which
+has a known value of zero. Thus, if the user wishes to assign different bounds, it is suggested that these bounds
+be scaled such that they are not close to zero.</p>
+<p>We now demonstrate the physiological bounds produced for the SBML file <a class="reference download internal" download="" href="_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+
+<span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+
+<span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">concentration_bounds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>this provides the following output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Creating Equilibrium Manifold ...
+Elapsed time for creating Equilibrium Manifold: 0.6739100000000002
+
+Solving for species&#39; concentrations ...
+Elapsed time for finding species&#39; concentrations: 1.4086919999999994
+
+[(1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]
+[(0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]
+</pre></div>
+</div>
+<p>Where the rate constants and species’ concentrations for the list “bounds” can be found by the following command</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_decision_vector</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>providing the output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, s2, s6, s15]
+</pre></div>
+</div>
+<p>and the species’ concentrations referred to in the list “concentration_bounds” can be determined by the following</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_concentration_bounds_species</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>giving the output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[s1, s3, s7, s16]
+</pre></div>
+</div>
 </div>
 <div class="section" id="semi-diffusive-approach">
-<h2>Semi-diffusive Approach<a class="headerlink" href="#semi-diffusive-approach" title="Permalink to this headline">¶</a></h2>
-<p>Under Development</p>
+<h3>Semi-diffusive Approach<a class="headerlink" href="#semi-diffusive-approach" title="Permalink to this headline">¶</a></h3>
+<p>As stated above, the semi-diffusive approach only requires bounds for the fluxes of the reactions. To assign these values,
+we again use the function <a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_physiological_range" title="crnt4sbml.CRNT.get_physiological_range"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.get_physiological_range()</span></code></a>, which provides a tuple for the lower and
+upper bounds. However, the values returned by this call are given in molars. The unit of molars is suggested because
+the ranges produced for fluxes are much smaller than those for pM, making the optimization easier.</p>
+<p>To demonstrate the bounds produced for the semi-diffusive approach, we use the SBML file
+<a class="reference download internal" download="" href="_downloads/7f1ab99200c896bb88c0011e47723e78/Fig1Cii.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Cii.xml</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
+
+<span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
+
+<span class="n">bounds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>this provides the following output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[(0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55)]
+</pre></div>
+</div>
+<p>the elements of which correspond to the fluxes that can be obtained from the following command</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">approach</span><span class="o">.</span><span class="n">print_decision_vector</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>which provides the output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Decision vector for optimization:
+[v_2, v_3, v_4, v_5, v_6, v_7, v_9, v_11, v_13, v_15, v_17, v_18]
+
+Reaction labels for decision vector:
+[&#39;re1r&#39;, &#39;re3&#39;, &#39;re3r&#39;, &#39;re6&#39;, &#39;re6r&#39;, &#39;re2&#39;, &#39;re8&#39;, &#39;re17r&#39;, &#39;re18r&#39;, &#39;re19r&#39;, &#39;re21&#39;, &#39;re22&#39;]
+</pre></div>
+</div>
+<p>Here the decision vector for optimization is defined in terms of fluxes of the reactions. To make identifying which
+flux we are considering easier, the command above relates the flux to the reaction label. Thus, flux ‘v_2’ refers to the
+flux of reaction ‘re1r’.</p>
+</div>
 </div>
 </div>
 

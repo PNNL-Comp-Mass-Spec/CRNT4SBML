@@ -3,21 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CONTRIBUTING.rst" beforeDir="false" afterPath="$PROJECT_DIR$/CONTRIBUTING.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/celldesigner_walkthrough.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/celldesigner_walkthrough.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/contributing.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/contributing.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/physiological_bounds.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/physiological_bounds.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/figure_1C_closed_cell_designer.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_images/figure_1C_closed_cell_designer.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/celldesigner_walkthrough.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/celldesigner_walkthrough.rst.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/physiological_bounds.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/physiological_bounds.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/celldesigner_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/celldesigner_walkthrough.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/contributing.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/contributing.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/physiological_bounds.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/physiological_bounds.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/celldesigner_walkthrough.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/celldesigner_walkthrough.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/images_for_docs/figure_1C_closed_cell_designer.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images_for_docs/figure_1C_closed_cell_designer.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/physiological_bounds.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/physiological_bounds.rst" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -93,7 +84,6 @@
         <option value="$PROJECT_DIR$/docs/classes/crnt4sbml.MassConservationApproach.rst" />
         <option value="$PROJECT_DIR$/docs/installation.rst" />
         <option value="$PROJECT_DIR$/docs/quickstart.rst" />
-        <option value="$PROJECT_DIR$/docs/basic_crnt.rst" />
         <option value="$PROJECT_DIR$/docs/deficiency_walkthrough.rst" />
         <option value="$PROJECT_DIR$/docs/injectivity_walkthrough.rst" />
         <option value="$PROJECT_DIR$/crnt4sbml/crnt.py" />
@@ -102,6 +92,7 @@
         <option value="$PROJECT_DIR$/crnt4sbml/semi_diffusive_approach.py" />
         <option value="$PROJECT_DIR$/CONTRIBUTING.rst" />
         <option value="$PROJECT_DIR$/docs/celldesigner_walkthrough.rst" />
+        <option value="$PROJECT_DIR$/docs/basic_crnt.rst" />
         <option value="$PROJECT_DIR$/docs/physiological_bounds.rst" />
       </list>
     </option>
@@ -187,6 +178,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837133" visible="true" weight="0.24954791" />
       <window_info id="Structure" order="1" sideWeight="0.50162864" side_tool="true" weight="0.24954791" />
