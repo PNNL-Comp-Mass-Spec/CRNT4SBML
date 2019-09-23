@@ -1,2 +1,2 @@
 sphinxcontrib-bibtex
-crnt4sbml_test
+crnt4sbml
