@@ -187,7 +187,7 @@ installed versions. Here we will give a brief description of creating a virtual 
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install virtualenv
 </pre></div>
 </div>
-<p>Once virtualenv is installed, download the latest version of <a class="reference external" href="https://www.python.org/downloads/">Python 3.7</a> (be sure
+<p>Once virtualenv is installed, download the latest 64-bit version of <a class="reference external" href="https://www.python.org/downloads/">Python 3.7</a> (be sure
 to take note of the download location). Next we will create a directory to hold all of the virtual environments that we
 may create called “python_environments”:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mkdir python_environments
@@ -199,11 +199,16 @@ directory python_environments as follows:</p>
 <span class="gp">$</span> virtualenv -p /path/to/python/3.7/interpreter crnt4sbml_env
 </pre></div>
 </div>
-<p>The flag “-p” tells virtualenv to create an environment using a specific Python interpreter, note that if a standard
-download of Python was followed, then the path to the interpreter is as follows “/usr/local/bin/python3.7”. One can now
-see a directory called “crnt4sbml_env” is created in the directory python_environments. We can now activate this
-environment as follows:</p>
+<p>The flag “-p” tells virtualenv to create an environment using a specific Python interpreter. If a standard
+download of Python was followed, then the path to the interpreter is as follows “/usr/local/bin/python3.7” on Mac and
+Linux, on windows the path is often “C:\Users\your_user_name\AppData\Local\Programs\Python\Python37\python.exe”.
+One can now see a directory called “crnt4sbml_env” is created in the directory python_environments. We can now
+activate this environment as follows on Mac and Linux:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> /path/to/python_environments/crnt4sbml_env/bin/activate
+</pre></div>
+</div>
+<p>To activate the environment on Windows do the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> path<span class="se">\t</span>o<span class="se">\c</span>rnt4sbml_env<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
 <p>On the command line one should now see “(crnt4sbml_env)” on the left side of the command line, which indicates that one

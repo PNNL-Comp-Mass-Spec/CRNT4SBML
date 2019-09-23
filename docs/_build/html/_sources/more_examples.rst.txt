@@ -732,8 +732,8 @@ following output::
     s5 -> s23+s3  --  re1r
     s5+s8 -> s24  --  re2
     s24 -> s5+s8  --  re2r
-    s3 -> s4  --  re3
-    s4 -> s3  --  re3r
+    2*s3 -> s4  --  re3
+    s4 -> 2*s3  --  re3r
     s4+s9 -> s16  --  re9
     s16 -> s4+s9  --  re9r
     s24+s14 -> s36  --  re10
@@ -750,35 +750,39 @@ following output::
     The network does not satisfy Deficiency One Theorem.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 13.720093000000002
+    Elapsed time for creating Equilibrium Manifold: 72.330784
 
     Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 2.910533000000001
+    Elapsed time for finding species' concentrations: 7.5423899999999975
 
     Decision Vector:
-    [re1, re1r, re2, re2r, re3, re3r, re9, re9r, re10, re10r, re11, re12, re12r, re13, re14, re14r, re15, s8, s9, s23, s24, s37]
+    [re1, re1r, re2, re2r, re3, re3r, re9, re9r, re10, re10r, re11, re12, re12r, re13, re14, re14r, re15, s3, s8, s9, s14, s37]
 
     Species for concentration bounds:
-    [s3, s4, s5, s14, s16, s36, s41, s45]
+    [s23, s5, s24, s4, s16, s36, s41, s45]
 
-    Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 133.578998
+    Running feasible point method for 5000 iterations ...
+    Elapsed time for feasible point method: 14616.332184
 
     Running the multistart optimization ...
 
     Smallest value achieved by objective function: 0.0
 
-    Elapsed time for multistart method: 219.64752199999995
+    Elapsed time for multistart method: 2294.7480879999985
+
+    The number of feasible points that satisfy the constraints: 477
+    Total feasible points that give F(x) = 0: 429
+    Total number of points that passed final_check: 429
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 667.71624
+    Elapsed time for continuity analysis: 5423.693162918091
 
-    The number of feasible points that satisfy the constraints: 60
-    Total feasible points that give F(x) = 0: 43
-    Total number of points that passed final_check: 43
+    The number of feasible points that satisfy the constraints: 477
+    Total feasible points that give F(x) = 0: 429
+    Total number of points that passed final_check: 429
     Number of multistability plots found: 5
     Elements in params_for_global_min that produce multistability:
-    [6, 16, 21, 27, 36]
+    [45, 64, 250, 410, 426]
 
 Closed version of Figure 4B from :cite:`irene`
 ------------------------------------------------

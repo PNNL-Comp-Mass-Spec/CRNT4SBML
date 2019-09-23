@@ -27,3 +27,8 @@ History
 
 * Addition of routines to parse catalysis in SBML.
 * Addition of routines to automatically generate physiological bounds.
+
+0.0.6 (09-23-2019)
+------------------
+
+* Updating safety wrapper to smoothly work on Linux, Windows, and Mac.

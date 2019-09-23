@@ -19,7 +19,7 @@ installed versions. Here we will give a brief description of creating a virtual 
 
     $ pip install virtualenv
 
-Once virtualenv is installed, download the latest version of `Python 3.7 <https://www.python.org/downloads/>`_ (be sure
+Once virtualenv is installed, download the latest 64-bit version of `Python 3.7 <https://www.python.org/downloads/>`_ (be sure
 to take note of the download location). Next we will create a directory to hold all of the virtual environments that we
 may create called "python\_environments":
 
@@ -35,14 +35,21 @@ directory python\_environments as follows:
     $ cd python_environments
     $ virtualenv -p /path/to/python/3.7/interpreter crnt4sbml_env
 
-The flag "-p" tells virtualenv to create an environment using a specific Python interpreter, note that if a standard
-download of Python was followed, then the path to the interpreter is as follows "/usr/local/bin/python3.7". One can now
-see a directory called "crnt4sbml\_env" is created in the directory python\_environments. We can now activate this
-environment as follows:
+The flag "-p" tells virtualenv to create an environment using a specific Python interpreter. If a standard
+download of Python was followed, then the path to the interpreter is as follows "/usr/local/bin/python3.7" on Mac and
+Linux, on windows the path is often "C:\\Users\\your\_user\_name\\AppData\\Local\\Programs\\Python\\Python37\\python.exe".
+One can now see a directory called "crnt4sbml\_env" is created in the directory python\_environments. We can now
+activate this environment as follows on Mac and Linux:
 
 .. code-block:: console
 
     $ source /path/to/python_environments/crnt4sbml_env/bin/activate
+
+To activate the environment on Windows do the following:
+
+.. code-block:: console
+
+    $ path\to\crnt4sbml_env\Scripts\activate
 
 On the command line one should now see "(crnt4sbml_env)" on the left side of the command line, which indicates that one
 is now working in the virtual environment. Once the environment is activated, one can now install CRNT4SBML as follows:

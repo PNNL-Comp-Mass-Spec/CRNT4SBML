@@ -953,7 +953,7 @@ class MassConservationApproach:
         return params_for_global_min, obj_fun_val_for_params
 
     def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-                                print_lbls_flag=False, auto_parameters=None, error_log_flag=True):
+                                print_lbls_flag=False, auto_parameters=None):
         """
         Function for running the numerical continuation and bistability analysis portions of the mass conservation
         approach.
@@ -976,9 +976,6 @@ class MassConservationApproach:
                 necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
                 parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
                 10000 and 'ITMX' to 100.
-            error_log_flag: bool
-                If True the routine will suppress all log output produced by AUTO 2000 and False will print all log
-                information produced by AUTO 2000.
         Returns
         ---------
             multistable_param_ind: list of integers
@@ -1008,15 +1005,14 @@ class MassConservationApproach:
                                                                                           self.__finalize_ant_string,
                                                                                           species_y, dir_path,
                                                                                           print_lbls_flag,
-                                                                                          auto_parameters,
-                                                                                          error_log_flag)
+                                                                                          auto_parameters)
 
         self.__important_info += important_info
 
         return multistable_param_ind
 
     def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-                                       print_lbls_flag=False, auto_parameters=None, error_log_flag=True):
+                                       print_lbls_flag=False, auto_parameters=None):
         """
         Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
         approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
@@ -1040,9 +1036,6 @@ class MassConservationApproach:
                 Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
                 PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
                 be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
-            error_log_flag: bool
-                If True the routine will suppress all log output produced by AUTO 2000 and False will print all log
-                information produced by AUTO 2000.
         Returns
         ---------
             multistable_param_ind: list of integers
@@ -1069,7 +1062,7 @@ class MassConservationApproach:
 
         multistable_param_ind, important_info = BistabilityFinder.run_greedy_continuity_analysis\
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters, error_log_flag)
+             print_lbls_flag, auto_parameters)
 
         self.__important_info += important_info
 
