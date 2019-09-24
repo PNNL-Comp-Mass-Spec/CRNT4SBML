@@ -6,6 +6,11 @@
 Installation
 ============
 
+Requirements
+--------------------------------
+python >= 3.7
+
+
 Creating a Virtual Environment
 --------------------------------
 
