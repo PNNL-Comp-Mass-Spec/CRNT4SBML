@@ -53,16 +53,16 @@ auto_parameters = input_arguments[2]
 
 antimony_r = __loada(ant_str)
 
-# making the directory auto_fort_files if is does not exist
-if not os.path.isdir("./auto_fort_files"):
-    os.mkdir("./auto_fort_files")
+# # making the directory auto_fort_files if is does not exist
+# if not os.path.isdir("./auto_fort_files"):
+#     os.mkdir("./auto_fort_files")
 
 auto.setProperty("SBML", antimony_r.getCurrentSBML())
 auto.setProperty("ScanDirection", direction)
 auto.setProperty("PreSimulation", "True")
 auto.setProperty("PreSimulationDuration", 1.0)
 auto.setProperty('KeepTempFiles', True)
-auto.setProperty("TempFolder", "./auto_fort_files")
+auto.setProperty("TempFolder", "auto_fort_files")
 
 # assigning values provided by the user
 for i in auto_parameters.keys():

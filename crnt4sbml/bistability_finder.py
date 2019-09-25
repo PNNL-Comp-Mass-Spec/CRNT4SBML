@@ -1,9 +1,6 @@
 from sys import platform as sys_pf
 import os
-#import multiprocessing
-#import antimony
-#import roadrunner
-#import rrplugins
+import multiprocessing
 import scipy
 import sympy
 import numpy.linalg
@@ -12,17 +9,14 @@ import math
 import shutil
 import subprocess
 import pickle
-# import antimony
-# import roadrunner
-# import rrplugins
-# roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
-# roadrunner.Logger.disableLogging()
-# roadrunner.Logger.disableConsoleLogging()
-# roadrunner.Logger.disableFileLogging()
-# rrplugins.setLogLevel('error')
+import antimony
+import roadrunner
+import rrplugins
+import psutil
+import signal
 #import contextlib
 #import io
-#import sys
+import sys
 if sys_pf == 'darwin':
     import matplotlib
     matplotlib.use("TkAgg")
@@ -218,24 +212,28 @@ class BistabilityFinder:
 
         print("Running continuity analysis ...")
 
-        # if error_log_flag:
-        #     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
-        #     roadrunner.Logger.disableLogging()
-        #     roadrunner.Logger.disableConsoleLogging()
-        #     roadrunner.Logger.disableFileLogging()
-        #     rrplugins.setLogLevel('error')
-        #     stderr_fileno = sys.stderr.fileno()
-        #     stderr_save = os.dup(stderr_fileno)
-        #     stderr_pipe = os.pipe()
-        #     os.dup2(stderr_pipe[1], stderr_fileno)
-        #     os.close(stderr_pipe[1])
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
+            roadrunner.Logger.disableLogging()
+            roadrunner.Logger.disableConsoleLogging()
+            roadrunner.Logger.disableFileLogging()
+            rrplugins.setLogLevel('error')
+            stderr_fileno = sys.stderr.fileno()
+            stderr_save = os.dup(stderr_fileno)
+            stderr_pipe = os.pipe()
+            os.dup2(stderr_pipe[1], stderr_fileno)
+            os.close(stderr_pipe[1])
 
         init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
         auto_parameters['PrincipalContinuationParameter'] = pcp_x
         start = time.time()
         multistable_param_ind = []
-        #auto = rrplugins.Plugin("tel_auto2000")
         cont_direction = ["Positive", "Negative"]
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            auto = rrplugins.Plugin("tel_auto2000")
+        else:
+            auto = None
 
         for param_ind in range(len(params_for_global_min)):
             final_ant_str = finalize_ant_string(params_for_global_min[param_ind], init_ant)
@@ -245,7 +243,7 @@ class BistabilityFinder:
                     shutil.rmtree("./auto_fort_files")
 
                 pts, lbls, antimony_r, flag, bi_data_np = cls.run_safety_wrapper(final_ant_str, cont_direction[dir_ind],
-                                                                                 auto_parameters)
+                                                                                 auto, auto_parameters)
 
                 if print_lbls_flag:
                     print("Labels from numerical continuation: ")
@@ -266,11 +264,11 @@ class BistabilityFinder:
         if os.path.isdir("./auto_fort_files"):
             shutil.rmtree("./auto_fort_files")
 
-        # if error_log_flag:
-        #     os.close(stderr_pipe[0])
-        #     os.dup2(stderr_save, stderr_fileno)
-        #     os.close(stderr_save)
-        #     os.close(stderr_fileno)
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            os.close(stderr_pipe[0])
+            os.dup2(stderr_save, stderr_fileno)
+            os.close(stderr_save)
+            os.close(stderr_fileno)
 
         end = time.time()
         print("Elapsed time for continuity analysis: " + str(end - start))
@@ -290,17 +288,17 @@ class BistabilityFinder:
 
         print("Running continuity analysis ...")
 
-        # if error_log_flag:
-        #     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
-        #     roadrunner.Logger.disableLogging()
-        #     roadrunner.Logger.disableConsoleLogging()
-        #     roadrunner.Logger.disableFileLogging()
-        #     rrplugins.setLogLevel('error')
-        #     stderr_fileno = sys.stderr.fileno()
-        #     stderr_save = os.dup(stderr_fileno)
-        #     stderr_pipe = os.pipe()
-        #     os.dup2(stderr_pipe[1], stderr_fileno)
-        #     os.close(stderr_pipe[1])
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
+            roadrunner.Logger.disableLogging()
+            roadrunner.Logger.disableConsoleLogging()
+            roadrunner.Logger.disableFileLogging()
+            rrplugins.setLogLevel('error')
+            stderr_fileno = sys.stderr.fileno()
+            stderr_save = os.dup(stderr_fileno)
+            stderr_pipe = os.pipe()
+            os.dup2(stderr_pipe[1], stderr_fileno)
+            os.close(stderr_pipe[1])
 
         init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
         auto_parameters['PrincipalContinuationParameter'] = pcp_x
@@ -312,8 +310,13 @@ class BistabilityFinder:
 
         start = time.time()
         multistable_param_ind = []
-        #auto = rrplugins.Plugin("tel_auto2000")
         cont_direction = ["Positive", "Negative"]
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            auto = rrplugins.Plugin("tel_auto2000")
+        else:
+            auto = None
+
         for param_ind in range(len(params_for_global_min)):
 
             final_ant_str = finalize_ant_string(params_for_global_min[param_ind], init_ant)
@@ -338,7 +341,7 @@ class BistabilityFinder:
                         shutil.rmtree("./auto_fort_files")
 
                     pts, lbls, antimony_r, flag, bi_data_np = cls.run_safety_wrapper(final_ant_str,
-                                                                                     cont_direction[dir_ind],
+                                                                                     cont_direction[dir_ind], auto,
                                                                                      auto_parameters)
 
                     if print_lbls_flag:
@@ -370,6 +373,7 @@ class BistabilityFinder:
 
                                     pts2, lbls2, antimony_r, flag2, bi_data_np2 = cls.run_safety_wrapper(final_ant_str,
                                                                                                          cont_direction[dir_ind2],
+                                                                                                         auto,
                                                                                                          auto_parameters)
 
                                     if flag2 and lbls2 != ['EP', 'EP']:
@@ -402,11 +406,11 @@ class BistabilityFinder:
         if os.path.isdir("./auto_fort_files"):
             shutil.rmtree("./auto_fort_files")
 
-        # if error_log_flag:
-        #     os.close(stderr_pipe[0])
-        #     os.dup2(stderr_save, stderr_fileno)
-        #     os.close(stderr_save)
-        #     os.close(stderr_fileno)
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            os.close(stderr_pipe[0])
+            os.dup2(stderr_save, stderr_fileno)
+            os.close(stderr_save)
+            os.close(stderr_fileno)
 
         end = time.time()
         print("Elapsed time for continuity analysis: " + str(end - start))
@@ -447,115 +451,135 @@ class BistabilityFinder:
         return [rl0, rl1, mag + 1]
 
     @classmethod
-    def run_safety_wrapper(cls, final_ant_str, cont_direction, auto_parameters):
+    def run_safety_wrapper(cls, final_ant_str, cont_direction, auto, auto_parameters):
 
-        arguments = [final_ant_str, cont_direction, auto_parameters]
-        if os.path.exists("input_arguments.pickle"):
-            os.remove("input_arguments.pickle")
-            with open('input_arguments.pickle', 'wb') as outf:
-                outf.write(pickle.dumps(arguments))
-        else:
-            with open('input_arguments.pickle', 'wb') as outf:
-                outf.write(pickle.dumps(arguments))
-
-        s = subprocess.run(['python', '-m', 'crnt4sbml.safety_wrap'], capture_output=True, env=os.environ)
-
-        if os.path.exists("output_arguments.pickle"):
-            with open('output_arguments.pickle', 'rb') as pickle_file:
-                output_arguments = pickle.loads(pickle_file.read())
-            os.remove("output_arguments.pickle")
-            pts = output_arguments[0]
-            lbls = output_arguments[1]
-            antimony_r = output_arguments[2]
-            flag = output_arguments[3]
-            bi_data_np = numpy.load('bi_data_np.npy')
-            os.remove('./bi_data_np.npy')
+        if sys_pf in ['win32', 'cygwin', 'msys']:
+            arguments = [final_ant_str, cont_direction, auto_parameters]
             if os.path.exists("input_arguments.pickle"):
                 os.remove("input_arguments.pickle")
+                with open('input_arguments.pickle', 'wb') as outf:
+                    outf.write(pickle.dumps(arguments))
+            else:
+                with open('input_arguments.pickle', 'wb') as outf:
+                    outf.write(pickle.dumps(arguments))
+
+            # # making the directory auto_fort_files if is does not exist
+            if not os.path.isdir("auto_fort_files"):
+                os.mkdir("auto_fort_files")
+
+            subprocess.run(['python', '-m', 'crnt4sbml.safety_wrap'], shell=True, env=os.environ)
+
+            if os.path.exists("output_arguments.pickle"):
+                with open('output_arguments.pickle', 'rb') as pickle_file:
+                    output_arguments = pickle.loads(pickle_file.read())
+                os.remove("output_arguments.pickle")
+                pts = output_arguments[0]
+                lbls = output_arguments[1]
+                antimony_r = output_arguments[2]
+                flag = output_arguments[3]
+                bi_data_np = numpy.load('bi_data_np.npy')
+                os.remove('./bi_data_np.npy')
+                if os.path.exists("input_arguments.pickle"):
+                    os.remove("input_arguments.pickle")
+            else:
+                flag = False
+                pts = []
+                lbls = []
+                antimony_r = []
+                bi_data_np = numpy.zeros(1)
+                if os.path.exists("input_arguments.pickle"):
+                    os.remove("input_arguments.pickle")
+
+            time.sleep(1)
         else:
-            flag = False
-            pts = []
-            lbls = []
-            antimony_r = []
-            bi_data_np = numpy.zeros(1)
-            if os.path.exists("input_arguments.pickle"):
-                os.remove("input_arguments.pickle")
 
+            if os.path.exists("bi_data_np.npy"):
+                os.remove("bi_data_np.npy")
 
+            queue = multiprocessing.Queue()
+            p = multiprocessing.Process(target=cls.run_numerical_continuation, args=(queue, final_ant_str,
+                                                                                     cont_direction,
+                                                                                     auto, auto_parameters))
 
-        # queue = multiprocessing.Queue()
-        # p = multiprocessing.Process(target=cls.run_numerical_continuation, args=(queue, final_ant_str,
-        #                                                                          cont_direction,
-        #                                                                          auto, auto_parameters))
-        #
-        # p.start()
-        # p.join()  # this blocks until the process terminates
-        #
-        # if p.exitcode == 0:
-        #     pts, lbls, antimony_r, flag = queue.get()
-        #     bi_data_np = numpy.load('bi_data_np.npy')
-        #     os.remove('./bi_data_np.npy')
-        #     p.terminate()
-        #     queue.close()
-        # else:
-        #     flag = False
-        #     pts = []
-        #     lbls = []
-        #     antimony_r = []
-        #     bi_data_np = numpy.zeros(1)
-        #     p.terminate()
-        #     queue.close()
+            p.start()
+            p.join()  # this blocks until the process terminates
+
+            if p.exitcode == 0:
+                pts, lbls, antimony_r, flag = queue.get()
+                bi_data_np = numpy.load('bi_data_np.npy')
+                if os.path.exists("bi_data_np.npy"):
+                    os.remove("bi_data_np.npy")
+                p.terminate()
+                queue.close()
+            else:
+                flag = False
+                pts = []
+                lbls = []
+                antimony_r = []
+                bi_data_np = numpy.zeros(1)
+                p.terminate()
+                queue.close()
+                if os.path.exists("bi_data_np.npy"):
+                    os.remove("bi_data_np.npy")
+
+            # queue = []
+            # print("new 1 again")
+            #
+            # pts, lbls, antimony_r, flag = cls.run_numerical_continuation(queue, final_ant_str,cont_direction,
+            #                                                              auto, auto_parameters)
+            #
+            # bi_data_np = []
 
         return pts, lbls, antimony_r, flag, bi_data_np
 
+    @classmethod
+    def run_numerical_continuation(cls, q, ant_str, direction, auto, auto_parameters):
 
-    # @classmethod
-    # def run_numerical_continuation(cls, q, ant_str, direction, auto, auto_parameters):
-    #
-    #
-    #     antimony_r = cls.__loada(ant_str)
-    #
-    #     if True:
-    #
-    #         # making the directory auto_fort_files if is does not exist
-    #         if not os.path.isdir("./auto_fort_files"):
-    #             os.mkdir("./auto_fort_files")
-    #         auto.setProperty("SBML", antimony_r.getCurrentSBML())
-    #         auto.setProperty("ScanDirection", direction)
-    #         auto.setProperty("PreSimulation", "True")
-    #         auto.setProperty("PreSimulationDuration", 1.0)
-    #         auto.setProperty('KeepTempFiles', True)
-    #         auto.setProperty("TempFolder", "./auto_fort_files")
-    #
-    #         # assigning values provided by the user
-    #         for i in auto_parameters.keys():
-    #             auto.setProperty(i, auto_parameters[i])
-    #
-    #         try:
-    #
-    #             auto.execute()
-    #             # indices where special points are
-    #             pts = auto.BifurcationPoints
-    #             # labeling of special points
-    #             lbls = auto.BifurcationLabels
-    #             # all data for parameters and species found by continuation
-    #             bi_data = auto.BifurcationData
-    #
-    #             # convertes bi_data to numpy array, where first
-    #             # column is the principal continuation parameter and
-    #             # the rest of the columns are the species
-    #             bi_data_np = bi_data.toNumpy
-    #             flag = True
-    #
-    #         except Exception as e:
-    #             flag = False
-    #             pts = []
-    #             lbls = []
-    #             bi_data_np = numpy.zeros(2)
-    #
-    #     ant_float_ids = antimony_r.model.getFloatingSpeciesIds()
-    #     numpy.save('bi_data_np.npy', bi_data_np)
-    #     q.put([pts, lbls, ant_float_ids, flag])
+        # auto = rrplugins.Plugin("tel_auto2000")
+
+        antimony_r = cls.__loada(ant_str)
+
+        if True:
+
+            # making the directory auto_fort_files if is does not exist
+            if not os.path.isdir("./auto_fort_files"):
+                os.mkdir("./auto_fort_files")
+
+            auto.setProperty("SBML", antimony_r.getCurrentSBML())
+            auto.setProperty("ScanDirection", direction)
+            auto.setProperty("PreSimulation", "True")
+            auto.setProperty("PreSimulationDuration", 1.0)
+            auto.setProperty('KeepTempFiles', True)
+            auto.setProperty("TempFolder", "./auto_fort_files")
+
+            # assigning values provided by the user
+            for i in auto_parameters.keys():
+                auto.setProperty(i, auto_parameters[i])
+
+            try:
+                auto.execute()
+                # indices where special points are
+                pts = auto.BifurcationPoints
+                # labeling of special points
+                lbls = auto.BifurcationLabels
+                # all data for parameters and species found by continuation
+                bi_data = auto.BifurcationData
+
+                # convertes bi_data to numpy array, where first
+                # column is the principal continuation parameter and
+                # the rest of the columns are the species
+                bi_data_np = bi_data.toNumpy
+                flag = True
+
+            except Exception as e:
+                flag = False
+                pts = []
+                lbls = []
+                bi_data_np = numpy.zeros(2)
+
+        ant_float_ids = antimony_r.model.getFloatingSpeciesIds()
+        numpy.save('bi_data_np.npy', bi_data_np)
+        q.put([pts, lbls, ant_float_ids, flag])
 
     @staticmethod
     def find_stable_unstable_regions(antimony_r, species_y):
@@ -799,33 +823,33 @@ class BistabilityFinder:
     # functions taken from Tellurium!! Give them
     # credit, they deserve it!
     #################################################
-    # @staticmethod
-    # def __check_antimony_return_code(code):
-    #
-    #     if code < 0:
-    #         raise Exception('Antimony: {}'.format(antimony.getLastError()))
-    #
-    # @classmethod
-    # def __antimony_to_sbml(cls, ant):
-    #     try:
-    #         isfile = os.path.isfile(ant)
-    #     except ValueError:
-    #         isfile = False
-    #     if isfile:
-    #         code = antimony.loadAntimonyFile(ant)
-    #     else:
-    #         code = antimony.loadAntimonyString(ant)
-    #     cls.__check_antimony_return_code(code)
-    #     mid = antimony.getMainModuleName()
-    #     return antimony.getSBMLString(mid)
-    #
-    # @classmethod
-    # def __loada(cls, ant):
-    #
-    #     return cls.__load_antimony_model(ant)
-    #
-    # @classmethod
-    # def __load_antimony_model(cls, ant):
-    #
-    #     sbml = cls.__antimony_to_sbml(ant)
-    #     return roadrunner.RoadRunner(sbml)
+    @staticmethod
+    def __check_antimony_return_code(code):
+
+        if code < 0:
+            raise Exception('Antimony: {}'.format(antimony.getLastError()))
+
+    @classmethod
+    def __antimony_to_sbml(cls, ant):
+        try:
+            isfile = os.path.isfile(ant)
+        except ValueError:
+            isfile = False
+        if isfile:
+            code = antimony.loadAntimonyFile(ant)
+        else:
+            code = antimony.loadAntimonyString(ant)
+        cls.__check_antimony_return_code(code)
+        mid = antimony.getMainModuleName()
+        return antimony.getSBMLString(mid)
+
+    @classmethod
+    def __loada(cls, ant):
+
+        return cls.__load_antimony_model(ant)
+
+    @classmethod
+    def __load_antimony_model(cls, ant):
+
+        sbml = cls.__antimony_to_sbml(ant)
+        return roadrunner.RoadRunner(sbml)
