@@ -8,7 +8,7 @@ Installation
 
 Requirements
 --------------------------------
-python >= 3.7
+python >= 3.7 (64-bit)
 
 
 Creating a Virtual Environment
@@ -56,8 +56,9 @@ To activate the environment on Windows do the following:
 
     $ path\to\crnt4sbml_env\Scripts\activate
 
-On the command line one should now see "(crnt4sbml_env)" on the left side of the command line, which indicates that one
-is now working in the virtual environment. Once the environment is activated, one can now install CRNT4SBML as follows:
+Note, in case you are using PowerShell, make sure its policy is updated by executing command as administrator ``Set-ExecutionPolicy RemoteSigned``. On the command line one should now see "(crnt4sbml_env)" on the left side of the command line, which indicates that one is now working in the virtual environment.
+
+Once the environment is activated, one can now install CRNT4SBML as follows:
 
 .. code-block:: console
 
