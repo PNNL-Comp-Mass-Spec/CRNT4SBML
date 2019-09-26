@@ -109,7 +109,7 @@ class LowDeficiencyApproach:
 
         or
 
-        "The network does not satisfy Deficiency Zero Theorem."
+        "The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded."
 
         :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
@@ -120,7 +120,7 @@ class LowDeficiencyApproach:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_low_deficiency_approach()
         >>> print(approach.report_deficiency_zero_theorem())
-            The network does not satisfy Deficiency Zero Theorem.
+            The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
         """
         if self.__satisfies_deficiency_zero_theorem and not self.__cond1:
             report = ("""
@@ -138,7 +138,7 @@ class LowDeficiencyApproach:
             """)
             print(re.sub(r"^\s+", "", report, flags=re.MULTILINE))
         else:
-            print("The network does not satisfy Deficiency Zero Theorem.")
+            print("The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.")
 
     def report_deficiency_one_theorem(self):
         """
@@ -160,7 +160,7 @@ class LowDeficiencyApproach:
 
         or
 
-        "The network does not satisfy Deficiency One Theorem."
+        "The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded."
 
         :download:`Fig1Ci.xml <../../sbml_files/Fig1Ci.xml>` for the provided
         example.
@@ -171,7 +171,7 @@ class LowDeficiencyApproach:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_low_deficiency_approach()
         >>> print(approach.report_deficiency_zero_theorem())
-            The network does not satisfy Deficiency One Theorem.
+            The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
         """
         if self.__satisfies_deficiency_one_theorem:
             report = ("""
@@ -191,4 +191,4 @@ class LowDeficiencyApproach:
             """)
             print(re.sub(r"^\s+", "", report, flags=re.MULTILINE))
         else:
-            print("The network does not satisfy Deficiency One Theorem.")
+            print("The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.")
