@@ -12,10 +12,6 @@ import pickle
 import antimony
 import roadrunner
 import rrplugins
-import psutil
-import signal
-#import contextlib
-#import io
 import sys
 if sys_pf == 'darwin':
     import matplotlib

@@ -13,6 +13,9 @@ ldt = network.get_low_deficiency_approach()
 ldt.report_deficiency_zero_theorem()
 ldt.report_deficiency_one_theorem()
 
+print(network.get_c_graph().get_g_nodes())
+
+
 # opt = network.get_mass_conservation_approach()
 #
 # bounds, concentration_bounds = opt.get_optimization_bounds()
