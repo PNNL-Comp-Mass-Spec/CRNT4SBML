@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/adv_def_app_dev.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/adv_def_app_dev.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/pickler.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/pickler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/semi_diff_c_graph_list.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/tests/semi_diff_c_graph_list.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/semi_diff_list.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/tests/semi_diff_list.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/semi_diff_low_def_list.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/tests/semi_diff_low_def_list.pickle" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,8 +36,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/example_scripts/pickler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="126" selection-start-line="126" selection-end-line="126" />
+            <state relative-caret-position="474">
+              <caret line="136" lean-forward="true" selection-start-line="136" selection-end-line="136" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -92,7 +93,6 @@
         <option value="$PROJECT_DIR$/README.rst" />
         <option value="$PROJECT_DIR$/tests/run.py" />
         <option value="$PROJECT_DIR$/.travis.yml" />
-        <option value="$PROJECT_DIR$/example_scripts/pickler.py" />
         <option value="$PROJECT_DIR$/docs/classes/crnt4sbml.CRNT.rst" />
         <option value="$PROJECT_DIR$/docs/classes/crnt4sbml.MassConservationApproach.rst" />
         <option value="$PROJECT_DIR$/docs/quickstart.rst" />
@@ -121,6 +121,7 @@
         <option value="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/tests/adv_def_app_dev.py" />
+        <option value="$PROJECT_DIR$/example_scripts/pickler.py" />
       </list>
     </option>
   </component>
@@ -469,8 +470,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/example_scripts/pickler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="126" selection-start-line="126" selection-end-line="126" />
+        <state relative-caret-position="474">
+          <caret line="136" lean-forward="true" selection-start-line="136" selection-end-line="136" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
           </folding>
