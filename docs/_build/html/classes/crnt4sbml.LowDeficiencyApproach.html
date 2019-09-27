@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.LowDeficiencyApproach &mdash; CRNT4SBML 0.0.5 documentation</title>
+  <title>crnt4sbml.LowDeficiencyApproach &mdash; CRNT4SBML 0.0.6 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -289,7 +289,7 @@ than one terminal linkage class. There can exist within a positive
 stoichiometric compatibility class at most one equilibrium.
 Thus, multiple equilibria cannot exist for the network.”</p>
 <p>or</p>
-<p>“The network does not satisfy Deficiency One Theorem.”</p>
+<p>“The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.”</p>
 <p><a class="reference download internal" download="" href="../_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided
 example.</p>
 <p class="rubric">Example</p>
@@ -297,7 +297,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_low_deficiency_approach</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">report_deficiency_zero_theorem</span><span class="p">())</span>
-<span class="go">    The network does not satisfy Deficiency One Theorem.</span>
+<span class="go">    The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -316,7 +316,7 @@ equilibria cannot exist for the network.”</p>
 stoichiometric compatibility class precisely one equilibrium.
 Thus, multiple equilibria cannot exist for the network.”</p>
 <p>or</p>
-<p>“The network does not satisfy Deficiency Zero Theorem.”</p>
+<p>“The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.”</p>
 <p><a class="reference download internal" download="" href="../_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided
 example.</p>
 <p class="rubric">Example</p>
@@ -324,7 +324,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_low_deficiency_approach</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">report_deficiency_zero_theorem</span><span class="p">())</span>
-<span class="go">    The network does not satisfy Deficiency Zero Theorem.</span>
+<span class="go">    The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.</span>
 </pre></div>
 </div>
 </dd></dl>

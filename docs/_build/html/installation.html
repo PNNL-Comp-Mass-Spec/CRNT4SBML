@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; CRNT4SBML 0.0.5 documentation</title>
+  <title>Installation &mdash; CRNT4SBML 0.0.6 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -89,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">CRNT4SBML</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-virtual-environment">Creating a Virtual Environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#stable-release">Stable release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#from-sources">From sources</a></li>
@@ -177,6 +178,10 @@
             
   <div class="section" id="installation">
 <span id="my-installation-label"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>python &gt;= 3.7 (64-bit)</p>
+</div>
 <div class="section" id="creating-a-virtual-environment">
 <h2>Creating a Virtual Environment<a class="headerlink" href="#creating-a-virtual-environment" title="Permalink to this headline">¶</a></h2>
 <p>The preferred way to use CRNT4SBML is through a virtual environment. A virtual environment for Python is a self-contained
@@ -211,8 +216,8 @@ activate this environment as follows on Mac and Linux:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> path<span class="se">\t</span>o<span class="se">\c</span>rnt4sbml_env<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
-<p>On the command line one should now see “(crnt4sbml_env)” on the left side of the command line, which indicates that one
-is now working in the virtual environment. Once the environment is activated, one can now install CRNT4SBML as follows:</p>
+<p>Note, in case you are using PowerShell, make sure its policy is updated by executing command as administrator <code class="docutils literal notranslate"><span class="pre">Set-ExecutionPolicy</span> <span class="pre">RemoteSigned</span></code>. On the command line one should now see “(crnt4sbml_env)” on the left side of the command line, which indicates that one is now working in the virtual environment.</p>
+<p>Once the environment is activated, one can now install CRNT4SBML as follows:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install crnt4sbml
 </pre></div>
 </div>

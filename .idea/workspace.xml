@@ -2,10 +2,84 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/example_scripts/pickler.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/pickler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/semi_diff_c_graph_list.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/tests/semi_diff_c_graph_list.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/semi_diff_list.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/tests/semi_diff_list.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/semi_diff_low_def_list.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/tests/semi_diff_low_def_list.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/safety_wrap.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/safety_wrap.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/basic_crnt.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/basic_crnt.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.LowDeficiencyApproach.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.LowDeficiencyApproach.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.MassConservationApproach.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.MassConservationApproach.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.SemiDiffusiveApproach.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.SemiDiffusiveApproach.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/history.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/history.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/installation.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/installation.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/more_examples.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/more_examples.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/zbibliography.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/zbibliography.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/.buildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/.buildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/0695757983fb4565941973cc8695c348/Fig6A.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/1cf3ae749567fc84f0ce43959e22b94a/Fig4C_open.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/244574346a956870cdf5cfddb267cd18/run_Fig4B_open.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/278ab4b6d4d43cbfae2e1373ecd1b64a/run_conradi2005.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/354163bdb2e1a78daf6200e35095cc1a/run_Fig6a.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/3b67c354c0875a980aae2007c276eeba/Fig4B_closed.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/87b01c7c02c3b58fd1785adc55de6963/conradi2005.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/969993f065498df7989bd3c451573773/run_Fig4C_closed.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/9d0302e8cfac1a59f38b6ee9bcff63ad/Fig4B_open.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/bd597a6c1d08ba281861bc9bb3bea424/run_Fig4C_open.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/e8baeb08c8737a71b62a6894395b54df/Fig4C_closed.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/eec65462c0e9342c6c2139cddefabd20/run_Fig4B_closed.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig4B_closed_c_graph.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig4B_closed_cd.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig4B_open_c_graph.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig4B_open_cd.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig4C_closed_c_graph.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig4C_closed_cd.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig4C_open_c_graph.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig4C_open_cd.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig6A_c_graph.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig6A_cd.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/conradi2005_c_graph.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/conradi2005_cd.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/c_graph.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/c_graph.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/crnt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/crnt.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/low_deficiency_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/low_deficiency_approach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/mass_conservation_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/mass_conservation_approach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/semi_diffusive_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/semi_diffusive_approach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/basic_crnt.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/basic_crnt.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/installation.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/installation.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/more_examples.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/more_examples.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/documentation_options.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/documentation_options.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/authors.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/authors.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/basic_crnt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/basic_crnt.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/celldesigner_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/celldesigner_walkthrough.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.CRNT.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.CRNT.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.Cgraph.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.Cgraph.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.LowDeficiencyApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.LowDeficiencyApproach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.MassConservationApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.MassConservationApproach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.SemiDiffusiveApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.SemiDiffusiveApproach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/contributing.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/contributing.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/creating_eq_manifold.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/creating_eq_manifold.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/deficiency_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/deficiency_walkthrough.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/detect_bistability.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/detect_bistability.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/generating_c_graphs.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/generating_c_graphs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/history.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/history.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/injectivity_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/injectivity_walkthrough.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/installation.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/installation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/more_examples.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/more_examples.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/numerical_cont.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/numerical_cont.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/numerical_opt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/numerical_opt.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/physiological_bounds.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/physiological_bounds.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/quickstart.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/quickstart.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/readme.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/readme.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/reference.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/reference.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/more_examples.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/more_examples.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/run_open_fig5A.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_open_fig5A.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/run_open_fig5A_greedy.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_open_fig5A_greedy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,7 +92,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
+            <state relative-caret-position="438">
               <caret line="55" column="21" selection-start-line="55" selection-start-column="21" selection-end-line="55" selection-end-column="21" />
             </state>
           </provider>
@@ -28,18 +102,53 @@
         <entry file="file://$PROJECT_DIR$/tests/adv_def_app_dev.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="315">
-              <caret line="21" column="1" lean-forward="true" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+              <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/example_scripts/pickler.py">
+        <entry file="file://$PROJECT_DIR$/docs/more_examples.rst">
+          <provider selected="true" editor-type-id="restructured-text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example_scripts/run_open_fig5A.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="474">
-              <caret line="136" lean-forward="true" selection-start-line="136" selection-end-line="136" />
+            <state relative-caret-position="424">
+              <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example_scripts/run_open_fig5A_greedy.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="24" column="9" lean-forward="true" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crnt4sbml/bistability_finder.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="278">
+              <caret line="409" selection-start-line="409" selection-end-line="409" />
               <folding>
-                <element signature="e#0#16#0" expanded="true" />
+                <element signature="e#0#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crnt4sbml/safety_wrap.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1597">
+              <caret line="111" column="24" selection-start-line="111" selection-start-column="24" selection-end-line="111" selection-end-column="24" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -71,8 +180,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/example_scripts/run_open_fig5B.py" />
-        <option value="$PROJECT_DIR$/docs/numerical_cont.rst" />
         <option value="$PROJECT_DIR$/docs/creating_eq_manifold.rst" />
         <option value="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" />
         <option value="$PROJECT_DIR$/example_scripts/run_semi_diffusive_quickstart.py" />
@@ -103,7 +210,6 @@
         <option value="$PROJECT_DIR$/CONTRIBUTING.rst" />
         <option value="$PROJECT_DIR$/docs/celldesigner_walkthrough.rst" />
         <option value="$PROJECT_DIR$/docs/physiological_bounds.rst" />
-        <option value="$PROJECT_DIR$/docs/more_examples.rst" />
         <option value="$PROJECT_DIR$/example_scripts/run_p85-p110-PTEN.py" />
         <option value="$PROJECT_DIR$/docs/installation.rst" />
         <option value="$PROJECT_DIR$/crnt4sbml/teat_file.py" />
@@ -113,15 +219,18 @@
         <option value="$PROJECT_DIR$/HISTORY.rst" />
         <option value="$PROJECT_DIR$/docs/require.txt" />
         <option value="$PROJECT_DIR$/tests/tester.py" />
-        <option value="$PROJECT_DIR$/crnt4sbml/safety_wrap.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/requirements_dev.txt" />
         <option value="$PROJECT_DIR$/crnt4sbml/low_deficiency_approach.py" />
         <option value="$PROJECT_DIR$/docs/basic_crnt.rst" />
         <option value="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" />
-        <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/tests/adv_def_app_dev.py" />
         <option value="$PROJECT_DIR$/example_scripts/pickler.py" />
+        <option value="$PROJECT_DIR$/crnt4sbml/safety_wrap.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/example_scripts/run_open_fig5A_greedy.py" />
+        <option value="$PROJECT_DIR$/example_scripts/run_open_fig5A.py" />
+        <option value="$PROJECT_DIR$/docs/more_examples.rst" />
       </list>
     </option>
   </component>
@@ -206,6 +315,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837133" visible="true" weight="0.24954791" />
       <window_info id="Structure" order="1" sideWeight="0.50162864" side_tool="true" weight="0.24954791" />
@@ -218,7 +328,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.37653062" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.42755103" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32959184" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -227,8 +337,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/auto_fort_files/fort.8" />
-    <entry file="file://$PROJECT_DIR$/tests/auto_fort_files/fort.6" />
     <entry file="file://$PROJECT_DIR$/tests/auto_fort_files/fort.2" />
     <entry file="file://$PROJECT_DIR$/tests/auto_fort_files/fort.9" />
     <entry file="file://$PROJECT_DIR$/tests/auto_fort_files/fort.7" />
@@ -248,13 +356,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-31">
           <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_scripts/run_closed_fig5A.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
@@ -320,9 +421,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/physiological_bounds.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/more_examples.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_crnt4sbml.py">
@@ -400,19 +498,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crnt4sbml/safety_wrap.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="64" column="32" selection-start-line="64" selection-start-column="32" selection-end-line="64" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/installation.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/crnt4sbml/c_graph.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4686">
@@ -447,27 +532,6 @@
     <entry file="file://$PROJECT_DIR$/docs/basic_crnt.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/crnt4sbml/bistability_finder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-221">
-          <caret line="7" column="11" lean-forward="true" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="55" column="21" selection-start-line="55" selection-start-column="21" selection-end-line="55" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/adv_def_app_dev.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="1" lean-forward="true" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/example_scripts/pickler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="474">
@@ -477,6 +541,67 @@
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/installation.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/adv_def_app_dev.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crnt4sbml/bistability_finder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="409" selection-start-line="409" selection-end-line="409" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="438">
+          <caret line="55" column="21" selection-start-line="55" selection-start-column="21" selection-end-line="55" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_closed_fig5A.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crnt4sbml/safety_wrap.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1597">
+          <caret line="111" column="24" selection-start-line="111" selection-start-column="24" selection-end-line="111" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_open_fig5A_greedy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="24" column="9" lean-forward="true" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_open_fig5A.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/more_examples.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
   </component>
 </project>

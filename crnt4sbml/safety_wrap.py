@@ -4,12 +4,19 @@ import numpy
 import antimony
 import roadrunner
 import rrplugins
+import sys
 
 roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
 roadrunner.Logger.disableLogging()
 roadrunner.Logger.disableConsoleLogging()
 roadrunner.Logger.disableFileLogging()
 rrplugins.setLogLevel('error')
+
+stderr_fileno = sys.stderr.fileno()
+stderr_save = os.dup(stderr_fileno)
+stderr_pipe = os.pipe()
+os.dup2(stderr_pipe[1], stderr_fileno)
+os.close(stderr_pipe[1])
 
 
 # functions taken from Tellurium!! Give them
@@ -101,3 +108,8 @@ if os.path.exists("output_arguments.pickle"):
 else:
     with open('output_arguments.pickle', 'wb') as outf:
         outf.write(pickle.dumps(output_arguments))
+
+os.close(stderr_pipe[0])
+os.dup2(stderr_save, stderr_fileno)
+os.close(stderr_save)
+os.close(stderr_fileno)

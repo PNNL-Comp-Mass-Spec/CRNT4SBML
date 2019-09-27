@@ -81,8 +81,8 @@ to the script:
 
 This provides the following output for the closed portion of the C-graph::
 
-        The network does not satisfy Deficiency Zero Theorem.
-        The network does not satisfy Deficiency One Theorem.
+        The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+        The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 For information on the possible output for this run, please see :func:`crnt4sbml.LowDeficiencyApproach.report_deficiency_one_theorem`
 and :func:`crnt4sbml.LowDeficiencyApproach.report_deficiency_zero_theorem`.

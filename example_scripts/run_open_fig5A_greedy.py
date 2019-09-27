@@ -26,9 +26,13 @@ print("")
 print("Boundary species:")
 print(opt.get_boundary_species())
 
-bounds = [(1e-4, 1e2)]*12
+bounds = opt.get_optimization_bounds() #[(1e-4, 1e2)]*12
 
-params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=100)
+params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=500)
+
+import numpy
+numpy.save('params.npy', params_for_global_min)
+
 
 multistable_param_ind = opt.run_greedy_continuity_analysis(species="s4", parameters=params_for_global_min,
                                                            auto_parameters={'PrincipalContinuationParameter': 're3'})

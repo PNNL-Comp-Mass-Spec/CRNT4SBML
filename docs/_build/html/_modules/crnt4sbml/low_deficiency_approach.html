@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.low_deficiency_approach &mdash; CRNT4SBML 0.0.5 documentation</title>
+  <title>crnt4sbml.low_deficiency_approach &mdash; CRNT4SBML 0.0.6 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -278,7 +278,7 @@
 
         or
 
-        &quot;The network does not satisfy Deficiency Zero Theorem.&quot;
+        &quot;The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.&quot;
 
         :download:`Fig1Ci.xml &lt;../../sbml_files/Fig1Ci.xml&gt;` for the provided
         example.
@@ -289,7 +289,7 @@
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_low_deficiency_approach()
         &gt;&gt;&gt; print(approach.report_deficiency_zero_theorem())
-            The network does not satisfy Deficiency Zero Theorem.
+            The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
         &quot;&quot;&quot;
         if self.__satisfies_deficiency_zero_theorem and not self.__cond1:
             report = (&quot;&quot;&quot;
@@ -307,7 +307,7 @@
             &quot;&quot;&quot;)
             print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, report, flags=re.MULTILINE))
         else:
-            print(&quot;The network does not satisfy Deficiency Zero Theorem.&quot;)</div>
+            print(&quot;The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.&quot;)</div>
 
 <div class="viewcode-block" id="LowDeficiencyApproach.report_deficiency_one_theorem"><a class="viewcode-back" href="../../classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.report_deficiency_one_theorem">[docs]</a>    def report_deficiency_one_theorem(self):
         &quot;&quot;&quot;
@@ -329,7 +329,7 @@
 
         or
 
-        &quot;The network does not satisfy Deficiency One Theorem.&quot;
+        &quot;The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.&quot;
 
         :download:`Fig1Ci.xml &lt;../../sbml_files/Fig1Ci.xml&gt;` for the provided
         example.
@@ -340,7 +340,7 @@
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_low_deficiency_approach()
         &gt;&gt;&gt; print(approach.report_deficiency_zero_theorem())
-            The network does not satisfy Deficiency One Theorem.
+            The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
         &quot;&quot;&quot;
         if self.__satisfies_deficiency_one_theorem:
             report = (&quot;&quot;&quot;
@@ -360,7 +360,7 @@
             &quot;&quot;&quot;)
             print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, report, flags=re.MULTILINE))
         else:
-            print(&quot;The network does not satisfy Deficiency One Theorem.&quot;)</div></div>
+            print(&quot;The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.&quot;)</div></div>
 </pre></div>
 
            </div>
