@@ -20,6 +20,7 @@ if sys_pf == 'darwin':
 else:
     import matplotlib.pyplot as plt
 
+
 class BistabilityFinder:
 
     @classmethod
@@ -717,6 +718,8 @@ class BistabilityFinder:
     def plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np, sp_y_ind, pcp_x, species_y,
                             param_ind, dir_path, cls):
 
+        plt.clf()
+
         # plotting stable points
         for i in range(len(chnk_stable)):
             plt.plot(bi_data_np[chnk_stable[i], 0], bi_data_np[chnk_stable[i], sp_y_ind], linewidth=1,
@@ -762,6 +765,16 @@ class BistabilityFinder:
         y = bi_data_np[:, sp_y_ind]
         i = numpy.where((x > lims[0]) & (x < lims[1]))[0]
 
+        print("lims")
+        print(lims)
+        print("y[i].max()")
+        print(y[i].max())
+        print("y[i].min()")
+        print(y[i].min())
+        print("special points")
+        for iii in special_points:
+            print(bi_data_np[iii[0], 0], bi_data_np[iii[0], sp_y_ind])
+
         h = y[i].max() - y[i].min()
         first = y[i].min() - 0.1*h
         second = y[i].max() + 0.1*h
@@ -769,6 +782,8 @@ class BistabilityFinder:
 
         plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
         plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + '.png') #'.pdf')
+        #plt.close('all')
+        plt.clf()
 
         # going through all the multistationary regions
         # for j in cls.__xlabel_interval:
@@ -814,7 +829,7 @@ class BistabilityFinder:
         #         plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + '_' + str(count) + '.pdf')
         #         count += 1
 
-        plt.close()
+        # plt.close()
 
     # functions taken from Tellurium!! Give them
     # credit, they deserve it!

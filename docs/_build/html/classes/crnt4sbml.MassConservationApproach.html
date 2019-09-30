@@ -256,6 +256,12 @@
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_lambda_objective_fun" title="crnt4sbml.MassConservationApproach.get_lambda_objective_fun"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_lambda_objective_fun</span></code></a>()</td>
 <td>Returns a lambda function representation of the objective function of the optimization problem.</td>
 </tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_independent_odes" title="crnt4sbml.MassConservationApproach.get_independent_odes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_independent_odes</span></code></a>()</td>
+<td>Returns a list of SymPy representations of the independent ODEs used in the numerical continuation routine.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_independent_species" title="crnt4sbml.MassConservationApproach.get_independent_species"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_independent_species</span></code></a>()</td>
+<td>Returns a list of SymPy representations of the independent species used in the numerical continuation routine.</td>
+</tr>
 <tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_optimization_bounds" title="crnt4sbml.MassConservationApproach.get_optimization_bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimization_bounds</span></code></a>()</td>
 <td>Builds all of the necessary physiological bounds for the optimization routine.</td>
 </tr>
@@ -536,6 +542,43 @@ example.</p>
 <span class="go">    ⎢  a₂ - re₅⋅s₁⋅s₆ + re5r⋅s₁₅  ⎥</span>
 <span class="go">    ⎢                             ⎥</span>
 <span class="go">    ⎣re₅⋅s₁⋅s₆ + s₁₅⋅(-re5r - re₆)⎦</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_independent_odes">
+<code class="descname">get_independent_odes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_independent_odes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_independent_odes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy representations of the independent ODEs used in the numerical continuation routine. Here
+the entries of the list correspond to the time derivatives of the corresponding species provided by
+<a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_independent_species" title="crnt4sbml.MassConservationApproach.get_independent_species"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.get_independent_species()</span></code></a>. Note that the independent ODEs created are
+based on the species chosen for the numerical continuation. Thus, the continuation routine needs to be ran
+first. If this function is called before the numerical continuation routine then None will be returned.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">multistable_param_ind</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+<span class="go">                                                                    auto_parameters={&#39;PrincipalContinuationParameter&#39;: &quot;PCP&quot;})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">odes</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_independent_odes</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.get_independent_species">
+<code class="descname">get_independent_species</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_independent_species"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_independent_species" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy representations of the independent species used in the numerical continuation routine.
+Note that the independent species created are based on the species chosen for the numerical continuation. Thus,
+the continuation routine needs to be ran first. If this function is called before the numerical continuation
+routine then None will be returned.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">multistable_param_ind</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+<span class="go">                                                                    auto_parameters={&#39;PrincipalContinuationParameter&#39;: &quot;PCP&quot;})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">species</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_independent_species</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>

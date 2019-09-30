@@ -228,6 +228,8 @@ from .bistability_finder import BistabilityFinder
         self.__lambda_objective_fun = None 
         self.__important_info = &quot;&quot;
         self.__numpy_dtype = None
+        self.__independent_odes = None
+        self.__independent_species = None
 
         # vars used frequently
         self.__N = len(self.__cgraph.get_species())
@@ -986,6 +988,45 @@ from .bistability_finder import BistabilityFinder
 
         return sols</div>
 
+<div class="viewcode-block" id="MassConservationApproach.get_independent_odes"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_independent_odes">[docs]</a>    def get_independent_odes(self):
+        &quot;&quot;&quot;
+        Returns a list of SymPy representations of the independent ODEs used in the numerical continuation routine. Here
+        the entries of the list correspond to the time derivatives of the corresponding species provided by
+        :func:`crnt4sbml.MassConservationApproach.get_independent_species`. Note that the independent ODEs created are
+        based on the species chosen for the numerical continuation. Thus, the continuation routine needs to be ran
+        first. If this function is called before the numerical continuation routine then None will be returned.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
+        &gt;&gt;&gt; multistable_param_ind = approach.run_greedy_continuity_analysis(species=&quot;species&quot;, parameters=params_for_global_min,
+                                                                            auto_parameters={&#39;PrincipalContinuationParameter&#39;: &quot;PCP&quot;})
+        &gt;&gt;&gt; odes = approach.get_independent_odes()
+        &quot;&quot;&quot;
+
+        return self.__independent_odes</div>
+
+<div class="viewcode-block" id="MassConservationApproach.get_independent_species"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_independent_species">[docs]</a>    def get_independent_species(self):
+        &quot;&quot;&quot;
+        Returns a list of SymPy representations of the independent species used in the numerical continuation routine.
+        Note that the independent species created are based on the species chosen for the numerical continuation. Thus,
+        the continuation routine needs to be ran first. If this function is called before the numerical continuation
+        routine then None will be returned.
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
+        &gt;&gt;&gt; multistable_param_ind = approach.run_greedy_continuity_analysis(species=&quot;species&quot;, parameters=params_for_global_min,
+                                                                            auto_parameters={&#39;PrincipalContinuationParameter&#39;: &quot;PCP&quot;})
+        &gt;&gt;&gt; species = approach.get_independent_species()
+        &quot;&quot;&quot;
+
+        return self.__independent_species</div>
+
 <div class="viewcode-block" id="MassConservationApproach.get_optimization_bounds"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_optimization_bounds">[docs]</a>    def get_optimization_bounds(self):
         &quot;&quot;&quot;
         Builds all of the necessary physiological bounds for the optimization routine.
@@ -1602,6 +1643,9 @@ from .bistability_finder import BistabilityFinder
             for j in range(len(replacements)):
                 indp_odes[i] = indp_odes[i].subs(replacements[j][0], replacements[j][1])
             indp_odes_str.append(str(indp_odes[i]))
+
+        self.__independent_odes = indp_odes
+        self.__independent_species = ind_spec_conc
 
         # replacing all powers with ^ instead of **
         for i in range(len(indp_odes_str)):

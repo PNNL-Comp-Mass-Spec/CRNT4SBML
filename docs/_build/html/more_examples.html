@@ -882,6 +882,7 @@ Number of complexes: 18
 Number of reactions: 21
 Network deficiency: 8
 
+
 Reaction graph of the form
 reaction -- reaction label:
 s1+s3 -&gt; s6  --  re1
@@ -906,8 +907,8 @@ s9 -&gt; s19  --  re15
 s13 -&gt; s19  --  re16
 s16 -&gt; s19  --  re17
 
-The network does not satisfy Deficiency Zero Theorem.
-The network does not satisfy Deficiency One Theorem.
+The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Decision vector for optimization:
 [v_2, v_3, v_4, v_5, v_6, v_8, v_11, v_13, v_15, v_18, v_20, v_21]
@@ -916,32 +917,32 @@ Reaction labels for decision vector:
 [&#39;re1r&#39;, &#39;re2&#39;, &#39;re3&#39;, &#39;re4&#39;, &#39;re5&#39;, &#39;re7&#39;, &#39;re9r&#39;, &#39;re10r&#39;, &#39;re11r&#39;, &#39;re14&#39;, &#39;re16&#39;, &#39;re17&#39;]
 
 Key species:
-[&#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;]
+[&#39;s1&#39;, &#39;s3&#39;, &#39;s2&#39;]
 
 Non key species:
-[&#39;s4&#39;, &#39;s5&#39;, &#39;s6&#39;, &#39;s9&#39;, &#39;s13&#39;, &#39;s16&#39;]
+[&#39;s6&#39;, &#39;s5&#39;, &#39;s9&#39;, &#39;s4&#39;, &#39;s13&#39;, &#39;s16&#39;]
 
 Boundary species:
 [&#39;s19&#39;]
 
-Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 21.670934000000003
+Running feasible point method for 500 iterations ...
+Elapsed time for feasible point method: 80.86045800000001
 
 Running the multistart optimization ...
 
 Smallest value achieved by objective function: 0.0
 
-Elapsed time for multistart method: 109.49520600000002
+Elapsed time for multistart method: 1181.564838
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 5.927085000000005
+Elapsed time for continuity analysis: 1708.7098100185394
 
-The number of feasible points that satisfy the constraints: 100
-Total feasible points that give F(x) = 0: 5
-Total number of points that passed final_check: 1
+The number of feasible points that satisfy the constraints: 500
+Total feasible points that give F(x) = 0: 288
+Total number of points that passed final_check: 108
 Number of multistability plots found: 1
 Elements in params_for_global_min that produce multistability:
-[0]
+[9]
 </pre></div>
 </div>
 </div>

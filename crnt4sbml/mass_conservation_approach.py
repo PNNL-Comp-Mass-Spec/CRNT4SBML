@@ -59,6 +59,8 @@ class MassConservationApproach:
         self.__lambda_objective_fun = None 
         self.__important_info = ""
         self.__numpy_dtype = None
+        self.__independent_odes = None
+        self.__independent_species = None
 
         # vars used frequently
         self.__N = len(self.__cgraph.get_species())
@@ -817,6 +819,45 @@ class MassConservationApproach:
 
         return sols
 
+    def get_independent_odes(self):
+        """
+        Returns a SymPy Matrix where the rows represent the independent ODEs used in the numerical continuation routine. Here
+        the entries of the list correspond to the time derivatives of the corresponding species provided by
+        :func:`crnt4sbml.MassConservationApproach.get_independent_species`. Note that the independent ODEs created are
+        based on the species chosen for the numerical continuation. Thus, the continuation routine needs to be ran
+        first. If this function is called before the numerical continuation routine then None will be returned.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
+        >>> approach = network.get_mass_conservation_approach()
+        >>> multistable_param_ind = approach.run_greedy_continuity_analysis(species="species", parameters=params_for_global_min,
+                                                                            auto_parameters={'PrincipalContinuationParameter': "PCP"})
+        >>> odes = approach.get_independent_odes()
+        """
+
+        return self.__independent_odes
+
+    def get_independent_species(self):
+        """
+        Returns a list of SymPy representations of the independent species used in the numerical continuation routine.
+        Note that the independent species created are based on the species chosen for the numerical continuation. Thus,
+        the continuation routine needs to be ran first. If this function is called before the numerical continuation
+        routine then None will be returned.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
+        >>> approach = network.get_mass_conservation_approach()
+        >>> multistable_param_ind = approach.run_greedy_continuity_analysis(species="species", parameters=params_for_global_min,
+                                                                            auto_parameters={'PrincipalContinuationParameter': "PCP"})
+        >>> species = approach.get_independent_species()
+        """
+
+        return self.__independent_species
+
     def get_optimization_bounds(self):
         """
         Builds all of the necessary physiological bounds for the optimization routine.
@@ -1433,6 +1474,9 @@ class MassConservationApproach:
             for j in range(len(replacements)):
                 indp_odes[i] = indp_odes[i].subs(replacements[j][0], replacements[j][1])
             indp_odes_str.append(str(indp_odes[i]))
+
+        self.__independent_odes = indp_odes
+        self.__independent_species = ind_spec_conc
 
         # replacing all powers with ^ instead of **
         for i in range(len(indp_odes_str)):

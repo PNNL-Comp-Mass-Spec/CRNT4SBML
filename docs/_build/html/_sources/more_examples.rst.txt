@@ -965,6 +965,7 @@ following output::
     Number of reactions: 21
     Network deficiency: 8
 
+
     Reaction graph of the form
     reaction -- reaction label:
     s1+s3 -> s6  --  re1
@@ -989,8 +990,8 @@ following output::
     s13 -> s19  --  re16
     s16 -> s19  --  re17
 
-    The network does not satisfy Deficiency Zero Theorem.
-    The network does not satisfy Deficiency One Theorem.
+    The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+    The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Decision vector for optimization:
     [v_2, v_3, v_4, v_5, v_6, v_8, v_11, v_13, v_15, v_18, v_20, v_21]
@@ -999,32 +1000,32 @@ following output::
     ['re1r', 're2', 're3', 're4', 're5', 're7', 're9r', 're10r', 're11r', 're14', 're16', 're17']
 
     Key species:
-    ['s1', 's2', 's3']
+    ['s1', 's3', 's2']
 
     Non key species:
-    ['s4', 's5', 's6', 's9', 's13', 's16']
+    ['s6', 's5', 's9', 's4', 's13', 's16']
 
     Boundary species:
     ['s19']
 
-    Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 21.670934000000003
+    Running feasible point method for 500 iterations ...
+    Elapsed time for feasible point method: 80.86045800000001
 
     Running the multistart optimization ...
 
     Smallest value achieved by objective function: 0.0
 
-    Elapsed time for multistart method: 109.49520600000002
+    Elapsed time for multistart method: 1181.564838
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 5.927085000000005
+    Elapsed time for continuity analysis: 1708.7098100185394
 
-    The number of feasible points that satisfy the constraints: 100
-    Total feasible points that give F(x) = 0: 5
-    Total number of points that passed final_check: 1
+    The number of feasible points that satisfy the constraints: 500
+    Total feasible points that give F(x) = 0: 288
+    Total number of points that passed final_check: 108
     Number of multistability plots found: 1
     Elements in params_for_global_min that produce multistability:
-    [0]
+    [9]
 
 ..
     Figure 4B from :cite:`irene`
