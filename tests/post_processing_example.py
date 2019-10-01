@@ -130,7 +130,7 @@ plt.savefig('./num_cont_graphs/toy_values.png')
 plt.clf()
 
 # time grid
-t = numpy.linspace(0.0, 20000.0, 1000000)
+t = numpy.linspace(0.0, 20000.0, 100000)
 
 y0 = [877900.0, 760.070288586031, 0.0, 0.0, 481700.406580797, 0.0, 0.0]
 soln1 = scipy.integrate.odeint(f, y0, t, args=(input_vals, ode_lambda_functions, start_index))
@@ -140,13 +140,73 @@ y0 = [878400.0, 760.070288586031, 0.0, 0.0, 481700.406580797, 0.0, 0.0]
 soln2 = scipy.integrate.odeint(f, y0, t, args=(input_vals, ode_lambda_functions, start_index))
 s15_sol2 = soln2[:, 6]
 
-
 plt.plot(t, s15_sol1, label='s1 = 877900.0')
 plt.plot(t, s15_sol2, label='s1 = 878400.0')
 plt.xlabel("time")
 plt.ylabel("Concentration of s15")
-plt.legend(loc="upper right")
+plt.legend(loc="lower right")
+plt.title("Initial Values from Optimization")
+
+plt.savefig('./num_cont_graphs/optimization_values_2.png')
+plt.clf()
+
+# time grid
+t = numpy.linspace(0.0, 100000.0, 1000000)
+
+C3_s = numpy.linspace(877900.0, 878460.0, 10)
+
+
+steady_state_vals = numpy.zeros(len(C3_s))
+for i in range(len(C3_s)):
+    y0 = [C3_s[i], 760.070288586031, 0.0, 0.0, 481700.406580797, 0.0, 0.0]
+    soln1 = scipy.integrate.odeint(f, y0, t, args=(input_vals, ode_lambda_functions, start_index))
+    s15_sol = soln1[:, 6]
+    steady_state_vals[i] = soln1[999999, 6]
+    plt.plot(t, s15_sol, label='C3 = ' + str(C3_s[i]))
+
+# plt.plot(t, s15_sol1, label='s1 = 877900.0')
+# plt.plot(t, s15_sol2, label='s1 = 878400.0')
+plt.xlabel("time")
+plt.ylabel("Concentration of s15")
+plt.legend(loc="lower right")
 plt.title("Initial Values from Optimization")
 
 plt.savefig('./num_cont_graphs/optimization_values.png')
+plt.clf()
+
+plt.plot(C3_s, steady_state_vals)
+plt.xlabel("C3")
+plt.ylabel("s15 at time 100000")
+plt.title("Taking a Slice")
+
+plt.savefig('./num_cont_graphs/slice.png')
+plt.clf()
+
+# time grid
+t = numpy.linspace(0.0, 100, 1000000)
+
+C3_s = numpy.linspace(877900.0, 878700.0, 10)
+#C3_s = numpy.linspace(877900.0, 878460.0, 10)
+#C3_s = numpy.linspace(150000.0, 200000.0, 10)
+
+steady_state_vals = numpy.zeros(len(C3_s))
+for i in range(len(C3_s)):
+    #y0 = [C3_s[i]-2*135000.0, 760.070288586031, 0.0, 0.0, 481700.406580797, 0.0, 135000.0]
+    y0 = [C3_s[i]-2*200000.0, 760.070288586031, 0.0, 0.0, 481700.406580797, 0.0, 200000.0]
+    soln1 = scipy.integrate.odeint(f, y0, t, args=(input_vals, ode_lambda_functions, start_index))
+    s15_sol = soln1[:, 6]
+    steady_state_vals[i] = soln1[999999, 6]
+    plt.plot(t, s15_sol, label='C3 = ' + str(C3_s[i]))
+
+print("conservation vals")
+print(network.get_c_graph().get_b()*sympy.Matrix([soln1[999999, :]]).T)
+
+plt.xlabel("time")
+plt.ylabel("Concentration of s15")
+#plt.ylim(95500.0, 98000.0)
+plt.legend(loc="upper right")
+plt.title("Initial Values from Optimization")
+print(steady_state_vals)
+
+plt.savefig('./num_cont_graphs/optimization_values_4.png')
 plt.clf()
