@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/C3_vs_s15_0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/optimization_values.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/optimization_values_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/optimization_values_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/optimization_values_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/slice.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/toy_values.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/bistability_ODEs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/bistability_auto.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/simulating_s15_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/simulating_s15_150k.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/post_processing_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/post_processing_example.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crnt4sbml/bistability_finder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="780" column="41" lean-forward="true" selection-start-line="780" selection-start-column="41" selection-end-line="780" selection-end-column="41" />
+            <state relative-caret-position="976">
+              <caret line="780" column="41" selection-start-line="780" selection-start-column="41" selection-end-line="780" selection-end-column="41" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -52,11 +50,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/post_processing_example.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="219" column="65" selection-start-line="219" selection-start-column="65" selection-end-line="219" selection-end-column="65" />
+            <state relative-caret-position="495">
+              <caret line="33" column="48" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/new_post_processing.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="46" lean-forward="true" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -98,8 +105,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" />
-        <option value="$PROJECT_DIR$/example_scripts/run_semi_diffusive_quickstart.py" />
         <option value="$PROJECT_DIR$/sbml_files/crnt4sbml_cytoscape_style.xml" />
         <option value="$PROJECT_DIR$/docs/generating_c_graphs.rst" />
         <option value="$PROJECT_DIR$/tests/test2.py" />
@@ -148,7 +153,9 @@
         <option value="$PROJECT_DIR$/tests/adv_def_app_dev.py" />
         <option value="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" />
         <option value="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" />
+        <option value="$PROJECT_DIR$/tests/ode_sim_ex.py" />
         <option value="$PROJECT_DIR$/tests/post_processing_example.py" />
+        <option value="$PROJECT_DIR$/tests/new_post_processing.py" />
       </list>
     </option>
   </component>
@@ -245,7 +252,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.43163267" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.38979593" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32959184" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -254,8 +261,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/auto_fort_files/fort.9" />
-    <entry file="file://$PROJECT_DIR$/tests/auto_fort_files/fort.7" />
     <entry file="file://$PROJECT_DIR$/tests/mult_test.py" />
     <entry file="file://$PROJECT_DIR$/docs/detect_bistability.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
@@ -509,10 +514,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/ode_sim_ex.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="12" lean-forward="true" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/crnt4sbml/bistability_finder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="780" column="41" lean-forward="true" selection-start-line="780" selection-start-column="41" selection-end-line="780" selection-end-column="41" />
+        <state relative-caret-position="976">
+          <caret line="780" column="41" selection-start-line="780" selection-start-column="41" selection-end-line="780" selection-end-column="41" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
@@ -521,8 +533,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/post_processing_example.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="219" column="65" selection-start-line="219" selection-start-column="65" selection-end-line="219" selection-end-column="65" />
+        <state relative-caret-position="495">
+          <caret line="33" column="48" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/new_post_processing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="46" lean-forward="true" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
         </state>
       </provider>
     </entry>

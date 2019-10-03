@@ -20,7 +20,7 @@ import numpy
 #numpy.save('params.npy', params_for_global_min)
 params_for_global_min = numpy.load('params.npy')
 
-multistable_param_ind = opt.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min[[2]],
+multistable_param_ind = opt.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min[[3]],
                                                            auto_parameters={'PrincipalContinuationParameter': 'C3'})
 
 opt.generate_report()
@@ -31,7 +31,7 @@ print("Original ODEs")
 odes = network.get_c_graph().get_ode_system()
 sympy.pprint(odes)
 
-decision_vector_values = params_for_global_min[2]
+decision_vector_values = params_for_global_min[3]
 
 species_concentrations = []
 for i in opt.get_concentration_funs():
@@ -50,18 +50,12 @@ print(conservation_values)
 print("conservation laws")
 print(opt.get_conservation_laws())
 
-print("decision vector")
-print(decision_vector_values)
-
 # construct sympy form of reactions and species
 sympy_reactions = [sympy.Symbol(i, positive=True) for i in network.get_c_graph().get_reactions()]
 sympy_species = [sympy.Symbol(i, positive=True) for i in network.get_c_graph().get_species()]
 
 # creating the input for each ode lambda function
 lambda_inputs = sympy_reactions + sympy_species
-
-print("lambda_inputs")
-print(lambda_inputs)
 
 # creating a lambda function for each ODE to
 ode_lambda_functions = []
@@ -90,7 +84,7 @@ def f(y, t, inputs, ode_lambda_func, start_ind):
     return ode_vals
 
 
-# first index of a species in
+# first index of a species in input_vals
 start_index = len(sympy_reactions)
 
 # solve the ODEs
@@ -100,123 +94,78 @@ import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 
-# # time grid
-# t = numpy.linspace(0.0, 10.0, 10000)
-#
-# y0 = [10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0]
-# soln1 = scipy.integrate.odeint(f, y0, t, args=(input_vals, ode_lambda_functions, start_index))
-#
-# s1_sol = soln1[:, 0]
-# s2_sol = soln1[:, 1]
-# s3_sol = soln1[:, 2]
-# s6_sol = soln1[:, 3]
-# s7_sol = soln1[:, 4]
-# s16_sol = soln1[:, 5]
-# s15_sol = soln1[:, 6]
-#
-# plt.plot(t, s1_sol, label='Species s1')
-# plt.plot(t, s2_sol, label='Species s2')
-# plt.plot(t, s3_sol, label='Species s3')
-# plt.plot(t, s6_sol, label='Species s6')
-# plt.plot(t, s7_sol, label='Species s7')
-# plt.plot(t, s16_sol, label='Species s16')
-# plt.plot(t, s15_sol, label='Species s15')
-# plt.legend(loc='upper right')
-# plt.xlabel("time")
-# plt.ylabel("Species' Concentrations")
-# plt.title("Toy Values")
-#
-# plt.savefig('./num_cont_graphs/toy_values.png')
-# plt.clf()
-
-# # time grid
-# t = numpy.linspace(0.0, 20000.0, 100000)
-#
-# y0 = [877900.0, 760.070288586031, 0.0, 0.0, 481700.406580797, 0.0, 0.0]
-# soln1 = scipy.integrate.odeint(f, y0, t, args=(input_vals, ode_lambda_functions, start_index))
-# s15_sol1 = soln1[:, 6]
-#
-# y0 = [878400.0, 760.070288586031, 0.0, 0.0, 481700.406580797, 0.0, 0.0]
-# soln2 = scipy.integrate.odeint(f, y0, t, args=(input_vals, ode_lambda_functions, start_index))
-# s15_sol2 = soln2[:, 6]
-#
-# plt.plot(t, s15_sol1, label='s1 = 877900.0')
-# plt.plot(t, s15_sol2, label='s1 = 878400.0')
-# plt.xlabel("time")
-# plt.ylabel("Concentration of s15")
-# plt.legend(loc="lower right")
-# plt.title("Initial Values from Optimization")
-#
-# plt.savefig('./num_cont_graphs/optimization_values_2.png')
-# plt.clf()
+plt.gcf().set_size_inches(11, 8)
 
 # time grid
-t = numpy.linspace(0.0, 100000.0, 1000000)
+# final_time = 100000.0  # index 2
+final_time = 2000.0 # index 3
 
-#C3_s1 = numpy.linspace(877900.0, 878460.0, 10)
-C3_s1 = numpy.linspace(877900.0, 878700.0, 30)
+t = numpy.linspace(0.0, final_time, 10000)
 
-steady_state_vals1 = numpy.zeros(len(C3_s1))
-for i in range(len(C3_s1)):
-    y0 = [C3_s1[i], 760.070288586031, 0.0, 0.0, 481700.406580797, 0.0, 0.0]
+# s15_init = 2.0e5 # index 2
+s15_init = 4.0e5 # index 3
+
+# C3 values
+# C3_vec = numpy.linspace(8.779e5, 8.787e5, 30) # index 2
+C3_vec = numpy.linspace(8.35e5, 8.42e5, 30) # index 3
+
+C3_min = min(C3_vec)
+C3_max = max(C3_vec)
+
+# Setting up a colormap that's a simple transtion
+mymap = matplotlib.colors.LinearSegmentedColormap.from_list('mycolors', ['blue', 'red'])
+
+CS3 = plt.cm.ScalarMappable(cmap=mymap, norm=plt.Normalize(vmin=C3_min, vmax=C3_max))
+
+C1 = conservation_values[0]
+C2 = conservation_values[1]
+
+steady_state_vals1 = numpy.zeros(len(C3_vec))
+for i in range(len(C3_vec)):
+    y0 = [C3_vec[i], C2, 0.0, 0.0, C1, 0.0, 0.0]
     soln1 = scipy.integrate.odeint(f, y0, t, args=(input_vals, ode_lambda_functions, start_index))
     s15_sol = soln1[:, 6]
-    steady_state_vals1[i] = soln1[999999, 6]
-    plt.plot(t, s15_sol, label='C3 = ' + str(C3_s1[i]))
+    steady_state_vals1[i] = soln1[-1, 6]
+    r = (C3_vec[i] - C3_min) / (C3_max - C3_min)
+    g = 0
+    b = 1 - r
+    plt.plot(t, s15_sol, color=(r, g, b))
 
-# plt.plot(t, s15_sol1, label='s1 = 877900.0')
-# plt.plot(t, s15_sol2, label='s1 = 878400.0')
 plt.xlabel("time")
 plt.ylabel("Concentration of s15")
-#plt.legend(loc="lower right")
 plt.title("Starting at s15 = 0.0")
+
+clb = plt.colorbar(CS3)
+clb.set_label("C3")
 
 plt.savefig('./num_cont_graphs/simulating_s15_0.png')
 plt.clf()
 
-# plt.plot(C3_s, steady_state_vals)
-# plt.xlabel("C3")
-# plt.ylabel("s15 at time 100000")
-# plt.title("Taking a Slice")
-#
-# plt.savefig('./num_cont_graphs/slice.png')
-# plt.clf()
-
-# time grid
-t = numpy.linspace(0.0, 100000, 1000000)
-
-C3_s2 = numpy.linspace(877900.0, 878700.0, 30)
-#C3_s = numpy.linspace(877900.0, 878460.0, 10)
-#C3_s = numpy.linspace(150000.0, 200000.0, 10)
-
-steady_state_vals2 = numpy.zeros(len(C3_s2))
-for i in range(len(C3_s2)):
-    #y0 = [C3_s[i]-2*135000.0, 760.070288586031, 0.0, 0.0, 481700.406580797, 0.0, 135000.0]
-    y0 = [C3_s2[i]-2*150000.0, 760.070288586031, 0.0, 0.0, 481700.406580797, 0.0, 150000.0]
+steady_state_vals2 = numpy.zeros(len(C3_vec))
+for i in range(len(C3_vec)):
+    y0 = [C3_vec[i]-2*s15_init, C2, 0.0, 0.0, C1, 0.0, s15_init]
     soln1 = scipy.integrate.odeint(f, y0, t, args=(input_vals, ode_lambda_functions, start_index))
     s15_sol = soln1[:, 6]
-    steady_state_vals2[i] = soln1[999999, 6]
-    #print(C3_s2[i])
-    #print(network.get_c_graph().get_b() * sympy.Matrix([soln1[999999, :]]).T)
-    #print("")
-    plt.plot(t, s15_sol, label='C3 = ' + str(C3_s2[i]))
-
-print("steady state values at final time")
-print(steady_state_vals2)
+    steady_state_vals2[i] = soln1[-1, 6]
+    r = (C3_vec[i] - C3_min) / (C3_max - C3_min)
+    g = 0
+    b = 1 - r
+    plt.plot(t, s15_sol, color=(r, g, b))
 
 plt.xlabel("time")
 plt.ylabel("Concentration of s15")
-#plt.ylim(95500.0, 98000.0)
-#plt.legend(loc="upper right")
-plt.title("Starting at s15 = 150000")
+plt.title("Starting at s15 = " + str(s15_init))
 
-plt.savefig('./num_cont_graphs/simulating_s15_150k.png')
+clb = plt.colorbar(CS3)
+clb.set_label("C3")
+
+plt.savefig('./num_cont_graphs/simulating_s15_' + str(s15_init) + '.png')
 plt.clf()
 
-plt.plot(C3_s1, steady_state_vals1, 'bo')
-plt.plot(C3_s2, steady_state_vals2, 'bo')
+plt.plot(C3_vec, steady_state_vals1, 'bo')
+plt.plot(C3_vec, steady_state_vals2, 'bo')
 plt.xlabel("C3")
-plt.ylabel("s15 at time 100000")
+plt.ylabel("s15 at time " + str(final_time))
 plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
 plt.title("Taking a Slice")
 
