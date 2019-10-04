@@ -17,6 +17,7 @@ Welcome to CRNT4SBML's documentation!
    numerical_opt
    numerical_cont
    creating_eq_manifold
+   post_processing
    generating_c_graphs
    more_examples
    reference

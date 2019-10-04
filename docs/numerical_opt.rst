@@ -103,17 +103,17 @@ Pseudocode for Optimization Method
 
     Randomly generate :math:`niter` parameter sets of decision vectors within the given bounds, say :math:`samples`.
 
-    For :math:`i = 1` to :math:`niter`
+    for :math:`i = 1` to :math:`niter`
 
         Let :math:`samples_i` be a starting point for the feasible point method where :math:`f(\textbf{x})` is the
         objective function
 
-        If :math:`samples_i` provides :math:`f(\textbf{x}) \leq` machine epsilon
+        if :math:`samples_i` provides :math:`f(\textbf{x}) \leq` machine epsilon
             Run hybrid global-local search for :math:`F(\textbf{x})` objective function with :math:`\textbf{x}` as
             starting point, providing :math:`\textbf{x}_{best}`.
 
             Store :math:`\textbf{x}_{best}` and function values that are smaller than sys\_min\_val
-        Else
+        else
             Throw away :math:`samples_i`
 
 
