@@ -11,7 +11,7 @@ params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=boun
                                                                      concentration_bounds=concentration_bounds,
                                                                      iterations=15)
 
-multistable_param_ind = opt.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min,
-                                                           auto_parameters={'PrincipalContinuationParameter': 'C3'})
+multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min,
+                                                                                auto_parameters={'PrincipalContinuationParameter': 'C3'})
 
 opt.generate_report()

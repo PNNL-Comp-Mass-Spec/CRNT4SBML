@@ -352,18 +352,20 @@ The last value provided is an error_log_flag which tells the numerical continuat
 output provided by AUTO is suppressed.</p>
 <p>Using this input we can now run the numerical continuation routine on the parameters that pass the constraints of the
 optimization problem and produce an objective function value smaller than sys_min_val. This is done below.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multistable_param_ind</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">spcs</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
-                                                    <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">PCP_x</span><span class="p">,</span>
-                                                                     <span class="s1">&#39;RL0&#39;</span><span class="p">:</span> <span class="mf">1e2</span><span class="p">,</span> <span class="s1">&#39;RL1&#39;</span><span class="p">:</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s1">&#39;A0&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">:</span> <span class="mf">5e6</span><span class="p">,</span>
-                                                                     <span class="s1">&#39;DSMAX&#39;</span><span class="p">:</span> <span class="mf">1e3</span><span class="p">},</span>
-                                                    <span class="n">print_lbls_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dir_path</span><span class="o">=</span><span class="s2">&quot;./stability_graphs&quot;</span><span class="p">,</span>
-                                                    <span class="n">error_log_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">spcs</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                                         <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">PCP_x</span><span class="p">,</span>
+                                                                                          <span class="s1">&#39;RL0&#39;</span><span class="p">:</span> <span class="mf">1e2</span><span class="p">,</span> <span class="s1">&#39;RL1&#39;</span><span class="p">:</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s1">&#39;A0&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">:</span> <span class="mf">5e6</span><span class="p">,</span>
+                                                                                          <span class="s1">&#39;DSMAX&#39;</span><span class="p">:</span> <span class="mf">1e3</span><span class="p">},</span>
+                                                                         <span class="n">print_lbls_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dir_path</span><span class="o">=</span><span class="s2">&quot;./stability_graphs&quot;</span><span class="p">,</span>
+                                                                         <span class="n">error_log_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In addition to putting the multistability plots found into the path dir_path, this routine will also return the indices of
-params_for_global_min that correspond to these plots. Also note that if multistability plots are produced, the plot names
-will have the following form: PCP_species id_index of params_for_global.png. The output provided by the numerical
-continuation run is as follows:</p>
+params_for_global_min that correspond to these plots named “multistable_param_ind” above. Along with these indices,
+the routine will also return the plot specifications for each element in “multistable_param_ind” that specify the range
+used for the x-axis, y-axis, and the x-y values for each special point in the plot (named “plot_specifications” above).
+Also note that if multistability plots are produced, the plot names will have the following form:
+PCP_species id_index of params_for_global.png. The output provided by the numerical continuation run is as follows:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running continuity analysis ...
 Elapsed time for continuity analysis: 25.02327585220337
 </pre></div>
@@ -395,8 +397,8 @@ and PCP. This routine does not guarantee that all multistability plots will be f
 start finding multistability plots. Once the greedy routine is ran, it is usually best to return to the more hands on
 approach described above. Note that as stated by the name, this approach is computationally greedy and will take a longer
 time than the more hands on approach. Below is the code used to run the greedy numerical continuation:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multistable_param_ind</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">spcs</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
-                                                           <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">PCP_x</span><span class="p">})</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">spcs</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                                                <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">PCP_x</span><span class="p">})</span>
 
 <span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>

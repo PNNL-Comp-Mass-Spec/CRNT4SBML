@@ -15,7 +15,7 @@ import rrplugins
 import sys
 if sys_pf == 'darwin':
     import matplotlib
-    matplotlib.use("TkAgg")
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 else:
     import matplotlib.pyplot as plt
@@ -232,6 +232,8 @@ class BistabilityFinder:
         else:
             auto = None
 
+        plot_specifications = []
+
         for param_ind in range(len(params_for_global_min)):
             final_ant_str = finalize_ant_string(params_for_global_min[param_ind], init_ant)
 
@@ -253,8 +255,9 @@ class BistabilityFinder:
                     multistable = cls.detect_multi_stability(chnk_stable, chnk_unstable, bi_data_np)
 
                     if multistable:
-                        cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np, sp_y_ind, pcp_x,
-                                                species_y, param_ind, dir_path, cls)
+                        plt_specs = cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np,
+                                                            sp_y_ind, pcp_x, species_y, param_ind, dir_path, cls)
+                        plot_specifications.append(plt_specs)
                         multistable_param_ind.append(param_ind)
                         break
 
@@ -276,7 +279,7 @@ class BistabilityFinder:
         important_info += "Elements in params_for_global_min that produce multistability: \n" + \
                           str(multistable_param_ind) + "\n"
 
-        return multistable_param_ind, important_info
+        return multistable_param_ind, important_info, plot_specifications
 
     @classmethod
     def run_greedy_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string,
@@ -313,6 +316,8 @@ class BistabilityFinder:
             auto = rrplugins.Plugin("tel_auto2000")
         else:
             auto = None
+
+        plot_specifications = []
 
         for param_ind in range(len(params_for_global_min)):
 
@@ -381,16 +386,19 @@ class BistabilityFinder:
                                                                                   bi_data_np2)
 
                                         if multistable2:
-                                            cls.plot_pcp_vs_species(chnk_stable2, chnk_unstable2, special_points2,
-                                                                    bi_data_np2, sp_y_ind2,
-                                                                    pcp_x, species_y, param_ind, dir_path, cls)
+                                            plt_specs = cls.plot_pcp_vs_species(chnk_stable2, chnk_unstable2,
+                                                                                special_points2, bi_data_np2, sp_y_ind2,
+                                                                                pcp_x, species_y, param_ind, dir_path,
+                                                                                cls)
+                                            plot_specifications.append(plt_specs)
                                             scnd_check = False
                                             break
 
                                 if scnd_check:
-                                    cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points,
-                                                            bi_data_np, sp_y_ind, pcp_x, species_y, param_ind,
-                                                            dir_path, cls)
+                                    plt_specs = cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points,
+                                                                        bi_data_np, sp_y_ind, pcp_x, species_y,
+                                                                        param_ind, dir_path, cls)
+                                    plot_specifications.append(plt_specs)
 
                             if param_ind not in multistable_param_ind:
                                 multistable_param_ind.append(param_ind)
@@ -418,7 +426,7 @@ class BistabilityFinder:
         important_info += "Elements in params_for_global_min that produce multistability: \n" + \
                           str(multistable_param_ind) + "\n"
 
-        return multistable_param_ind, important_info
+        return multistable_param_ind, important_info, plot_specifications
 
     @staticmethod
     def get_pcp_ranges(final_ant_str, pcp_x):
@@ -519,20 +527,10 @@ class BistabilityFinder:
                 if os.path.exists("bi_data_np.npy"):
                     os.remove("bi_data_np.npy")
 
-            # queue = []
-            # print("new 1 again")
-            #
-            # pts, lbls, antimony_r, flag = cls.run_numerical_continuation(queue, final_ant_str,cont_direction,
-            #                                                              auto, auto_parameters)
-            #
-            # bi_data_np = []
-
         return pts, lbls, antimony_r, flag, bi_data_np
 
     @classmethod
     def run_numerical_continuation(cls, q, ant_str, direction, auto, auto_parameters):
-
-        # auto = rrplugins.Plugin("tel_auto2000")
 
         antimony_r = cls.__loada(ant_str)
 
@@ -620,7 +618,7 @@ class BistabilityFinder:
         chnk_unstable = [unstable[b:e] for (b, e) in [(spl[i-1], spl[i]) for i in range(1, len(spl))]]
 
         # species ids according to AUTO also order in biData
-        spec_id = antimony_r #.model.getFloatingSpeciesIds()
+        spec_id = antimony_r
 
         # index of species_y in biData
         sp_y_ind = spec_id.index(species_y) + 1
@@ -673,39 +671,6 @@ class BistabilityFinder:
 
             unstable_intersections.append(temp_list)
 
-            #unstable_intersections.append([1 for j in chnk_stable_pcp_intervals if i.intersect(j) != sympy.EmptySet()])
-
-        # creating an object to store x axis limits based on intervals
-        #xlabel_interval_list = []
-        #for i in chnk_unstable_pcp_intervals:
-        #    xlabel_interval_list.append([i.intersect(j) for j in chnk_stable_pcp_intervals])
-
-        #cls.__xlabel_interval = []
-        #for i in xlabel_interval_list:
-        #    total_interval = sympy.S.EmptySet
-        #    for j in i:
-        #        total_interval = sympy.Union(total_interval, j)
-        #    if total_interval != sympy.EmptySet():
-
-        #        if not cls.is_list_empty(cls.__xlabel_interval):
-        #            intersections = [total_interval.intersect(i) for i in cls.__xlabel_interval]
-        #        else:
-        #            intersections = [sympy.EmptySet()]
-
-        #        if sympy.EmptySet() in intersections:
-        #            cls.__xlabel_interval.append(total_interval)
-
-        #print("cls.__xlabel_interval")
-        #print(cls.__xlabel_interval)
-        #print([type(i) for i in cls.__xlabel_interval])
-        #print(unstable_intersections)
-        #print([sum(i) >= 2 for i in unstable_intersections])
-        #print("is_FiniteSet")
-        #for i in cls.__xlabel_interval:
-        #    print(i.is_FiniteSet)
-        #    if i.is_FiniteSet:
-        #        print(len(list(i)))
-
         return any([sum(i) >= 2 for i in unstable_intersections])
 
     @classmethod
@@ -717,8 +682,6 @@ class BistabilityFinder:
     @staticmethod
     def plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np, sp_y_ind, pcp_x, species_y,
                             param_ind, dir_path, cls):
-
-        plt.clf()
 
         # plotting stable points
         for i in range(len(chnk_stable)):
@@ -734,8 +697,7 @@ class BistabilityFinder:
         for i in special_points:
             plt.plot(bi_data_np[i[0], 0], bi_data_np[i[0], sp_y_ind], marker='*', color='r')
             plt.annotate(i[1], (bi_data_np[i[0], 0], bi_data_np[i[0], sp_y_ind]))
-        
-        #count = 0
+
         margin = 1e-6
         plt.xlabel(pcp_x)
         plt.ylabel(species_y)
@@ -765,71 +727,26 @@ class BistabilityFinder:
         y = bi_data_np[:, sp_y_ind]
         i = numpy.where((x > lims[0]) & (x < lims[1]))[0]
 
-        print("lims")
-        print(lims)
-        print("y[i].max()")
-        print(y[i].max())
-        print("y[i].min()")
-        print(y[i].min())
-        print("special points")
-        for iii in special_points:
-            print(bi_data_np[iii[0], 0], bi_data_np[iii[0], sp_y_ind])
-
         h = y[i].max() - y[i].min()
         first = y[i].min() - 0.1*h
         second = y[i].max() + 0.1*h
         plt.gca().set_ylim(first, second)
 
         plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
-        plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + '.png') #'.pdf')
-        #plt.close('all')
+        plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + '.png')
         plt.clf()
 
-        # going through all the multistationary regions
-        # for j in cls.__xlabel_interval:
-        #     # setting xlim based on multistationary region
-        #     if sympy.utilities.iterables.iterable(j):
-        #         start = float(list(j)[0] - list(j)[0]*margin)
-        #         end = float(list(j)[0] + list(j)[0]*margin)
-        #         xlim_list = [start, end]
-        #     elif type(j) == sympy.Union:
-        #         start = float(j.inf)
-        #         end = float(j.sup)
-        #         diff_x = start - end
-        #         xlim_list = [start - margin * diff_x, end + margin * diff_x]
-        #     else:
-        #         start = float(j.start)
-        #         end = float(j.end)
-        #         diff_x = start - end
-        #         xlim_list = [start - margin*diff_x, end + margin*diff_x]
-        #
-        #     plt.xlim(xlim_list)
-        #
-        #     # reformatting the y axis based on xlim chosen
-        #     lims = plt.gca().get_xlim()
-        #     x = bi_data_np[:, 0]
-        #     y = bi_data_np[:, sp_y_ind]
-        #     i = numpy.where((x > lims[0]) & (x < lims[1]))[0]
-        #
-        #     if len(i) != 0:
-        #         if len(i) == 1:
-        #             first = y[i] - y[i]*0.03
-        #             second = y[i] + y[i]*0.03
-        #         else:
-        #             h = y[i].max()-y[i].min()
-        #             first = y[i].min() - 0.1*h
-        #             second = y[i].max() + 0.1*h
-        #         plt.gca().set_ylim(first, second)
-        #
-        #         # setting labels
-        #         plt.xlabel(pcp_x)
-        #         plt.ylabel(species_y)
-        #
-        #         plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
-        #         plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + '_' + str(count) + '.pdf')
-        #         count += 1
+        plot_specs = [[lims[0], lims[1]], [first, second]]
+        special_pnts_in_plot = []
+        for iii in special_points:
+            xval = bi_data_np[iii[0], 0]
+            yval = bi_data_np[iii[0], sp_y_ind]
+            if (lims[0] <= xval) and (lims[1] >= xval) and (first <= yval) and (second >= yval):
+                special_pnts_in_plot.append([xval, yval, iii[1]])
 
-        # plt.close()
+        plot_specs.append(special_pnts_in_plot)
+
+        return plot_specs
 
     # functions taken from Tellurium!! Give them
     # credit, they deserve it!

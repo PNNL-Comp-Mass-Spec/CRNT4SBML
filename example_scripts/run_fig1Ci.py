@@ -31,13 +31,13 @@ print(opt.get_conservation_laws())
 spcs = "s15"
 PCP_x = "C3"
 
-#multistable_param_ind = opt.run_continuity_analysis(species=spcs, parameters=params_for_global_min,
-#                                                    auto_parameters={'PrincipalContinuationParameter': PCP_x,
-#                                                                     'RL0': 0.1, 'RL1': 30, 'DSMAX': 0.1},
-#                                                    print_lbls_flag=False, dir_path="./stability_graphs")
+#multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species=spcs, parameters=params_for_global_min,
+#                                                                         auto_parameters={'PrincipalContinuationParameter': PCP_x,
+#                                                                                          'RL0': 0.1, 'RL1': 30, 'DSMAX': 0.1},
+#                                                                         print_lbls_flag=False, dir_path="./stability_graphs")
 
-multistable_param_ind = opt.run_greedy_continuity_analysis(species=spcs, parameters=params_for_global_min,
-                                                           auto_parameters={'PrincipalContinuationParameter': PCP_x})
+multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species=spcs, parameters=params_for_global_min,
+                                                                                auto_parameters={'PrincipalContinuationParameter': PCP_x})
 
 opt.generate_report()
 

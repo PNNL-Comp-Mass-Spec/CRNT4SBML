@@ -20,8 +20,9 @@ import numpy
 #numpy.save('params.npy', params_for_global_min)
 params_for_global_min = numpy.load('params.npy')
 
-multistable_param_ind = opt.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min[[3]],
-                                                           auto_parameters={'PrincipalContinuationParameter': 'C3'})
+multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s15",
+                                                                                parameters=params_for_global_min[[3]],
+                                                                                auto_parameters={'PrincipalContinuationParameter': 'C3'})
 
 opt.generate_report()
 
@@ -90,11 +91,15 @@ start_index = len(sympy_reactions)
 # solve the ODEs
 import scipy.integrate
 
-import matplotlib
-matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
+from sys import platform as sys_pf
+if sys_pf == 'darwin':
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+else:
+    import matplotlib.pyplot as plt
 
-plt.gcf().set_size_inches(11, 8)
+fig = plt.subplots(1, 2, figsize=(15, 8))
 
 # time grid
 # final_time = 100000.0  # index 2
@@ -111,6 +116,8 @@ C3_vec = numpy.linspace(8.35e5, 8.42e5, 30) # index 3
 
 C3_min = min(C3_vec)
 C3_max = max(C3_vec)
+
+plt.subplot(1, 2, 1)
 
 # Setting up a colormap that's a simple transtion
 mymap = matplotlib.colors.LinearSegmentedColormap.from_list('mycolors', ['blue', 'red'])
@@ -133,13 +140,11 @@ for i in range(len(C3_vec)):
 
 plt.xlabel("time")
 plt.ylabel("Concentration of s15")
+plt.ylim(plot_specifications[0][1])
+plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
 plt.title("Starting at s15 = 0.0")
 
-clb = plt.colorbar(CS3)
-clb.set_label("C3")
-
-plt.savefig('./num_cont_graphs/simulating_s15_0.png')
-plt.clf()
+plt.subplot(1, 2, 2)
 
 steady_state_vals2 = numpy.zeros(len(C3_vec))
 for i in range(len(C3_vec)):
@@ -154,13 +159,16 @@ for i in range(len(C3_vec)):
 
 plt.xlabel("time")
 plt.ylabel("Concentration of s15")
+plt.ylim(plot_specifications[0][1])
+plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
 plt.title("Starting at s15 = " + str(s15_init))
 
 clb = plt.colorbar(CS3)
 clb.set_label("C3")
 
-plt.savefig('./num_cont_graphs/simulating_s15_' + str(s15_init) + '.png')
-plt.clf()
+plt.savefig('./num_cont_graphs/simulating_s15.png')
+
+fig = plt.figure()
 
 plt.plot(C3_vec, steady_state_vals1, 'bo')
 plt.plot(C3_vec, steady_state_vals2, 'bo')
@@ -170,4 +178,4 @@ plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
 plt.title("Taking a Slice")
 
 plt.savefig('./num_cont_graphs/bistability_ODEs.png')
-plt.clf()
+plt.close(fig)

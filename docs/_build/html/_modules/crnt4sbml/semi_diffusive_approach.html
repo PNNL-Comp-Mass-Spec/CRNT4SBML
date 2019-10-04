@@ -341,6 +341,11 @@ from .bistability_finder import BistabilityFinder
         ---------
             multistable_param_ind: list of integers
                 A list of those indices in &#39;parameters&#39; that produce multistable plots.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
 
         Example
         ---------
@@ -360,16 +365,16 @@ from .bistability_finder import BistabilityFinder
         species_num = self.__species.index(species) + 1
         species_y = str(self.__species[species_num-1])
 
-        multistable_param_ind, important_info = BistabilityFinder.run_continuity_analysis(species_num, parameters,
-                                                                                          self.__initialize_ant_string,
-                                                                                          self.__finalize_ant_string,
-                                                                                          species_y, dir_path,
-                                                                                          print_lbls_flag,
-                                                                                          auto_parameters)
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_continuity_analysis(species_num, parameters,
+                                                                                                               self.__initialize_ant_string,
+                                                                                                               self.__finalize_ant_string,
+                                                                                                               species_y, dir_path,
+                                                                                                               print_lbls_flag,
+                                                                                                               auto_parameters)
 
         self.__important_info += important_info
 
-        return multistable_param_ind</div>
+        return multistable_param_ind, plot_specifications</div>
 
 <div class="viewcode-block" id="SemiDiffusiveApproach.run_greedy_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis">[docs]</a>    def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
                                        print_lbls_flag=False, auto_parameters=None):
@@ -400,6 +405,11 @@ from .bistability_finder import BistabilityFinder
         ---------
             multistable_param_ind: list of integers
                 A list of those indices in &#39;parameters&#39; that produce multistable plots.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
 
         Example
         ---------
@@ -419,13 +429,13 @@ from .bistability_finder import BistabilityFinder
         species_num = self.__species.index(species) + 1
         species_y = str(self.__species[species_num - 1])
 
-        multistable_param_ind, important_info = BistabilityFinder.run_greedy_continuity_analysis\
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis\
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
              print_lbls_flag, auto_parameters)
 
         self.__important_info += important_info
 
-        return multistable_param_ind</div>
+        return multistable_param_ind, plot_specifications</div>
 
     def __initialize_ant_string(self, species_num, pcp_x_reaction):
         self.__create_reaction_rates_vector()

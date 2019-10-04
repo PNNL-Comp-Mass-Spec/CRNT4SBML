@@ -32,11 +32,11 @@ bounds = [(1e-3, 1e2)]*12
 #numpy.save('inj_params.npy', params_for_global_min)
 params_for_global_min = numpy.load('inj_params.npy')
 
-#multistable_param_ind = opt.run_continuity_analysis(species="s7", parameters=params_for_global_min,
-#                                                    auto_parameters={'PrincipalContinuationParameter': 're17',
-#                                                                     'RL0': 0.1, 'RL1': 100, 'A0': 0.0, 'A1': 10000})
+#multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species="s7", parameters=params_for_global_min,
+#                                                                         auto_parameters={'PrincipalContinuationParameter': 're17',
+#                                                                                          'RL0': 0.1, 'RL1': 100, 'A0': 0.0, 'A1': 10000})
 
-multistable_param_ind = opt.run_greedy_continuity_analysis(species="s7", parameters=params_for_global_min,
-                                                           auto_parameters={'PrincipalContinuationParameter': 're17'})
+multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s7", parameters=params_for_global_min,
+                                                                                auto_parameters={'PrincipalContinuationParameter': 're17'})
 
 opt.generate_report()

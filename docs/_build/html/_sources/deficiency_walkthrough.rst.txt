@@ -215,17 +215,19 @@ optimization problem and produce an objective function value smaller than sys\_m
 
 .. code-block:: python
 
-    multistable_param_ind = opt.run_continuity_analysis(species=spcs, parameters=params_for_global_min,
-                                                        auto_parameters={'PrincipalContinuationParameter': PCP_x,
-                                                                         'RL0': 1e2, 'RL1': 1e6, 'A0': 0.0, 'A1': 5e6,
-                                                                         'DSMAX': 1e3},
-                                                        print_lbls_flag=False, dir_path="./stability_graphs",
-                                                        error_log_flag=True)
+    multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species=spcs, parameters=params_for_global_min,
+                                                                             auto_parameters={'PrincipalContinuationParameter': PCP_x,
+                                                                                              'RL0': 1e2, 'RL1': 1e6, 'A0': 0.0, 'A1': 5e6,
+                                                                                              'DSMAX': 1e3},
+                                                                             print_lbls_flag=False, dir_path="./stability_graphs",
+                                                                             error_log_flag=True)
 
 In addition to putting the multistability plots found into the path dir\_path, this routine will also return the indices of
-params\_for\_global\_min that correspond to these plots. Also note that if multistability plots are produced, the plot names
-will have the following form: PCP\_species id\_index of params\_for\_global.png. The output provided by the numerical
-continuation run is as follows::
+params\_for\_global\_min that correspond to these plots named "multistable_param_ind" above. Along with these indices,
+the routine will also return the plot specifications for each element in "multistable_param_ind" that specify the range
+used for the x-axis, y-axis, and the x-y values for each special point in the plot (named "plot_specifications" above).
+Also note that if multistability plots are produced, the plot names will have the following form:
+PCP\_species id\_index of params\_for\_global.png. The output provided by the numerical continuation run is as follows::
 
     Running continuity analysis ...
     Elapsed time for continuity analysis: 25.02327585220337
@@ -267,8 +269,8 @@ time than the more hands on approach. Below is the code used to run the greedy n
 
 .. code-block:: python
 
-    multistable_param_ind = opt.run_greedy_continuity_analysis(species=spcs, parameters=params_for_global_min,
-                                                               auto_parameters={'PrincipalContinuationParameter': PCP_x})
+    multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species=spcs, parameters=params_for_global_min,
+                                                                                    auto_parameters={'PrincipalContinuationParameter': PCP_x})
 
     opt.generate_report()
 

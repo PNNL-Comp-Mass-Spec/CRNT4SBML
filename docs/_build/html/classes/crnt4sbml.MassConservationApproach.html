@@ -257,7 +257,7 @@
 <td>Returns a lambda function representation of the objective function of the optimization problem.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_independent_odes" title="crnt4sbml.MassConservationApproach.get_independent_odes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_independent_odes</span></code></a>()</td>
-<td>Returns a list of SymPy representations of the independent ODEs used in the numerical continuation routine.</td>
+<td>Returns a SymPy Matrix where the rows represent the independent ODEs used in the numerical continuation routine.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_independent_species" title="crnt4sbml.MassConservationApproach.get_independent_species"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_independent_species</span></code></a>()</td>
 <td>Returns a list of SymPy representations of the independent species used in the numerical continuation routine.</td>
@@ -549,7 +549,7 @@ example.</p>
 <dl class="method">
 <dt id="crnt4sbml.MassConservationApproach.get_independent_odes">
 <code class="descname">get_independent_odes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.get_independent_odes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.get_independent_odes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of SymPy representations of the independent ODEs used in the numerical continuation routine. Here
+<dd><p>Returns a SymPy Matrix where the rows represent the independent ODEs used in the numerical continuation routine. Here
 the entries of the list correspond to the time derivatives of the corresponding species provided by
 <a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_independent_species" title="crnt4sbml.MassConservationApproach.get_independent_species"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.get_independent_species()</span></code></a>. Note that the independent ODEs created are
 based on the species chosen for the numerical continuation. Thus, the continuation routine needs to be ran
@@ -851,10 +851,14 @@ parameters refer to <a class="reference download internal" download="" href="../
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>multistable_param_ind</strong> – A list of those indices in ‘parameters’ that produce multistable plots.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of integers</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>multistable_param_ind</strong> (<em>list of integers</em>) – A list of those indices in ‘parameters’ that produce multistable plots.</li>
+<li><strong>plot_specifications</strong> (<em>list of lists</em>) – A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+Each element is a list where the first element specifies the range used for the x-axis, the second
+element is the range for the y-axis, and the last element provides the x-y values and special point label
+for each special point in the plot.</li>
+</ul>
+</p>
 </td>
 </tr>
 </tbody>
@@ -888,10 +892,14 @@ be set. For more information on these parameters refer to <a class="reference do
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>multistable_param_ind</strong> – A list of those indices in ‘parameters’ that produce multistable plots.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of integers</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>multistable_param_ind</strong> (<em>list of integers</em>) – A list of those indices in ‘parameters’ that produce multistable plots.</li>
+<li><strong>plot_specifications</strong> (<em>list of lists</em>) – A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+Each element is a list where the first element specifies the range used for the x-axis, the second
+element is the range for the y-axis, and the last element provides the x-y values and special point label
+for each special point in the plot.</li>
+</ul>
+</p>
 </td>
 </tr>
 </tbody>

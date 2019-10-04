@@ -34,8 +34,8 @@ To run the mass conservation approach create the following python script:
    params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds,
                                                                         concentration_bounds=concentration_bounds)
 
-   multistable_param_ind = opt.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min,
-                                                              auto_parameters={'PrincipalContinuationParameter': 'C3'})
+   multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min,
+                                                                                   auto_parameters={'PrincipalContinuationParameter': 'C3'})
 
    opt.generate_report()
 
@@ -97,8 +97,8 @@ To run the semi-diffusive approach create the following python script:
 
     params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds)
 
-    multistable_param_ind = opt.run_greedy_continuity_analysis(species="s7", parameters=params_for_global_min,
-                                                               auto_parameters={'PrincipalContinuationParameter': 're17'})
+    multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s7", parameters=params_for_global_min,
+                                                                                    auto_parameters={'PrincipalContinuationParameter': 're17'})
 
     opt.generate_report()
 

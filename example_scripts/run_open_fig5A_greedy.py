@@ -34,7 +34,7 @@ import numpy
 numpy.save('params.npy', params_for_global_min)
 
 
-multistable_param_ind = opt.run_greedy_continuity_analysis(species="s4", parameters=params_for_global_min,
-                                                           auto_parameters={'PrincipalContinuationParameter': 're3'})
+multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s4", parameters=params_for_global_min,
+                                                                                auto_parameters={'PrincipalContinuationParameter': 're3'})
 
 opt.generate_report()

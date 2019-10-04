@@ -30,7 +30,7 @@ bounds = opt.get_optimization_bounds()
 
 params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=500)
 
-multistable_param_ind = opt.run_greedy_continuity_analysis(species="s4", parameters=params_for_global_min,
-                                                           auto_parameters={'PrincipalContinuationParameter': 're3'})
+multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s4", parameters=params_for_global_min,
+                                                                                auto_parameters={'PrincipalContinuationParameter': 're3'})
 
 opt.generate_report()

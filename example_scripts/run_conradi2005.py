@@ -28,7 +28,7 @@ params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=boun
                                                                      concentration_bounds=concentration_bounds,
                                                                      iterations=100)
 
-multistable_param_ind = opt.run_continuity_analysis(species="s1", parameters=params_for_global_min,
-                                                    auto_parameters={'PrincipalContinuationParameter': 'C1'})
+multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species="s1", parameters=params_for_global_min,
+                                                                         auto_parameters={'PrincipalContinuationParameter': 'C1'})
 
 opt.generate_report()

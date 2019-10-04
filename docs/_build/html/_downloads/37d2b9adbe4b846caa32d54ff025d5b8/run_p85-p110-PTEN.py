@@ -32,13 +32,13 @@ approach.generate_report()
 numpy.save('def_params.npy', params_for_global_min)
 #params_for_global_min = numpy.load('def_params.npy')
 
-multistable_param_ind = approach.run_greedy_continuity_analysis(species="s37", parameters=params_for_global_min,
-                                                                auto_parameters={'PrincipalContinuationParameter': "C4"})
+multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species="s37", parameters=params_for_global_min,
+                                                                                     auto_parameters={'PrincipalContinuationParameter': "C4"})
 
-# multistable_param_ind = approach.run_continuity_analysis(species="s37", parameters=params_for_global_min,
-#                                                          auto_parameters={'DSMAX': 1e3,
-#                                                                           'PrincipalContinuationParameter': "C4",
-#                                                                            'RL0': 5e-2, 'RL1': 5e6, 'A0': 1e-6, 'A1': 1e6},
-#                                                          print_lbls_flag=True)
+# multistable_param_ind, plot_specifications = approach.run_continuity_analysis(species="s37", parameters=params_for_global_min,
+#                                                                               auto_parameters={'DSMAX': 1e3,
+#                                                                                                'PrincipalContinuationParameter': "C4",
+#                                                                                                'RL0': 5e-2, 'RL1': 5e6, 'A0': 1e-6, 'A1': 1e6},
+#                                                                               print_lbls_flag=True)
 
 approach.generate_report()

@@ -152,13 +152,18 @@ for the semi-diffusive approach as follows:
 
 .. code-block:: python
 
-    multistable_param_ind = opt.run_continuity_analysis(species='s7', parameters=params_for_global_min,
-                                                        auto_parameters={'PrincipalContinuationParameter': 're17',
-                                                                         'RL0': 0.1, 'RL1': 100, 'A0': 0.0,
-                                                                         'A1': 10000})
+    multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species='s7', parameters=params_for_global_min,
+                                                                             auto_parameters={'PrincipalContinuationParameter': 're17',
+                                                                                              'RL0': 0.1, 'RL1': 100, 'A0': 0.0,
+                                                                                              'A1': 10000})
 
-For more information on the AUTO parameters provided and the continuation routine itself, refer to
-:ref:`my-continuation-label`. This provides the following output::
+In addition to putting the multistability plots found into the folder num\_cont\_graphs, this routine will also return the indices of
+params\_for\_global\_min that correspond to these plots named "multistable_param_ind" above. Along with these indices,
+the routine will also return the plot specifications for each element in "multistable_param_ind" that specify the range
+used for the x-axis, y-axis, and the x-y values for each special point in the plot (named "plot_specifications" above).
+Also note that if multistability plots are produced, the plot names will have the following form:
+PCP\_species id\_index of params\_for\_global.png. For more information on the AUTO parameters provided and the
+continuation routine itself, refer to :ref:`my-continuation-label`. This provides the following output::
 
     Running continuity analysis ...
     Elapsed time for continuity analysis: 116.65277481079102
@@ -195,8 +200,8 @@ time than the more hands on approach. Below is the code used to run the greedy n
 
 .. code-block:: python
 
-    multistable_param_ind = opt.run_greedy_continuity_analysis(species="s7", parameters=params_for_global_min,
-                                                               auto_parameters={'PrincipalContinuationParameter': 're17'})
+    multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s7", parameters=params_for_global_min,
+                                                                                    auto_parameters={'PrincipalContinuationParameter': 're17'})
 
     opt.generate_report()
 

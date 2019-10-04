@@ -8,8 +8,17 @@ Installation
 
 Requirements
 --------------------------------
-python >= 3.7 (64-bit)
 
+- python >= 3.7 (64-bit)
+- networkx==2.3
+- python-libsbml==5.18.0
+- numpy==1.16.4
+- sympy==1.4
+- scipy==1.3.0
+- matplotlib==3.1.0
+- antimony==2.11.0
+- rrplugins==1.2.2
+- libroadrunner==1.5.2.1
 
 Creating a Virtual Environment
 --------------------------------
@@ -41,10 +50,10 @@ directory python\_environments as follows:
     $ virtualenv -p /path/to/python/3.7/interpreter crnt4sbml_env
 
 The flag "-p" tells virtualenv to create an environment using a specific Python interpreter. If a standard
-download of Python was followed, then the path to the interpreter is as follows "/usr/local/bin/python3.7" on Mac and
-Linux, on windows the path is often "C:\\Users\\your\_user\_name\\AppData\\Local\\Programs\\Python\\Python37\\python.exe".
+download of Python was followed, then "/path/to/python/3.7/interpreter" can be replaced with "/usr/local/bin/python3.7"
+on Mac and "C:\\Users\\your\_user\_name\\AppData\\Local\\Programs\\Python\\Python37\\python.exe" on Windows.
 One can now see a directory called "crnt4sbml\_env" is created in the directory python\_environments. We can now
-activate this environment as follows on Mac and Linux:
+activate this environment as follows on Mac:
 
 .. code-block:: console
 
@@ -56,7 +65,9 @@ To activate the environment on Windows do the following:
 
     $ path\to\crnt4sbml_env\Scripts\activate
 
-Note, in case you are using PowerShell, make sure its policy is updated by executing command as administrator ``Set-ExecutionPolicy RemoteSigned``. On the command line one should now see "(crnt4sbml_env)" on the left side of the command line, which indicates that one is now working in the virtual environment.
+Note, in case you are using PowerShell, make sure its policy is updated by executing command as administrator
+``Set-ExecutionPolicy RemoteSigned``. On the command line one should now see "(crnt4sbml_env)" on the left side of the
+command line, which indicates that one is now working in the virtual environment.
 
 Once the environment is activated, one can now install CRNT4SBML as follows:
 

@@ -27,13 +27,11 @@ params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=boun
                                                                      concentration_bounds=concentration_bounds,
                                                                      iterations=100)
 
-multistable_param_ind = opt.run_continuity_analysis(species="s5",
-                                                    parameters=params_for_global_min,
-                                                    auto_parameters={'DSMAX': 1e3,
-                                                                     'PrincipalContinuationParameter': "C2",
-                                                                     'RL0': 1e2,
-                                                                     'RL1': 1e6,
-                                                                     'A0': 0,
-                                                                     'A1': 5e6})
+multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species="s5",
+                                                                         parameters=params_for_global_min,
+                                                                         auto_parameters={'DSMAX': 1e3,
+                                                                                          'PrincipalContinuationParameter': "C2",
+                                                                                          'RL0': 1e2, 'RL1': 1e6,
+                                                                                          'A0': 0, 'A1': 5e6})
 
 opt.generate_report()

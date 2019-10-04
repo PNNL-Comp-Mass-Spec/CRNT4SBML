@@ -1021,6 +1021,11 @@ class MassConservationApproach:
         ---------
             multistable_param_ind: list of integers
                 A list of those indices in 'parameters' that produce multistable plots.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
 
         Example
         ---------
@@ -1041,16 +1046,16 @@ class MassConservationApproach:
 
         species_y = str(self.__concentration_pars[species_num-1]) 
 
-        multistable_param_ind, important_info = BistabilityFinder.run_continuity_analysis(species_num, parameters,
-                                                                                          self.__initialize_ant_string,
-                                                                                          self.__finalize_ant_string,
-                                                                                          species_y, dir_path,
-                                                                                          print_lbls_flag,
-                                                                                          auto_parameters)
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_continuity_analysis(species_num, parameters,
+                                                                                                               self.__initialize_ant_string,
+                                                                                                               self.__finalize_ant_string,
+                                                                                                               species_y, dir_path,
+                                                                                                               print_lbls_flag,
+                                                                                                               auto_parameters)
 
         self.__important_info += important_info
 
-        return multistable_param_ind
+        return multistable_param_ind, plot_specifications
 
     def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                        print_lbls_flag=False, auto_parameters=None):
@@ -1081,6 +1086,11 @@ class MassConservationApproach:
         ---------
             multistable_param_ind: list of integers
                 A list of those indices in 'parameters' that produce multistable plots.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
 
         Example
         ---------
@@ -1101,13 +1111,13 @@ class MassConservationApproach:
 
         species_y = str(self.__concentration_pars[species_num-1])
 
-        multistable_param_ind, important_info = BistabilityFinder.run_greedy_continuity_analysis\
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis\
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
              print_lbls_flag, auto_parameters)
 
         self.__important_info += important_info
 
-        return multistable_param_ind
+        return multistable_param_ind, plot_specifications
 
     def generate_report(self):
         """

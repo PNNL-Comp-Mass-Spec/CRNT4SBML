@@ -180,7 +180,18 @@
 <span id="my-installation-label"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<p>python &gt;= 3.7 (64-bit)</p>
+<ul class="simple">
+<li>python &gt;= 3.7 (64-bit)</li>
+<li>networkx==2.3</li>
+<li>python-libsbml==5.18.0</li>
+<li>numpy==1.16.4</li>
+<li>sympy==1.4</li>
+<li>scipy==1.3.0</li>
+<li>matplotlib==3.1.0</li>
+<li>antimony==2.11.0</li>
+<li>rrplugins==1.2.2</li>
+<li>libroadrunner==1.5.2.1</li>
+</ul>
 </div>
 <div class="section" id="creating-a-virtual-environment">
 <h2>Creating a Virtual Environment<a class="headerlink" href="#creating-a-virtual-environment" title="Permalink to this headline">¶</a></h2>
@@ -205,10 +216,10 @@ directory python_environments as follows:</p>
 </pre></div>
 </div>
 <p>The flag “-p” tells virtualenv to create an environment using a specific Python interpreter. If a standard
-download of Python was followed, then the path to the interpreter is as follows “/usr/local/bin/python3.7” on Mac and
-Linux, on windows the path is often “C:\Users\your_user_name\AppData\Local\Programs\Python\Python37\python.exe”.
+download of Python was followed, then “/path/to/python/3.7/interpreter” can be replaced with “/usr/local/bin/python3.7”
+on Mac and “C:\Users\your_user_name\AppData\Local\Programs\Python\Python37\python.exe” on Windows.
 One can now see a directory called “crnt4sbml_env” is created in the directory python_environments. We can now
-activate this environment as follows on Mac and Linux:</p>
+activate this environment as follows on Mac:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> /path/to/python_environments/crnt4sbml_env/bin/activate
 </pre></div>
 </div>
@@ -216,7 +227,9 @@ activate this environment as follows on Mac and Linux:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> path<span class="se">\t</span>o<span class="se">\c</span>rnt4sbml_env<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
-<p>Note, in case you are using PowerShell, make sure its policy is updated by executing command as administrator <code class="docutils literal notranslate"><span class="pre">Set-ExecutionPolicy</span> <span class="pre">RemoteSigned</span></code>. On the command line one should now see “(crnt4sbml_env)” on the left side of the command line, which indicates that one is now working in the virtual environment.</p>
+<p>Note, in case you are using PowerShell, make sure its policy is updated by executing command as administrator
+<code class="docutils literal notranslate"><span class="pre">Set-ExecutionPolicy</span> <span class="pre">RemoteSigned</span></code>. On the command line one should now see “(crnt4sbml_env)” on the left side of the
+command line, which indicates that one is now working in the virtual environment.</p>
 <p>Once the environment is activated, one can now install CRNT4SBML as follows:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install crnt4sbml
 </pre></div>

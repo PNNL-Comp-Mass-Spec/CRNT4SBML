@@ -990,7 +990,7 @@ from .bistability_finder import BistabilityFinder
 
 <div class="viewcode-block" id="MassConservationApproach.get_independent_odes"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_independent_odes">[docs]</a>    def get_independent_odes(self):
         &quot;&quot;&quot;
-        Returns a list of SymPy representations of the independent ODEs used in the numerical continuation routine. Here
+        Returns a SymPy Matrix where the rows represent the independent ODEs used in the numerical continuation routine. Here
         the entries of the list correspond to the time derivatives of the corresponding species provided by
         :func:`crnt4sbml.MassConservationApproach.get_independent_species`. Note that the independent ODEs created are
         based on the species chosen for the numerical continuation. Thus, the continuation routine needs to be ran
@@ -1190,6 +1190,11 @@ from .bistability_finder import BistabilityFinder
         ---------
             multistable_param_ind: list of integers
                 A list of those indices in &#39;parameters&#39; that produce multistable plots.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
 
         Example
         ---------
@@ -1210,16 +1215,16 @@ from .bistability_finder import BistabilityFinder
 
         species_y = str(self.__concentration_pars[species_num-1]) 
 
-        multistable_param_ind, important_info = BistabilityFinder.run_continuity_analysis(species_num, parameters,
-                                                                                          self.__initialize_ant_string,
-                                                                                          self.__finalize_ant_string,
-                                                                                          species_y, dir_path,
-                                                                                          print_lbls_flag,
-                                                                                          auto_parameters)
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_continuity_analysis(species_num, parameters,
+                                                                                                               self.__initialize_ant_string,
+                                                                                                               self.__finalize_ant_string,
+                                                                                                               species_y, dir_path,
+                                                                                                               print_lbls_flag,
+                                                                                                               auto_parameters)
 
         self.__important_info += important_info
 
-        return multistable_param_ind</div>
+        return multistable_param_ind, plot_specifications</div>
 
 <div class="viewcode-block" id="MassConservationApproach.run_greedy_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis">[docs]</a>    def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
                                        print_lbls_flag=False, auto_parameters=None):
@@ -1250,6 +1255,11 @@ from .bistability_finder import BistabilityFinder
         ---------
             multistable_param_ind: list of integers
                 A list of those indices in &#39;parameters&#39; that produce multistable plots.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
 
         Example
         ---------
@@ -1270,13 +1280,13 @@ from .bistability_finder import BistabilityFinder
 
         species_y = str(self.__concentration_pars[species_num-1])
 
-        multistable_param_ind, important_info = BistabilityFinder.run_greedy_continuity_analysis\
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis\
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
              print_lbls_flag, auto_parameters)
 
         self.__important_info += important_info
 
-        return multistable_param_ind</div>
+        return multistable_param_ind, plot_specifications</div>
 
 <div class="viewcode-block" id="MassConservationApproach.generate_report"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.generate_report">[docs]</a>    def generate_report(self):
         &quot;&quot;&quot;

@@ -30,8 +30,8 @@ bounds = [(1e-3, 1e2)]*17
 
 params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=50)
 
-multistable_param_ind = opt.run_continuity_analysis(species="s5", parameters=params_for_global_min,
-                                                    auto_parameters={'PrincipalContinuationParameter': 're2',
-                                                                     'RL0': 0.1, 'RL1': 30, 'A0': 0.0, 'A1': 10000})
+multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species="s5", parameters=params_for_global_min,
+                                                                         auto_parameters={'PrincipalContinuationParameter': 're2',
+                                                                                          'RL0': 0.1, 'RL1': 30, 'A0': 0.0, 'A1': 10000})
 
 opt.generate_report()
