@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/docs/_build/html/post_processing.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/post_processing.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/post_processing.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/post_processing.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/post_processing_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/post_processing_example.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

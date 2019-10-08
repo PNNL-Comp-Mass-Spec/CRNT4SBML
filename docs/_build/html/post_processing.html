@@ -384,10 +384,10 @@ concentration of 0pM for species s15. This will allow use to obtain the lower br
 <div class="section" id="creating-the-rightmost-subplot">
 <h3>Creating the rightmost subplot<a class="headerlink" href="#creating-the-rightmost-subplot" title="Permalink to this headline">¶</a></h3>
 <p>In this section we are again simulating the ODE system and tracking the concentration of s15 over time for different
-C3 values, however, we are now setting s15 = 2e5 as the initial species concentration. This will allow the simulation
+C3 values, however, we are now setting s15 = 2e5pM as the initial species concentration. This will allow the simulation
 to obtain values on the upper branch of the bistability plot. Note here that we are letting the initial value of
-species s1 = C3 - 2*s15. This value is chosen because it allows the conservation laws to be satisfied now that we
-have set s15 to a nonzero value. The specific equation of s1 can be found by consulting the third conservation law.</p>
+species s1 = C3 - 2*s15_init. This value is chosen because it allows the conservation laws to be satisfied now that we
+have set the intial s15 to a nonzero value. The specific equation of s1 can be found by consulting the third conservation law.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 
 <span class="n">steady_state_vals2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">C3_vec</span><span class="p">))</span>
@@ -414,7 +414,10 @@ have set s15 to a nonzero value. The specific equation of s1 can be found by con
 </div>
 <div class="section" id="creating-the-leftmost-subplot">
 <h3>Creating the leftmost subplot<a class="headerlink" href="#creating-the-leftmost-subplot" title="Permalink to this headline">¶</a></h3>
-<p>In the leftmost subplot we</p>
+<p>In the leftmost subplot we now plot the concentration values of s15 at the final time considered in the ODE simulations
+above for the varying C3 values. This produces a bistability plot that nicely shows how different C3 values and initial
+s15 concentration values will affect the stability of the ODE system. Note that this bistability plot produced mirrors
+the bistability plot provided by the greedy_continuity_analysis and AUTO.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">C3_vec</span><span class="p">,</span> <span class="n">steady_state_vals1</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">)</span>

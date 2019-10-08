@@ -234,10 +234,10 @@ Creating the rightmost subplot
 --------------------------------
 
 In this section we are again simulating the ODE system and tracking the concentration of s15 over time for different
-C3 values, however, we are now setting s15 = 2e5 as the initial species concentration. This will allow the simulation
+C3 values, however, we are now setting s15 = 2e5pM as the initial species concentration. This will allow the simulation
 to obtain values on the upper branch of the bistability plot. Note here that we are letting the initial value of
-species s1 = C3 - 2*s15. This value is chosen because it allows the conservation laws to be satisfied now that we
-have set s15 to a nonzero value. The specific equation of s1 can be found by consulting the third conservation law.
+species s1 = C3 - 2*s15_init. This value is chosen because it allows the conservation laws to be satisfied now that we
+have set the intial s15 to a nonzero value. The specific equation of s1 can be found by consulting the third conservation law.
 
 .. code-block:: python
 
@@ -267,7 +267,10 @@ have set s15 to a nonzero value. The specific equation of s1 can be found by con
 Creating the leftmost subplot
 --------------------------------
 
-In the leftmost subplot we
+In the leftmost subplot we now plot the concentration values of s15 at the final time considered in the ODE simulations
+above for the varying C3 values. This produces a bistability plot that nicely shows how different C3 values and initial
+s15 concentration values will affect the stability of the ODE system. Note that this bistability plot produced mirrors
+the bistability plot provided by the greedy\_continuity\_analysis and AUTO.
 
 .. code-block:: python
 
