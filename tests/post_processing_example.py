@@ -72,10 +72,7 @@ for i in range(len(sympy_reactions)):
 def f(y, t, inputs, ode_lambda_func, start_ind):
 
     # setting species concentrations
-    ind = start_ind
-    for i in y:
-        inputs[ind] = i
-        ind += 1
+    inputs[start_ind:] = y
 
     # the model equations
     ode_vals = []

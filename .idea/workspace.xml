@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/post_processing.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/post_processing.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/post_processing.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/post_processing.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/post_processing.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/post_processing.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/post_processing.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/post_processing.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/post_processing_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/post_processing_example.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,10 +36,15 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/basic_crnt.rst">
+          <provider selected="true" editor-type-id="restructured-text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/post_processing_example.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="207">
+              <caret line="72" selection-start-line="72" selection-end-line="72" />
             </state>
           </provider>
         </entry>
@@ -81,7 +92,6 @@
         <option value="$PROJECT_DIR$/tests/ode_sim_ex.py" />
         <option value="$PROJECT_DIR$/tests/new_post_processing.py" />
         <option value="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" />
-        <option value="$PROJECT_DIR$/tests/post_processing_example.py" />
         <option value="$PROJECT_DIR$/README.rst" />
         <option value="$PROJECT_DIR$/docs/installation.rst" />
         <option value="$PROJECT_DIR$/docs/quickstart.rst" />
@@ -109,12 +119,14 @@
         <option value="$PROJECT_DIR$/docs/numerical_opt.rst" />
         <option value="$PROJECT_DIR$/docs/injectivity_walkthrough.rst" />
         <option value="$PROJECT_DIR$/docs/index.rst" />
+        <option value="$PROJECT_DIR$/tests/post_processing_example.py" />
         <option value="$PROJECT_DIR$/docs/post_processing.rst" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1680" />
+    <option name="x" value="846" />
+    <option name="width" value="834" />
     <option name="height" value="1050" />
   </component>
   <component name="ProjectView">
@@ -204,16 +216,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/requirements_dev.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="22" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/basic_crnt.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/example_scripts/pickler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="474">
@@ -499,6 +501,16 @@
     <entry file="file://$PROJECT_DIR$/docs/injectivity_walkthrough.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/post_processing_example.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="72" selection-start-line="72" selection-end-line="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/celldesigner_walkthrough.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/crnt4sbml/bistability_finder.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11409">
@@ -509,12 +521,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/post_processing_example.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/docs/basic_crnt.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/post_processing.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />

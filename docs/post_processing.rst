@@ -14,7 +14,7 @@ Storing Important Information
 Given the act of performing the numerical optimization and continuation routines can take a significant amount of time
 for highly complex networks, we will describe how to store the necessary information needed to simulate the ODEs. To
 complete this process one will need to install `dill <https://pypi.org/project/dill/>`_, a Python library that extends
-Python’s pickle module for serializing and de-serializing python objects. A simple way to do this is by using pip:
+Python’s pickle module for serializing and de-serializing Python objects. A simple way to do this is by using pip:
 
 .. code-block:: console
 
@@ -59,13 +59,16 @@ constructed by continuation that will be necessary when simulating the ODE syste
     with open("important_variables.dill", 'wb') as f:
         dill.dump(important_variables, f)
 
-Once this code is ran, one will obtain to files "params.npy" and "important_variables.dill". Here, "params.npy" is a
+Once this code is ran, one will obtain the files "params.npy" and "important_variables.dill". Here, "params.npy" is a
 special numpy file that holds the array of decision vectors produced by the optimization routine. The file
-"important_variables.dill" is a dill file that contains all the information necessary to simulate the ODE system.
+"important_variables.dill" is a dill file that contains the rest of the information necessary to simulate the ODE system.
 
 +++++++++++++++++++++++++++++++++
 Importing Important Information
 +++++++++++++++++++++++++++++++++
+
+Once the section above is completed, one can then import the information in the files params.npy and important_variables.dill
+into a new Python session by creating the following script:
 
 .. code-block:: python
 
@@ -78,11 +81,20 @@ Importing Important Information
 
     params_for_global_min = numpy.load('params.npy')
 
-blah blah
+For the remaining subsections we will be using the files :download:`params.npy <../example_scripts/params.npy>` and
+:download:`important_variables.dill <../example_scripts/important_variables.dill>` to demonstrate how one can create nice
+looking plots that depict the simulation of the ODE system. For the full script of this section and the following sections
+please review :download:`stability_analysis.py <../example_scripts/stability_analysis.py>`.
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Constructing necessary variables for ODE simulation
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Using the information obtained by the import of the files params.npy and important_variables.dill we will now
+construct the function used by
+`scipy.integrate.odeint <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html>`_
+to compute the derivative of our species' concentrations at a particular time t. This is done below by creating the
+function "f".
 
 .. code-block:: python
 
@@ -109,10 +121,7 @@ Constructing necessary variables for ODE simulation
     def f(y, t, inputs, ode_lambda_func, start_ind):
 
         # setting species concentrations
-        ind = start_ind
-        for i in y:
-            inputs[ind] = i
-            ind += 1
+        inputs[start_ind:] = y
 
         # the model equations
         ode_vals = []
@@ -126,6 +135,9 @@ Constructing necessary variables for ODE simulation
 Assigning the values for ODE simulation
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+In this section we now define particular values that we want to use to perform the ode simulation. In this instance
+we use the decision vector values given by the third element of params\_for\_global\_min.
+
 .. code-block:: python
 
     # setting the decision vector values that define the ODE simulation
@@ -135,15 +147,13 @@ Assigning the values for ODE simulation
     plot_specs = out[6][0]
 
     # setting time grid for ODE simulation
-    final_time = 150000  # index 2
-    # final_time = 2500 # index 3
+    final_time = 150000
     t = numpy.linspace(0.0, final_time, 10000)
 
-    # setting initial species concentration
-    s15_init = 2.0e5 # index 2
-    # s15_init = 4.0e5 # index 3
+    # setting initial species concentration for upper branch creation
+    s15_init = 2.0e5
 
-    # getting species concetrations for a specific parameter set
+    # getting species' concetrations for a specific parameter set
     species_concentrations = []
     for i in out[3]:
         species_concentrations.append(i(*tuple(decision_vector_values)))
@@ -159,6 +169,17 @@ Assigning the values for ODE simulation
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Creating subplots to represent the ODE simulation graphically
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. image:: ./images_for_docs/bistability_of_ODEs.png
+   :width: 1000px
+   :align: center
+   :height: 220px
+
+Our goal in this section is to create the matplotlib subplot given above.
+
+--------------------------------------
+Setting up the format of the subplots
+--------------------------------------
 
 .. code-block:: python
 
@@ -182,7 +203,17 @@ Creating subplots to represent the ODE simulation graphically
     # creating a colorbar that varies from C3_min to C3_max
     CS3 = plt.cm.ScalarMappable(cmap=mymap, norm=plt.Normalize(vmin=C3_min, vmax=C3_max))
 
-    fig.add_subplot(spec[0, 1]) # adding first subplot
+-----------------------------
+Creating the middle subplot
+-----------------------------
+
+Here we construct the middle subplot which represents how the concentration of species s15 evolves over time for different
+values of the conservation law constant C3. In this particular simulation we are starting with an initial species
+concentration of 0pM for species s15. This will allow use to obtain the lower branch of the bistability plot.
+
+.. code-block:: python
+
+    fig.add_subplot(spec[0, 1])
 
     steady_state_vals1 = numpy.zeros(len(C3_vec))
     for i in range(len(C3_vec)):
@@ -198,8 +229,19 @@ Creating subplots to represent the ODE simulation graphically
     plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
     plt.title("Initial [s15] = 0 pM")
 
+--------------------------------
+Creating the rightmost subplot
+--------------------------------
 
-    fig.add_subplot(spec[0, 2]) # adding the second subplot
+In this section we are again simulating the ODE system and tracking the concentration of s15 over time for different
+C3 values, however, we are now setting s15 = 2e5 as the initial species concentration. This will allow the simulation
+to obtain values on the upper branch of the bistability plot. Note here that we are letting the initial value of
+species s1 = C3 - 2*s15. This value is chosen because it allows the conservation laws to be satisfied now that we
+have set s15 to a nonzero value. The specific equation of s1 can be found by consulting the third conservation law.
+
+.. code-block:: python
+
+    fig.add_subplot(spec[0, 2])
 
     steady_state_vals2 = numpy.zeros(len(C3_vec))
     for i in range(len(C3_vec)):
@@ -221,8 +263,15 @@ Creating subplots to represent the ODE simulation graphically
     clb.ax.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
     clb.update_ticks()
 
+--------------------------------
+Creating the leftmost subplot
+--------------------------------
 
-    fig.add_subplot(spec[0, 0]) # adding final subplot
+In the leftmost subplot we
+
+.. code-block:: python
+
+    fig.add_subplot(spec[0, 0])
 
     plt.plot(C3_vec, steady_state_vals1, 'bo')
     plt.plot(C3_vec, steady_state_vals2, 'bo')
@@ -232,6 +281,10 @@ Creating subplots to represent the ODE simulation graphically
     plt.ylim(plot_specs[1])
     plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
     plt.title("[s15] at " + numpy.format_float_scientific(final_time, exp_digits=0, trim='-').replace('+', '') + " seconds")
+
+One can then save and close the subplot created by adding the following to the script:
+
+.. code-block:: python
 
     plt.savefig('bistability_of_ODEs.png')
 

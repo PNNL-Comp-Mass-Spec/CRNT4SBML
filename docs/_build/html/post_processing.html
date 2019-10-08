@@ -104,7 +104,13 @@
 <li class="toctree-l2"><a class="reference internal" href="#importing-important-information">Importing Important Information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#constructing-necessary-variables-for-ode-simulation">Constructing necessary variables for ODE simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#assigning-the-values-for-ode-simulation">Assigning the values for ODE simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#creating-subplots-to-represent-the-ode-simulation-graphically">Creating subplots to represent the ODE simulation graphically</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-subplots-to-represent-the-ode-simulation-graphically">Creating subplots to represent the ODE simulation graphically</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-the-format-of-the-subplots">Setting up the format of the subplots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-the-middle-subplot">Creating the middle subplot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-the-rightmost-subplot">Creating the rightmost subplot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-the-leftmost-subplot">Creating the leftmost subplot</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
@@ -187,7 +193,7 @@ conduct stability analysis of those reaction networks that produce bistability a
 <p>Given the act of performing the numerical optimization and continuation routines can take a significant amount of time
 for highly complex networks, we will describe how to store the necessary information needed to simulate the ODEs. To
 complete this process one will need to install <a class="reference external" href="https://pypi.org/project/dill/">dill</a>, a Python library that extends
-Python’s pickle module for serializing and de-serializing python objects. A simple way to do this is by using pip:</p>
+Python’s pickle module for serializing and de-serializing Python objects. A simple way to do this is by using pip:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install dill
 </pre></div>
 </div>
@@ -228,12 +234,14 @@ constructed by continuation that will be necessary when simulating the ODE syste
     <span class="n">dill</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">important_variables</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Once this code is ran, one will obtain to files “params.npy” and “important_variables.dill”. Here, “params.npy” is a
+<p>Once this code is ran, one will obtain the files “params.npy” and “important_variables.dill”. Here, “params.npy” is a
 special numpy file that holds the array of decision vectors produced by the optimization routine. The file
-“important_variables.dill” is a dill file that contains all the information necessary to simulate the ODE system.</p>
+“important_variables.dill” is a dill file that contains the rest of the information necessary to simulate the ODE system.</p>
 </div>
 <div class="section" id="importing-important-information">
 <h2>Importing Important Information<a class="headerlink" href="#importing-important-information" title="Permalink to this headline">¶</a></h2>
+<p>Once the section above is completed, one can then import the information in the files params.npy and important_variables.dill
+into a new Python session by creating the following script:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dill</span>
 <span class="kn">import</span> <span class="nn">sympy</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
@@ -244,10 +252,18 @@ special numpy file that holds the array of decision vectors produced by the opti
 <span class="n">params_for_global_min</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;params.npy&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>blah blah</p>
+<p>For the remaining subsections we will be using the files <a class="reference download internal" download="" href="_downloads/57bf5e4047fd30ca4bd772917f2b4238/params.npy"><code class="xref download docutils literal notranslate"><span class="pre">params.npy</span></code></a> and
+<a class="reference download internal" download="" href="_downloads/5e2bd2c753684d721963ee5789cd7744/important_variables.dill"><code class="xref download docutils literal notranslate"><span class="pre">important_variables.dill</span></code></a> to demonstrate how one can create nice
+looking plots that depict the simulation of the ODE system. For the full script of this section and the following sections
+please review <a class="reference download internal" download="" href="_downloads/997e6e09ff40b965caf205fa572d9dc1/stability_analysis.py"><code class="xref download docutils literal notranslate"><span class="pre">stability_analysis.py</span></code></a>.</p>
 </div>
 <div class="section" id="constructing-necessary-variables-for-ode-simulation">
 <h2>Constructing necessary variables for ODE simulation<a class="headerlink" href="#constructing-necessary-variables-for-ode-simulation" title="Permalink to this headline">¶</a></h2>
+<p>Using the information obtained by the import of the files params.npy and important_variables.dill we will now
+construct the function used by
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html">scipy.integrate.odeint</a>
+to compute the derivative of our species’ concentrations at a particular time t. This is done below by creating the
+function “f”.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># getting the ODE system</span>
 <span class="n">odes</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -271,10 +287,7 @@ special numpy file that holds the array of decision vectors produced by the opti
 <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">ode_lambda_func</span><span class="p">,</span> <span class="n">start_ind</span><span class="p">):</span>
 
     <span class="c1"># setting species concentrations</span>
-    <span class="n">ind</span> <span class="o">=</span> <span class="n">start_ind</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="p">:</span>
-        <span class="n">inputs</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
-        <span class="n">ind</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">inputs</span><span class="p">[</span><span class="n">start_ind</span><span class="p">:]</span> <span class="o">=</span> <span class="n">y</span>
 
     <span class="c1"># the model equations</span>
     <span class="n">ode_vals</span> <span class="o">=</span> <span class="p">[]</span>
@@ -287,6 +300,8 @@ special numpy file that holds the array of decision vectors produced by the opti
 </div>
 <div class="section" id="assigning-the-values-for-ode-simulation">
 <h2>Assigning the values for ODE simulation<a class="headerlink" href="#assigning-the-values-for-ode-simulation" title="Permalink to this headline">¶</a></h2>
+<p>In this section we now define particular values that we want to use to perform the ode simulation. In this instance
+we use the decision vector values given by the third element of params_for_global_min.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># setting the decision vector values that define the ODE simulation</span>
 <span class="n">decision_vector_values</span> <span class="o">=</span> <span class="n">params_for_global_min</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
@@ -294,15 +309,13 @@ special numpy file that holds the array of decision vectors produced by the opti
 <span class="n">plot_specs</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="c1"># setting time grid for ODE simulation</span>
-<span class="n">final_time</span> <span class="o">=</span> <span class="mi">150000</span>  <span class="c1"># index 2</span>
-<span class="c1"># final_time = 2500 # index 3</span>
+<span class="n">final_time</span> <span class="o">=</span> <span class="mi">150000</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">final_time</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
 
-<span class="c1"># setting initial species concentration</span>
-<span class="n">s15_init</span> <span class="o">=</span> <span class="mf">2.0e5</span> <span class="c1"># index 2</span>
-<span class="c1"># s15_init = 4.0e5 # index 3</span>
+<span class="c1"># setting initial species concentration for upper branch creation</span>
+<span class="n">s15_init</span> <span class="o">=</span> <span class="mf">2.0e5</span>
 
-<span class="c1"># getting species concetrations for a specific parameter set</span>
+<span class="c1"># getting species&#39; concetrations for a specific parameter set</span>
 <span class="n">species_concentrations</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">out</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
     <span class="n">species_concentrations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">(</span><span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">decision_vector_values</span><span class="p">)))</span>
@@ -319,6 +332,10 @@ special numpy file that holds the array of decision vectors produced by the opti
 </div>
 <div class="section" id="creating-subplots-to-represent-the-ode-simulation-graphically">
 <h2>Creating subplots to represent the ODE simulation graphically<a class="headerlink" href="#creating-subplots-to-represent-the-ode-simulation-graphically" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/bistability_of_ODEs.png"><img alt="_images/bistability_of_ODEs.png" class="align-center" src="_images/bistability_of_ODEs.png" style="width: 1000px; height: 220px;" /></a>
+<p>Our goal in this section is to create the matplotlib subplot given above.</p>
+<div class="section" id="setting-up-the-format-of-the-subplots">
+<h3>Setting up the format of the subplots<a class="headerlink" href="#setting-up-the-format-of-the-subplots" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># C3 values to vary in ode solution</span>
 <span class="n">C3_vec</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">plot_specs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">plot_specs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
 
@@ -338,8 +355,15 @@ special numpy file that holds the array of decision vectors produced by the opti
 
 <span class="c1"># creating a colorbar that varies from C3_min to C3_max</span>
 <span class="n">CS3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">mymap</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">C3_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">C3_max</span><span class="p">))</span>
-
-<span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="c1"># adding first subplot</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-the-middle-subplot">
+<h3>Creating the middle subplot<a class="headerlink" href="#creating-the-middle-subplot" title="Permalink to this headline">¶</a></h3>
+<p>Here we construct the middle subplot which represents how the concentration of species s15 evolves over time for different
+values of the conservation law constant C3. In this particular simulation we are starting with an initial species
+concentration of 0pM for species s15. This will allow use to obtain the lower branch of the bistability plot.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
 <span class="n">steady_state_vals1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">C3_vec</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">C3_vec</span><span class="p">)):</span>
@@ -354,9 +378,17 @@ special numpy file that holds the array of decision vectors produced by the opti
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">plot_specs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;sci&#39;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Initial [s15] = 0 pM&quot;</span><span class="p">)</span>
-
-
-<span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="c1"># adding the second subplot</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-the-rightmost-subplot">
+<h3>Creating the rightmost subplot<a class="headerlink" href="#creating-the-rightmost-subplot" title="Permalink to this headline">¶</a></h3>
+<p>In this section we are again simulating the ODE system and tracking the concentration of s15 over time for different
+C3 values, however, we are now setting s15 = 2e5 as the initial species concentration. This will allow the simulation
+to obtain values on the upper branch of the bistability plot. Note here that we are letting the initial value of
+species s1 = C3 - 2*s15. This value is chosen because it allows the conservation laws to be satisfied now that we
+have set s15 to a nonzero value. The specific equation of s1 can be found by consulting the third conservation law.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 
 <span class="n">steady_state_vals2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">C3_vec</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">C3_vec</span><span class="p">)):</span>
@@ -377,9 +409,13 @@ special numpy file that holds the array of decision vectors produced by the opti
 <span class="n">clb</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">set_powerlimits</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">clb</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;sci&#39;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">clb</span><span class="o">.</span><span class="n">update_ticks</span><span class="p">()</span>
-
-
-<span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="c1"># adding final subplot</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-the-leftmost-subplot">
+<h3>Creating the leftmost subplot<a class="headerlink" href="#creating-the-leftmost-subplot" title="Permalink to this headline">¶</a></h3>
+<p>In the leftmost subplot we</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">C3_vec</span><span class="p">,</span> <span class="n">steady_state_vals1</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">C3_vec</span><span class="p">,</span> <span class="n">steady_state_vals2</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">)</span>
@@ -389,11 +425,14 @@ special numpy file that holds the array of decision vectors produced by the opti
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">plot_specs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;sci&#39;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;[s15] at &quot;</span> <span class="o">+</span> <span class="n">numpy</span><span class="o">.</span><span class="n">format_float_scientific</span><span class="p">(</span><span class="n">final_time</span><span class="p">,</span> <span class="n">exp_digits</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; seconds&quot;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;bistability_of_ODEs.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>One can then save and close the subplot created by adding the following to the script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;bistability_of_ODEs.png&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
