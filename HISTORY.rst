@@ -32,3 +32,8 @@ History
 ------------------
 
 * Updating safety wrapper to smoothly work on Windows and Mac.
+
+0.0.7 (10-11-2019)
+------------------
+
+* Adding output to continuity routine to make post-processing simpler.

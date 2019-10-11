@@ -53,6 +53,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML',
-    version='0.0.6a22',
+    version='0.0.7',
     zip_safe=False,
 )
