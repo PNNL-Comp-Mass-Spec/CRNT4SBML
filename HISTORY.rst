@@ -31,4 +31,4 @@ History
 0.0.6 (09-23-2019)
 ------------------
 
-* Updating safety wrapper to smoothly work on Linux, Windows, and Mac.
+* Updating safety wrapper to smoothly work on Windows and Mac.
