@@ -102,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="post_processing.html">Post-processing for Mass Conservation Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
@@ -173,7 +174,7 @@
             
   <div class="section" id="creating-the-equilibrium-manifold">
 <span id="manifold-label"></span><h1>Creating the Equilibrium Manifold<a class="headerlink" href="#creating-the-equilibrium-manifold" title="Permalink to this headline">¶</a></h1>
-<p>For the mass conservation approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a> there are multiple ways that one can form the equilibrium manifold,
+<p>For the mass conservation approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[irene]</a> there are multiple ways that one can form the equilibrium manifold,
 <img class="math" src="_images/math/a003c27510b6d1520296d638c96f797699405883.png" alt="H (\alpha, c, k)"/>. In the approach we have constructed, we have chosen the equilibrium manifold
 that will result in two characteristics. The first of which is that the decision vector ultimately chosen will
 consist of only kinetic constants and species’ concentrations. The reason for this is that we would like to remove the
@@ -183,14 +184,14 @@ impose is that the manifold will be as close as possible to being linear with re
 those species not in the decision vector. If the manifold is close to being linear in these variables, then solving for
 them is much simpler resulting in a shorter solve time for SymPy’s solve function and the avoidance of unsolvable
 instances of the problem.</p>
-<p>We now describe the process taken to find the decision vector and resulting equilibrium manifold. As stated in <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a>,
+<p>We now describe the process taken to find the decision vector and resulting equilibrium manifold. As stated in <a class="reference internal" href="zbibliography.html#irene" id="id2">[irene]</a>,
 the choice of the decision vector is as follows:</p>
 <p><img class="math" src="_images/math/be2ff73acd1eb8a5ced3e773f4bf6a5a01e19654.png" alt="x = (k_1, ..., k_R, \alpha_1, ..., \alpha_\lambda)"/> for proper and over-dimensioned networks</p>
 <p>and</p>
 <p><img class="math" src="_images/math/996dede370d0fda463081ad6572c1dcebd28d3e9.png" alt="x = (k_1, ..., k_R, \alpha_1, ..., \alpha_\delta, c_1, ..., c_{\lambda - \delta})"/> for under-dimensioned networks.</p>
 <p>Although these decision vectors can be used, it is apparent that if they are chosen then the user will need to provide
 bounds for the deficiency parameters, <img class="math" src="_images/math/877d234f4cec6974ce218fc2e975a486a7972dfd.png" alt="\alpha"/>. However, as can be inferred by the statement on the bottom of page
-7 in the S1 Appendix of <a class="reference internal" href="zbibliography.html#irene" id="id3">[OMYS17]</a>, as long as the parameters <img class="math" src="_images/math/877d234f4cec6974ce218fc2e975a486a7972dfd.png" alt="\alpha"/> and <img class="math" src="_images/math/0b7c1e16a3a8a849bb8ffdcdbf86f65fd1f30438.png" alt="k"/> are fixed and we can form
+7 in the S1 Appendix of <a class="reference internal" href="zbibliography.html#irene" id="id3">[irene]</a>, as long as the parameters <img class="math" src="_images/math/877d234f4cec6974ce218fc2e975a486a7972dfd.png" alt="\alpha"/> and <img class="math" src="_images/math/0b7c1e16a3a8a849bb8ffdcdbf86f65fd1f30438.png" alt="k"/> are fixed and we can form
 equation (2.7), then the results of Proposition 1 of page 8 follow. This allows one to choose the decision vector to
 be as follows for proper and over/under - dimensioned networks:</p>
 <p><img class="math" src="_images/math/8017b33b75d2ffcd9d5e339a6f4efbdcb4c8101d.png" alt="x = (k_1, ..., k_R, \theta_1, ..., \theta_\lambda)"/>,</p>
@@ -199,7 +200,7 @@ be as follows for proper and over/under - dimensioned networks:</p>
 next step is to choose the <img class="math" src="_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/> values such that the equilibrium manifold is as close to being linear as possible.
 To do this, we first generate <img class="math" src="_images/math/aedbcafa5b7755ec7c36208fcdd693a7ca78f5fa.png" alt="\frac{N!}{s! (N-s)!}"/> choices of <img class="math" src="_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/> values using <img class="math" src="_images/math/ce773a2d5f57e2c8791a1290d664cdc4a6827d76.png" alt="{N \choose s}"/>,
 where <img class="math" src="_images/math/f4170ed8938b79490d8923857962695514a8e4cb.png" alt="N"/> is the number of species and <img class="math" src="_images/math/63751cb2e98ba393b0f22e45ca127c3cebb61487.png" alt="s"/> is the rank of the stoichiometric matrix. Using each of these
-sets of <img class="math" src="_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/> values, we then test how many rows of (9) in <a class="reference internal" href="zbibliography.html#irene" id="id4">[OMYS17]</a> are linear in those species’ concentrations
+sets of <img class="math" src="_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/> values, we then test how many rows of (9) in <a class="reference internal" href="zbibliography.html#irene" id="id4">[irene]</a> are linear in those species’ concentrations
 that are not in <img class="math" src="_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/> by testing if the second order derivatives of the expression in the row is zero. This is
 essentially testing if the expression is jointly linear with respect to a given set of species’ concentrations not in
 <img class="math" src="_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/>.</p>

@@ -102,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="post_processing.html">Post-processing for Mass Conservation Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
@@ -174,16 +175,16 @@
   <div class="section" id="mass-conservation-approach-walkthrough">
 <span id="my-deficiency-label"></span><h1>Mass Conservation Approach Walkthrough<a class="headerlink" href="#mass-conservation-approach-walkthrough" title="Permalink to this headline">¶</a></h1>
 <p>Using the SBML file constructed as in <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a>, we will proceed by completing a more in-depth
-explanation of running the mass conservation approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a>. Note that the mass conservation approach can
+explanation of running the mass conservation approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[irene]</a>. Note that the mass conservation approach can
 be ran on any network that has conservation laws, even if that network does have a sink/source. One can test whether or
 not there are conservation laws by seeing if the output of <a class="reference internal" href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_dim_equilibrium_manifold" title="crnt4sbml.Cgraph.get_dim_equilibrium_manifold"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.Cgraph.get_dim_equilibrium_manifold()</span></code></a> is
-greater than zero. This tutorial will use <a class="reference download internal" download="" href="_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a>.
+greater than zero. This tutorial will use <a class="reference download internal" download="" href="_downloads/933a484dc8253ebd585092d0c680dc76/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a>.
 The following code will import crnt4sbml and the SBML file. For a little more detail on this process consider <a class="reference internal" href="basic_crnt.html#my-basic-label"><span class="std std-ref">Low Deficiency Approach</span></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 <span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If we then want to conduct the mass conservation approach of <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a>, we must first initialize the
+<p>If we then want to conduct the mass conservation approach of <a class="reference internal" href="zbibliography.html#irene" id="id2">[irene]</a>, we must first initialize the
 mass_conservation_approach, which is done as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 </pre></div>
@@ -336,7 +337,7 @@ bifurcation diagram.</p>
 </div>
 <p>Now we can call the numerical continuation routine. First we set the species and pass in the parameters we obtained from
 the optimization routine. The next input we provide is a dictionary representation of the AUTO 2000 parameters, to obtain
-a description of these parameters and more options refer to <a class="reference download internal" download="" href="_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>. Please note
+a description of these parameters and more options refer to <a class="reference download internal" download="" href="_downloads/d8001c2638f93175889b86628729c743/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>. Please note
 that one should <strong>not</strong> set ‘SBML’ or ‘ScanDirection’ in these parameters as these are automatically assigned. It is
 absolutely necessary to set PrincipalContinuationParameter in this dictionary.</p>
 <p>Here we set the maximum stepsize for numerical continuation, DSMAX to 1e3. However, for certain runs of the numerical

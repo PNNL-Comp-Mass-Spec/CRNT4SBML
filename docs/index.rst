@@ -20,6 +20,7 @@ Welcome to CRNT4SBML's documentation!
    post_processing
    generating_c_graphs
    more_examples
+   example_use
    reference
    contributing
    authors

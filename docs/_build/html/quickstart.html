@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="post_processing.html">Post-processing for Mass Conservation Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
@@ -179,13 +180,13 @@
 <h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
 <p>To begin using CRNT4SBML, start by following the process outlined in <a class="reference internal" href="installation.html#my-installation-label"><span class="std std-ref">Installation</span></a>. Once you have
 correctly installed CRNT4SBML follow the steps below to obtain a general idea of how one can perform the mass conservation
-and semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a>. If you are interested in running the Deficiency Zero and One theorems please
+and semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[irene]</a>. If you are interested in running the Deficiency Zero and One theorems please
 consult <a class="reference internal" href="basic_crnt.html#my-basic-label"><span class="std std-ref">Low Deficiency Approach</span></a>. If one is interested in the general steps to follow in order to detect bistability, one
 should consult <a class="reference internal" href="detect_bistability.html#detect-bistability-label"><span class="std std-ref">Steps for Detecting Bistability</span></a>.</p>
 <div class="section" id="mass-conservation-approach-example">
 <span id="quickstart-deficiency-label"></span><h2>Mass Conservation Approach Example<a class="headerlink" href="#mass-conservation-approach-example" title="Permalink to this headline">¶</a></h2>
 <p>In order to run the mass conservation approach one needs to first create an SBML file of the reaction network. The
-SBML file representing the reaction network for this example is given by <a class="reference download internal" download="" href="_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a>.
+SBML file representing the reaction network for this example is given by <a class="reference download internal" download="" href="_downloads/933a484dc8253ebd585092d0c680dc76/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a>.
 It is highly encouraged that the user consult <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a> when considering their own individual network
 as the format of the SBML file must follow a certain construction to be easily used by CRNT4SBML.</p>
 <p>To run the mass conservation approach create the following python script:</p>
@@ -241,7 +242,7 @@ Elements in params_for_global_min that produce multistability:
 <div class="section" id="semi-diffusive-approach-example">
 <span id="quickstart-injectivity-label"></span><h2>Semi-diffusive Approach Example<a class="headerlink" href="#semi-diffusive-approach-example" title="Permalink to this headline">¶</a></h2>
 <p>To run the semi-diffusive approach one needs to create the SBML file specific for semi-diffusive networks. The SBML file
-representing the reaction network for this example is given by <a class="reference download internal" download="" href="_downloads/7f1ab99200c896bb88c0011e47723e78/Fig1Cii.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Cii.xml</span></code></a>. It
+representing the reaction network for this example is given by <a class="reference download internal" download="" href="_downloads/2f010b1cf1d3be0a38ca0f6c865cb2c7/Fig1Cii.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Cii.xml</span></code></a>. It
 is highly encouraged that the user consult <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a> when considering their own individual network as
 the format of the SBML file must follow a certain construction to be easily used by crnt4sbml.</p>
 <p>To run the semi-diffusive approach create the following python script:</p>
