@@ -2,7 +2,13 @@
 An Example User Case Scenario
 ===============================================
 
-:download:`a_full_use_case_scenario.py <../example_scripts/a_full_use_case_scenario.py>`
+
+:download:`Script a_full_use_case_scenario.py <../example_scripts/a_full_use_case_scenario.py>`
+
+:download:`Model basic_example_1.xml <../sbml_files/basic_example_1.xml>`
+
+
+The main part, solving for `det(Jacobian) = 0` using optimization routine followed by continuation analysis
 
 .. code-block:: python
 
@@ -14,7 +20,7 @@ An Example User Case Scenario
     from plotnine import ggplot, aes, geom_line, ylim, scale_color_distiller, facet_wrap, theme_bw
 
 
-    network = crnt4sbml.CRNT("./Fig1Ci_lollipop.xml")  #
+    network = crnt4sbml.CRNT("./basic_example_1.xml")  #
     network.print_biological_reaction_types()
 
     ldt = network.get_low_deficiency_approach()
@@ -50,6 +56,18 @@ An Example User Case Scenario
                                                                print_lbls_flag=True)
 
     opt.generate_report()
+
+
+Found three set of values for which bistability exists
+
+.. image:: ./images_for_docs/C3_vs_s2_0.png
+.. image:: ./images_for_docs/C3_vs_s2_1.png
+.. image:: ./images_for_docs/C3_vs_s2_2.png
+
+
+Selecting a set of kinetic constants and ODE simulation.
+
+.. code-block:: python
 
     # Parameters that produced bistability.
     # re* are kinetic constants. Units can be found here help(network.get_physiological_range).
@@ -129,6 +147,10 @@ An Example User Case Scenario
     sim_res_rev = [sim_fun_rev(i) for i in numpy.flip(C3_scan)]
 
 
+Exporting the results for interrogation with 3rd party tools
+
+.. code-block:: python
+
     ################## exporting to text #####################################
     # constructing data in "long" form
     out = pandas.DataFrame(columns=['dir','signal','time'] + network.get_c_graph().get_species())
@@ -146,6 +168,9 @@ An Example User Case Scenario
         out = pandas.concat([out, out_i[out.columns]])
     out.to_csv("sim.txt", sep="\t", index=False)
 
+Visualising the results
+
+.. code-block:: python
 
     ###################### plotting ##################################
     g = (ggplot(out, aes('time', 's2', group='signal', color='signal'))
@@ -156,6 +181,10 @@ An Example User Case Scenario
      + theme_bw())
     g.save(filename="./num_cont_graphs/sim_fwd_rev.png", format="png", width=8, height=4, units='in', verbose=False)
 
+.. image:: ./images_for_docs/sim_fwd_rev.png
+
+.. code-block:: python
+
     eq = out[out.time == max(out.time)]
     g = (ggplot(eq)
          + aes(x='signal', y='s2', color='dir')
@@ -164,4 +193,6 @@ An Example User Case Scenario
          + theme_bw())
     g.save(filename="./num_cont_graphs/sim_bif_diag.png", format="png", width=8, height=4, units='in', verbose=False)
 
+
+.. image:: ./images_for_docs/sim_bif_diag.png
 
