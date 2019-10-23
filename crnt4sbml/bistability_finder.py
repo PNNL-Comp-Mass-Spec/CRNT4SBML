@@ -215,11 +215,16 @@ class BistabilityFinder:
             roadrunner.Logger.disableConsoleLogging()
             roadrunner.Logger.disableFileLogging()
             rrplugins.setLogLevel('error')
-            stderr_fileno = sys.stderr.fileno()
-            stderr_save = os.dup(stderr_fileno)
-            stderr_pipe = os.pipe()
-            os.dup2(stderr_pipe[1], stderr_fileno)
-            os.close(stderr_pipe[1])
+            try:
+                stderr_fileno = sys.stderr.fileno()
+                stderr_save = os.dup(stderr_fileno)
+                stderr_pipe = os.pipe()
+                os.dup2(stderr_pipe[1], stderr_fileno)
+                os.close(stderr_pipe[1])
+                notebook_exists = False
+            except Exception as e:
+                print("Note: stderr is not being caught in the traditional fashion. This may be a result of using a notebook.")
+                notebook_exists = True
 
         init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
         auto_parameters['PrincipalContinuationParameter'] = pcp_x
@@ -265,10 +270,11 @@ class BistabilityFinder:
             shutil.rmtree("./auto_fort_files")
 
         if sys_pf not in ['win32', 'cygwin', 'msys']:
-            os.close(stderr_pipe[0])
-            os.dup2(stderr_save, stderr_fileno)
-            os.close(stderr_save)
-            os.close(stderr_fileno)
+            if not notebook_exists:
+                os.close(stderr_pipe[0])
+                os.dup2(stderr_save, stderr_fileno)
+                os.close(stderr_save)
+                os.close(stderr_fileno)
 
         end = time.time()
         print("Elapsed time for continuity analysis: " + str(end - start))
@@ -294,11 +300,17 @@ class BistabilityFinder:
             roadrunner.Logger.disableConsoleLogging()
             roadrunner.Logger.disableFileLogging()
             rrplugins.setLogLevel('error')
-            stderr_fileno = sys.stderr.fileno()
-            stderr_save = os.dup(stderr_fileno)
-            stderr_pipe = os.pipe()
-            os.dup2(stderr_pipe[1], stderr_fileno)
-            os.close(stderr_pipe[1])
+            try:
+                sys.stderr.fileno()
+                stderr_fileno = sys.stderr.fileno()
+                stderr_save = os.dup(stderr_fileno)
+                stderr_pipe = os.pipe()
+                os.dup2(stderr_pipe[1], stderr_fileno)
+                os.close(stderr_pipe[1])
+                notebook_exists = False
+            except Exception as e:
+                print("Note: stderr is not being caught in the traditional fashion. This may be a result of using a notebook.")
+                notebook_exists = True
 
         init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
         auto_parameters['PrincipalContinuationParameter'] = pcp_x
@@ -412,10 +424,11 @@ class BistabilityFinder:
             shutil.rmtree("./auto_fort_files")
 
         if sys_pf not in ['win32', 'cygwin', 'msys']:
-            os.close(stderr_pipe[0])
-            os.dup2(stderr_save, stderr_fileno)
-            os.close(stderr_save)
-            os.close(stderr_fileno)
+            if not notebook_exists:
+                os.close(stderr_pipe[0])
+                os.dup2(stderr_save, stderr_fileno)
+                os.close(stderr_save)
+                os.close(stderr_fileno)
 
         end = time.time()
         print("Elapsed time for continuity analysis: " + str(end - start))
@@ -469,8 +482,8 @@ class BistabilityFinder:
                     outf.write(pickle.dumps(arguments))
 
             # # making the directory auto_fort_files if is does not exist
-            if not os.path.isdir("auto_fort_files"):
-                os.mkdir("auto_fort_files")
+            if not os.path.isdir("./auto_fort_files"):
+                os.mkdir("./auto_fort_files")
 
             subprocess.run(['python', '-m', 'crnt4sbml.safety_wrap'], shell=True, env=os.environ)
 

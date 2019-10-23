@@ -37,3 +37,8 @@ History
 ------------------
 
 * Adding output to continuity routine to make post-processing simpler.
+
+0.0.8 (10-23-2019)
+------------------
+
+* Adding functionality to allow use of Jupyter notebooks.
