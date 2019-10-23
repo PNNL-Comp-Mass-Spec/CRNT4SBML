@@ -34,7 +34,7 @@ constructed by continuation that will be necessary when simulating the ODE syste
     import sympy
     import dill
 
-    network = crnt4sbml.CRNT("sbml_files/Fig1Ci.xml")
+    network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
 
     opt = network.get_mass_conservation_approach()
 
