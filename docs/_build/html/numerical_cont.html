@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Numerical Continuation Routine &mdash; CRNT4SBML 0.0.6 documentation</title>
+  <title>Numerical Continuation Routine &mdash; CRNT4SBML 0.0.8 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.6
+                0.0.8
               </div>
             
           
@@ -99,7 +99,6 @@
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Numerical Continuation Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
-<li class="toctree-l1"><a class="reference internal" href="post_processing.html">Post-processing for Mass Conservation Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
@@ -177,7 +176,7 @@
 <p>To conduct the numerical continuation of the points produced by the mass conservation and semi-diffusive approaches, we
 use the very well developed software <a class="reference external" href="http://indy.cs.concordia.ca/auto/">AUTO</a>. In particular, we use the updated
 version <a class="reference external" href="https://nlds.sdsu.edu/resources/auto2000.pdf">AUTO 2000</a> made accessible through Libroadrunner and its
-extension rrplugins <a class="reference internal" href="zbibliography.html#libroadrunner" id="id1">[libroadrunner]</a>. In the examples we have provided throughout this documentation we choose
+extension rrplugins <a class="reference internal" href="zbibliography.html#libroadrunner" id="id1">[SBG+15]</a>. In the examples we have provided throughout this documentation we choose
 a set configuration of the parameters to run on all of the points found by the optimization routine. Although this is sufficient for
 detecting if bistability occurs in a particular network, if one wants to identify possible true physiological values,
 then it is best to consider each point individually while varying AUTO parameters. This is because if the points exist
@@ -185,7 +184,7 @@ with varying ranges in the point sets then a set AUTO configuration may miss the
 parameter settings.</p>
 <p>Given most users may be unfamiliar with numerical continuation, in this section we provide some tips to consider when
 conducting the numerical continuation routine. To begin, it is first suggested to consider the available parameters in
-<a class="reference download internal" download="" href="_downloads/d8001c2638f93175889b86628729c743/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>. Note that as said in earlier sections, one should <strong>not</strong> set ‘SBML’
+<a class="reference download internal" download="" href="_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>. Note that as said in earlier sections, one should <strong>not</strong> set ‘SBML’
 or ‘ScanDirection’ in these parameters as these are automatically assigned. Further descriptions of these parameters
 can be found in the older <a class="reference external" href="https://www.macs.hw.ac.uk/~gabriel/auto07/node263.html">AUTO documentation</a>. Of the
 available parameters, the most important are NMX, RL0, RL1, A1, DSMIN, and DSMAX, although more advanced users may

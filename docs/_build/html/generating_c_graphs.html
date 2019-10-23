@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Generating Presentable C-graphs &mdash; CRNT4SBML 0.0.6 documentation</title>
+  <title>Generating Presentable C-graphs &mdash; CRNT4SBML 0.0.8 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Further Examples" href="more_examples.html" />
-    <link rel="prev" title="Post-processing for Mass Conservation Approach" href="post_processing.html" /> 
+    <link rel="prev" title="Creating the Equilibrium Manifold" href="creating_eq_manifold.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.6
+                0.0.8
               </div>
             
           
@@ -99,7 +99,6 @@
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
-<li class="toctree-l1"><a class="reference internal" href="post_processing.html">Post-processing for Mass Conservation Approach</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
@@ -186,7 +185,7 @@ using the cross-platform and easily installable tool <a class="reference externa
 Cytoscape allows one to import a network defined in the GraphML format which it can then use to create a C-graph.
 To create a GraphML format of the provided network, CRNT4SBML contains the function <a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_network_graphml" title="crnt4sbml.CRNT.get_network_graphml"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.get_network_graphml()</span></code></a>.
 Note that this function only extracts the nodes, edges, and edge labels. Below
-we use  use <a class="reference download internal" download="" href="_downloads/2f010b1cf1d3be0a38ca0f6c865cb2c7/Fig1Cii.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Cii.xml</span></code></a>
+we use  use <a class="reference download internal" download="" href="_downloads/7f1ab99200c896bb88c0011e47723e78/Fig1Cii.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Cii.xml</span></code></a>
 to demonstrate turning a network into a GraphML file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 
@@ -198,7 +197,7 @@ to demonstrate turning a network into a GraphML file.</p>
 <p>This will provide a GraphML file for the Fig1Cii network in the current directory under the name network.graphml. We may
 then use this file within Cytoscape by opening up the application and navigating to the menu bar selecting File -&gt; Import -&gt;
 Network from File… then selecting network.graphml from the appropriate directory. We can then import the
-<a class="reference download internal" download="" href="_downloads/e085be3c679a9addc086bd4d7becad7b/crnt4sbml_cytoscape_style.xml"><code class="xref download docutils literal notranslate"><span class="pre">CRNT4SBML</span> <span class="pre">Cytoscape</span> <span class="pre">Style</span></code></a> by navigating to the menu bar selecting File -&gt;
+<a class="reference download internal" download="" href="_downloads/26d1325dd2f3c9a034967def37af7f3f/crnt4sbml_cytoscape_style.xml"><code class="xref download docutils literal notranslate"><span class="pre">CRNT4SBML</span> <span class="pre">Cytoscape</span> <span class="pre">Style</span></code></a> by navigating to the menu bar selecting File -&gt;
 Import -&gt; Styles from File … then selecting crnt4sbml_cytoscape_style.xml from the appropriate directory. Once the style
 has been imported, we can use this style by selecting “Style” in the Control Panel and selecting “CRNT4SBML Style” in
 the Current Style drop down box. Using the CRNT4SBML Style leads to the following C-graph.</p>
@@ -216,7 +215,7 @@ the Current Style drop down box. Using the CRNT4SBML Style leads to the followin
         <a href="more_examples.html" class="btn btn-neutral float-right" title="Further Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="post_processing.html" class="btn btn-neutral float-left" title="Post-processing for Mass Conservation Approach" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="creating_eq_manifold.html" class="btn btn-neutral float-left" title="Creating the Equilibrium Manifold" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

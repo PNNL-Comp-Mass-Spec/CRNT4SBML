@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Creating Physiological Bounds &mdash; CRNT4SBML 0.0.6 documentation</title>
+  <title>Creating Physiological Bounds &mdash; CRNT4SBML 0.0.8 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.6
+                0.0.8
               </div>
             
           
@@ -106,7 +106,6 @@
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
-<li class="toctree-l1"><a class="reference internal" href="post_processing.html">Post-processing for Mass Conservation Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
@@ -197,7 +196,7 @@ tree below is used to determine the type of reaction. If the reaction is not ide
 dissociation, or catalysis, then an error message will be provided and the reaction type will be specified as “None”.</p>
 <a class="reference internal image-reference" href="_images/decision_tree_for_reaction_type.png"><img alt="_images/decision_tree_for_reaction_type.png" class="align-center" src="_images/decision_tree_for_reaction_type.png" style="width: 680px; height: 420px;" /></a>
 <p>The type of reaction assigned by crnt4sbml can always be found by running the following script where we let
-<a class="reference download internal" download="" href="_downloads/933a484dc8253ebd585092d0c680dc76/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> be our SBML file</p>
+<a class="reference download internal" download="" href="_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> be our SBML file</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 <span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="n">network</span><span class="o">.</span><span class="n">print_biological_reaction_types</span><span class="p">()</span>
@@ -229,7 +228,7 @@ these values are larger and tend to make running the optimization routine much e
 to zero, the optimization becomes difficult because the routine is attempting to minimize an objective function which
 has a known value of zero. Thus, if the user wishes to assign different bounds, it is suggested that these bounds
 be scaled such that they are not close to zero.</p>
-<p>We now demonstrate the physiological bounds produced for the SBML file <a class="reference download internal" download="" href="_downloads/933a484dc8253ebd585092d0c680dc76/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a></p>
+<p>We now demonstrate the physiological bounds produced for the SBML file <a class="reference download internal" download="" href="_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 <span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 
@@ -277,7 +276,7 @@ we again use the function <a class="reference internal" href="classes/crnt4sbml.
 upper bounds. However, the values returned by this call are given in molars. The unit of molars is suggested because
 the ranges produced for fluxes are much smaller than those for pM, making the optimization easier.</p>
 <p>To demonstrate the bounds produced for the semi-diffusive approach, we use the SBML file
-<a class="reference download internal" download="" href="_downloads/2f010b1cf1d3be0a38ca0f6c865cb2c7/Fig1Cii.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Cii.xml</span></code></a>.</p>
+<a class="reference download internal" download="" href="_downloads/7f1ab99200c896bb88c0011e47723e78/Fig1Cii.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Cii.xml</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 <span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
 

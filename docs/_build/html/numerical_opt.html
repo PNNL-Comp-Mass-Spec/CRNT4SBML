@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Numerical Optimization Routine &mdash; CRNT4SBML 0.0.6 documentation</title>
+  <title>Numerical Optimization Routine &mdash; CRNT4SBML 0.0.8 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.6
+                0.0.8
               </div>
             
           
@@ -104,7 +104,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
-<li class="toctree-l1"><a class="reference internal" href="post_processing.html">Post-processing for Mass Conservation Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
@@ -179,7 +178,7 @@
             
   <div class="section" id="numerical-optimization-routine">
 <span id="my-optimization-label"></span><h1>Numerical Optimization Routine<a class="headerlink" href="#numerical-optimization-routine" title="Permalink to this headline">¶</a></h1>
-<p>In <a class="reference internal" href="zbibliography.html#irene" id="id1">[irene]</a> it is suggested to use the ESS algorithm in the MEIGO toolbox to solve the constrained global
+<p>In <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a> it is suggested to use the ESS algorithm in the MEIGO toolbox to solve the constrained global
 optimization problem. Although evolutionary algorithms such as ESS can perform very well, they often need to be coupled
 with multi-start procedures to produce sensible results for complex reaction networks. In addition to this, to use the
 MEIGO toolbox within Python, a Python interface to R is required. This is not desirable, and for this reason we have
@@ -247,7 +246,7 @@ conducting a feasible point method.</p>
 </tr>
 </tbody>
 </table>
-<p>this is called a penalty method and is outlined in Chapter 18 of <a class="reference internal" href="zbibliography.html#opt-book" id="id2">[opt_book]</a>. For the mass conservation approach
+<p>this is called a penalty method and is outlined in Chapter 18 of <a class="reference internal" href="zbibliography.html#opt-book" id="id2">[Chi14]</a>. For the mass conservation approach
 the constraint equations are defined as <img class="math" src="_images/math/1f45a20e6a3355cfb33645eda6743bc05cd36a2a.png" alt="c_i \geq 0"/>, where <img class="math" src="_images/math/ff90a5f025d9fd305aac19c8dd64fa15f0c789a1.png" alt="c_i"/> are the species’ concentration expressions
 derived from the equilibrium manifold. The variable bounds for this approach are then defined by the bounds established
 for the decision vector. For the semi-diffusive approach the constraint equations are defined as

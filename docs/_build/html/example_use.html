@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>An Example User Case Scenario &mdash; CRNT4SBML 0.0.8 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reference" href="reference.html" />
+    <link rel="prev" title="Further Examples" href="more_examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">CRNT4SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detect_bistability.html">Steps for Detecting Bistability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physiological_bounds.html">Creating Physiological Bounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">An Example User Case Scenario</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#serializing-important-information">Serializing Important Information</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#storing-important-information">Storing Important Information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#importing-important-information">Importing Important Information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#simulating-the-ode-system">Simulating the ODE system</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>An Example User Case Scenario</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/example_use.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="an-example-user-case-scenario">
+<span id="post-processing-label"></span><h1>An Example User Case Scenario<a class="headerlink" href="#an-example-user-case-scenario" title="Permalink to this headline">¶</a></h1>
+<p>In this section we describe a general process that can be followed if one would like to simulate the ODE system or
+conduct stability analysis of those reaction networks that produce bistability, as determined by the mass conservation approach.</p>
+<div class="section" id="serializing-important-information">
+<h2>Serializing Important Information<a class="headerlink" href="#serializing-important-information" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="storing-important-information">
+<h3>Storing Important Information<a class="headerlink" href="#storing-important-information" title="Permalink to this headline">¶</a></h3>
+<p>Given the act of performing the numerical optimization and continuation routines can take a significant amount of time
+for highly complex networks, we will describe how to store the necessary information needed to simulate the ODEs. To
+complete this process one will need to install <a class="reference external" href="https://pypi.org/project/dill/">dill</a>, a Python library that extends
+Python’s pickle module for serializing and de-serializing Python objects. A simple way to do this is by using pip:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install dill
+</pre></div>
+</div>
+<p>Using dill and Numpy, we can now save the parameter sets produced by optimization and the variables and values
+constructed by continuation that will be necessary when simulating the ODE system of the network. This is done as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="kn">import</span> <span class="nn">dill</span>
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;sbml_files/Fig1Ci.xml&quot;</span><span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+
+<span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+                                                                     <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">concentration_bounds</span><span class="p">)</span>
+
+<span class="n">numpy</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;params.npy&#39;</span><span class="p">,</span> <span class="n">params_for_global_min</span><span class="p">)</span>
+
+<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s15&quot;</span><span class="p">,</span>
+                                                                                <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                                                <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;C3&#39;</span><span class="p">})</span>
+
+<span class="n">odes</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_ode_system</span><span class="p">()</span>
+<span class="n">sympy_reactions</span> <span class="o">=</span> <span class="p">[</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_reactions</span><span class="p">()]</span>
+<span class="n">sympy_species</span> <span class="o">=</span> <span class="p">[</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_species</span><span class="p">()]</span>
+<span class="n">concentration_funs</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_concentration_funs</span><span class="p">()</span>
+<span class="n">BT_matrix</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_b</span><span class="p">()</span>
+
+<span class="n">important_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">odes</span><span class="p">,</span> <span class="n">sympy_reactions</span><span class="p">,</span> <span class="n">sympy_species</span><span class="p">,</span> <span class="n">concentration_funs</span><span class="p">,</span> <span class="n">BT_matrix</span><span class="p">,</span> <span class="n">multistable_param_ind</span><span class="p">,</span>
+                       <span class="n">plot_specifications</span><span class="p">]</span>
+
+<span class="n">dill</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;recurse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># allows us to pickle the lambdified functions</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;important_variables.dill&quot;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">dill</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">important_variables</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once this code is ran, one will obtain the files “params.npy” and “important_variables.dill”. Here, “params.npy” is a
+special numpy file that holds the array of decision vectors produced by the optimization routine. The file
+“important_variables.dill” is a dill file that contains the rest of the information necessary to simulate the ODE system.</p>
+</div>
+<div class="section" id="importing-important-information">
+<h3>Importing Important Information<a class="headerlink" href="#importing-important-information" title="Permalink to this headline">¶</a></h3>
+<p>Once the section above is completed, one can then import the information in the files params.npy and important_variables.dill
+into a new Python session by creating the following script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dill</span>
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;important_variables.dill&quot;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">dill</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">params_for_global_min</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;params.npy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="simulating-the-ode-system">
+<h2>Simulating the ODE system<a class="headerlink" href="#simulating-the-ode-system" title="Permalink to this headline">¶</a></h2>
+<p>For this section we will be using the files <a class="reference download internal" download="" href="_downloads/7e83bf043cf2fce8513ab3ee1e9ff338/a_full_use_case_scenario.py"><code class="xref download docutils literal notranslate"><span class="pre">Script</span> <span class="pre">a_full_use_case_scenario.py</span></code></a>
+and <a class="reference download internal" download="" href="_downloads/ea57c9e3140904f8a4be3f7d7196ed79/basic_example_1.xml"><code class="xref download docutils literal notranslate"><span class="pre">Model</span> <span class="pre">basic_example_1.xml</span></code></a> to demonstrate how one can create nice
+looking plots that depict the simulation of the ODE system.</p>
+<p>Below we solve for those points that satisfy <cite>det(Jacobian) = 0</cite> using the optimization routine followed by
+continuation analysis:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="kn">as</span> <span class="nn">itg</span>
+<span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="n">ggplot</span><span class="p">,</span> <span class="n">aes</span><span class="p">,</span> <span class="n">geom_line</span><span class="p">,</span> <span class="n">ylim</span><span class="p">,</span> <span class="n">scale_color_distiller</span><span class="p">,</span> <span class="n">facet_wrap</span><span class="p">,</span> <span class="n">theme_bw</span><span class="p">,</span> <span class="n">geom_path</span><span class="p">,</span> <span class="n">geom_point</span>
+
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/basic_example_1.xml&quot;</span><span class="p">)</span>
+<span class="n">network</span><span class="o">.</span><span class="n">print_biological_reaction_types</span><span class="p">()</span>
+
+<span class="n">ldt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_low_deficiency_approach</span><span class="p">()</span>
+<span class="n">ldt</span><span class="o">.</span><span class="n">report_deficiency_zero_theorem</span><span class="p">()</span>
+<span class="n">ldt</span><span class="o">.</span><span class="n">report_deficiency_one_theorem</span><span class="p">()</span>
+
+<span class="c1"># optimization approach</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+
+<span class="c1"># the decision vector</span>
+<span class="n">opt</span><span class="o">.</span><span class="n">get_decision_vector</span><span class="p">()</span>
+
+<span class="c1"># this function suggests physiological bounds</span>
+<span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+
+<span class="c1"># overwriting with a narrower or wider range. In this case we are setting narrow range for re1c.</span>
+<span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># overwriting specie concentration bounds for s4. Concentrations are in pM.</span>
+<span class="n">opt</span><span class="o">.</span><span class="n">get_concentration_bounds_species</span><span class="p">()</span>
+<span class="n">concentration_bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">5e2</span><span class="p">)</span>
+
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+                                                                     <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">concentration_bounds</span><span class="p">)</span>
+
+<span class="c1"># The reponse-related specie should be picked based on CellDesigner IDs. In our case phoshorylated A is s2.</span>
+<span class="c1"># How to pick continuation parameter? In our case it is the amount of A protein, thus the conservation law 3.</span>
+<span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_conservation_laws</span><span class="p">())</span>
+<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                                                <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;C3&#39;</span><span class="p">})</span>
+
+<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Using the above code we find three set of values for which bistability exists, providing the following plots:</p>
+<img alt="_images/C3_vs_s2_0.png" src="_images/C3_vs_s2_0.png" />
+<img alt="_images/C3_vs_s2_1.png" src="_images/C3_vs_s2_1.png" />
+<img alt="_images/C3_vs_s2_2.png" src="_images/C3_vs_s2_2.png" />
+<p>We can now select one of these sets of kinetic constants and species’ concentrations to conduct ODE simulation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters that produced bistability.</span>
+<span class="c1"># re* are kinetic constants. Units can be found here help(network.get_physiological_range).</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">params_for_global_min</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">multistable_param_ind</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                      <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;set&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">multistable_param_ind</span><span class="p">],</span>
+                      <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_decision_vector</span><span class="p">()])</span>
+
+<span class="c1">################## selected parameter set #########################</span>
+<span class="n">decision_vector_values</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;set1&#39;</span><span class="p">])</span>
+<span class="c1"># alternative declaration (for the sake of reference)</span>
+<span class="n">decision_vector_values</span> <span class="o">=</span> <span class="n">params_for_global_min</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">plot_specifications</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># warning, overwriting variable!!!</span>
+
+<span class="c1">################ ODEs ###################################</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Original ODEs&quot;</span><span class="p">)</span>
+<span class="n">odes</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_ode_system</span><span class="p">()</span>
+<span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">odes</span><span class="p">)</span>
+
+<span class="c1"># why we need this? String -&gt; Sympy objects</span>
+<span class="c1"># construct sympy form of reactions and species</span>
+<span class="n">sympy_reactions</span> <span class="o">=</span> <span class="p">[</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_reactions</span><span class="p">()]</span>
+<span class="n">sympy_species</span> <span class="o">=</span> <span class="p">[</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_species</span><span class="p">()]</span>
+<span class="c1"># joining together</span>
+<span class="n">lambda_inputs</span> <span class="o">=</span> <span class="n">sympy_reactions</span> <span class="o">+</span> <span class="n">sympy_species</span>
+<span class="c1"># creating a lambda function for each ODE to</span>
+<span class="n">ode_lambda_functions</span> <span class="o">=</span> <span class="p">[</span><span class="n">sympy</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">lambda_inputs</span><span class="p">,</span> <span class="n">odes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">odes</span><span class="p">))]</span>
+
+<span class="c1">############################### kinetic constants ########################################################</span>
+<span class="c1"># Does this work for over, proper and under-dimensioned networks</span>
+<span class="n">kinetic_constants</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">decision_vector_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_reactions</span><span class="p">()))])</span>
+
+<span class="c1">################################# Computing material conservation values ############################</span>
+<span class="c1"># equilibrium species concentrations</span>
+<span class="n">species_concentrations</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">(</span><span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">decision_vector_values</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_concentration_funs</span><span class="p">()]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_species</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">species_concentrations</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_conservation_laws</span><span class="p">())</span>
+<span class="c1"># combine equilibrium specie concentrations according to conservation relationships</span>
+<span class="n">conservation_values</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_b</span><span class="p">()</span><span class="o">*</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">species_concentrations</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1">################################# starting concentrations ############################################</span>
+<span class="c1"># this assumes that a chemical moiety in one state (specie) and other species containing this moiety are zero</span>
+<span class="c1"># assignment of conservation values to species requires exploring the model in CellDesigner</span>
+<span class="c1"># C1 is in s4, free enzyme E2</span>
+<span class="c1"># C2 is in s3, free enzyme E1</span>
+<span class="c1"># C3 is in s1, free unphosphorylated specie A</span>
+<span class="c1"># [&#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;, &#39;s3s1&#39;, &#39;s4&#39;, &#39;s4s2&#39;, &#39;s2s1&#39;]</span>
+<span class="c1"># [&#39;C3&#39;,    0, &#39;C2&#39;,      0, &#39;C1&#39;,      0,      0]</span>
+<span class="n">y_fwd</span> <span class="o">=</span> <span class="p">[</span><span class="n">conservation_values</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">conservation_values</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">conservation_values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="n">y_rev</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">conservation_values</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">conservation_values</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">conservation_values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="c1"># Note, the continuation parameter C3 (first position) will be varied during simulations</span>
+
+<span class="c1">############ simulation ###################</span>
+<span class="c1"># computing dy/dt increments</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">ks</span><span class="p">,</span> <span class="n">ode_lambda_func</span><span class="p">,</span> <span class="n">start_ind</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">i</span><span class="p">(</span><span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">ks</span><span class="p">),</span> <span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">cs</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ode_lambda_func</span><span class="p">]</span>  <span class="c1"># dy/dt</span>
+
+<span class="k">def</span> <span class="nf">sim_fun_fwd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y_fwd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>  <span class="c1"># updating s1 concentration or C3</span>
+    <span class="k">return</span> <span class="n">itg</span><span class="o">.</span><span class="n">odeint</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y_fwd</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">kinetic_constants</span><span class="p">,</span> <span class="n">ode_lambda_functions</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ode_lambda_functions</span><span class="p">)))</span>
+
+<span class="k">def</span> <span class="nf">sim_fun_rev</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y_rev</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>  <span class="c1"># updating s2 concentration</span>
+    <span class="k">return</span> <span class="n">itg</span><span class="o">.</span><span class="n">odeint</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y_rev</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">kinetic_constants</span><span class="p">,</span> <span class="n">ode_lambda_functions</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sympy_reactions</span><span class="p">)))</span>
+
+<span class="c1"># starting and ending time in seconds, number of data points</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3000000.0</span><span class="p">,</span> <span class="mi">3000</span><span class="p">)</span>
+<span class="c1"># signal parameter scanning range and data points. Forward scan.</span>
+<span class="c1"># C3_scan = numpy.linspace(5.3e4, 5.4e4, 60)</span>
+<span class="c1"># alternatively can be taken from plot_specifications</span>
+<span class="n">C3_scan</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">plot_specifications</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">sim_res_fwd</span> <span class="o">=</span> <span class="p">[</span><span class="n">sim_fun_fwd</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">C3_scan</span><span class="p">]</span>  <span class="c1"># occupies sys.getsizeof(sim_res_rev[0])*len(sim_res_rev)/2**20 Mb</span>
+<span class="c1"># Reverse C3_scan. Reverse means that s2 is already high and signal is decreasing.</span>
+<span class="n">sim_res_rev</span> <span class="o">=</span> <span class="p">[</span><span class="n">sim_fun_rev</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">numpy</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">C3_scan</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Exporting the results for interrogation using 3rd party tools</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">################## exporting to text #####################################</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dir&#39;</span><span class="p">,</span><span class="s1">&#39;signal&#39;</span><span class="p">,</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">network</span><span class="o">.</span><span class="n">get_c_graph</span><span class="p">()</span><span class="o">.</span><span class="n">get_species</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sim_res_fwd</span><span class="p">)):</span>
+    <span class="n">out_i</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sim_res_fwd</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">out</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
+    <span class="n">out_i</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
+    <span class="n">out_i</span><span class="p">[</span><span class="s1">&#39;signal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">C3_scan</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">out_i</span><span class="p">[</span><span class="s1">&#39;dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fwd&#39;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">out</span><span class="p">,</span> <span class="n">out_i</span><span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">columns</span><span class="p">]])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sim_res_rev</span><span class="p">)):</span>
+    <span class="n">out_i</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sim_res_rev</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">out</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
+    <span class="n">out_i</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
+    <span class="n">out_i</span><span class="p">[</span><span class="s1">&#39;signal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">C3_scan</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">out_i</span><span class="p">[</span><span class="s1">&#39;dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;rev&#39;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">out</span><span class="p">,</span> <span class="n">out_i</span><span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">columns</span><span class="p">]])</span>
+<span class="n">out</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;sim.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Visualising the results using plotnine:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">###################### plotting ##################################</span>
+<span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;s2&#39;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;signal&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;signal&#39;</span><span class="p">))</span>
+     <span class="o">+</span> <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+     <span class="o">+</span> <span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20000</span><span class="p">)</span>
+     <span class="o">+</span> <span class="n">scale_color_distiller</span><span class="p">(</span><span class="n">palette</span><span class="o">=</span><span class="s1">&#39;RdYlBu&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;diverging&quot;</span><span class="p">)</span>
+     <span class="o">+</span> <span class="n">facet_wrap</span><span class="p">(</span><span class="s1">&#39;~dir&#39;</span><span class="p">)</span>
+     <span class="o">+</span> <span class="n">theme_bw</span><span class="p">())</span>
+<span class="n">g</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;./num_cont_graphs/sim_fwd_rev.png&quot;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/sim_fwd_rev.png" src="_images/sim_fwd_rev.png" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eq</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">time</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">time</span><span class="p">)]</span>
+<span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span>
+     <span class="o">+</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;signal&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;s2&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;dir&#39;</span><span class="p">)</span>
+     <span class="o">+</span> <span class="n">geom_path</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+     <span class="o">+</span> <span class="n">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+     <span class="o">+</span> <span class="n">theme_bw</span><span class="p">())</span>
+<span class="n">g</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;./num_cont_graphs/sim_bif_diag.png&quot;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/sim_bif_diag.png" src="_images/sim_bif_diag.png" />
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reference.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="more_examples.html" class="btn btn-neutral float-left" title="Further Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

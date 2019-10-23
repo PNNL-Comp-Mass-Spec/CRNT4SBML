@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.CRNT &mdash; CRNT4SBML 0.0.6 documentation</title>
+  <title>crnt4sbml.CRNT &mdash; CRNT4SBML 0.0.8 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.6
+                0.0.8
               </div>
             
           
@@ -99,7 +99,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../numerical_cont.html">Numerical Continuation Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../post_processing.html">Post-processing for Mass Conservation Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../more_examples.html">Further Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../example_use.html">An Example User Case Scenario</a></li>
@@ -258,7 +257,7 @@
 <dt id="crnt4sbml.CRNT.basic_report">
 <code class="descname">basic_report</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/crnt.html#CRNT.basic_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.CRNT.basic_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints out basic CRNT properties of the network.
-<a class="reference download internal" download="" href="../_downloads/933a484dc8253ebd585092d0c680dc76/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided
+<a class="reference download internal" download="" href="../_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided
 example.</p>
 <p class="rubric">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
@@ -316,7 +315,7 @@ CRNT object.</p>
 <dt id="crnt4sbml.CRNT.get_mass_conservation_approach">
 <code class="descname">get_mass_conservation_approach</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/crnt.html#CRNT.get_mass_conservation_approach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.CRNT.get_mass_conservation_approach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes and creates an object for the class MassConservationApproach for the CRNT object constructed.
-<a class="reference download internal" download="" href="../_downloads/933a484dc8253ebd585092d0c680dc76/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided
+<a class="reference download internal" download="" href="../_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided
 example.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
@@ -422,7 +421,7 @@ Kamada Kawai layout to the file network_cgraph.png</p>
 <dt id="crnt4sbml.CRNT.print_biological_reaction_types">
 <code class="descname">print_biological_reaction_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/crnt.html#CRNT.print_biological_reaction_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.CRNT.print_biological_reaction_types" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints the reactions, reaction labels, and biological reaction type for the network.
-<a class="reference download internal" download="" href="../_downloads/933a484dc8253ebd585092d0c680dc76/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided example.</p>
+<a class="reference download internal" download="" href="../_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided example.</p>
 <p class="rubric">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
@@ -446,7 +445,7 @@ Kamada Kawai layout to the file network_cgraph.png</p>
 <dt id="crnt4sbml.CRNT.print_c_graph">
 <code class="descname">print_c_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/crnt.html#CRNT.print_c_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.CRNT.print_c_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints the reactions and reaction labels for the network.
-<a class="reference download internal" download="" href="../_downloads/933a484dc8253ebd585092d0c680dc76/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided
+<a class="reference download internal" download="" href="../_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a> for the provided
 example.</p>
 <p class="rubric">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
