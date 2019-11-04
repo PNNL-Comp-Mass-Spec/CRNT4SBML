@@ -9,7 +9,7 @@ Installation
 Requirements
 --------------------------------
 
-- python >= 3.7 (64-bit)
+- Python 3.7 (64-bit)
 - networkx==2.3
 - python-libsbml==5.18.0
 - numpy==1.16.4
@@ -51,15 +51,18 @@ directory python\_environments as follows:
 
 The flag "-p" tells virtualenv to create an environment using a specific Python interpreter. If a standard
 download of Python was followed, then "/path/to/python/3.7/interpreter" can be replaced with "/usr/local/bin/python3.7"
-on Mac and "C:\\Users\\your\_user\_name\\AppData\\Local\\Programs\\Python\\Python37\\python.exe" on Windows.
-One can now see a directory called "crnt4sbml\_env" is created in the directory python\_environments. We can now
-activate this environment as follows on Mac:
+on Mac and "C:\\Users\\your\_user\_name\\AppData\\Local \\Programs\\Python\\Python37\\python.exe" on Windows.
+One can now see a directory called "crnt4sbml\_env" is created in the directory python\_environments.
+
+We can now activate this environment as follows:
+
+On Mac:
 
 .. code-block:: console
 
     $ source /path/to/python_environments/crnt4sbml_env/bin/activate
 
-To activate the environment on Windows do the following:
+On Windows:
 
 .. code-block:: console
 
