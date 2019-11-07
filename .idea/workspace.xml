@@ -3,19 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/example_use.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/example_use.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/installation.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/installation.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/quickstart.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/quickstart.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/example_use.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/example_use.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/installation.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/installation.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/quickstart.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/quickstart.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/example_use.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/example_use.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/installation.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/installation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/quickstart.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/quickstart.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/installation.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/installation.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HISTORY.rst" beforeDir="false" afterPath="$PROJECT_DIR$/HISTORY.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/crnt.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/crnt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/creating_eq_manifold.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/creating_eq_manifold.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/deficiency_walkthrough.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/deficiency_walkthrough.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/more_examples.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/more_examples.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/physiological_bounds.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/physiological_bounds.rst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/quickstart.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/quickstart.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/run_p85-p110-PTEN.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_p85-p110-PTEN.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/adv_def_app_dev.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/adv_def_app_dev.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,20 +28,33 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/adv_def_app_dev.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            <state>
+              <caret selection-end-line="1" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/setup.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="338">
+              <caret line="55" column="18" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/installation.rst">
+        <entry file="file://$PROJECT_DIR$/HISTORY.rst">
           <provider selected="true" editor-type-id="restructured-text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/docs/quickstart.rst">
-          <provider selected="true" editor-type-id="restructured-text-editor" />
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crnt4sbml/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -65,10 +78,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/crnt4sbml/c_graph.py" />
-        <option value="$PROJECT_DIR$/CONTRIBUTING.rst" />
-        <option value="$PROJECT_DIR$/docs/celldesigner_walkthrough.rst" />
-        <option value="$PROJECT_DIR$/docs/physiological_bounds.rst" />
         <option value="$PROJECT_DIR$/crnt4sbml/teat_file.py" />
         <option value="$PROJECT_DIR$/docs/require.txt" />
         <option value="$PROJECT_DIR$/tests/tester.py" />
@@ -78,44 +87,48 @@
         <option value="$PROJECT_DIR$/docs/basic_crnt.rst" />
         <option value="$PROJECT_DIR$/example_scripts/pickler.py" />
         <option value="$PROJECT_DIR$/crnt4sbml/safety_wrap.py" />
-        <option value="$PROJECT_DIR$/docs/more_examples.rst" />
         <option value="$PROJECT_DIR$/docs/classes/crnt4sbml.MassConservationApproach.rst" />
         <option value="$PROJECT_DIR$/tests/ode_sim_ex.py" />
         <option value="$PROJECT_DIR$/tests/new_post_processing.py" />
         <option value="$PROJECT_DIR$/README.rst" />
-        <option value="$PROJECT_DIR$/docs/deficiency_walkthrough.rst" />
-        <option value="$PROJECT_DIR$/example_scripts/run_closed_fig5A.py" />
         <option value="$PROJECT_DIR$/example_scripts/run_closed_fig5A_greedy.py" />
         <option value="$PROJECT_DIR$/example_scripts/run_conradi2005.py" />
-        <option value="$PROJECT_DIR$/example_scripts/run_conradi2007.py" />
-        <option value="$PROJECT_DIR$/example_scripts/run_double_insulin_binding.py" />
         <option value="$PROJECT_DIR$/example_scripts/run_fig1Ci.py" />
         <option value="$PROJECT_DIR$/example_scripts/run_fig1Cii.py" />
         <option value="$PROJECT_DIR$/example_scripts/run_Fig6a.py" />
-        <option value="$PROJECT_DIR$/example_scripts/run_hervagault_canu.py" />
-        <option value="$PROJECT_DIR$/example_scripts/run_irene2009.py" />
-        <option value="$PROJECT_DIR$/example_scripts/run_irene2014.py" />
-        <option value="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" />
         <option value="$PROJECT_DIR$/example_scripts/run_open_fig5A.py" />
         <option value="$PROJECT_DIR$/example_scripts/run_open_fig5A_greedy.py" />
         <option value="$PROJECT_DIR$/example_scripts/run_open_fig5B.py" />
-        <option value="$PROJECT_DIR$/example_scripts/run_p85-p110-PTEN.py" />
         <option value="$PROJECT_DIR$/example_scripts/run_semi_diffusive_quickstart.py" />
-        <option value="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" />
         <option value="$PROJECT_DIR$/crnt4sbml/semi_diffusive_approach.py" />
         <option value="$PROJECT_DIR$/docs/numerical_opt.rst" />
         <option value="$PROJECT_DIR$/docs/injectivity_walkthrough.rst" />
         <option value="$PROJECT_DIR$/tests/post_processing_example.py" />
         <option value="$PROJECT_DIR$/docs/post_processing.rst" />
         <option value="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" />
-        <option value="$PROJECT_DIR$/setup.py" />
-        <option value="$PROJECT_DIR$/HISTORY.rst" />
-        <option value="$PROJECT_DIR$/crnt4sbml/__init__.py" />
-        <option value="$PROJECT_DIR$/tests/adv_def_app_dev.py" />
         <option value="$PROJECT_DIR$/docs/index.rst" />
         <option value="$PROJECT_DIR$/docs/example_use.rst" />
         <option value="$PROJECT_DIR$/docs/installation.rst" />
+        <option value="$PROJECT_DIR$/tests/DoublePhos.py" />
+        <option value="$PROJECT_DIR$/docs/creating_eq_manifold.rst" />
+        <option value="$PROJECT_DIR$/docs/deficiency_walkthrough.rst" />
         <option value="$PROJECT_DIR$/docs/quickstart.rst" />
+        <option value="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" />
+        <option value="$PROJECT_DIR$/tests/adv_def_app_dev.py" />
+        <option value="$PROJECT_DIR$/example_scripts/run_closed_fig5A.py" />
+        <option value="$PROJECT_DIR$/example_scripts/run_irene2014.py" />
+        <option value="$PROJECT_DIR$/example_scripts/run_irene2009.py" />
+        <option value="$PROJECT_DIR$/example_scripts/run_hervagault_canu.py" />
+        <option value="$PROJECT_DIR$/example_scripts/run_conradi2007.py" />
+        <option value="$PROJECT_DIR$/example_scripts/run_double_insulin_binding.py" />
+        <option value="$PROJECT_DIR$/docs/more_examples.rst" />
+        <option value="$PROJECT_DIR$/example_scripts/run_p85-p110-PTEN.py" />
+        <option value="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" />
+        <option value="$PROJECT_DIR$/crnt4sbml/crnt.py" />
+        <option value="$PROJECT_DIR$/docs/physiological_bounds.rst" />
+        <option value="$PROJECT_DIR$/HISTORY.rst" />
+        <option value="$PROJECT_DIR$/crnt4sbml/__init__.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
       </list>
     </option>
   </component>
@@ -129,7 +142,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -172,6 +184,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -205,7 +218,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837133" visible="true" weight="0.24954791" />
       <window_info id="Structure" order="1" sideWeight="0.50162864" side_tool="true" weight="0.24954791" />
@@ -218,7 +231,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.4996986" visible="true" weight="0.36938775" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.4996986" visible="true" weight="0.54285717" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50030136" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32959184" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -227,72 +240,10 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/crnt4sbml/crnt.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3197">
-          <caret line="183" column="32" selection-start-line="183" selection-start-column="32" selection-end-line="183" selection-end-column="32" />
-          <folding>
-            <element signature="e#1#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/crnt4sbml/c_graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9660">
-          <caret line="647" column="12" selection-start-line="647" selection-start-column="12" selection-end-line="647" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#12#28#0" expanded="true" />
-            <element signature="e#12#28#0" expanded="true" />
-            <element signature="e#12#28#0" expanded="true" />
-            <element signature="e#12#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_scripts/run_closed_fig5A.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_scripts/run_closed_fig5A_greedy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="80" selection-start-line="27" selection-start-column="80" selection-end-line="27" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/example_scripts/run_conradi2005.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
           <caret line="31" column="73" selection-start-line="31" selection-start-column="73" selection-end-line="31" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_scripts/run_conradi2007.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="73" selection-start-line="31" selection-start-column="73" selection-end-line="31" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_scripts/run_double_insulin_binding.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
         </state>
       </provider>
     </entry>
@@ -341,34 +292,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/example_scripts/run_hervagault_canu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="73" selection-start-line="31" selection-start-column="73" selection-end-line="31" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_scripts/run_irene2009.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="81" selection-start-line="34" selection-start-column="81" selection-end-line="34" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_scripts/run_irene2014.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="73" selection-start-line="31" selection-start-column="73" selection-end-line="31" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="80" selection-start-line="14" selection-start-column="80" selection-end-line="14" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/example_scripts/run_open_fig5A.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
@@ -380,16 +303,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_scripts/run_p85-p110-PTEN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="41" column="80" selection-start-line="41" selection-start-column="80" selection-end-line="41" selection-end-column="80" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -407,9 +320,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/deficiency_walkthrough.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/crnt4sbml/semi_diffusive_approach.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3630">
@@ -419,16 +329,6 @@
             <element signature="e#12#28#0" expanded="true" />
             <element signature="e#12#28#0" expanded="true" />
             <element signature="e#12#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="1092" column="51" selection-start-line="1092" selection-start-column="51" selection-end-line="1092" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -472,15 +372,109 @@
     <entry file="file://$PROJECT_DIR$/docs/injectivity_walkthrough.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Makefile">
+    <entry file="file://$PROJECT_DIR$/docs/post_processing.rst" />
+    <entry file="file://$PROJECT_DIR$/docs/example_use.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/index.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crnt4sbml/bistability_finder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-745" />
+        <state relative-caret-position="611">
+          <caret line="485" column="28" selection-start-line="485" selection-start-column="28" selection-end-line="485" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
+    <entry file="file://$PROJECT_DIR$/tests/DoublePhos.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="55" column="18" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="18" />
+        <state relative-caret-position="1995">
+          <caret line="133" column="45" selection-start-line="133" selection-start-column="45" selection-end-line="133" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/installation.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/deficiency_walkthrough.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/creating_eq_manifold.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/quickstart.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_closed_fig5A.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_irene2014.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_irene2009.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_hervagault_canu.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_conradi2007.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_double_insulin_binding.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_scripts/run_p85-p110-PTEN.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/more_examples.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9346">
+          <caret line="874" column="68" selection-start-line="874" selection-start-column="68" selection-end-line="874" selection-end-column="68" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#12#28#0" expanded="true" />
+            <element signature="e#12#28#0" expanded="true" />
+            <element signature="e#12#28#0" expanded="true" />
+            <element signature="e#12#28#0" expanded="true" />
+            <element signature="e#12#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crnt4sbml/crnt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1456">
+          <caret line="318" column="68" selection-start-line="318" selection-start-column="68" selection-end-line="318" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/physiological_bounds.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/adv_def_app_dev.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="1" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -494,37 +488,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crnt4sbml/bistability_finder.py">
+    <entry file="file://$PROJECT_DIR$/Makefile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4421">
-          <caret line="485" column="28" selection-start-line="485" selection-start-column="28" selection-end-line="485" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
+        <state relative-caret-position="-1008" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/post_processing.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/example_use.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/index.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/adv_def_app_dev.py">
+    <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="338">
+          <caret line="55" column="18" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="18" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/installation.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/quickstart.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
   </component>
 </project>

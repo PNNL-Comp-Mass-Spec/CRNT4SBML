@@ -29,7 +29,7 @@ params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds
 
 approach.generate_report()
 
-numpy.save('def_params.npy', params_for_global_min)
+#numpy.save('def_params.npy', params_for_global_min)
 #params_for_global_min = numpy.load('def_params.npy')
 
 multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species="s37", parameters=params_for_global_min,

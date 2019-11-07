@@ -29,10 +29,7 @@ several minutes for larger networks. For more detail on this process consider :r
 output provided by the initialization::
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.6395479999999996
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 1.3528160000000007
+    Elapsed time for creating Equilibrium Manifold: 1.992364
 
 One very important value that must be provided to the optimization problem are the bounds for the decision vector of the
 optimization problem. For this reason, it is useful to see what decision vector was constructed. To do this one can add

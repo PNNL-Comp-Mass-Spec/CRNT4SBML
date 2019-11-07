@@ -42,3 +42,8 @@ History
 ------------------
 
 * Adding functionality to allow use of Jupyter notebooks.
+
+0.0.9 (11-6-2019)
+------------------
+
+* Improving stability when creating the equilibrium manifold in the mass conservation approach.

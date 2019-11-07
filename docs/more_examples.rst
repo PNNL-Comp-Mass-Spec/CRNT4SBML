@@ -180,10 +180,7 @@ following output::
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 2.422512
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 0.793073999999999
+    Elapsed time for creating Equilibrium Manifold: 3.3888680000000004
 
     Decision Vector:
     [re1, re1r, re2, re3, re4, re5, re6, re7, re8, s3, s2, s4]
@@ -250,10 +247,7 @@ output::
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.8358359999999996
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 0.7671459999999994
+    Elapsed time for creating Equilibrium Manifold: 1.8994939999999998
 
     Decision Vector:
     [re1, re2, re3, re3r, re4, re4r, re5, re5r, re6, re7, s2, s4]
@@ -319,10 +313,7 @@ output::
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.24848800000000004
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 0.4635739999999995
+    Elapsed time for creating Equilibrium Manifold:  0.6182639999999999
 
     Decision Vector:
     [re1, re1r, re2, re3, re3r, re4, re4r, re5, re5r, s2]
@@ -389,10 +380,7 @@ the following output::
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.46477199999999996
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 1.7751979999999996
+    Elapsed time for creating Equilibrium Manifold: 2.7148660000000007
 
     Decision Vector:
     [re1, re1r, re2, re2r, re3, re3r, re4, re4r, re5, re5r, s2, s4, s7]
@@ -467,10 +455,7 @@ script we obtain the following output::
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 2.637618
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 243.248408
+    Elapsed time for creating Equilibrium Manifold: 239.75805
 
     Decision Vector:
     [re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, re7, re7r, re8, re9, re9r, re10, re11, re11r, re12, s4, s12]
@@ -613,10 +598,7 @@ After running this script we obtain the following output::
     The network does not satisfy Deficiency One Theorem.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.9201350000000001
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 0.5085129999999998
+    Elapsed time for creating Equilibrium Manifold:  2.150657999999999
 
     Decision Vector:
     [re1, re1r, re2, re2r, re3, re3r, re4, re5, re5r, re6, re7, s2, s5, s10]
@@ -690,10 +672,7 @@ following output::
     The network does not satisfy Deficiency One Theorem.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 72.330784
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 7.5423899999999975
+    Elapsed time for creating Equilibrium Manifold: 81.86547
 
     Decision Vector:
     [re1, re1r, re2, re2r, re3, re3r, re9, re9r, re10, re10r, re11, re12, re12r, re13, re14, re14r, re15, s3, s8, s9, s14, s37]

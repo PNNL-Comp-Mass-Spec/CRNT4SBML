@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key attr.name="Bend" attr.type="boolean" for="edge" id="d2" />
+  <key attr.name="label" attr.type="string" for="edge" id="d1" />
+  <key attr.name="BC" attr.type="boolean" for="node" id="d0" />
+  <graph edgedefault="directed">
+    <node id="s1+s2">
+      <data key="d0">False</data>
+    </node>
+    <node id="s5+s2">
+      <data key="d0">False</data>
+    </node>
+    <node id="s2s1">
+      <data key="d0">False</data>
+    </node>
+    <node id="s5+s3">
+      <data key="d0">False</data>
+    </node>
+    <node id="s1+s3">
+      <data key="d0">False</data>
+    </node>
+    <node id="s3s5">
+      <data key="d0">False</data>
+    </node>
+    <node id="s4+s2">
+      <data key="d0">False</data>
+    </node>
+    <node id="s2s5">
+      <data key="d0">False</data>
+    </node>
+    <node id="s4+s3">
+      <data key="d0">False</data>
+    </node>
+    <node id="s3s4">
+      <data key="d0">False</data>
+    </node>
+    <edge source="s1+s2" target="s2s1">
+      <data key="d1">re1f</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s5+s2" target="s2s5">
+      <data key="d1">re3f</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s2s1" target="s1+s2">
+      <data key="d1">re1d</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s2s1" target="s5+s2">
+      <data key="d1">re1c</data>
+      <data key="d2">False</data>
+    </edge>
+    <edge source="s5+s3" target="s3s5">
+      <data key="d1">re2f</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s3s5" target="s5+s3">
+      <data key="d1">re2d</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s3s5" target="s1+s3">
+      <data key="d1">re2c</data>
+      <data key="d2">False</data>
+    </edge>
+    <edge source="s2s5" target="s5+s2">
+      <data key="d1">re3d</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s2s5" target="s4+s2">
+      <data key="d1">re3c</data>
+      <data key="d2">False</data>
+    </edge>
+    <edge source="s4+s3" target="s3s4">
+      <data key="d1">re4f</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s3s4" target="s4+s3">
+      <data key="d1">re4d</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s3s4" target="s5+s3">
+      <data key="d1">re4c</data>
+      <data key="d2">False</data>
+    </edge>
+  </graph>
+</graphml>

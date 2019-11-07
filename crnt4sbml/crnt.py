@@ -316,9 +316,7 @@ class CRNT:
         >>> network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
         >>> approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.8010799999999998
-            Solving for species' concentrations ...
-            Elapsed time for finding species' concentrations: 1.1221319999999997
+            Elapsed time for creating Equilibrium Manifold: 2.060944
         """
         ldh = LowDeficiencyApproach(self.__cgraph)
         if ldh.does_satisfy_any_low_deficiency_theorem():
