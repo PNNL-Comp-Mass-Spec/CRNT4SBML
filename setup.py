@@ -11,11 +11,8 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-#requirements = ['Click>=6.0', ]
-
-setup_requirements = [ ]
-
-test_requirements = [ ]
+setup_requirements = []
+test_requirements = []
 
 setup(
     author="Brandon Reyes",
@@ -53,6 +50,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML',
-    version='0.0.9',
+    version='0.0.10',
     zip_safe=False,
 )

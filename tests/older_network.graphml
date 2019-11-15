@@ -7,77 +7,79 @@
     <node id="s1+s2">
       <data key="d0">False</data>
     </node>
-    <node id="s3">
+    <node id="s5+s2">
+      <data key="d0">False</data>
+    </node>
+    <node id="s2s1">
+      <data key="d0">False</data>
+    </node>
+    <node id="s5+s3">
       <data key="d0">False</data>
     </node>
     <node id="s1+s3">
       <data key="d0">False</data>
     </node>
-    <node id="s6">
+    <node id="s3s5">
       <data key="d0">False</data>
     </node>
-    <node id="s9">
+    <node id="s4+s2">
       <data key="d0">False</data>
     </node>
-    <node id="s10">
+    <node id="s2s5">
       <data key="d0">False</data>
     </node>
-    <node id="s10+s6">
+    <node id="s4+s3">
       <data key="d0">False</data>
     </node>
-    <node id="s9+s6">
+    <node id="s3s4">
       <data key="d0">False</data>
     </node>
-    <node id="s6s10">
-      <data key="d0">False</data>
-    </node>
-    <node id="s10+s3">
-      <data key="d0">False</data>
-    </node>
-    <node id="s9+s3">
-      <data key="d0">False</data>
-    </node>
-    <node id="s3s10">
-      <data key="d0">False</data>
-    </node>
-    <edge source="s1+s2" target="s3">
-      <data key="d1">re1</data>
+    <edge source="s1+s2" target="s2s1">
+      <data key="d1">re1f</data>
       <data key="d2">True</data>
     </edge>
-    <edge source="s3" target="s1+s2">
-      <data key="d1">re1r</data>
+    <edge source="s5+s2" target="s2s5">
+      <data key="d1">re3f</data>
       <data key="d2">True</data>
     </edge>
-    <edge source="s1+s3" target="s6">
-      <data key="d1">re2</data>
+    <edge source="s2s1" target="s1+s2">
+      <data key="d1">re1d</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s2s1" target="s5+s2">
+      <data key="d1">re1c</data>
       <data key="d2">False</data>
     </edge>
-    <edge source="s9" target="s10">
-      <data key="d1">re4</data>
+    <edge source="s5+s3" target="s3s5">
+      <data key="d1">re2f</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s3s5" target="s5+s3">
+      <data key="d1">re2d</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s3s5" target="s1+s3">
+      <data key="d1">re2c</data>
       <data key="d2">False</data>
     </edge>
-    <edge source="s10+s6" target="s6s10">
-      <data key="d1">re5f</data>
+    <edge source="s2s5" target="s5+s2">
+      <data key="d1">re3d</data>
       <data key="d2">True</data>
     </edge>
-    <edge source="s6s10" target="s10+s6">
-      <data key="d1">re5d</data>
-      <data key="d2">True</data>
-    </edge>
-    <edge source="s6s10" target="s9+s6">
-      <data key="d1">re5c</data>
+    <edge source="s2s5" target="s4+s2">
+      <data key="d1">re3c</data>
       <data key="d2">False</data>
     </edge>
-    <edge source="s10+s3" target="s3s10">
-      <data key="d1">re6f</data>
+    <edge source="s4+s3" target="s3s4">
+      <data key="d1">re4f</data>
       <data key="d2">True</data>
     </edge>
-    <edge source="s3s10" target="s10+s3">
-      <data key="d1">re6d</data>
+    <edge source="s3s4" target="s4+s3">
+      <data key="d1">re4d</data>
       <data key="d2">True</data>
     </edge>
-    <edge source="s3s10" target="s9+s3">
-      <data key="d1">re6c</data>
+    <edge source="s3s4" target="s5+s3">
+      <data key="d1">re4c</data>
       <data key="d2">False</data>
     </edge>
   </graph>

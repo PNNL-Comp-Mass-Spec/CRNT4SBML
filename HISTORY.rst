@@ -47,3 +47,8 @@ History
 ------------------
 
 * Improving stability when creating the equilibrium manifold in the mass conservation approach.
+
+0.0.10 (11-6-2019)
+------------------
+
+* Adding routine for an exhaustive equilibrium manifold creation in the mass conservation approach.

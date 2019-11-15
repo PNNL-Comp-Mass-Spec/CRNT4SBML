@@ -104,7 +104,7 @@ class MassConservationApproach:
         
     def __create_w_matrix(self):
         # concatenating Y and Lambda_T columnwise
-        # to create [Y,Lambda_T]^T # TODO: is W transposed?
+        # to create [Y,Lambda_T]^T
         self.__W = self.__cgraph.get_y().col_join(self.__cgraph.get_lambda().T)
 
     def __create_w_nullspace(self):
@@ -140,18 +140,28 @@ class MassConservationApproach:
         # psi_1, ..., psi_M, alpha_1, ... alpha_delta
         variables = [sympy.Symbol('psi' + str(i)) for i in range(self.__M)] + self.__deficiency_pars
         a, _ = sympy.linear_eq_to_matrix(temp_vec2, variables)
-
         temp_mat_2 = sympy.zeros(self.__M, self.__M + self.__delta)
 
         # preallocating the H vector
         self.__H = sympy.zeros(self.__M - self.__ell, 1)
+
+        leng = self.__M - self.__ell - self.__delta
+        comb = list(itertools.combinations(self.__concentration_pars, leng))
+        # building the different possible independent variable sets
+        indp_vars = []
+        for i in comb:
+            indp_vars.append(list(i)+self.__deficiency_pars)
+
+        self.__indices_explored = []
+        self.__counts_n_indices = []
 
         # continue loop until acceptable concentration solutions are found
         flag = True
         indicies_to_skip = []
         while flag:
 
-            reordered_indices, chosen_index = self.__create_fixed_free_pars_and_reordered_ind(temp_vec, indicies_to_skip)
+            reordered_indices, chosen_index = self.__create_fixed_free_pars_and_reordered_ind(temp_vec, indicies_to_skip,
+                                                                                              indp_vars)
 
             for i in range(self.__M):
                 temp_mat_2[i, :] = a[reordered_indices[i], :]
@@ -175,35 +185,29 @@ class MassConservationApproach:
             rr = self.__M - self.__ell - self.__delta
             if len(indicies_to_skip) == math.factorial(nn) / (math.factorial(rr) * math.factorial(nn-rr)):
                 flag = False
-                raise Exception("An analytic solution for the concentrations could not be found!")
+                raise Exception("An analytic solution for the concentrations could not be found. The mass conservation approach connot be used.")
 
         end = time.process_time()
         print("Elapsed time for creating Equilibrium Manifold: " + str(end - start))
-        print("")
 
-    def __create_fixed_free_pars_and_reordered_ind(self, temp_vec, indicies_to_skip):
+    def __create_fixed_free_pars_and_reordered_ind(self, temp_vec, indicies_to_skip, indp_vars):
 
         # determining the different combinations of concentrations
         # present in the independent variables once the deficiency
         # parameters are chosen to be independent
         leng = self.__M - self.__ell - self.__delta
-        comb = list(itertools.combinations(self.__concentration_pars, leng))
-
-        # building the different possible independent variable sets
-        indp_vars = []
-        for i in comb:
-            indp_vars.append(list(i)+self.__deficiency_pars)
 
         # finding the number of linear equations produced by a
         # given independent variable set
-        counts = []
         for jj in range(len(indp_vars)):
 
-            if jj not in indicies_to_skip:
+            if jj not in indicies_to_skip and jj not in self.__indices_explored:
 
                 num_lin_entries = [self.__is_linear(temp_vec[j], indp_vars[jj][0:leng]) for j in
                                    range(temp_vec.shape[0])].count(True)
-                counts.append(num_lin_entries)
+
+                self.__counts_n_indices.append([num_lin_entries, jj])
+                self.__indices_explored.append(jj)
 
                 # if all of the equations are linear stop,
                 # prevents long run times
@@ -212,7 +216,8 @@ class MassConservationApproach:
 
         # picking the independent variable set that has the most
         # amount of linear equations
-        chosen_index = counts.index(max(counts))
+        max_element = self.__max_element(indicies_to_skip)
+        chosen_index = max_element[1]
 
         self.__fixed_pars = indp_vars[chosen_index]
         self.__free_pars = [i for i in self.__deficiency_pars + self.__concentration_pars if i not in self.__fixed_pars]
@@ -223,7 +228,18 @@ class MassConservationApproach:
         out = [self.__is_linear(temp_vec[j], indp_vars[chosen_index]) for j in range(temp_vec.shape[0])]
         reordered_indices = [i for i, x in enumerate(out) if x] + [i for i, x in enumerate(out) if not x]
 
-        return reordered_indices, chosen_index
+        return reordered_indices, max_element[1]
+
+    def __max_element(self, indicies_to_skip):
+
+        temp = self.__counts_n_indices[:]
+
+        for i in self.__counts_n_indices:
+
+            if i[1] in indicies_to_skip:
+                temp.remove(i)
+
+        return max(temp, key=lambda item: item[0])
 
     # routine that determines if a sympy expression is jointly
     # linear with respect to a given set of variables. This
@@ -273,41 +289,43 @@ class MassConservationApproach:
         # Putting the concentrations in terms of the kinetic
         # constants and deficiency parameters using the H
         # vector of the equilibrium manifold
-        temp_solution_tuple = sympy.solve(self.__H, self.__fixed_pars, dict=True)
+        try:
+            temp_solution_tuple = sympy.solve(self.__H, self.__fixed_pars, dict=True)
+        except Exception as e:
+            temp_solution_tuple = []
 
         if not temp_solution_tuple:
-            raise Exception("A solution for the fixed parameters could not be found!") 
-
-        # constructing concentrations if only one solution is found
-        if isinstance(temp_solution_tuple, dict):
-            self.__concentration_vals = []
-            for i in self.__concentration_pars:
-                if i in temp_solution_tuple:
-                    self.__concentration_vals.append(temp_solution_tuple[i])
-                else:
-                    self.__concentration_vals.append(i)
-        # multiple solutions found
+            flag = True
         else:
-            solution_list = []
-            for i in temp_solution_tuple:
-                temp = []
-                for j in self.__concentration_pars:
-                    if j in i:
-                        temp.append(i[j])
+            if isinstance(temp_solution_tuple, dict):
+                self.__concentration_vals = []
+                for i in self.__concentration_pars:
+                    if i in temp_solution_tuple:
+                        self.__concentration_vals.append(temp_solution_tuple[i])
                     else:
-                        temp.append(j)
-                solution_list.append(temp)
-            self.__concentration_vals = self.__pick_solution_set(solution_list)
-
-        for i in self.__concentration_vals:
-
-            deficiency_pars_found = [i.count(j) > 0 for j in self.__deficiency_pars]
-
-            if True in deficiency_pars_found:
-                flag = True
-                break
+                        self.__concentration_vals.append(i)
+            # multiple solutions found
             else:
-                flag = False
+                solution_list = []
+                for i in temp_solution_tuple:
+                    temp = []
+                    for j in self.__concentration_pars:
+                        if j in i:
+                            temp.append(i[j])
+                        else:
+                            temp.append(j)
+                    solution_list.append(temp)
+                self.__concentration_vals = self.__pick_solution_set(solution_list)    ########### TODO: do same for if statement make flag True if negative
+
+            for i in self.__concentration_vals:
+
+                deficiency_pars_found = [i.count(j) > 0 for j in self.__deficiency_pars + self.__fixed_pars]
+
+                if True in deficiency_pars_found:
+                    flag = True
+                    break
+                else:
+                    flag = False
 
         return flag
 
@@ -1320,6 +1338,7 @@ class MassConservationApproach:
         # evaluating the concentrations first
         for i in range(self.__N):
             temp_val = self.__concentration_funs[i](*tuple(x))
+
             if numpy.iscomplex(temp_val): 
                 temp_c = numpy.array([numpy.Inf for i in range(self.__N)], dtype=self.__numpy_dtype)
                 break
