@@ -10,6 +10,7 @@ from .low_deficiency_approach import LowDeficiencyApproach
 from .mass_conservation_approach import MassConservationApproach
 from .semi_diffusive_approach import SemiDiffusiveApproach
 from .advanced_deficiency_approach import AdvancedDeficiencyApproach
+from .general_approach import GeneralApproach
 
 
 class CRNT:
@@ -353,6 +354,33 @@ class CRNT:
             return None
         else:
             return SemiDiffusiveApproach(self.__cgraph, self.get_physiological_range)
+
+    def get_general_approach(self, signal=None, response=None):
+        """
+        Initializes and creates an object for the class GeneralApproach for the CRNT object constructed.
+
+        See also
+        ---------
+        crnt4sbml.GeneralApproach
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
+        >>> signal = 'C1'
+        >>> response = 's1'
+        >>> approach = network.get_general_approach(signal, response)
+        """
+        ldh = LowDeficiencyApproach(self.__cgraph)
+        if ldh.does_satisfy_any_low_deficiency_theorem():
+            message = """
+            Network satisfies one of the low deficiency theorems.
+            One should not run the optimization-based methods.
+            """
+            print(re.sub(r"^\s+", "", message, flags=re.MULTILINE))
+            return None
+        else:
+            return GeneralApproach(self.__cgraph, signal, response)
 
     def get_advanced_deficiency_approach(self):
         """

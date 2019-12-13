@@ -69,7 +69,7 @@ class Cgraph:
 
         if all([i <= 1 for i in self.get_number_of_terminal_strong_lc_per_lc()]) and \
                 self.get_dim_equilibrium_manifold() > 0:
-            self.__create_b_matrix()
+            self.__create_BT_matrix()
             self.__create_lambda_matrix()
 
         # self.__calculate_deficiency() # todo: candidate for deletion
@@ -411,7 +411,7 @@ class Cgraph:
                                                                                           self.__complexes[i])['label'],
                                                                    positive=True)
 
-    def __create_b_matrix(self):
+    def __create_BT_matrix(self):
         # (bt = NullSpace[Transpose[Y.A]]) // MatrixForm
         the_null_space = (self.__Y * self.__A).T.nullspace()
 
