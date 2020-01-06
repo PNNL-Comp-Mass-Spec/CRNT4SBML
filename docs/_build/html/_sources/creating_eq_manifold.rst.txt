@@ -54,9 +54,5 @@ we then choose :math:`H (\alpha, c, k)` by selecting :math:`M - \ell` independen
 
 Once we have selected the equilibrium manifold, we then use the manifold to solve for all the deficiency parameters and
 species' concentrations not in :math:`\theta` using SymPy's solve function. This allows us to create expressions for each
-species' concentration. This process may take several minutes, so we have provided the following output to the screen
-to aid the user::
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: xx
+species' concentration. This process may take several minutes.
 

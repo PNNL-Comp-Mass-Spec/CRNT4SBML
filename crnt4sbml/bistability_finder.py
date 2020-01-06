@@ -26,7 +26,8 @@ class BistabilityFinder:
     @classmethod
     def run_optimization(cls, bounds, num_constraint_method_iters, sys_min_val, temp_c, penalty_objective_func,
                          feasible_point_check, objective_function_to_optimize, final_constraint_check, seed,
-                         equality_bounds_indices, print_flag, numpy_dtype, concentration_bounds):
+                         equality_bounds_indices, print_flag, numpy_dtype, concentration_bounds, confidence_level_flag,
+                         change_in_rel_error):
         important_info = ''
 
         # running penalty method to find feasible points
@@ -36,7 +37,8 @@ class BistabilityFinder:
         x_candidates = cls.feasible_point_method(bounds, num_constraint_method_iters, sys_min_val, temp_c,
                                                  penalty_objective_func, feasible_point_check, seed,
                                                  equality_bounds_indices, print_flag,
-                                                 numpy_dtype, concentration_bounds)
+                                                 numpy_dtype, concentration_bounds, confidence_level_flag,
+                                                 change_in_rel_error)
         end = time.process_time()
         print("Elapsed time for feasible point method: " + str(end - start))
         print("")
@@ -52,7 +54,8 @@ class BistabilityFinder:
             params_that_give_global_min, total_that_give_zero, total_that_pass_chk, obj_fun_val_global_min = \
                 cls.multistart_optimization(num_x_cand, x_candidates, sys_min_val, bounds, temp_c,
                                             objective_function_to_optimize, equality_bounds_indices, seed,
-                                            final_constraint_check, print_flag, numpy_dtype, concentration_bounds)
+                                            final_constraint_check, print_flag, numpy_dtype, concentration_bounds,
+                                            confidence_level_flag, change_in_rel_error)
             
             end = time.process_time()
             print("Elapsed time for multistart method: " + str(end - start))
@@ -69,7 +72,7 @@ class BistabilityFinder:
     @classmethod
     def feasible_point_method(cls, penalty_bounds, num_constraint_method_iters, sys_min_val, temp_c,
                               penalty_objective_func, feasible_point_check, seed, equality_bounds_indices, print_flag,
-                              numpy_dtype, concentration_bounds):
+                              numpy_dtype, concentration_bounds, confidence_level_flag, change_in_rel_error):
         # Generate starting points uniformly with length ranges
         numpy.random.seed(seed)
         samples = numpy.random.rand(num_constraint_method_iters, len(penalty_bounds) -
@@ -105,7 +108,7 @@ class BistabilityFinder:
                         print(result0.x)
                         print("")
 
-                    if output:
+                    if output or confidence_level_flag:
                         x_candidates.append(result0.x)
                 else:
                     output = feasible_point_check(result.x, result.fun, sys_min_val, equality_bounds_indices,
@@ -115,7 +118,7 @@ class BistabilityFinder:
                         print("Decision vector used: ")
                         print(result.x)
                         print("")
-                    if output:
+                    if output or confidence_level_flag:
                         x_candidates.append(result.x)
 
         return x_candidates
@@ -123,9 +126,13 @@ class BistabilityFinder:
     @classmethod 
     def multistart_optimization(cls, num_x_cand, x_candidates, sys_min_val, penalty_bounds, temp_c,
                                 objective_function_to_optimize, equality_bounds_indices, seed_given,
-                                final_constraint_check, print_flag, numpy_dtype, concentration_bounds):
+                                final_constraint_check, print_flag, numpy_dtype, concentration_bounds,
+                                confidence_level_flag, change_in_rel_error):
         x_off = numpy.zeros(len(penalty_bounds), dtype=numpy_dtype)
         non_equality_bounds_indices = [i for i in range(len(penalty_bounds)) if i not in equality_bounds_indices]
+
+        if confidence_level_flag:
+            obtained_minimums = numpy.zeros(num_x_cand, dtype=numpy.float64)
 
         smallest_value = numpy_dtype(numpy.PINF)
         x_that_give_global_min = []
@@ -165,6 +172,9 @@ class BistabilityFinder:
                 if result.fun < smallest_value:
                     smallest_value = result.fun
 
+                if confidence_level_flag:
+                    obtained_minimums[i] = result.fun
+
             if abs(result.fun) <= sys_min_val: 
                 x_that_give_global_min.append(result.x)
                 obj_fun_val_global_min.append(result.fun)
@@ -173,9 +183,44 @@ class BistabilityFinder:
             cls.__create_final_points(x_that_give_global_min, obj_fun_val_global_min, final_constraint_check,
                                       penalty_bounds, sys_min_val, equality_bounds_indices, concentration_bounds)
 
-        print("\nSmallest value achieved by objective function: " + str(smallest_value) + "\n")
+        if confidence_level_flag:
+            cls.__confidence_level(obtained_minimums, change_in_rel_error)
+
+        else:
+            print("\nSmallest value achieved by objective function: " + str(smallest_value) + "\n")
 
         return x_that_give_global_min2, total_that_give_zero, total_that_pass_chk, obj_fun_val_global_min2
+
+    @staticmethod
+    def __confidence_level(obtained_minimums, change_in_rel_error):
+
+        a = 1
+        b = 5
+
+        unique_elements, counts_elements = numpy.unique(obtained_minimums, return_counts=True)
+        min_val_index = numpy.nanargmin(unique_elements)
+
+        f_til = unique_elements[min_val_index]
+
+        numpy_float64_smalles_positive_value = numpy.nextafter(numpy.float64(0), numpy.float64(1))
+
+        if f_til > numpy_float64_smalles_positive_value:
+
+            r = numpy.count_nonzero(
+                numpy.abs(f_til - obtained_minimums) / f_til < numpy.float64(change_in_rel_error))
+
+            n_til = obtained_minimums.shape[0]
+            a_bar = a + b - 1
+            b_bar = b - r - 1
+
+            prob = 1 - (math.factorial(n_til + a_bar) * math.factorial(2 * n_til + b_bar)) / (
+                    math.factorial(2 * n_til + a_bar) * math.factorial(n_til + b_bar))
+
+        else:
+
+            prob = 1.0
+
+        print(f"\nIt was found that {unique_elements[min_val_index]} is the minimum objective function value with a confidence level of {prob} .\n")
 
     @staticmethod
     def __create_final_points(x_that_give_global_min, obj_fun_val_global_min, final_constraint_check, penalty_bounds,
@@ -338,6 +383,8 @@ class BistabilityFinder:
 
             auto_parameters['RL0'] = pcp_ranges_mag[0]
             auto_parameters['RL1'] = pcp_ranges_mag[1]
+            print("ranges for AUTO")
+            print(pcp_ranges_mag[0], pcp_ranges_mag[1])
 
             ds_vals = []
             mag = pcp_ranges_mag[2]
@@ -366,11 +413,12 @@ class BistabilityFinder:
                         chnk_stable, chnk_unstable, special_points, sp_y_ind = cls.find_stable_unstable_regions(
                             antimony_r,
                             species_y)
-
                         multistable = cls.detect_multi_stability(chnk_stable, chnk_unstable, bi_data_np)
-
-                        if multistable:
-
+                        print(multistable)
+                        print(ds_val)
+                        print(dir_ind)
+                        if multistable:                                                                 ################################################
+                        #if ds_val == 0.01 and dir_ind == 0:
                             # running another numerical continuation with a smaller step size to try and get
                             # better looking plots
                             scnd_check = True
@@ -456,15 +504,24 @@ class BistabilityFinder:
         def order_of_magnitude(number):
             return math.floor(math.log(number, 10))
 
-        mag = order_of_magnitude(float(pcp_initial))
+        mag = order_of_magnitude(abs(float(pcp_initial))) #order_of_magnitude(float(pcp_initial))
 
         for i in pcp_initial:
-            if i != '0' and i != '.':
+            if i != '0' and i != '.' and i!= '-':
                 val = i
                 break
 
-        rl1 = float(val) * 10 ** (mag + 1)
-        rl0 = float(val) * 10 ** (mag - 1)
+        if pcp_initial[0] == '-':
+            rl0 = -float(val) * 10 ** (mag + 1)
+            rl1 = -float(val) * 10 ** (mag - 1)
+            #rl0 = -100.0
+            rl1 = 10.0                                                                                             ###################################$$$$$$$$$$$$$$$$$$$$$$$$$$$
+            print("pcp_initial ")
+            print(pcp_initial)
+            #mag = order_of_magnitude(abs(float(1.0)))
+        else:
+            rl1 = float(val) * 10 ** (mag + 1)
+            rl0 = float(val) * 10 ** (mag - 1)
 
         return [rl0, rl1, mag + 1]
 

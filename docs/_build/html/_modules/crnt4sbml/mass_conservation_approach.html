@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.mass_conservation_approach &mdash; CRNT4SBML 0.0.8 documentation</title>
+  <title>crnt4sbml.mass_conservation_approach &mdash; CRNT4SBML 0.0.10 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.8
+                0.0.10
               </div>
             
           
@@ -176,7 +176,8 @@ import sys
 import time
 import numpy.linalg
 import itertools
-import warnings 
+import warnings
+import math
 from .bistability_finder import BistabilityFinder
 
 
@@ -251,7 +252,6 @@ from .bistability_finder import BistabilityFinder
         self.__create_h_vector()
         self.__create_g_matrix()
         self.__create_symbolic_objective_fun()
-        self.__create_concentration_values()
         self.__create_decision_vector_x()
         self.__create_concentration_bounds_species()
         self.__create_concentration_lambda_fun()
@@ -274,7 +274,7 @@ from .bistability_finder import BistabilityFinder
         
     def __create_w_matrix(self):
         # concatenating Y and Lambda_T columnwise
-        # to create [Y,Lambda_T]^T # TODO: is W transposed?
+        # to create [Y,Lambda_T]^T
         self.__W = self.__cgraph.get_y().col_join(self.__cgraph.get_lambda().T)
 
     def __create_w_nullspace(self):
@@ -310,60 +310,84 @@ from .bistability_finder import BistabilityFinder
         # psi_1, ..., psi_M, alpha_1, ... alpha_delta
         variables = [sympy.Symbol(&#39;psi&#39; + str(i)) for i in range(self.__M)] + self.__deficiency_pars
         a, _ = sympy.linear_eq_to_matrix(temp_vec2, variables)
-
-        reordered_indices = self.__create_fixed_free_pars_and_reordered_ind(temp_vec)
-
         temp_mat_2 = sympy.zeros(self.__M, self.__M + self.__delta)
-        for i in range(self.__M):
-            temp_mat_2[i, :] = a[reordered_indices[i], :]
-
-        # gives vals which is the rows of temp_mat that are
-        # independent from the others this allows us
-        # to create H(c, \alpha, k)
-        _, temp_vals = temp_mat_2.T.rref()
-        vals = [reordered_indices[i] for i in temp_vals]
 
         # preallocating the H vector
         self.__H = sympy.zeros(self.__M - self.__ell, 1)
 
-        # Filling the H vector with linearly independent rows
-        for i in range(len(vals)):
-            self.__H[i] = temp_vec[vals[i]]
+        leng = self.__M - self.__ell - self.__delta
+        comb = list(itertools.combinations(self.__concentration_pars, leng))
+        # building the different possible independent variable sets
+        indp_vars = []
+        for i in comb:
+            indp_vars.append(list(i)+self.__deficiency_pars)
+
+        self.__indices_explored = []
+        self.__counts_n_indices = []
+
+        # continue loop until acceptable concentration solutions are found
+        flag = True
+        indicies_to_skip = []
+        while flag:
+
+            reordered_indices, chosen_index = self.__create_fixed_free_pars_and_reordered_ind(temp_vec, indicies_to_skip,
+                                                                                              indp_vars)
+
+            for i in range(self.__M):
+                temp_mat_2[i, :] = a[reordered_indices[i], :]
+
+            # gives vals which is the rows of temp_mat that are
+            # independent from the others this allows us
+            # to create H(c, \alpha, k)
+            _, temp_vals = temp_mat_2.T.rref()
+            vals = [reordered_indices[i] for i in temp_vals]
+
+            # Filling the H vector with linearly independent rows
+            for i in range(len(vals)):
+                self.__H[i] = temp_vec[vals[i]]
+
+            flag = self.__create_concentration_values()
+
+            if flag:
+                indicies_to_skip.append(chosen_index)
+
+            nn = len(self.__concentration_pars)
+            rr = self.__M - self.__ell - self.__delta
+            if len(indicies_to_skip) == math.factorial(nn) / (math.factorial(rr) * math.factorial(nn-rr)):
+                flag = False
+                raise Exception(&quot;An analytic solution for the concentrations could not be found. The mass conservation approach connot be used.&quot;)
 
         end = time.process_time()
         print(&quot;Elapsed time for creating Equilibrium Manifold: &quot; + str(end - start))
-        print(&quot;&quot;)
 
-    def __create_fixed_free_pars_and_reordered_ind(self, temp_vec):
+    def __create_fixed_free_pars_and_reordered_ind(self, temp_vec, indicies_to_skip, indp_vars):
 
         # determining the different combinations of concentrations
         # present in the independent variables once the deficiency
         # parameters are chosen to be independent
         leng = self.__M - self.__ell - self.__delta
-        comb = list(itertools.combinations(self.__concentration_pars, leng))
-
-        # buidling the different possible independent variable sets
-        indp_vars = []
-        for i in comb:
-            indp_vars.append(list(i)+self.__deficiency_pars)
 
         # finding the number of linear equations produced by a
         # given independent variable set
-        counts = []
         for jj in range(len(indp_vars)):
 
-            num_lin_entries = [self.__is_linear(temp_vec[j], indp_vars[jj][0:leng]) for j in
-                               range(temp_vec.shape[0])].count(True)
-            counts.append(num_lin_entries)
+            if jj not in indicies_to_skip and jj not in self.__indices_explored:
 
-            # if all of the equations are linear stop,
-            # prevents long run times
-            if num_lin_entries == self.__M:
-                break
+                num_lin_entries = [self.__is_linear(temp_vec[j], indp_vars[jj][0:leng]) for j in
+                                   range(temp_vec.shape[0])].count(True)
+
+                self.__counts_n_indices.append([num_lin_entries, jj])
+                self.__indices_explored.append(jj)
+
+                # if all of the equations are linear stop,
+                # prevents long run times
+                if num_lin_entries == self.__M:
+                    break
 
         # picking the independent variable set that has the most
         # amount of linear equations
-        chosen_index = counts.index(max(counts))
+        max_element = self.__max_element(indicies_to_skip)
+        chosen_index = max_element[1]
 
         self.__fixed_pars = indp_vars[chosen_index]
         self.__free_pars = [i for i in self.__deficiency_pars + self.__concentration_pars if i not in self.__fixed_pars]
@@ -374,7 +398,18 @@ from .bistability_finder import BistabilityFinder
         out = [self.__is_linear(temp_vec[j], indp_vars[chosen_index]) for j in range(temp_vec.shape[0])]
         reordered_indices = [i for i, x in enumerate(out) if x] + [i for i, x in enumerate(out) if not x]
 
-        return reordered_indices
+        return reordered_indices, max_element[1]
+
+    def __max_element(self, indicies_to_skip):
+
+        temp = self.__counts_n_indices[:]
+
+        for i in self.__counts_n_indices:
+
+            if i[1] in indicies_to_skip:
+                temp.remove(i)
+
+        return max(temp, key=lambda item: item[0])
 
     # routine that determines if a sympy expression is jointly
     # linear with respect to a given set of variables. This
@@ -421,40 +456,48 @@ from .bistability_finder import BistabilityFinder
 
     def __create_concentration_values(self):
 
-        print(&quot;Solving for species&#39; concentrations ...&quot;)
-        start = time.process_time()
         # Putting the concentrations in terms of the kinetic
         # constants and deficiency parameters using the H
         # vector of the equilibrium manifold
-        temp_solution_tuple = sympy.solve(self.__H, self.__fixed_pars, dict=True)
+        try:
+            temp_solution_tuple = sympy.solve(self.__H, self.__fixed_pars, dict=True)
+        except Exception as e:
+            temp_solution_tuple = []
 
         if not temp_solution_tuple:
-            raise Exception(&quot;A solution for the fixed parameters could not be found!&quot;) 
-
-        # construction concentrations if only one solution is found
-        if isinstance(temp_solution_tuple, dict):
-            self.__concentration_vals = []
-            for i in self.__concentration_pars:
-                if i in temp_solution_tuple:
-                    self.__concentration_vals.append(temp_solution_tuple[i])
-                else:
-                    self.__concentration_vals.append(i)
-        # multiple solutions found
+            flag = True
         else:
-            solution_list = []
-            for i in temp_solution_tuple:
-                temp = []
-                for j in self.__concentration_pars:
-                    if j in i:
-                        temp.append(i[j])
+            if isinstance(temp_solution_tuple, dict):
+                self.__concentration_vals = []
+                for i in self.__concentration_pars:
+                    if i in temp_solution_tuple:
+                        self.__concentration_vals.append(temp_solution_tuple[i])
                     else:
-                        temp.append(j)
-                solution_list.append(temp)
-            self.__concentration_vals = self.__pick_solution_set(solution_list)
+                        self.__concentration_vals.append(i)
+            # multiple solutions found
+            else:
+                solution_list = []
+                for i in temp_solution_tuple:
+                    temp = []
+                    for j in self.__concentration_pars:
+                        if j in i:
+                            temp.append(i[j])
+                        else:
+                            temp.append(j)
+                    solution_list.append(temp)
+                self.__concentration_vals = self.__pick_solution_set(solution_list)    ########### TODO: do same for if statement make flag True if negative
 
-        end = time.process_time()
-        print(&quot;Elapsed time for finding species&#39; concentrations: &quot; + str(end - start))
-        print(&quot;&quot;)
+            for i in self.__concentration_vals:
+
+                deficiency_pars_found = [i.count(j) &gt; 0 for j in self.__deficiency_pars + self.__fixed_pars]
+
+                if True in deficiency_pars_found:
+                    flag = True
+                    break
+                else:
+                    flag = False
+
+        return flag
 
     # chose solution set that is most likely to produce
     # positive concentrations
@@ -544,9 +587,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; sympy.pprint(approach.get_w_matrix())
             ⎡1  0  0  0  0  1  1  0  0⎤
@@ -584,9 +625,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; sympy.pprint(approach.get_w_nullspace())
             ⎡⎡-1⎤  ⎡1 ⎤⎤
@@ -622,9 +661,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; sympy.pprint(approach.get_h_vector())
             ⎡a₁ - a₂ - re₁⋅s₁⋅s₂ + re1r⋅s₃⎤
@@ -654,9 +691,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; sympy.pprint(approach.get_g_matrix())
             ⎡-re₁⋅s₂  -re₁⋅s₁     re1r         0        0          0            0       1  -1⎤
@@ -692,9 +727,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; sympy.pprint(approach.get_dch_matrix())
             ⎡-re₁⋅s₂  -re₁⋅s₁     re1r         0        0          0            0     ⎤
@@ -724,9 +757,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_lambda_g_matrix())
             &lt;function _lambdifygenerated at 0x13248ac80&gt;
@@ -747,9 +778,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_lambda_dch_matrix())
             &lt;function _lambdifygenerated at 0x131a06ea0&gt;
@@ -769,9 +798,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_symbolic_objective_fun())
             1.0*re1**2*re2**2*re3**2*re4**2*re5**2*re6**2*s1**2*s6**2*s7**2*((1.0*s2/s7 - 1.0*s2*(-re3r - re4)/
@@ -797,9 +824,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_lambda_objective_fun())
             &lt;function _lambdifygenerated at 0x12f6f7ea0&gt;
@@ -826,9 +851,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_concentration_vals())
             [s15*(re5r + re6)/(re5*s6), s2, re1*s15*s2*(re5r + re6)/(re5*s6*(re1r + re2)), s6,
@@ -850,9 +873,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_decision_vector())
             [re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, s2, s6, s15]
@@ -872,9 +893,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_concentration_bounds_species())
             [s1, s3, s7, s16]
@@ -895,9 +914,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_concentration_funs())
             [&lt;function _lambdifygenerated at 0x135f8b4d0&gt;, &lt;function _lambdifygenerated at 0x135f72050&gt;,
@@ -920,9 +937,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_objective_fun_params())
             [re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, s1, s2, s3, s6, s7, s16, s15]
@@ -942,9 +957,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_conservation_laws())
             C1 = 1.0*s16 + 1.0*s7
@@ -970,9 +983,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; print(approach.get_concentration_solutions())
             s1 = s15*(re5r + re6)/(re5*s6)
@@ -1049,9 +1060,7 @@ from .bistability_finder import BistabilityFinder
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.6288780000000003
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.432065999999999
+            Elapsed time for creating Equilibrium Manifold: 2.060944
 
         &gt;&gt;&gt; bounds, concentration_bounds = approach.get_optimization_bounds()
         &gt;&gt;&gt; print(bounds)
@@ -1089,7 +1098,8 @@ from .bistability_finder import BistabilityFinder
         return bounds, concentration_bounds</div>
 
 <div class="viewcode-block" id="MassConservationApproach.run_optimization"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_optimization">[docs]</a>    def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
-                         numpy_dtype=numpy.float64, concentration_bounds=None):
+                         numpy_dtype=numpy.float64, concentration_bounds=None, confidence_level_flag=False,
+                         change_in_rel_error=1e-2):
         &quot;&quot;&quot;
         Function for running the optimization problem for the mass conservation approach.
 
@@ -1114,6 +1124,11 @@ from .bistability_finder import BistabilityFinder
                 A list defining the lower and upper bounds for those species&#39; concentrations not in the decision vector.
                 The user is not allowed to set the species&#39; concentration to a single value. See also:
                 :func:`crnt4sbml.MassConservationApproach.get_concentration_bounds_species`.
+            confidence_level_flag: bool
+                If True a confidence level for the objective function will be given.
+            change_in_rel_error: float
+                The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
+                of :math:`\widetilde{f}`.
         Returns
         --------
         params_for_global_min: list of numpy arrays
@@ -1159,7 +1174,7 @@ from .bistability_finder import BistabilityFinder
         params_for_global_min, obj_fun_val_for_params, self.__important_info = BistabilityFinder.run_optimization(
             bounds, iterations, sys_min_val, temp_c, self.__penalty_objective_func, self.__feasible_point_check,
             self.__objective_function_to_optimize, self.__final_constraint_check, seed, equality_bounds_indices,
-            print_flag, numpy_dtype, full_concentration_bounds)
+            print_flag, numpy_dtype, full_concentration_bounds, confidence_level_flag, change_in_rel_error)
 
         return params_for_global_min, obj_fun_val_for_params</div>
 
@@ -1499,6 +1514,7 @@ from .bistability_finder import BistabilityFinder
         # evaluating the concentrations first
         for i in range(self.__N):
             temp_val = self.__concentration_funs[i](*tuple(x))
+
             if numpy.iscomplex(temp_val): 
                 temp_c = numpy.array([numpy.Inf for i in range(self.__N)], dtype=self.__numpy_dtype)
                 break

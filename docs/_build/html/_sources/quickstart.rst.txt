@@ -48,23 +48,19 @@ running the mass conservation approach and the provided output.
 ::
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.6399860000000004
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 1.3815660000000003
-
+    Elapsed time for creating Equilibrium Manifold: 1.9408779999999997
 
     Running feasible point method for 10 iterations ...
-    Elapsed time for feasible point method: 2.8791220000000006
+    Elapsed time for feasible point method: 2.790184
 
     Running the multistart optimization ...
 
     Smallest value achieved by objective function: 0.0
 
-    Elapsed time for multistart method: 12.578572000000001
+    Elapsed time for multistart method: 13.814762
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 21.159530878067017
+    Elapsed time for continuity analysis: 22.570291996002197
 
     The number of feasible points that satisfy the constraints: 10
     Total feasible points that give F(x) = 0: 4

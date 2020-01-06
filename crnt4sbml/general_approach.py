@@ -6,6 +6,7 @@ import scipy.optimize
 import scipy.linalg
 import warnings
 import time
+import math
 import os
 from .bistability_finder import BistabilityFinder
 
@@ -383,17 +384,80 @@ class GeneralApproach:
 
         self.__fixed_reactions = [self.__sympy_reactions[i] for i in vals]
 
-        if self.__fixed_reactions:
-            temp_solution_tuple = sympy.solve(self.__indp_system_subs, self.__fixed_reactions, dict=True)
-            if len(temp_solution_tuple) == 1:
-                self.__soln_to_fixed_reactions = [sympy.factor(temp_solution_tuple[0].get(i)) for i in self.__fixed_reactions]
-            else:
-                # todo: check for positive solutions here
-                print("multiple solutions found in reaction solve.")
-                self.__soln_to_fixed_reactions = []
+        #temp_solution_tuple2 = sympy.solve(self.__indp_system, self.__fixed_reactions, dict=True)
+
+        #print("temp_solution_tuple2")
+        #print(temp_solution_tuple2)
+        #print([temp_solution_tuple2[0].get(i) for i in self.__fixed_reactions])
+
+        a, b = sympy.linear_eq_to_matrix(self.__indp_system, self.__fixed_reactions)
+        #sympy.pprint(a)
+        #sympy.pprint(b)
+        temp_solution_tuple = list(sympy.linsolve((a, b), self.__fixed_reactions))[0]
+
+        # print("temp_solution_tuple")
+        # print(temp_solution_tuple)
+
+
+        # looking for other fixed reaction sets if no solution was found
+        # if not temp_solution_tuple2:
+        #     comb = self.__construct_possible_fixed_reactions()
+        #     print("comb")
+        #     print(comb)
+        #     zeros = sympy.zeros(len(self.__indp_system), 1)
+        #     for i in comb:
+        #         i.sort(key=lambda j: self.__sympy_reactions.index(j))
+        #         a, _ = sympy.linear_eq_to_matrix(self.__indp_system, i)
+        #         rank_a = a.rank()
+        #         aug = a.row_join(zeros)
+        #         rank_aug = aug.rank()
+        #         if rank_a == rank_aug and rank_a == a.shape[1]:
+        #             self.__fixed_reactions = i
+        #             temp_solution_tuple2 = sympy.solve(self.__indp_system, self.__fixed_reactions, dict=True)
+        #             print(temp_solution_tuple2)
+        #             print(i)
+        #             if temp_solution_tuple2:
+        #                 break
+        #         print("")
+        #
+        # print("temp_solution_tuple2")
+        # print(temp_solution_tuple2)
+        # sys.exit()
+        self.__soln_to_fixed_reactions2 = list(temp_solution_tuple) #[temp_solution_tuple2[0].get(i) for i in self.__fixed_reactions]
+
+        for i in range(len(self.__soln_to_fixed_reactions2)):
+            for j in range(len(self.__replacements)):
+                self.__soln_to_fixed_reactions2[i] = self.__soln_to_fixed_reactions2[i].subs(self.__replacements[j][0], self.__replacements[j][1])
+
+        #print(self.__soln_to_fixed_reactions2)
+
+
+        # if self.__fixed_reactions:
+        #     temp_solution_tuple = sympy.solve(self.__indp_system_subs, self.__fixed_reactions, dict=True)
+        #     if len(temp_solution_tuple) == 1:
+        #         # self.__soln_to_fixed_reactions = [sympy.factor(temp_solution_tuple[0].get(i)) for i in self.__fixed_reactions]
+        #         self.__soln_to_fixed_reactions = [temp_solution_tuple[0].get(i) for i in
+        #                                           self.__fixed_reactions]
+        #     else:
+        #         # todo: check for positive solutions here
+        #         print("multiple solutions found in reaction solve.")
+        #         self.__soln_to_fixed_reactions = []
+        #
+        # print("self.__soln_to_fixed_reactions")
+        # print(self.__soln_to_fixed_reactions)
+        # print("")
+        #
+        # for i in range(len(self.__soln_to_fixed_reactions)):
+        #     print(sympy.simplify(self.__soln_to_fixed_reactions[i].expand()) == sympy.simplify(self.__soln_to_fixed_reactions2[i].expand()))                ######$$$$$$$$$##########
+
+        #sys.exit()
 
         self.__vars_for_lam_fixed_reactions = [i for i in self.__lambda_variables if i not in self.__fixed_reactions]
-        self.__lambda_fixed_reactions = [sympy.utilities.lambdify(self.__vars_for_lam_fixed_reactions, i) for i in self.__soln_to_fixed_reactions]
+        self.__lambda_fixed_reactions = [sympy.utilities.lambdify(self.__vars_for_lam_fixed_reactions, i) for i in
+                                         self.__soln_to_fixed_reactions2]
+
+        # self.__vars_for_lam_fixed_reactions = [i for i in self.__lambda_variables if i not in self.__fixed_reactions]
+        # self.__lambda_fixed_reactions = [sympy.utilities.lambdify(self.__vars_for_lam_fixed_reactions, i) for i in self.__soln_to_fixed_reactions]
 
     def __feasible_point_obj_func(self, x, boundz, full_set_of_values, reaction_ind, cons_laws_lamb, indp_spec_ind, inputs):
 
@@ -426,8 +490,13 @@ class GeneralApproach:
 
         sumval = numpy.float64(0.0)
         for i in range(len(full_set_of_values)):
-            sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(boundz[i][0]) - full_set_of_values[i]) ** 2
-            sumval += numpy.maximum(numpy.float64(0.0), full_set_of_values[i] - numpy.float64(boundz[i][1])) ** 2
+            sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(boundz[i][0]) - full_set_of_values[i]) #**2
+            sumval += numpy.maximum(numpy.float64(0.0), full_set_of_values[i] - numpy.float64(boundz[i][1])) #**2
+
+        cons_law = 0
+
+        #sumval += numpy.maximum(numpy.float64(0.0), cons_laws_lamb[cons_law](*tuple(x[self.__R - len(reaction_ind):]) + numpy.float64(1e-2)))      ############### carefullll
+        #sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(-100.0) - cons_laws_lamb[cons_law](*tuple(x[self.__R - len(reaction_ind):])))
 
         return sumval
 
@@ -484,11 +553,15 @@ class GeneralApproach:
             sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(boundz[i][0]) - full_set_of_values[i]) #** 2
             sumval += numpy.maximum(numpy.float64(0.0), full_set_of_values[i] - numpy.float64(boundz[i][1])) #** 2
 
+        cons_law = 0
+        #sumval += numpy.maximum(numpy.float64(0.0), cons_laws_lamb[cons_law](*tuple(x[self.__R - len(reaction_ind):]) + numpy.float64(1e-2)))  ############### carefullll
+        #sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(-100.0) - cons_laws_lamb[cons_law](*tuple(x[self.__R - len(reaction_ind):])))
+
         fun += sumval
 
         return fun
 
-    def __feasible_point_method(self, bounds, num_constraint_method_iters, seed, print_flag):
+    def __feasible_point_method(self, bounds, num_constraint_method_iters, seed, print_flag, confidence_level_flag):
 
         all_vars_with_bounds = self.__sympy_reactions + self.__sympy_species
         decision_vector_bounds_ind = [all_vars_with_bounds.index(i) for i in self.__decision_vector]
@@ -499,6 +572,12 @@ class GeneralApproach:
 
         ranges = numpy.asarray(decision_vector_bounds, dtype=numpy.float64)
         samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+
+        # import math
+        # ranges = numpy.asarray([(math.log10(i[0]), math.log10(i[1])) for i in decision_vector_bounds],
+        #                        dtype=numpy.float64)
+        # samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+        # samples = numpy.power(10, samples)
 
         full_set_of_values = numpy.zeros(len(bounds), dtype=numpy.float64)
 
@@ -544,7 +623,7 @@ class GeneralApproach:
                         print("Decision vector used: ")
                         print(result1.x)
 
-                    if abs(result1.fun) <= numpy.finfo(float).eps:
+                    if abs(result1.fun) <= numpy.finfo(float).eps or confidence_level_flag:
                         feasible_point_sets.append(result1.x)
 
                 else:
@@ -555,7 +634,8 @@ class GeneralApproach:
 
         return feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec, decision_vector_bounds
 
-    def run_optimization(self, bounds=None, iterations=10, seed=0, print_flag=False, dual_annealing_iters=1000):
+    def run_optimization(self, bounds=None, iterations=10, seed=0, print_flag=False, dual_annealing_iters=1000,
+                         confidence_level_flag=False, change_in_rel_error=1e-2):
 
         """
                 Function for running the optimization problem for the mass conservation approach.
@@ -571,6 +651,13 @@ class GeneralApproach:
                     print_flag: bool
                         Should be set to True if the user wants the objective function values found in the optimization problem
                         and False otherwise.
+                    dual_annealing_iters: integer
+                        The number of iterations that should be ran for dual annealing routine in optimization.
+                    confidence_level_flag: bool
+                        If True a confidence level for the objective function will be given.
+                    change_in_rel_error: float
+                        The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
+                        of :math:`\widetilde{f}`.
                 Returns
                 --------
                 params_for_global_min: list of numpy arrays
@@ -588,7 +675,7 @@ class GeneralApproach:
         numpy.random.seed(seed)
 
         print("Starting feasible point method ...")
-        feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec, decision_vector_bounds = self.__feasible_point_method(bounds, iterations, seed, print_flag)
+        feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec, decision_vector_bounds = self.__feasible_point_method(bounds, iterations, seed, print_flag, confidence_level_flag)
         print("Feasible point method has finished.")
         bounds_2 = decision_vector_bounds
 
@@ -601,6 +688,9 @@ class GeneralApproach:
         det_point_sets = []
         det_point_sets_fun = []
         smallest_value = numpy.float(1e8)
+        if confidence_level_flag:
+            obtained_minimums = numpy.zeros(len(feasible_point_sets), dtype=numpy.float64)
+
         print("Starting determinant optimization ...")
         for i in range(len(feasible_point_sets)):
 
@@ -633,6 +723,9 @@ class GeneralApproach:
                     if smallest_value > result1.fun:
                         smallest_value = result1.fun
 
+                    if confidence_level_flag:
+                        obtained_minimums[i] = result1.fun
+
                     if abs(result1.fun) <= numpy.finfo(float).eps:
                         det_point_sets.append(result1.x)
                         det_point_sets_fun.append(result1.fun)
@@ -642,22 +735,59 @@ class GeneralApproach:
                         smallest_value = result.fun
                     det_point_sets.append(result.x)
                     det_point_sets_fun.append(result.fun)
+                    if confidence_level_flag:
+                        obtained_minimums[i] = result.fun
 
                 if print_flag:
                     print("")
 
         print("Determinant optimization has finished.")
 
+        end_t = time.time()
+        elapsed = end_t - start_t
+        print("Elapsed time for optimization: " + str(elapsed))
+
         params = self.__final_check(det_point_sets, bounds, full_set_of_values, fixed_reaction_ind_all,
                                     self.__cons_laws_lamb, indp_spec_ind_dec, inputs, input_values)
 
-        end_t = time.time()
-        elapsed = end_t - start_t
-        print("Determinant optimization has finished.")
-        print("Elapsed time for optimization: " + str(elapsed))
-        print("\nSmallest value achieved by objective function: " + str(smallest_value) + "\n")
+        if confidence_level_flag:
+            self.__confidence_level(obtained_minimums, change_in_rel_error)
 
-        return params, det_point_sets_fun
+        else:
+            print("\nSmallest value achieved by objective function: " + str(smallest_value) + "\n")
+
+        return params, det_point_sets_fun, det_point_sets, feasible_point_sets
+
+    def __confidence_level(self, obtained_minimums, change_in_rel_error):
+
+        a = 1
+        b = 5
+
+        unique_elements, counts_elements = numpy.unique(obtained_minimums, return_counts=True)
+        min_val_index = numpy.nanargmin(unique_elements)
+
+        f_til = unique_elements[min_val_index]
+
+        numpy_float64_smalles_positive_value = numpy.nextafter(numpy.float64(0), numpy.float64(1))
+
+        if f_til > numpy_float64_smalles_positive_value:
+
+            r = numpy.count_nonzero(
+                numpy.abs(f_til - obtained_minimums) / f_til < numpy.float64(change_in_rel_error))
+
+            n_til = obtained_minimums.shape[0]
+            a_bar = a + b - 1
+            b_bar = b - r - 1
+
+            prob = 1 - (math.factorial(n_til + a_bar) * math.factorial(2 * n_til + b_bar)) / (
+                    math.factorial(2 * n_til + a_bar) * math.factorial(n_til + b_bar))
+
+        else:
+
+            prob = 1.0
+
+        print(
+            f"\nIt was found that {unique_elements[min_val_index]} is the minimum objective function value with a confidence level of {prob} .\n")
 
     def __final_check(self, det_point_sets, boundz, full_set_of_values, reaction_ind,
                       cons_laws_lamb, indp_spec_ind, inputs, input_values):
@@ -925,4 +1055,16 @@ class GeneralApproach:
     #         return (0, 55)  # e12)
 
     def get_input_vector(self):
-        return self.__sympy_species + self.__sympy_reactions
+        return self.__sympy_reactions + self.__sympy_species
+
+    def get_decision_vector(self):
+        return self.__decision_vector
+
+    def get_indpendent_odes_subs(self):
+        return self.__indp_system_subs
+
+    def get_fixed_reactions(self):
+        return self.__fixed_reactions
+
+    def get_solutions_to_fixed_reactions(self):
+        return self.__soln_to_fixed_reactions2

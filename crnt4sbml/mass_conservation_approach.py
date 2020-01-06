@@ -928,7 +928,8 @@ class MassConservationApproach:
         return bounds, concentration_bounds
 
     def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
-                         numpy_dtype=numpy.float64, concentration_bounds=None):
+                         numpy_dtype=numpy.float64, concentration_bounds=None, confidence_level_flag=False,
+                         change_in_rel_error=1e-2):
         """
         Function for running the optimization problem for the mass conservation approach.
 
@@ -953,6 +954,11 @@ class MassConservationApproach:
                 A list defining the lower and upper bounds for those species' concentrations not in the decision vector.
                 The user is not allowed to set the species' concentration to a single value. See also:
                 :func:`crnt4sbml.MassConservationApproach.get_concentration_bounds_species`.
+            confidence_level_flag: bool
+                If True a confidence level for the objective function will be given.
+            change_in_rel_error: float
+                The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
+                of :math:`\widetilde{f}`.
         Returns
         --------
         params_for_global_min: list of numpy arrays
@@ -998,7 +1004,7 @@ class MassConservationApproach:
         params_for_global_min, obj_fun_val_for_params, self.__important_info = BistabilityFinder.run_optimization(
             bounds, iterations, sys_min_val, temp_c, self.__penalty_objective_func, self.__feasible_point_check,
             self.__objective_function_to_optimize, self.__final_constraint_check, seed, equality_bounds_indices,
-            print_flag, numpy_dtype, full_concentration_bounds)
+            print_flag, numpy_dtype, full_concentration_bounds, confidence_level_flag, change_in_rel_error)
 
         return params_for_global_min, obj_fun_val_for_params
 

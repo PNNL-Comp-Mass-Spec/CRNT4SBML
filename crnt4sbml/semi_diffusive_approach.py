@@ -86,7 +86,7 @@ class SemiDiffusiveApproach:
         return [self.get_physiological_range("flux")]*len(self.get_decision_vector())
 
     def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
-                         numpy_dtype=numpy.float64):
+                         numpy_dtype=numpy.float64, confidence_level_flag=False, change_in_rel_error=1e-2):
         """
         Function for running the optimization problem for the semi-diffusive approach. Note that there are no bounds
         enforced on species' concentrations as they are automatically restricted to be greater than zero by the theory.
@@ -108,6 +108,11 @@ class SemiDiffusiveApproach:
             numpy_dtype:
                 The numpy data type used within the optimization routine. All variables in the optimization routine will
                 be converted to this data type.
+            confidence_level_flag: bool
+                If True a confidence level for the objective function will be given.
+            change_in_rel_error: float
+                The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
+                of :math:`\widetilde{f}`.
         Returns
         --------
         params_for_global_min: list of numpy arrays
@@ -140,7 +145,7 @@ class SemiDiffusiveApproach:
         params_for_global_min, obj_fun_val_for_params, self.__important_info = BistabilityFinder.run_optimization(
             bounds, iterations, sys_min_val, temp_p, self.__penalty_objective_func, self.__feasible_point_check,
             self.__objective_function_to_optimize, self.__final_constraint_check, seed, equality_bounds_indices,
-            print_flag, numpy_dtype, [])
+            print_flag, numpy_dtype, [], confidence_level_flag, change_in_rel_error)
 
         return params_for_global_min, obj_fun_val_for_params
 

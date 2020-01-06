@@ -83,10 +83,7 @@ We now demonstrate the physiological bounds produced for the SBML file :download
 this provides the following output::
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.6739100000000002
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 1.4086919999999994
+    Elapsed time for creating Equilibrium Manifold: 2.060944
 
     [(1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]
     [(0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]

@@ -378,7 +378,8 @@ class CRNT:
             One should not run the optimization-based methods.
             """
             print(re.sub(r"^\s+", "", message, flags=re.MULTILINE))
-            return None
+            #return None
+            return GeneralApproach(self.__cgraph, signal, response)
         else:
             return GeneralApproach(self.__cgraph, signal, response)
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.crnt &mdash; CRNT4SBML 0.0.8 documentation</title>
+  <title>crnt4sbml.crnt &mdash; CRNT4SBML 0.0.10 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.8
+                0.0.10
               </div>
             
           
@@ -180,6 +180,7 @@ from .low_deficiency_approach import LowDeficiencyApproach
 from .mass_conservation_approach import MassConservationApproach
 from .semi_diffusive_approach import SemiDiffusiveApproach
 from .advanced_deficiency_approach import AdvancedDeficiencyApproach
+from .general_approach import GeneralApproach
 
 
 <div class="viewcode-block" id="CRNT"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT">[docs]</a>class CRNT:
@@ -486,9 +487,7 @@ from .advanced_deficiency_approach import AdvancedDeficiencyApproach
         &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/Fig1Ci.xml&quot;)
         &gt;&gt;&gt; approach = network.get_mass_conservation_approach()
             Creating Equilibrium Manifold ...
-            Elapsed time for creating Equilibrium Manifold: 0.8010799999999998
-            Solving for species&#39; concentrations ...
-            Elapsed time for finding species&#39; concentrations: 1.1221319999999997
+            Elapsed time for creating Equilibrium Manifold: 2.060944
         &quot;&quot;&quot;
         ldh = LowDeficiencyApproach(self.__cgraph)
         if ldh.does_satisfy_any_low_deficiency_theorem():
@@ -525,6 +524,34 @@ from .advanced_deficiency_approach import AdvancedDeficiencyApproach
             return None
         else:
             return SemiDiffusiveApproach(self.__cgraph, self.get_physiological_range)</div>
+
+<div class="viewcode-block" id="CRNT.get_general_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_general_approach">[docs]</a>    def get_general_approach(self, signal=None, response=None):
+        &quot;&quot;&quot;
+        Initializes and creates an object for the class GeneralApproach for the CRNT object constructed.
+
+        See also
+        ---------
+        crnt4sbml.GeneralApproach
+
+        Example
+        --------
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; signal = &#39;C1&#39;
+        &gt;&gt;&gt; response = &#39;s1&#39;
+        &gt;&gt;&gt; approach = network.get_general_approach(signal, response)
+        &quot;&quot;&quot;
+        ldh = LowDeficiencyApproach(self.__cgraph)
+        if ldh.does_satisfy_any_low_deficiency_theorem():
+            message = &quot;&quot;&quot;
+            Network satisfies one of the low deficiency theorems.
+            One should not run the optimization-based methods.
+            &quot;&quot;&quot;
+            print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, message, flags=re.MULTILINE))
+            #return None
+            return GeneralApproach(self.__cgraph, signal, response)
+        else:
+            return GeneralApproach(self.__cgraph, signal, response)</div>
 
 <div class="viewcode-block" id="CRNT.get_advanced_deficiency_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_advanced_deficiency_approach">[docs]</a>    def get_advanced_deficiency_approach(self):
         &quot;&quot;&quot;

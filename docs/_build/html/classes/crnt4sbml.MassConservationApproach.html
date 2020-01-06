@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.MassConservationApproach &mdash; CRNT4SBML 0.0.8 documentation</title>
+  <title>crnt4sbml.MassConservationApproach &mdash; CRNT4SBML 0.0.10 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.8
+                0.0.10
               </div>
             
           
@@ -298,9 +298,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_concentration_bounds_species</span><span class="p">())</span>
@@ -322,9 +320,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_concentration_funs</span><span class="p">())</span>
@@ -347,9 +343,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_concentration_solutions</span><span class="p">())</span>
@@ -381,9 +375,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_concentration_vals</span><span class="p">())</span>
@@ -407,9 +399,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_conservation_laws</span><span class="p">())</span>
@@ -432,9 +422,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_dch_matrix</span><span class="p">())</span>
@@ -464,9 +452,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_decision_vector</span><span class="p">())</span>
@@ -487,9 +473,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_g_matrix</span><span class="p">())</span>
@@ -526,9 +510,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_h_vector</span><span class="p">())</span>
@@ -597,9 +579,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_lambda_dch_matrix</span><span class="p">())</span>
@@ -620,9 +600,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_lambda_g_matrix</span><span class="p">())</span>
@@ -644,9 +622,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_lambda_objective_fun</span><span class="p">())</span>
@@ -667,9 +643,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_objective_fun_params</span><span class="p">())</span>
@@ -703,9 +677,7 @@ based on physiological ranges.</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
@@ -732,9 +704,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_symbolic_objective_fun</span><span class="p">())</span>
@@ -760,9 +730,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_w_matrix</span><span class="p">())</span>
@@ -801,9 +769,7 @@ example.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 <span class="go">    Creating Equilibrium Manifold ...</span>
-<span class="go">    Elapsed time for creating Equilibrium Manifold: 0.6288780000000003</span>
-<span class="go">    Solving for species&#39; concentrations ...</span>
-<span class="go">    Elapsed time for finding species&#39; concentrations: 1.432065999999999</span>
+<span class="go">    Elapsed time for creating Equilibrium Manifold: 2.060944</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_w_nullspace</span><span class="p">())</span>
@@ -911,7 +877,7 @@ for each special point in the plot.</li>
 
 <dl class="method">
 <dt id="crnt4sbml.MassConservationApproach.run_optimization">
-<code class="descname">run_optimization</code><span class="sig-paren">(</span><em>bounds=None</em>, <em>iterations=10</em>, <em>sys_min_val=2.220446049250313e-16</em>, <em>seed=0</em>, <em>print_flag=False</em>, <em>numpy_dtype=&lt;class 'numpy.float64'&gt;</em>, <em>concentration_bounds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_optimization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_optimization" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_optimization</code><span class="sig-paren">(</span><em>bounds=None</em>, <em>iterations=10</em>, <em>sys_min_val=2.220446049250313e-16</em>, <em>seed=0</em>, <em>print_flag=False</em>, <em>numpy_dtype=&lt;class 'numpy.float64'&gt;</em>, <em>concentration_bounds=None</em>, <em>confidence_level_flag=False</em>, <em>change_in_rel_error=0.01</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_optimization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_optimization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for running the optimization problem for the mass conservation approach.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -930,6 +896,9 @@ be converted to this data type.</li>
 <li><strong>concentration_bounds</strong> (<em>list of tuples</em>) – A list defining the lower and upper bounds for those species’ concentrations not in the decision vector.
 The user is not allowed to set the species’ concentration to a single value. See also:
 <a class="reference internal" href="#crnt4sbml.MassConservationApproach.get_concentration_bounds_species" title="crnt4sbml.MassConservationApproach.get_concentration_bounds_species"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.get_concentration_bounds_species()</span></code></a>.</li>
+<li><strong>confidence_level_flag</strong> (<em>bool</em>) – If True a confidence level for the objective function will be given.</li>
+<li><strong>change_in_rel_error</strong> (<em>float</em>) – The maximum relative error that should be allowed to consider <img class="math" src="../_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> in the neighborhood
+of <img class="math" src="../_images/math/e57da723a78793be0af414e375cc2eff8c6dac64.png" alt="\widetilde{f}"/>.</li>
 </ul>
 </td>
 </tr>

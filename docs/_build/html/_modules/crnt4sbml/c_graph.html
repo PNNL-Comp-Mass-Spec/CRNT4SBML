@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.c_graph &mdash; CRNT4SBML 0.0.8 documentation</title>
+  <title>crnt4sbml.c_graph &mdash; CRNT4SBML 0.0.10 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.8
+                0.0.10
               </div>
             
           
@@ -239,7 +239,7 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
 
         if all([i &lt;= 1 for i in self.get_number_of_terminal_strong_lc_per_lc()]) and \
                 self.get_dim_equilibrium_manifold() &gt; 0:
-            self.__create_b_matrix()
+            self.__create_BT_matrix()
             self.__create_lambda_matrix()</div>
 
         # self.__calculate_deficiency() # todo: candidate for deletion
@@ -581,7 +581,7 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
                                                                                           self.__complexes[i])[&#39;label&#39;],
                                                                    positive=True)
 
-    def __create_b_matrix(self):
+    def __create_BT_matrix(self):
         # (bt = NullSpace[Transpose[Y.A]]) // MatrixForm
         the_null_space = (self.__Y * self.__A).T.nullspace()
 

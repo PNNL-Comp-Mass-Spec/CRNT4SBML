@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crnt4sbml.SemiDiffusiveApproach &mdash; CRNT4SBML 0.0.8 documentation</title>
+  <title>crnt4sbml.SemiDiffusiveApproach &mdash; CRNT4SBML 0.0.10 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.8
+                0.0.10
               </div>
             
           
@@ -605,7 +605,7 @@ for each special point in the plot.</li>
 
 <dl class="method">
 <dt id="crnt4sbml.SemiDiffusiveApproach.run_optimization">
-<code class="descname">run_optimization</code><span class="sig-paren">(</span><em>bounds=None</em>, <em>iterations=10</em>, <em>sys_min_val=2.220446049250313e-16</em>, <em>seed=0</em>, <em>print_flag=False</em>, <em>numpy_dtype=&lt;class 'numpy.float64'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach.run_optimization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach.run_optimization" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_optimization</code><span class="sig-paren">(</span><em>bounds=None</em>, <em>iterations=10</em>, <em>sys_min_val=2.220446049250313e-16</em>, <em>seed=0</em>, <em>print_flag=False</em>, <em>numpy_dtype=&lt;class 'numpy.float64'&gt;</em>, <em>confidence_level_flag=False</em>, <em>change_in_rel_error=0.01</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach.run_optimization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach.run_optimization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for running the optimization problem for the semi-diffusive approach. Note that there are no bounds
 enforced on species’ concentrations as they are automatically restricted to be greater than zero by the theory.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -622,6 +622,9 @@ are allowed to be set to a single value.</li>
 and False otherwise.</li>
 <li><strong>numpy_dtype</strong> – The numpy data type used within the optimization routine. All variables in the optimization routine will
 be converted to this data type.</li>
+<li><strong>confidence_level_flag</strong> (<em>bool</em>) – If True a confidence level for the objective function will be given.</li>
+<li><strong>change_in_rel_error</strong> (<em>float</em>) – The maximum relative error that should be allowed to consider <img class="math" src="../_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> in the neighborhood
+of <img class="math" src="../_images/math/e57da723a78793be0af414e375cc2eff8c6dac64.png" alt="\widetilde{f}"/>.</li>
 </ul>
 </td>
 </tr>
