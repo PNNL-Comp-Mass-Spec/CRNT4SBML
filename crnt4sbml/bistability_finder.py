@@ -383,8 +383,6 @@ class BistabilityFinder:
 
             auto_parameters['RL0'] = pcp_ranges_mag[0]
             auto_parameters['RL1'] = pcp_ranges_mag[1]
-            print("ranges for AUTO")
-            print(pcp_ranges_mag[0], pcp_ranges_mag[1])
 
             ds_vals = []
             mag = pcp_ranges_mag[2]
@@ -414,9 +412,9 @@ class BistabilityFinder:
                             antimony_r,
                             species_y)
                         multistable = cls.detect_multi_stability(chnk_stable, chnk_unstable, bi_data_np)
-                        print(multistable)
-                        print(ds_val)
-                        print(dir_ind)
+                        # print(multistable)
+                        # print(ds_val)
+                        # print(dir_ind)
                         if multistable:                                                                 ################################################
                         #if ds_val == 0.01 and dir_ind == 0:
                             # running another numerical continuation with a smaller step size to try and get
@@ -516,8 +514,8 @@ class BistabilityFinder:
             rl1 = -float(val) * 10 ** (mag - 1)
             #rl0 = -100.0
             rl1 = 10.0                                                                                             ###################################$$$$$$$$$$$$$$$$$$$$$$$$$$$
-            print("pcp_initial ")
-            print(pcp_initial)
+            # print("pcp_initial ")
+            # print(pcp_initial)
             #mag = order_of_magnitude(abs(float(1.0)))
         else:
             rl1 = float(val) * 10 ** (mag + 1)

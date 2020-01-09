@@ -674,15 +674,15 @@ class GeneralApproach:
         start_t = time.time()
         numpy.random.seed(seed)
 
-        print("Starting feasible point method ...")
+        print("Running feasible point method for " + str(iterations) + " iterations ...")
         feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec, decision_vector_bounds = self.__feasible_point_method(bounds, iterations, seed, print_flag, confidence_level_flag)
         print("Feasible point method has finished.")
+
+        self.__important_info += "\nThe number of feasible points used in determinant optimization: " + str(len(feasible_point_sets)) + "\n"
+
         bounds_2 = decision_vector_bounds
-
         full_set_of_values = numpy.zeros(len(bounds), dtype=numpy.float64)
-
         inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
-
         input_values = numpy.zeros(len(self.__lambda_variables), dtype=numpy.float64)
 
         det_point_sets = []
@@ -691,72 +691,77 @@ class GeneralApproach:
         if confidence_level_flag:
             obtained_minimums = numpy.zeros(len(feasible_point_sets), dtype=numpy.float64)
 
-        print("Starting determinant optimization ...")
-        for i in range(len(feasible_point_sets)):
+        if len(feasible_point_sets) != 0:
 
-            with numpy.errstate(divide='ignore', invalid='ignore'):
+            print("Starting determinant optimization ...")
+            for i in range(len(feasible_point_sets)):
 
-                result = scipy.optimize.dual_annealing(self.__obj_func, bounds=bounds_2, args=(self.__lambda_det_jac, bounds,
-                                                                                full_set_of_values, fixed_reaction_ind_all,
-                                                                                self.__cons_laws_lamb, indp_spec_ind_dec,
-                                                                                inputs, input_values), x0=feasible_point_sets[i], seed=seed,
-                                                       local_search_options={'method': "Nelder-Mead"}, maxiter=dual_annealing_iters)
+                with numpy.errstate(divide='ignore', invalid='ignore'):
 
-                if print_flag:
-                    print("Global function value: " + str(result.fun))
-                    print("Decision vector used: ")
-                    print(result.x)
-
-                if abs(result.fun) > numpy.float64(1e-100):
-
-                    result1 = scipy.optimize.minimize(self.__obj_func, result.x, args=(self.__lambda_det_jac, bounds,
-                                                                                       full_set_of_values, fixed_reaction_ind_all,
-                                                                                       self.__cons_laws_lamb, indp_spec_ind_dec,
-                                                                                       inputs, input_values),
-                                                     method='Nelder-Mead', tol=1e-16)
+                    result = scipy.optimize.dual_annealing(self.__obj_func, bounds=bounds_2, args=(self.__lambda_det_jac, bounds,
+                                                                                    full_set_of_values, fixed_reaction_ind_all,
+                                                                                    self.__cons_laws_lamb, indp_spec_ind_dec,
+                                                                                    inputs, input_values), x0=feasible_point_sets[i], seed=seed,
+                                                           local_search_options={'method': "Nelder-Mead"}, maxiter=dual_annealing_iters)
 
                     if print_flag:
-                        print("Local function value: " + str(result1.fun))
+                        print("Global function value: " + str(result.fun))
                         print("Decision vector used: ")
-                        print(result1.x)
+                        print(result.x)
 
-                    if smallest_value > result1.fun:
-                        smallest_value = result1.fun
+                    if abs(result.fun) > numpy.float64(1e-100):
 
-                    if confidence_level_flag:
-                        obtained_minimums[i] = result1.fun
+                        result1 = scipy.optimize.minimize(self.__obj_func, result.x, args=(self.__lambda_det_jac, bounds,
+                                                                                           full_set_of_values, fixed_reaction_ind_all,
+                                                                                           self.__cons_laws_lamb, indp_spec_ind_dec,
+                                                                                           inputs, input_values),
+                                                         method='Nelder-Mead', tol=1e-16)
 
-                    if abs(result1.fun) <= numpy.finfo(float).eps:
-                        det_point_sets.append(result1.x)
-                        det_point_sets_fun.append(result1.fun)
+                        if print_flag:
+                            print("Local function value: " + str(result1.fun))
+                            print("Decision vector used: ")
+                            print(result1.x)
 
-                else:
-                    if smallest_value > result.fun:
-                        smallest_value = result.fun
-                    det_point_sets.append(result.x)
-                    det_point_sets_fun.append(result.fun)
-                    if confidence_level_flag:
-                        obtained_minimums[i] = result.fun
+                        if smallest_value > result1.fun:
+                            smallest_value = result1.fun
 
-                if print_flag:
-                    print("")
+                        if confidence_level_flag:
+                            obtained_minimums[i] = result1.fun
 
-        print("Determinant optimization has finished.")
+                        if abs(result1.fun) <= numpy.finfo(float).eps:
+                            det_point_sets.append(result1.x)
+                            det_point_sets_fun.append(result1.fun)
 
-        end_t = time.time()
-        elapsed = end_t - start_t
-        print("Elapsed time for optimization: " + str(elapsed))
+                    else:
+                        if smallest_value > result.fun:
+                            smallest_value = result.fun
+                        det_point_sets.append(result.x)
+                        det_point_sets_fun.append(result.fun)
+                        if confidence_level_flag:
+                            obtained_minimums[i] = result.fun
 
-        params = self.__final_check(det_point_sets, bounds, full_set_of_values, fixed_reaction_ind_all,
-                                    self.__cons_laws_lamb, indp_spec_ind_dec, inputs, input_values)
+                    if print_flag:
+                        print("")
+            print("Determinant optimization has finished.")
 
-        if confidence_level_flag:
-            self.__confidence_level(obtained_minimums, change_in_rel_error)
+            end_t = time.time()
+            elapsed = end_t - start_t
+            print("Elapsed time for optimization: " + str(elapsed))
+
+            params = self.__final_check(det_point_sets, bounds, full_set_of_values, fixed_reaction_ind_all,
+                                        self.__cons_laws_lamb, indp_spec_ind_dec, inputs, input_values)
+
+            if confidence_level_flag:
+                self.__confidence_level(obtained_minimums, change_in_rel_error)
+
+            else:
+                self.__important_info += "Smallest value achieved by objective function: " + str(smallest_value) + "\n"
+
+            return params, det_point_sets_fun
 
         else:
-            print("\nSmallest value achieved by objective function: " + str(smallest_value) + "\n")
+            raise Exception("Optimization needs to be run with more iterations or different bounds.")
 
-        return params, det_point_sets_fun, det_point_sets, feasible_point_sets
 
     def __confidence_level(self, obtained_minimums, change_in_rel_error):
 
@@ -786,8 +791,7 @@ class GeneralApproach:
 
             prob = 1.0
 
-        print(
-            f"\nIt was found that {unique_elements[min_val_index]} is the minimum objective function value with a confidence level of {prob} .\n")
+        self.__important_info += f"It was found that {unique_elements[min_val_index]} is the minimum objective function value with a confidence level of {prob} .\n"
 
     def __final_check(self, det_point_sets, boundz, full_set_of_values, reaction_ind,
                       cons_laws_lamb, indp_spec_ind, inputs, input_values):
@@ -902,6 +906,44 @@ class GeneralApproach:
     def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                        print_lbls_flag=False, auto_parameters=None):
 
+        """
+                Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
+                approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
+                parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
+                produce jagged or missing sections in the plots provided. To produce better plots one should use the information
+                provided by this routine to run :func:`crnt4sbml.GeneralApproach.run_continuity_analysis`.
+
+                Parameters
+                ------------
+                    species: string
+                        A string stating the species that is the y-axis of the bifurcation diagram.
+                    parameters: list of numpy arrays
+                        A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+                        value.
+                    dir_path: string
+                        A string stating the path where the bifurcation diagrams should be saved.
+                    print_lbls_flag: bool
+                        If True the routine will print the special points found by AUTO 2000 and False will not print any
+                        special points.
+                    auto_parameters: dict
+                        Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
+                        PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
+                        be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
+                Returns
+                ---------
+                    multistable_param_ind: list of integers
+                        A list of those indices in 'parameters' that produce multistable plots.
+                    plot_specifications: list of lists
+                        A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                        Each element is a list where the first element specifies the range used for the x-axis, the second
+                        element is the range for the y-axis, and the last element provides the x-y values and special point label
+                        for each special point in the plot.
+
+                Example
+                ---------
+                See .
+                """
+
         # setting default values for AUTO
         if 'NMX' not in auto_parameters.keys():
             auto_parameters['NMX'] = 10000
@@ -918,6 +960,69 @@ class GeneralApproach:
         species_y = str(self.__indp_species[species_num-1])
 
         multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis \
+            (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
+             print_lbls_flag, auto_parameters)
+
+        self.__important_info += important_info
+
+        return multistable_param_ind, plot_specifications
+
+    def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
+                                       print_lbls_flag=False, auto_parameters=None):
+
+        """
+                Function for running the numerical continuation and bistability analysis portions of the mass conservation
+                approach.
+
+                Parameters
+                ------------
+                    species: string
+                        A string stating the species that is the y-axis of the bifurcation diagram.
+                    parameters: list of numpy arrays
+                        A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+                        value.
+                    dir_path: string
+                        A string stating the path where the bifurcation diagrams should be saved.
+                    print_lbls_flag: bool
+                        If True the routine will print the special points found by AUTO 2000 and False will not print any
+                        special points.
+                    auto_parameters: dict
+                        Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
+                        'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
+                        necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
+                        parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
+                        10000 and 'ITMX' to 100.
+                Returns
+                ---------
+                    multistable_param_ind: list of integers
+                        A list of those indices in 'parameters' that produce multistable plots.
+                    plot_specifications: list of lists
+                        A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                        Each element is a list where the first element specifies the range used for the x-axis, the second
+                        element is the range for the y-axis, and the last element provides the x-y values and special point label
+                        for each special point in the plot.
+
+                Example
+                ---------
+                See .
+                """
+
+        # setting default values for AUTO
+        if 'NMX' not in auto_parameters.keys():
+            auto_parameters['NMX'] = 10000
+
+        if 'ITMX' not in auto_parameters.keys():
+            auto_parameters['ITMX'] = 100
+
+        # making the directory if it doesn't exist
+        if not os.path.isdir(dir_path):
+            os.mkdir(dir_path)
+
+        species_num = [str(i) for i in self.__indp_species].index(species) + 1
+
+        species_y = str(self.__indp_species[species_num - 1])
+
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_continuity_analysis \
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
              print_lbls_flag, auto_parameters)
 
@@ -1008,63 +1113,146 @@ class GeneralApproach:
             return 1e-5, 1e-3
         if for_what == "catalysis":
             return 1e-3, 1e0
-    # @staticmethod
-    # def get_physiological_range(for_what=None):
-    #     """Obtains physiological ranges.
-    #
-    #     Parameters
-    #     -----------
-    #     for_what: string
-    #         Accepted values: "concentration", "complex formation", "complex dissociation", "catalysis", or "flux"
-    #
-    #     Returns
-    #     --------
-    #     concentration: tuple
-    #         (5e-1,5e5) pM
-    #     complex formation: tuple
-    #         (1e-8,1e-4)  pM^-1s^-1
-    #     complex dissociation: tuple
-    #         (1e-5,1e-3) s^-1
-    #     catalysis: tuple
-    #         (1e-3,1) s^-1
-    #     flux: tuple
-    #         (0, 55) M s^-1
-    #
-    #
-    #     Example
-    #     --------
-    #     >>> import crnt4sbml
-    #     >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-    #     >>> network.get_physiological_range("concentration")
-    #     """
-    #     valid = {"concentration", "complex formation", "complex dissociation", "catalysis", "flux"}
-    #     if for_what is None:
-    #         warnings.warn("Please provide the argument what the range should be provided for.")
-    #         return None
-    #     if for_what not in valid:
-    #         raise ValueError("for_what argument must be one of %r." % valid)
-    #     if for_what == "concentration":
-    #         return (5e-1, 5e5)
-    #     if for_what == "complex formation":
-    #         return (1e-8, 1e-4)
-    #     if for_what == "complex dissociation":
-    #         return (1e-5, 1e-3)
-    #     if for_what == "catalysis":
-    #         return (1e-3, 1e0)
-    #     if for_what == "flux":
-    #         return (0, 55)  # e12)
+
+    def generate_report(self):
+        """
+        Prints out helpful details constructed by :func:`crnt4sbml.GeneralApproach.run_optimization` and
+        :func:`crnt4sbml.GeneralApproach.run_continuity_analysis`.
+
+        Example
+        --------
+        See .
+        """
+        print(self.__important_info)
 
     def get_input_vector(self):
+        """
+        Returns a list of SymPy variables that specifies the ordering of the reactions and species for which bounds
+        need to be provided.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_input_vector()
+        """
         return self.__sympy_reactions + self.__sympy_species
 
     def get_decision_vector(self):
+        """
+        Returns a list of SymPy variables that specifies the ordering of the reactions and species of the decision
+        vector to be used in optimization. Note: this method should not be used to create bounds for the optimization
+        routine, rather :func:`crnt4sbml.GeneralApproach.get_input_vector` should be used.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_decision_vector()
+        """
         return self.__decision_vector
 
-    def get_indpendent_odes_subs(self):
+    def get_independent_odes_subs(self):
+        """
+        Returns a Sympy Matrix representing the independent ODE system with conservation laws substituted in. Each row
+        corresponds to the ODE for the species corresponding to the list provided by :func:`crnt4sbml.GeneralApproach.get_independent_species`.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_independent_odes_subs()
+        """
         return self.__indp_system_subs
 
+    def get_independent_odes(self):
+        """
+        Returns a Sympy Matrix representing the independent ODE system without conservation laws substituted in. Each row
+        corresponds to the ODE for the species corresponding to the list provided by :func:`crnt4sbml.GeneralApproach.get_independent_species`.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_independent_odes()
+        """
+        return self.__indp_system
+
+    def get_independent_species(self):
+        """
+        Returns a list of SymPy variables that reflects the independent species chosen for the general approach.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_independent_species()
+        """
+
+        return self.__indp_species
+
     def get_fixed_reactions(self):
+        """
+        Returns a list of SymPy variables that describe the reactions that were chosen to be fixed when ensuring a
+        steady-state solution exists.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_fixed_reactions()
+        """
         return self.__fixed_reactions
 
     def get_solutions_to_fixed_reactions(self):
+        """
+        Returns a list of SymPy expressions corresponding to the fixed reactions. The ordering of the elements
+        corresponds to the list returned by :func:`crnt4sbml.GeneralApproach.get_fixed_reactions`.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_solutions_to_fixed_reactions()
+        """
         return self.__soln_to_fixed_reactions2
+
+    def get_conservation_laws(self):
+        """
+        Returns a string representation of the conservation laws. Here the values on the left hand side of each equation
+        are the constants of the conservation laws.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> print(approach.get_conservation_laws())
+        """
+        rhs = self.__cgraph.get_b() * sympy.Matrix([self.__concentration_pars]).T
+        laws = ""
+        for i in range(rhs.shape[0]):
+            laws += 'C' + str(i + 1) + ' = ' + str(rhs[i]) + '\n'
+
+        return laws
+
+    def get_determinant_of_jacobian(self):
+        """
+        Returns a Sympy expression of the determinant of the Jacobian, where the Jacobian is with respect to the
+        independent species.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_determinant_of_jacobian()
+        """
+        return self.__det_jac_indp_subs
