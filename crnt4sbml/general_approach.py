@@ -746,7 +746,7 @@ class GeneralApproach:
 
             end_t = time.time()
             elapsed = end_t - start_t
-            print("Elapsed time for optimization: " + str(elapsed))
+            print("Elapsed time for optimization in seconds: " + str(elapsed))
 
             params = self.__final_check(det_point_sets, bounds, full_set_of_values, fixed_reaction_ind_all,
                                         self.__cons_laws_lamb, indp_spec_ind_dec, inputs, input_values)

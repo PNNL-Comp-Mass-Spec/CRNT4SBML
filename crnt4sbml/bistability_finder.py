@@ -58,7 +58,7 @@ class BistabilityFinder:
                                             confidence_level_flag, change_in_rel_error)
             
             end = time.process_time()
-            print("Elapsed time for multistart method: " + str(end - start))
+            print("Elapsed time for multistart method in seconds: " + str(end - start))
             print("")
 
             important_info += "Total feasible points that give F(x) = 0: " + str(total_that_give_zero) + "\n"
@@ -322,7 +322,7 @@ class BistabilityFinder:
                 os.close(stderr_fileno)
 
         end = time.time()
-        print("Elapsed time for continuity analysis: " + str(end - start))
+        print("Elapsed time for continuity analysis in seconds: " + str(end - start))
         print("")
 
         important_info = "Number of multistability plots found: " + str(len(multistable_param_ind)) + "\n"
@@ -477,7 +477,7 @@ class BistabilityFinder:
                 os.close(stderr_fileno)
 
         end = time.time()
-        print("Elapsed time for continuity analysis: " + str(end - start))
+        print("Elapsed time for continuity analysis in seconds: " + str(end - start))
         print("")
 
         important_info = "Number of multistability plots found: " + str(len(multistable_param_ind)) + "\n"
