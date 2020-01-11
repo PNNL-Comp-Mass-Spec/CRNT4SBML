@@ -13,10 +13,10 @@ import sympy
 # iters = 10
 
 # 2.
-network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml") # yes 10
-signal = "C3"
-response = "s15"
-iters = 10
+# network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml") # yes 10
+# signal = "C3"
+# response = "s15"
+# iters = 10
 
 # 3.
 # network = crnt4sbml.CRNT("../sbml_files/closed_fig5A.xml") # yes 10
@@ -114,11 +114,40 @@ iters = 10
 
 # 16.
 # network = crnt4sbml.CRNT("../sbml_files/Fig4B_closed.xml")
-#network = crnt4sbml.CRNT("../sbml_files/Fig4B_open.xml")
+# network = crnt4sbml.CRNT("../sbml_files/Fig4B_open.xml")
 # network = crnt4sbml.CRNT("../sbml_files/small_non_bistable.xml")
 # signal = "C1"
 # response = "s1"
 # iters = 10
+
+# 17.
+network = crnt4sbml.CRNT("../sbml_files/zeroed_reactions.xml")
+signal = "C1"
+response = "s2"
+
+# print(len(network.get_c_graph().get_species()))
+# print(len(network.get_c_graph().get_complexes()))
+# print(len(network.get_c_graph().get_linkage_classes()))
+#
+# sympy.pprint(network.get_c_graph().get_s().rref())
+#
+# print(network.get_c_graph().get_s().rank())
+#
+# sympy.pprint(network.get_c_graph().get_ode_system())
+#
+# #sys.exit()
+# print(network.get_c_graph().get_deficiency())
+
+GA = network.get_general_approach(signal=signal, response=response)
+
+print(GA.get_conservation_laws())
+print(GA.get_fixed_reactions())
+print(GA.get_solutions_to_fixed_reactions())
+
+
+
+
+sys.exit()
 
 # opt = network.get_mass_conservation_approach()
 #

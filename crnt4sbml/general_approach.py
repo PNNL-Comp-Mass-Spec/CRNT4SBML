@@ -55,7 +55,6 @@ class GeneralApproach:
             self.__BT_mat = self.__cgraph.get_b()
         except:
             self.__create_BT_matrix()
-            sympy.pprint(self.__BT_mat)
 
         self.__cons_laws_sympy = None
         self.__indp_species = None
@@ -82,6 +81,14 @@ class GeneralApproach:
     def __create_BT_matrix(self):
         # (bt = NullSpace[Transpose[Y.A]]) // MatrixForm
         the_null_space = (self.__Y_mat * self.__A_mat).T.nullspace()
+
+        # handling an edge case where the null space calculation isn't fully simplified by SymPy
+        if len(the_null_space) > len(self.__sympy_species) - self.__S_mat.rank():
+            the_null_space = self.__simplify_nullspace(the_null_space)
+
+        #sympy.pprint(the_null_space)
+
+        #sys.exit()
 
         # getting the number of columns given in nullspace computation
         sizes = len(the_null_space)
@@ -110,6 +117,43 @@ class GeneralApproach:
             sys.exit()
 
         self.__BT_mat = bt
+
+    def __simplify_nullspace(self, the_null_space):
+
+        # Flag that says a species or reaction was found in one of the column vectors of the nullspace
+        denom_flag = False
+
+        # find those columns that have a common denominator
+        denom_list = []
+        for ii in the_null_space:
+
+            # getting common denominator
+            denom_in_column = [sympy.denom(i) for i in ii]
+            denom_list.append(denom_in_column[0])
+
+        # collecting nullspace vectors with common denominators
+        all_denom = list(set(denom_list))
+        temp_null = [sympy.zeros(self.__N, 1)] * (len(self.__sympy_species) - self.__S_mat.rank())
+        for ii in range(len(all_denom)):
+
+            indices = [i for i, x in enumerate(denom_list) if x == all_denom[ii]]
+            for i in indices:
+                temp_null[ii] += the_null_space[i]
+                temp_null[ii] = sympy.simplify(temp_null[ii])
+
+        # checking to see if a reaction or species is in the reduced nullspace
+        for i in temp_null:
+            atoms_of_col_vec = [ii.atoms() for ii in i[:, 0]]
+            for ii in atoms_of_col_vec:
+                if any([iii in self.__sympy_reactions + self.__sympy_species for iii in ii]):
+                    denom_flag = True
+
+        if denom_flag:
+            raise Exception("Nullspace calculation from S contains SymPy variables and this could not be resolved.")
+
+        sympy.pprint(temp_null)
+
+        return temp_null
 
     def __create_non_negative_b_matrix(self, the_null_space, sizes):
 
@@ -163,16 +207,15 @@ class GeneralApproach:
     def __create_conservation_laws(self):
 
         self.__cons_laws_sympy = self.__BT_mat*sympy.Matrix(self.__sympy_species)
-        # print("conservation laws")
-        # sympy.pprint(self.__cons_laws_sympy)
 
     def __construct_independent_system(self):
 
         # forming ya matrix
-        ya = self.__Y_mat * self.__A_mat
+        #ya = self.__Y_mat * self.__A_mat   # old approach
+        ya, __ = sympy.linear_eq_to_matrix(self.__Y_mat * self.__A_mat*self.__psi_vec, self.__sympy_reactions) # new
 
         # finding how many rows are indep in ya
-        _, vals = ya.T.rref()
+        __, vals = ya.T.rref()
 
         num_indp_eqns = len(vals)
         num_dep_eqns = self.__N - num_indp_eqns
@@ -242,7 +285,8 @@ class GeneralApproach:
         dep_spec_conc = [self.__sympy_species[i] for i in chosen_dep_indices]
 
         # constructing the independent ODEs
-        indp_odes_temp = ya[chosen_indp_indices, :] * self.__psi_vec
+        indp_odes_temp = ya[chosen_indp_indices, :] * sympy.Matrix(self.__sympy_reactions) # new approach
+        #indp_odes_temp = ya[chosen_indp_indices, :] * self.__psi_vec  # old approach
 
         # Lambda function of conservation laws
         self.__cons_laws_lamb = [sympy.utilities.lambdify(self.__sympy_species, self.__cons_laws_sympy[i])
@@ -299,6 +343,8 @@ class GeneralApproach:
         return replacements
 
     def __create_variables_for_optimization(self):
+
+        sympy.pprint(self.__indp_system_subs)
 
         self.__jac_indp_subs = self.__indp_system_subs.jacobian(sympy.Matrix(self.__indp_species))
 
@@ -383,81 +429,68 @@ class GeneralApproach:
         a, vals = self.__S_mat.rref()
 
         self.__fixed_reactions = [self.__sympy_reactions[i] for i in vals]
-
-        #temp_solution_tuple2 = sympy.solve(self.__indp_system, self.__fixed_reactions, dict=True)
-
-        #print("temp_solution_tuple2")
-        #print(temp_solution_tuple2)
-        #print([temp_solution_tuple2[0].get(i) for i in self.__fixed_reactions])
-
         a, b = sympy.linear_eq_to_matrix(self.__indp_system, self.__fixed_reactions)
-        #sympy.pprint(a)
-        #sympy.pprint(b)
         temp_solution_tuple = list(sympy.linsolve((a, b), self.__fixed_reactions))[0]
 
-        # print("temp_solution_tuple")
-        # print(temp_solution_tuple)
+        print("temp_solution_tuple")
+        print(self.__fixed_reactions)
+        print(temp_solution_tuple)
 
+        no_zero_values_flag = True
 
         # looking for other fixed reaction sets if no solution was found
-        # if not temp_solution_tuple2:
-        #     comb = self.__construct_possible_fixed_reactions()
-        #     print("comb")
-        #     print(comb)
-        #     zeros = sympy.zeros(len(self.__indp_system), 1)
-        #     for i in comb:
-        #         i.sort(key=lambda j: self.__sympy_reactions.index(j))
-        #         a, _ = sympy.linear_eq_to_matrix(self.__indp_system, i)
-        #         rank_a = a.rank()
-        #         aug = a.row_join(zeros)
-        #         rank_aug = aug.rank()
-        #         if rank_a == rank_aug and rank_a == a.shape[1]:
-        #             self.__fixed_reactions = i
-        #             temp_solution_tuple2 = sympy.solve(self.__indp_system, self.__fixed_reactions, dict=True)
-        #             print(temp_solution_tuple2)
-        #             print(i)
-        #             if temp_solution_tuple2:
-        #                 break
-        #         print("")
-        #
-        # print("temp_solution_tuple2")
-        # print(temp_solution_tuple2)
-        # sys.exit()
-        self.__soln_to_fixed_reactions2 = list(temp_solution_tuple) #[temp_solution_tuple2[0].get(i) for i in self.__fixed_reactions]
+        if sympy.S.Zero in temp_solution_tuple:
+            print("")
+            print("At least one fixed reaction found to be zero. \nAttempting to find nonzero values for all fixed reactions.")
+
+            no_zero_values_flag = False
+            reactions_found_to_be_zero = []
+
+            zero_indices = [i for i in range(len(temp_solution_tuple)) if temp_solution_tuple[i] == sympy.S.Zero]
+            [reactions_found_to_be_zero.append(self.__fixed_reactions[i]) for i in zero_indices]
+
+            comb = self.__construct_possible_fixed_reactions()
+            zeros = sympy.zeros(len(self.__indp_system), 1)
+            for i in comb:
+                i.sort(key=lambda j: self.__sympy_reactions.index(j))
+                a, b = sympy.linear_eq_to_matrix(self.__indp_system, i)
+                rank_a = a.rank()
+                aug = a.row_join(zeros)
+                rank_aug = aug.rank()
+                if rank_a == rank_aug and rank_a == a.shape[1]:
+                    self.__fixed_reactions = i
+                    temp_solution_tuple2 = list(sympy.linsolve((a, b), self.__fixed_reactions))[0]
+                    # print(temp_solution_tuple2)
+                    # print(i)
+                    if sympy.S.Zero not in temp_solution_tuple2:
+                        no_zero_values_flag = True
+                        break
+                    else:
+                        zero_indices = [ii for ii in range(len(temp_solution_tuple2)) if
+                                        temp_solution_tuple2[ii] == sympy.S.Zero]
+                        [reactions_found_to_be_zero.append(i[ii]) for ii in zero_indices if i[ii] not in reactions_found_to_be_zero]
+            print("Done searching for nonzero values for all fixed reactions.")
+            print("")
+
+        if no_zero_values_flag:
+            self.__soln_to_fixed_reactions2 = list(temp_solution_tuple)
+        else:
+            print("There was no solution which resulted in all fixed reaction values being nonzero.")
+            print(f"Consider removing one or all of the following reactions {reactions_found_to_be_zero}. \n")
+
+            print("temp_solution_tuple2")
+            print(temp_solution_tuple2)
+            self.__soln_to_fixed_reactions2 = list(temp_solution_tuple2)
+
+        sys.exit()
 
         for i in range(len(self.__soln_to_fixed_reactions2)):
             for j in range(len(self.__replacements)):
                 self.__soln_to_fixed_reactions2[i] = self.__soln_to_fixed_reactions2[i].subs(self.__replacements[j][0], self.__replacements[j][1])
 
-        #print(self.__soln_to_fixed_reactions2)
-
-
-        # if self.__fixed_reactions:
-        #     temp_solution_tuple = sympy.solve(self.__indp_system_subs, self.__fixed_reactions, dict=True)
-        #     if len(temp_solution_tuple) == 1:
-        #         # self.__soln_to_fixed_reactions = [sympy.factor(temp_solution_tuple[0].get(i)) for i in self.__fixed_reactions]
-        #         self.__soln_to_fixed_reactions = [temp_solution_tuple[0].get(i) for i in
-        #                                           self.__fixed_reactions]
-        #     else:
-        #         # todo: check for positive solutions here
-        #         print("multiple solutions found in reaction solve.")
-        #         self.__soln_to_fixed_reactions = []
-        #
-        # print("self.__soln_to_fixed_reactions")
-        # print(self.__soln_to_fixed_reactions)
-        # print("")
-        #
-        # for i in range(len(self.__soln_to_fixed_reactions)):
-        #     print(sympy.simplify(self.__soln_to_fixed_reactions[i].expand()) == sympy.simplify(self.__soln_to_fixed_reactions2[i].expand()))                ######$$$$$$$$$##########
-
-        #sys.exit()
-
         self.__vars_for_lam_fixed_reactions = [i for i in self.__lambda_variables if i not in self.__fixed_reactions]
         self.__lambda_fixed_reactions = [sympy.utilities.lambdify(self.__vars_for_lam_fixed_reactions, i) for i in
                                          self.__soln_to_fixed_reactions2]
-
-        # self.__vars_for_lam_fixed_reactions = [i for i in self.__lambda_variables if i not in self.__fixed_reactions]
-        # self.__lambda_fixed_reactions = [sympy.utilities.lambdify(self.__vars_for_lam_fixed_reactions, i) for i in self.__soln_to_fixed_reactions]
 
     def __feasible_point_obj_func(self, x, boundz, full_set_of_values, reaction_ind, cons_laws_lamb, indp_spec_ind, inputs):
 
@@ -1236,7 +1269,7 @@ class GeneralApproach:
         >>> approach = network.get_general_approach(signal, response)
         >>> print(approach.get_conservation_laws())
         """
-        rhs = self.__cgraph.get_b() * sympy.Matrix([self.__concentration_pars]).T
+        rhs = self.__cgraph.get_b() * sympy.Matrix([self.__sympy_species]).T
         laws = ""
         for i in range(rhs.shape[0]):
             laws += 'C' + str(i + 1) + ' = ' + str(rhs[i]) + '\n'
