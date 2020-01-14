@@ -4,80 +4,78 @@
   <key attr.name="label" attr.type="string" for="edge" id="d1" />
   <key attr.name="BC" attr.type="boolean" for="node" id="d0" />
   <graph edgedefault="directed">
-    <node id="s1+s2">
+    <node id="s1+s3">
+      <data key="d0">False</data>
+    </node>
+    <node id="s5">
+      <data key="d0">False</data>
+    </node>
+    <node id="s2+s3">
+      <data key="d0">False</data>
+    </node>
+    <node id="s1+s4">
+      <data key="d0">False</data>
+    </node>
+    <node id="s8">
+      <data key="d0">False</data>
+    </node>
+    <node id="s2+s4">
       <data key="d0">False</data>
     </node>
     <node id="s3">
       <data key="d0">False</data>
     </node>
-    <node id="s1+s3">
+    <node id="s4">
       <data key="d0">False</data>
     </node>
-    <node id="s6">
+    <node id="s2">
       <data key="d0">False</data>
     </node>
-    <node id="s9">
+    <node id="s1">
       <data key="d0">False</data>
     </node>
-    <node id="s10">
-      <data key="d0">False</data>
-    </node>
-    <node id="s10+s6">
-      <data key="d0">False</data>
-    </node>
-    <node id="s9+s6">
-      <data key="d0">False</data>
-    </node>
-    <node id="s6s10">
-      <data key="d0">False</data>
-    </node>
-    <node id="s10+s3">
-      <data key="d0">False</data>
-    </node>
-    <node id="s9+s3">
-      <data key="d0">False</data>
-    </node>
-    <node id="s3s10">
-      <data key="d0">False</data>
-    </node>
-    <edge source="s1+s2" target="s3">
-      <data key="d1">re1</data>
-      <data key="d2">True</data>
-    </edge>
-    <edge source="s3" target="s1+s2">
-      <data key="d1">re1r</data>
-      <data key="d2">True</data>
-    </edge>
-    <edge source="s1+s3" target="s6">
-      <data key="d1">re2</data>
-      <data key="d2">False</data>
-    </edge>
-    <edge source="s9" target="s10">
+    <edge source="s1+s3" target="s5">
       <data key="d1">re4</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s5" target="s1+s3">
+      <data key="d1">re4r</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s5" target="s2+s3">
+      <data key="d1">re5</data>
       <data key="d2">False</data>
     </edge>
-    <edge source="s10+s6" target="s6s10">
-      <data key="d1">re5f</data>
+    <edge source="s5" target="s8">
+      <data key="d1">re9</data>
       <data key="d2">True</data>
     </edge>
-    <edge source="s6s10" target="s10+s6">
-      <data key="d1">re5d</data>
+    <edge source="s1+s4" target="s8">
+      <data key="d1">re6</data>
       <data key="d2">True</data>
     </edge>
-    <edge source="s6s10" target="s9+s6">
-      <data key="d1">re5c</data>
+    <edge source="s8" target="s1+s4">
+      <data key="d1">re6r</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s8" target="s2+s4">
+      <data key="d1">re7</data>
       <data key="d2">False</data>
     </edge>
-    <edge source="s10+s3" target="s3s10">
-      <data key="d1">re6f</data>
+    <edge source="s8" target="s5">
+      <data key="d1">re9r</data>
       <data key="d2">True</data>
     </edge>
-    <edge source="s3s10" target="s10+s3">
-      <data key="d1">re6d</data>
+    <edge source="s3" target="s4">
+      <data key="d1">re8</data>
       <data key="d2">True</data>
     </edge>
-    <edge source="s3s10" target="s9+s3">
-      <data key="d1">re6c</data>
+    <edge source="s4" target="s3">
+      <data key="d1">re8r</data>
+      <data key="d2">True</data>
+    </edge>
+    <edge source="s2" target="s1">
+      <data key="d1">re10</data>
       <data key="d2">False</data>
     </edge>
   </graph>

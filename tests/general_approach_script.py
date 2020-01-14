@@ -74,32 +74,16 @@ import sympy
 # iters = 10
 
 # 12.
-# network = crnt4sbml.CRNT("../sbml_files/Song.xml") # yes for 100
-# signal = "C1"
-# response = "s2"
-# iters = 100
+network = crnt4sbml.CRNT("../sbml_files/Song.xml") # yes for 100
+signal = "C1"
+response = "s2"
+iters = 100
 
 # 13.
 # network = crnt4sbml.CRNT("../sbml_files/DoublePhos.xml") # yes 10
 # signal = "C2"
 # response = "s4"
 # iters = 10
-
-# import math
-# a = 1
-# b = 5
-# r = 1
-# n_til = 10
-#
-# a_bar = a + b - 1
-# b_bar = b - r - 1
-#
-# prob = 1 - (math.factorial(n_til + a_bar)*math.factorial(2*n_til + b_bar))/(math.factorial(2*n_til + a_bar)*math.factorial(n_til + b_bar))
-#
-# print(prob)
-#
-# sys.exit()
-
 
 # 14.
 # network = crnt4sbml.CRNT("../sbml_files/attempt_at_irreversible.xml")              ###################################################
@@ -121,9 +105,9 @@ import sympy
 # iters = 10
 
 # 17.
-network = crnt4sbml.CRNT("../sbml_files/zeroed_reactions.xml")
-signal = "C1"
-response = "s2"
+# network = crnt4sbml.CRNT("../sbml_files/zeroed_reactions.xml")
+# signal = "C1"
+# response = "s2"
 
 # print(len(network.get_c_graph().get_species()))
 # print(len(network.get_c_graph().get_complexes()))
@@ -147,7 +131,7 @@ print(GA.get_solutions_to_fixed_reactions())
 
 
 
-sys.exit()
+#sys.exit()
 
 # opt = network.get_mass_conservation_approach()
 #
@@ -237,7 +221,7 @@ network.print_c_graph()
 
 #sys.exit()
 
-GA = network.get_general_approach(signal=signal, response=response)
+# GA = network.get_general_approach(signal=signal, response=response)
 
 
 # 1.
@@ -278,7 +262,7 @@ GA = network.get_general_approach(signal=signal, response=response)
 #bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*1 + [(1e-2, 100.0)] + [(1e-2, 100.0)]*4
 
 # 2.
-bnds = GA.get_optimization_bounds()
+# bnds = GA.get_optimization_bounds()
 
 # 3.
 #bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
@@ -310,7 +294,7 @@ bnds = GA.get_optimization_bounds()
 # 12.
 #bnds = GA.get_optimization_bounds()
 #bnds = [(1e-3, 6.0)]*len(network.get_c_graph().get_reactions()) + [(1e-3, 1000.0)]*len(network.get_c_graph().get_species())
-#bnds = [(1e-3, 10.0)]*len(network.get_c_graph().get_reactions()) + [(1e-3, 1000.0)]*len(network.get_c_graph().get_species())
+bnds = [(1e-3, 10.0)]*len(network.get_c_graph().get_reactions()) + [(1e-3, 1000.0)]*len(network.get_c_graph().get_species())
 
 # # 13.
 # bnds = GA.get_optimization_bounds()
@@ -339,7 +323,7 @@ params, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0
                                            dual_annealing_iters=1000, confidence_level_flag=True)
 
 
-#numpy.save('params.npy', params)
+numpy.save('params.npy', params)
 #params = numpy.load('params.npy')
 
 # print(det_point_sets)

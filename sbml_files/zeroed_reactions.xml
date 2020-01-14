@@ -48,7 +48,7 @@
 </celldesigner:speciesAlias>
 <celldesigner:speciesAlias id="sa24" species="s24">
 <celldesigner:activity>inactive</celldesigner:activity>
-<celldesigner:bounds x="297.0" y="179.0" w="80.0" h="40.0"/>
+<celldesigner:bounds x="193.0" y="266.0" w="80.0" h="40.0"/>
 <celldesigner:font size="12"/>
 <celldesigner:view state="usual"/>
 <celldesigner:usualView>
@@ -197,7 +197,7 @@
 </celldesigner:baseReactants>
 <celldesigner:baseProducts>
 <celldesigner:baseProduct species="s24" alias="sa24">
-<celldesigner:linkAnchor position="SSE"/>
+<celldesigner:linkAnchor position="E"/>
 </celldesigner:baseProduct>
 </celldesigner:baseProducts>
 <celldesigner:connectScheme connectPolicy="direct" rectangleIndex="0">

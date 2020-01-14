@@ -151,7 +151,7 @@ class GeneralApproach:
         if denom_flag:
             raise Exception("Nullspace calculation from S contains SymPy variables and this could not be resolved.")
 
-        sympy.pprint(temp_null)
+        # sympy.pprint(temp_null)
 
         return temp_null
 
@@ -344,7 +344,7 @@ class GeneralApproach:
 
     def __create_variables_for_optimization(self):
 
-        sympy.pprint(self.__indp_system_subs)
+        # sympy.pprint(self.__indp_system_subs)
 
         self.__jac_indp_subs = self.__indp_system_subs.jacobian(sympy.Matrix(self.__indp_species))
 
@@ -432,9 +432,9 @@ class GeneralApproach:
         a, b = sympy.linear_eq_to_matrix(self.__indp_system, self.__fixed_reactions)
         temp_solution_tuple = list(sympy.linsolve((a, b), self.__fixed_reactions))[0]
 
-        print("temp_solution_tuple")
-        print(self.__fixed_reactions)
-        print(temp_solution_tuple)
+        # print("temp_solution_tuple")
+        # print(self.__fixed_reactions)
+        # print(temp_solution_tuple)
 
         no_zero_values_flag = True
 
@@ -460,8 +460,6 @@ class GeneralApproach:
                 if rank_a == rank_aug and rank_a == a.shape[1]:
                     self.__fixed_reactions = i
                     temp_solution_tuple2 = list(sympy.linsolve((a, b), self.__fixed_reactions))[0]
-                    # print(temp_solution_tuple2)
-                    # print(i)
                     if sympy.S.Zero not in temp_solution_tuple2:
                         no_zero_values_flag = True
                         break
@@ -478,11 +476,11 @@ class GeneralApproach:
             print("There was no solution which resulted in all fixed reaction values being nonzero.")
             print(f"Consider removing one or all of the following reactions {reactions_found_to_be_zero}. \n")
 
-            print("temp_solution_tuple2")
-            print(temp_solution_tuple2)
+            # print("temp_solution_tuple2")
+            # print(temp_solution_tuple2)
             self.__soln_to_fixed_reactions2 = list(temp_solution_tuple2)
 
-        sys.exit()
+        #sys.exit()
 
         for i in range(len(self.__soln_to_fixed_reactions2)):
             for j in range(len(self.__replacements)):
@@ -1095,6 +1093,17 @@ class GeneralApproach:
         return ant_str
 
     def get_optimization_bounds(self):
+        """
+        Returns a list of tuples that corresponds to the determined physiological bounds chosen for the problem. Each
+        entry corresponds to the list provided by :func:`crnt4sbml.GeneralApproach.get_input_vector`.
+
+         Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_optimization_bounds()
+        """
 
         graph_edges = self.__cgraph.get_g_edges()
         dec_vec_var_def = []
@@ -1269,7 +1278,7 @@ class GeneralApproach:
         >>> approach = network.get_general_approach(signal, response)
         >>> print(approach.get_conservation_laws())
         """
-        rhs = self.__cgraph.get_b() * sympy.Matrix([self.__sympy_species]).T
+        rhs = self.__BT_mat * sympy.Matrix([self.__sympy_species]).T
         laws = ""
         for i in range(rhs.shape[0]):
             laws += 'C' + str(i + 1) + ' = ' + str(rhs[i]) + '\n'
@@ -1289,3 +1298,36 @@ class GeneralApproach:
         >>> approach.get_determinant_of_jacobian()
         """
         return self.__det_jac_indp_subs
+
+    def get_variables_for_lambda_functions(self):
+        """
+        Returns a list of all SymPy variables that are used in the independent ODE system with conservation laws
+        substituted in, which is given by :func:`crnt4sbml.GeneralApproach.get_independent_odes_subs`.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_variables_for_lambda_functions()
+        """
+        return self.__lambda_variables
+
+    def get_indpendent_odes_lambda_function(self):
+        """
+        Returns a list of lamda functions where each element corresponds to the row of the independent ODE system with
+        conservation laws substituted in, which is given by :func:`crnt4sbml.GeneralApproach.get_independent_odes_subs`.
+        The variables for the lambda functions are given by :func:`crnt4sbml.GeneralApproach.get_variables_for_lambda_functions`.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/SBML_File.xml")
+        >>> approach = network.get_general_approach(signal, response)
+        >>> approach.get_indpendent_odes_lambda_function()
+        """
+
+        return self.__lambda_indp_odes
+
+
+
