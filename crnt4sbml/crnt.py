@@ -355,7 +355,7 @@ class CRNT:
         else:
             return SemiDiffusiveApproach(self.__cgraph, self.get_physiological_range)
 
-    def get_general_approach(self, signal=None, response=None):
+    def get_general_approach(self, signal=None, response=None, fix_reactions=True):
         """
         Initializes and creates an object for the class GeneralApproach for the CRNT object constructed.
 
@@ -379,9 +379,9 @@ class CRNT:
             """
             print(re.sub(r"^\s+", "", message, flags=re.MULTILINE))
             #return None
-            return GeneralApproach(self.__cgraph, signal, response)
+            return GeneralApproach(self.__cgraph, signal, response, fix_reactions)
         else:
-            return GeneralApproach(self.__cgraph, signal, response)
+            return GeneralApproach(self.__cgraph, signal, response, fix_reactions)
 
     def get_advanced_deficiency_approach(self):
         """

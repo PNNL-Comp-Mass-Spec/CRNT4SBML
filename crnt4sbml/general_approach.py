@@ -15,7 +15,7 @@ class GeneralApproach:
     """
     Class for constructing a more general approach to bistability detection for systems with mass action kinetics.
     """
-    def __init__(self, cgraph, signal, response):
+    def __init__(self, cgraph, signal, response, fix_reactions):
         """
         Initialization of GeneralApproach class using a network contructed by crnt4sbml.CRNT().
 
@@ -28,9 +28,11 @@ class GeneralApproach:
 
         self.__signal = signal
         self.__response = response
+        self.__fix_reactions = fix_reactions
 
         if not self.__cgraph.get_dim_equilibrium_manifold() > 0:
-            print("# of species - rank(S) is not greater than zero!")
+            print("# of species - rank(S) is not greater than zero.")
+            print("This implies that there are no mass conservation laws.")
             print("The general approach cannot be ran!")
             sys.exit()
 
@@ -85,10 +87,6 @@ class GeneralApproach:
         # handling an edge case where the null space calculation isn't fully simplified by SymPy
         if len(the_null_space) > len(self.__sympy_species) - self.__S_mat.rank():
             the_null_space = self.__simplify_nullspace(the_null_space)
-
-        #sympy.pprint(the_null_space)
-
-        #sys.exit()
 
         # getting the number of columns given in nullspace computation
         sizes = len(the_null_space)
@@ -150,8 +148,6 @@ class GeneralApproach:
 
         if denom_flag:
             raise Exception("Nullspace calculation from S contains SymPy variables and this could not be resolved.")
-
-        # sympy.pprint(temp_null)
 
         return temp_null
 
@@ -344,8 +340,6 @@ class GeneralApproach:
 
     def __create_variables_for_optimization(self):
 
-        # sympy.pprint(self.__indp_system_subs)
-
         self.__jac_indp_subs = self.__indp_system_subs.jacobian(sympy.Matrix(self.__indp_species))
 
         u_variables = sympy.Matrix(self.__indp_species)
@@ -358,9 +352,9 @@ class GeneralApproach:
         self.__lambda_variables = self.__sympy_reactions + self.__indp_species + \
                                  [sympy.Symbol("C" + str(i+1), real=True) for i in range(len(self.__cons_laws_sympy))]
 
-        jac_eps = self.__indp_system_subs.jacobian([sympy.Symbol(self.__signal, real=True)])
+        self.__jac_eps = self.__indp_system_subs.jacobian([sympy.Symbol(self.__signal, real=True)])
 
-        self.__lambda_jac_eps = sympy.utilities.lambdify(self.__lambda_variables, jac_eps)
+        self.__lambda_jac_eps = sympy.utilities.lambdify(self.__lambda_variables, self.__jac_eps)
 
         self.__lambda_indp_odes = [sympy.utilities.lambdify(self.__lambda_variables, i) for i in self.__indp_system_subs]
 
@@ -372,9 +366,63 @@ class GeneralApproach:
                                                                                     for i in range(len(u_variables))],
                                                           self.__D2_g_u_w)
 
-        self.__enforce_steady_state()
+        if self.__fix_reactions:
+            self.__enforce_steady_state()
+            # self.__check()
+        else:
+            self.__fixed_reactions = []
+            self.__vars_for_lam_fixed_reactions = []
+            self.__lambda_fixed_reactions = []
+            self.__soln_to_fixed_reactions2 = []
 
         self.__decision_vector = [i for i in self.__sympy_reactions if i not in self.__fixed_reactions] + self.__sympy_species
+
+    def __check(self):
+
+        temp_jac_eps = self.__jac_eps[:, :]
+        k_vec = sympy.Matrix([[sympy.Symbol('k' + str(i))]  for i in range(self.__jac_eps.shape[0])])
+        temp_D2_g_u_w = self.__D2_g_u_w[:, :]*k_vec
+
+        jac_eps_subs = []
+        for i in range(self.__jac_eps.shape[0]):
+            temp_jac_eps[i] = [temp_jac_eps[i].subs(self.get_fixed_reactions()[j],
+                                                    self.get_solutions_to_fixed_reactions()[j]) for j in
+                               range(len(self.get_fixed_reactions()))][0]
+
+            temp_jac_eps[i] = sympy.simplify(sympy.expand(temp_jac_eps[i]))
+
+            if sympy.S.Zero == temp_jac_eps[i]:
+                jac_eps_subs.append(True)
+            else:
+                jac_eps_subs.append(False)
+
+        D2_g_u_w_subs = []
+        for i in range(self.__D2_g_u_w.shape[0]):
+            temp_D2_g_u_w[i] = [temp_D2_g_u_w[i].subs(self.get_fixed_reactions()[j],
+                                                      self.get_solutions_to_fixed_reactions()[j])
+                                for j in range(len(self.get_fixed_reactions()))][0]
+
+            temp_D2_g_u_w[i] = sympy.simplify(sympy.expand(temp_D2_g_u_w[i]))
+
+            if sympy.S.Zero == sympy.simplify(temp_D2_g_u_w[i]):
+                D2_g_u_w_subs.append(True)
+            else:
+                D2_g_u_w_subs.append(False)
+
+        a, b = sympy.linear_eq_to_matrix(temp_D2_g_u_w, self.__sympy_reactions)
+
+        D2_nullspace = a.nullspace()
+
+        for i in range(len(D2_nullspace)):
+            D2_nullspace[i] = sympy.simplify(D2_nullspace[i])
+
+        a, b = sympy.linear_eq_to_matrix(temp_jac_eps, self.__sympy_reactions)
+
+        jac_eps_nullspace = a.nullspace()
+
+        for i in range(len(jac_eps_nullspace)):
+            jac_eps_nullspace[i] = sympy.simplify(jac_eps_nullspace[i])
+
 
     @staticmethod
     def second_derivative_operator(g_functions, u_variables, w_vector):
@@ -432,10 +480,6 @@ class GeneralApproach:
         a, b = sympy.linear_eq_to_matrix(self.__indp_system, self.__fixed_reactions)
         temp_solution_tuple = list(sympy.linsolve((a, b), self.__fixed_reactions))[0]
 
-        # print("temp_solution_tuple")
-        # print(self.__fixed_reactions)
-        # print(temp_solution_tuple)
-
         no_zero_values_flag = True
 
         # looking for other fixed reaction sets if no solution was found
@@ -457,6 +501,7 @@ class GeneralApproach:
                 rank_a = a.rank()
                 aug = a.row_join(zeros)
                 rank_aug = aug.rank()
+                self.__fixed_reactions = i
                 if rank_a == rank_aug and rank_a == a.shape[1]:
                     self.__fixed_reactions = i
                     temp_solution_tuple2 = list(sympy.linsolve((a, b), self.__fixed_reactions))[0]
@@ -475,12 +520,7 @@ class GeneralApproach:
         else:
             print("There was no solution which resulted in all fixed reaction values being nonzero.")
             print(f"Consider removing one or all of the following reactions {reactions_found_to_be_zero}. \n")
-
-            # print("temp_solution_tuple2")
-            # print(temp_solution_tuple2)
             self.__soln_to_fixed_reactions2 = list(temp_solution_tuple2)
-
-        #sys.exit()
 
         for i in range(len(self.__soln_to_fixed_reactions2)):
             for j in range(len(self.__replacements)):
@@ -521,11 +561,10 @@ class GeneralApproach:
 
         sumval = numpy.float64(0.0)
         for i in range(len(full_set_of_values)):
-            sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(boundz[i][0]) - full_set_of_values[i]) #**2
-            sumval += numpy.maximum(numpy.float64(0.0), full_set_of_values[i] - numpy.float64(boundz[i][1])) #**2
+            sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(boundz[i][0]) - full_set_of_values[i])
+            sumval += numpy.maximum(numpy.float64(0.0), full_set_of_values[i] - numpy.float64(boundz[i][1]))
 
-        cons_law = 0
-
+        #cons_law = 0
         #sumval += numpy.maximum(numpy.float64(0.0), cons_laws_lamb[cons_law](*tuple(x[self.__R - len(reaction_ind):]) + numpy.float64(1e-2)))      ############### carefullll
         #sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(-100.0) - cons_laws_lamb[cons_law](*tuple(x[self.__R - len(reaction_ind):])))
 
@@ -560,7 +599,7 @@ class GeneralApproach:
         # filling in fixed reaction values
         full_set_of_values[reaction_ind] = numpy.array([i(*tuple(inputs)) for i in self.__lambda_fixed_reactions])
 
-        # filing in reactions
+        # filling in reactions
         input_values[0: self.__R] = full_set_of_values[0:self.__R]
 
         # filling in independent species
@@ -575,7 +614,6 @@ class GeneralApproach:
 
         if numpy.isfinite(determinant):
             fun += determinant
-
         else:
             fun += numpy.PINF
 
@@ -589,6 +627,11 @@ class GeneralApproach:
         #sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(-100.0) - cons_laws_lamb[cons_law](*tuple(x[self.__R - len(reaction_ind):])))
 
         fun += sumval
+
+        if not self.__fix_reactions:
+
+            for i in self.__lambda_indp_odes:
+                fun += (i(*tuple(input_values)))**2
 
         return fun
 
@@ -615,53 +658,48 @@ class GeneralApproach:
         fixed_reaction_ind_all = [all_vars_with_bounds.index(i) for i in self.__fixed_reactions]
         indp_spec_ind_dec = [self.__decision_vector.index(i) for i in self.__indp_species]
 
-        inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
+        if self.__fix_reactions:
+            inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
 
         feasible_point_sets = []
-        for i in range(num_constraint_method_iters):
+        if self.__fix_reactions:
+            for i in range(num_constraint_method_iters):
 
-            with numpy.errstate(divide='ignore', invalid='ignore'):
+                with numpy.errstate(divide='ignore', invalid='ignore'):
 
-                # result = scipy.optimize.basinhopping(self.__feasible_point_obj_func, samples[i],
-                #                                      minimizer_kwargs={'method': 'Nelder-Mead',
-                #                                                        'args': (bounds, full_set_of_values,
-                #                                                                 fixed_reaction_ind_all,
-                #                                                                 self.__cons_laws_lamb,
-                #                                                                 indp_spec_ind_dec, inputs),
-                #                                                        'tol': 1e-16},
-                #                                      niter=2, seed=seed)
-
-                result = scipy.optimize.dual_annealing(self.__feasible_point_obj_func, bounds=decision_vector_bounds,
-                                                       args=(bounds, full_set_of_values, fixed_reaction_ind_all,
-                                                             self.__cons_laws_lamb, indp_spec_ind_dec, inputs),
-                                                       x0=samples[i],
-                                                       seed=seed,
-                                                       local_search_options={'method': "Nelder-Mead"}, maxiter=100)
-
-                if print_flag:
-                    print("Objective function value: " + str(result.fun))
-                    print("Decision vector used: ")
-                    print(result.x)
-
-                if abs(result.fun) > numpy.float64(1e-100):
-                    result1 = scipy.optimize.minimize(self.__feasible_point_obj_func, result.x,
-                                                      args=(bounds, full_set_of_values, fixed_reaction_ind_all,
-                                                            self.__cons_laws_lamb, indp_spec_ind_dec, inputs),
-                                                      method='Nelder-Mead', tol=1e-16)
+                    result = scipy.optimize.dual_annealing(self.__feasible_point_obj_func, bounds=decision_vector_bounds,
+                                                           args=(bounds, full_set_of_values, fixed_reaction_ind_all,
+                                                                 self.__cons_laws_lamb, indp_spec_ind_dec, inputs),
+                                                           x0=samples[i],
+                                                           seed=seed,
+                                                           local_search_options={'method': "Nelder-Mead"}, maxiter=100)
 
                     if print_flag:
-                        print("Objective function value: " + str(result1.fun))
+                        print("Objective function value: " + str(result.fun))
                         print("Decision vector used: ")
-                        print(result1.x)
+                        print(result.x)
 
-                    if abs(result1.fun) <= numpy.finfo(float).eps or confidence_level_flag:
-                        feasible_point_sets.append(result1.x)
+                    if abs(result.fun) > numpy.float64(1e-100):
+                        result1 = scipy.optimize.minimize(self.__feasible_point_obj_func, result.x,
+                                                          args=(bounds, full_set_of_values, fixed_reaction_ind_all,
+                                                                self.__cons_laws_lamb, indp_spec_ind_dec, inputs),
+                                                          method='Nelder-Mead', tol=1e-16)
 
-                else:
-                    feasible_point_sets.append(result.x)
+                        if print_flag:
+                            print("Objective function value: " + str(result1.fun))
+                            print("Decision vector used: ")
+                            print(result1.x)
 
-                if print_flag:
-                    print("")
+                        if abs(result1.fun) <= numpy.finfo(float).eps or confidence_level_flag:
+                            feasible_point_sets.append(result1.x)
+
+                    else:
+                        feasible_point_sets.append(result.x)
+
+                    if print_flag:
+                        print("")
+        else:
+            feasible_point_sets = [i for i in samples]
 
         return feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec, decision_vector_bounds
 
@@ -713,7 +751,12 @@ class GeneralApproach:
 
         bounds_2 = decision_vector_bounds
         full_set_of_values = numpy.zeros(len(bounds), dtype=numpy.float64)
-        inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
+
+        if self.__fix_reactions:
+            inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
+        else:
+            inputs = numpy.zeros(len(self.__lambda_variables), dtype=numpy.float64)
+
         input_values = numpy.zeros(len(self.__lambda_variables), dtype=numpy.float64)
 
         det_point_sets = []
@@ -867,11 +910,13 @@ class GeneralApproach:
             input_values[self.__R + len(indp_spec_ind):] = inputs[self.__R - len(reaction_ind) + len(indp_spec_ind):]
 
             check = self.__saddle_node_bifurcation(input_values)
-            # print("saddle node check:")
-            # print(check)
-            # print("")
+            print("saddle node check:")
+            print(check)
+            print("")
             if True: #check:
                 params.append(input_values.flatten())
+
+        #sys.exit()
 
         return params
 
@@ -922,20 +967,26 @@ class GeneralApproach:
                             if (jac_w_vals_rank < aug_eps_rank) and (jac_w_vals_rank < aug_Duu_rank):
                                 return True
                             else:
+                                #print("hi 0")
                                 return False
                         else:
+                            #print("hi 1")
                             return False
                     else:
+                        #print("hi 2")
                         return False
                 else:
+                    #print("hi 3")
                     return False
             else:
+                #print("hi 4")
                 return False
         else:
+            #print("hi 5")
             return False
 
     def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-                                       print_lbls_flag=False, auto_parameters=None):
+                                       print_lbls_flag=False, auto_parameters=None, plot_labels=None):
 
         """
                 Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
@@ -960,6 +1011,11 @@ class GeneralApproach:
                         Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
                         PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
                         be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
+                    plot_labels: list of strings
+                        A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+                        is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+                        you would like to use the default settings for some of the labels, simply provide None for that
+                        element.
                 Returns
                 ---------
                     multistable_param_ind: list of integers
@@ -992,14 +1048,14 @@ class GeneralApproach:
 
         multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis \
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters)
+             print_lbls_flag, auto_parameters, plot_labels)
 
         self.__important_info += important_info
 
         return multistable_param_ind, plot_specifications
 
     def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-                                       print_lbls_flag=False, auto_parameters=None):
+                                       print_lbls_flag=False, auto_parameters=None, plot_labels=None):
 
         """
                 Function for running the numerical continuation and bistability analysis portions of the mass conservation
@@ -1023,6 +1079,11 @@ class GeneralApproach:
                         necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
                         parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
                         10000 and 'ITMX' to 100.
+                    plot_labels: list of strings
+                        A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+                        is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+                        you would like to use the default settings for some of the labels, simply provide None for that
+                        element.
                 Returns
                 ---------
                     multistable_param_ind: list of integers
@@ -1055,7 +1116,7 @@ class GeneralApproach:
 
         multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_continuity_analysis \
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters)
+             print_lbls_flag, auto_parameters, plot_labels)
 
         self.__important_info += important_info
 

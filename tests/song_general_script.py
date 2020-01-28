@@ -28,6 +28,10 @@ print(network.get_c_graph().get_reactions())
 print(network.get_c_graph().get_species())
 print(GA.get_decision_vector())
 
+print(network.get_c_graph().get_s().rank())
+
+sympy.pprint(GA.get_independent_species())
+
 sys.exit()
 #bnds = GA.get_optimization_bounds()
 bnds = [(1e-3, 6.0)]*len(network.get_c_graph().get_reactions()) + [(1e-3, 1000.0)]*len(network.get_c_graph().get_species())

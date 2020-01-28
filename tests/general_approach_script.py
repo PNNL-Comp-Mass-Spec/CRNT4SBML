@@ -74,10 +74,10 @@ import sympy
 # iters = 10
 
 # 12.
-network = crnt4sbml.CRNT("../sbml_files/Song.xml") # yes for 100
-signal = "C1"
-response = "s2"
-iters = 100
+# network = crnt4sbml.CRNT("../sbml_files/Song.xml") # yes for 100
+# signal = "C1"
+# response = "s2"
+# iters = 100
 
 # 13.
 # network = crnt4sbml.CRNT("../sbml_files/DoublePhos.xml") # yes 10
@@ -122,107 +122,54 @@ iters = 100
 # #sys.exit()
 # print(network.get_c_graph().get_deficiency())
 
-GA = network.get_general_approach(signal=signal, response=response)
+# 18.
+# network = crnt4sbml.CRNT("../sbml_files/two_dim_tk.xml")
+# signal = "C1"
+# response = "s1"
+# iters = 2
 
-print(GA.get_conservation_laws())
-print(GA.get_fixed_reactions())
-print(GA.get_solutions_to_fixed_reactions())
+# network = crnt4sbml.CRNT("../sbml_files/three_dim_tk.xml")
+# signal = "C1"
+# response = "s1"
+# iters = 2
 
-
-
-
-#sys.exit()
-
-# opt = network.get_mass_conservation_approach()
-#
-# bounds, concentration_bounds = opt.get_optimization_bounds()
-#
-# bounds = [(1e-2, 100.0)]*len(bounds)
-#
-# concentration_bounds = [(1e-2, 100.0)]*len(concentration_bounds)
-#
-# params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=100,
-#                                                                      concentration_bounds=concentration_bounds,
-#                                                                      print_flag=True, confidence_level_flag=True,
-#                                                                      change_in_rel_error=1e-2)
-
-# opt = network.get_semi_diffusive_approach()
-#
-# bounds = opt.get_optimization_bounds()
-#
-# bounds = [(1e-2, 100.0)]*len(bounds)
-#
-# params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=100,
-#                                                                      print_flag=True, confidence_level_flag=True,
-#                                                                      change_in_rel_error=1e-2)
-
-
-# GA = network.get_general_approach(signal=signal, response=response)
-#
-# print(GA.get_input_vector())
-# # print(GA.get_decision_vector())
-# # print(GA.get_fixed_reactions())
-# # print(GA.get_solutions_to_fixed_reactions())
-#
-# print(GA.get_determinant_of_jacobian())
-#
-# bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
-#
-#
-# #sys.exit()
-#
-# params, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, dual_annealing_iters=1000,
-#                                            confidence_level_flag=True)
-# GA.generate_report()
-#
-# sys.exit()
+network = crnt4sbml.CRNT("../sbml_files/open_fig5B_modified.xml")
+signal = "C1"
+response = "s4"
+iters = 2 # yes with 200 and bounds of (1e-2, 100.0)
 
 network.basic_report()
+
 network.print_c_graph()
 
+# sympy.pprint(network.get_c_graph().get_y())
+# sympy.pprint(network.get_c_graph().get_s())
+#
 # print(network.get_c_graph().get_species())
-# sympy.pprint(network.get_c_graph().get_b())
+# print(network.get_c_graph().get_complexes())
+#
+# print(network.get_c_graph().get_deficiency())
 
-# var1 = numpy.float64(1.120003)
-# var2 = numpy.float64(1.12)
-#
-# var1 = numpy.float64(1.120003e-30)
-# var2 = numpy.float64(1.12e-30)
-#
-#
-# # print(var1)
-# # print(numpy.log10(var1))
-# # print(var2)
-# # print(numpy.log10(var2))
-#
-# abs_diff = abs(var1 - var2)
-# relative_abs_diff = abs(var1 - var2)/var1
-# print(f"Absolute difference: {abs_diff}")
-# print(f"Relative absolute difference: {relative_abs_diff}")
-#
-# relative_abs_diff = abs(var2 - var1)/var2
-# print(f"Relative absolute difference: {relative_abs_diff}")
-#
-# sys.exit()
+GA = network.get_general_approach(signal=signal, response=response, fix_reactions=True)
 
-# opt = network.get_mass_conservation_approach()
+# print(GA.get_conservation_laws())
 #
-# bounds, concentration_bounds = opt.get_optimization_bounds()
+# print("fixed reactions")
+# print(GA.get_fixed_reactions())
+# print(GA.get_solutions_to_fixed_reactions())
+# sympy.pprint(GA.get_solutions_to_fixed_reactions())
+# print("")
 #
-# bounds = [(1e-3, 100.0)]*len(bounds)
+# print(network.get_c_graph().get_ode_system())
+# print("indpendent system with subs")
+# print(GA.get_independent_odes_subs())
+# print("independent species")
+# print(GA.get_independent_species())
 #
-# concentration_bounds = [(1e-3, 100.0)]*len(concentration_bounds)
-#
-# params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=100,
-#                                                                      concentration_bounds=concentration_bounds, print_flag=True)
-#
-# multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min,
-#                                                                                 auto_parameters={'PrincipalContinuationParameter': signal})
+# print(network.get_c_graph().get_species())
+
 
 #sys.exit()
-
-# GA = network.get_general_approach(signal=signal, response=response)
-
 
 # 1.
 # bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
@@ -230,8 +177,6 @@ network.print_c_graph()
 # print(GA.get_decision_vector())
 # print(GA.get_fixed_reactions())
 # print(GA.get_solutions_to_fixed_reactions())
-
-#sys.exit()
 
 # 1.
 # bnds = [(1e-3, 100.0)]*len(network.get_c_graph().get_reactions()) + [(10.0, 100.0)] + [(-100.0, -1.0)] + [(-100.0, -1.0)]
@@ -294,7 +239,6 @@ network.print_c_graph()
 # 12.
 #bnds = GA.get_optimization_bounds()
 #bnds = [(1e-3, 6.0)]*len(network.get_c_graph().get_reactions()) + [(1e-3, 1000.0)]*len(network.get_c_graph().get_species())
-bnds = [(1e-3, 10.0)]*len(network.get_c_graph().get_reactions()) + [(1e-3, 1000.0)]*len(network.get_c_graph().get_species())
 
 # # 13.
 # bnds = GA.get_optimization_bounds()
@@ -307,39 +251,37 @@ bnds = [(1e-3, 10.0)]*len(network.get_c_graph().get_reactions()) + [(1e-3, 1000.
 # 16.
 #bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
 
+# 18.
+bnds = [(1e-2, 100.0)]*len(GA.get_input_vector())
+
+
 # print(GA.get_input_vector())
+
+# sympy.pprint(GA.get_independent_odes_subs())
 #
-# sympy.pprint(GA.get_indpendent_odes_subs())
-#
-# sympy.pprint(sympy.expand(GA.get_indpendent_odes_subs()))
-#
+# sympy.pprint(GA.get_determinant_of_jacobian())
 # #sys.exit()
 #
 # print(bnds)
 # print(GA.get_decision_vector())
 
 
-params, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
+
+params, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=True,
                                            dual_annealing_iters=1000, confidence_level_flag=True)
 
 
-numpy.save('params.npy', params)
+#sys.exit()
+
+#numpy.save('params.npy', params)
 #params = numpy.load('params.npy')
 
-# print(det_point_sets)
-# numpy.savetxt("./data_for_PCA/end_dec_vec_1000_samples.txt", det_point_sets)
-# numpy.savetxt("./data_for_PCA/beginning_dec_vec_1000_samples.txt", feasible_point_sets)
-# numpy.savetxt("./data_for_PCA/obj_function_1000_samples.txt", obj_fun_vals)
+#sys.exit()
 
+multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params, print_lbls_flag=True,
+                                                                               auto_parameters={'PrincipalContinuationParameter': signal},
+                                                                               plot_labels=['Rtot', 'S1*', None])
 
-#numpy.save('params_intuitive.npy', params)
-
-#params = numpy.load('params_intuitive.npy')
-
-# print("params")
-# print(params)
-multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params,
-                                                                               auto_parameters={'PrincipalContinuationParameter': signal})
 
 GA.generate_report()
 

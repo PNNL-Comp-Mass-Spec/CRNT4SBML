@@ -250,7 +250,7 @@ class BistabilityFinder:
         
     @classmethod
     def run_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string, finalize_ant_string,
-                                species_y, dir_path, print_lbls_flag, auto_parameters):
+                                species_y, dir_path, print_lbls_flag, auto_parameters, plot_labels):
 
         print("Running continuity analysis ...")
 
@@ -306,7 +306,8 @@ class BistabilityFinder:
 
                     if multistable:
                         plt_specs = cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np,
-                                                            sp_y_ind, pcp_x, species_y, param_ind, dir_path, cls)
+                                                            sp_y_ind, pcp_x, species_y, param_ind, dir_path, cls,
+                                                            plot_labels)
                         plot_specifications.append(plt_specs)
                         multistable_param_ind.append(param_ind)
                         break
@@ -335,7 +336,7 @@ class BistabilityFinder:
     @classmethod
     def run_greedy_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string,
                                        finalize_ant_string,
-                                       species_y, dir_path, print_lbls_flag, auto_parameters):
+                                       species_y, dir_path, print_lbls_flag, auto_parameters, plot_labels):
 
         print("Running continuity analysis ...")
 
@@ -447,7 +448,7 @@ class BistabilityFinder:
                                             plt_specs = cls.plot_pcp_vs_species(chnk_stable2, chnk_unstable2,
                                                                                 special_points2, bi_data_np2, sp_y_ind2,
                                                                                 pcp_x, species_y, param_ind, dir_path,
-                                                                                cls)
+                                                                                cls, plot_labels)
                                             plot_specifications.append(plt_specs)
                                             scnd_check = False
                                             break
@@ -455,7 +456,7 @@ class BistabilityFinder:
                                 if scnd_check:
                                     plt_specs = cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points,
                                                                         bi_data_np, sp_y_ind, pcp_x, species_y,
-                                                                        param_ind, dir_path, cls)
+                                                                        param_ind, dir_path, cls, plot_labels)
                                     plot_specifications.append(plt_specs)
 
                             if param_ind not in multistable_param_ind:
@@ -749,7 +750,7 @@ class BistabilityFinder:
 
     @staticmethod
     def plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np, sp_y_ind, pcp_x, species_y,
-                            param_ind, dir_path, cls):
+                            param_ind, dir_path, cls, plot_labels):
 
         # plotting stable points
         for i in range(len(chnk_stable)):
@@ -767,8 +768,24 @@ class BistabilityFinder:
             plt.annotate(i[1], (bi_data_np[i[0], 0], bi_data_np[i[0], sp_y_ind]))
 
         margin = 1e-6
-        plt.xlabel(pcp_x)
-        plt.ylabel(species_y)
+        if plot_labels != None:
+
+            if plot_labels[0] != None:
+                plt.xlabel(plot_labels[0])
+            else:
+                plt.xlabel(pcp_x)
+
+            if plot_labels[1] != None:
+                plt.ylabel(plot_labels[1])
+            else:
+                plt.ylabel(species_y)
+
+            if plot_labels[2] != None:
+                plt.title(plot_labels[2])
+
+        else:
+            plt.xlabel(pcp_x)
+            plt.ylabel(species_y)
 
         pcp_values = []
         for i in special_points:

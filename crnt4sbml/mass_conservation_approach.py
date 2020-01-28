@@ -1009,7 +1009,7 @@ class MassConservationApproach:
         return params_for_global_min, obj_fun_val_for_params
 
     def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-                                print_lbls_flag=False, auto_parameters=None):
+                                print_lbls_flag=False, auto_parameters=None, plot_labels=None):
         """
         Function for running the numerical continuation and bistability analysis portions of the mass conservation
         approach.
@@ -1032,6 +1032,11 @@ class MassConservationApproach:
                 necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
                 parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
                 10000 and 'ITMX' to 100.
+            plot_labels: list of strings
+                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+                you would like to use the default settings for some of the labels, simply provide None for that
+                element.
         Returns
         ---------
             multistable_param_ind: list of integers
@@ -1066,14 +1071,15 @@ class MassConservationApproach:
                                                                                                                self.__finalize_ant_string,
                                                                                                                species_y, dir_path,
                                                                                                                print_lbls_flag,
-                                                                                                               auto_parameters)
+                                                                                                               auto_parameters,
+                                                                                                               plot_labels)
 
         self.__important_info += important_info
 
         return multistable_param_ind, plot_specifications
 
     def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-                                       print_lbls_flag=False, auto_parameters=None):
+                                       print_lbls_flag=False, auto_parameters=None, plot_labels=None):
         """
         Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
         approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
@@ -1097,6 +1103,11 @@ class MassConservationApproach:
                 Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
                 PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
                 be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
+            plot_labels: list of strings
+                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+                you would like to use the default settings for some of the labels, simply provide None for that
+                element.
         Returns
         ---------
             multistable_param_ind: list of integers
@@ -1128,7 +1139,7 @@ class MassConservationApproach:
 
         multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis\
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters)
+             print_lbls_flag, auto_parameters, plot_labels)
 
         self.__important_info += important_info
 
