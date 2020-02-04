@@ -74,6 +74,9 @@ class GeneralApproach:
         self.__important_info = ""
         self.__lambda_variables = None
         self.__indices_in_dec_vec = None
+        self.__comm = None
+        self.__my_rank = None
+        self.__num_cores = None
 
         self.__create_conservation_laws()
         self.__construct_independent_system()
@@ -703,41 +706,306 @@ class GeneralApproach:
 
         return feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec, decision_vector_bounds
 
+    def __mpi_feasible_point_method(self, bounds, seed, print_flag, confidence_level_flag,
+                                    samples, all_vars_with_bounds, decision_vector_bounds):
+
+        full_set_of_values = numpy.zeros(len(bounds), dtype=numpy.float64)
+
+        fixed_reaction_ind_all = [all_vars_with_bounds.index(i) for i in self.__fixed_reactions]
+        indp_spec_ind_dec = [self.__decision_vector.index(i) for i in self.__indp_species]
+        inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
+
+        feasible_point_sets = []
+        for i in samples:
+
+            with numpy.errstate(divide='ignore', invalid='ignore'):
+
+                result = scipy.optimize.dual_annealing(self.__feasible_point_obj_func, bounds=decision_vector_bounds,
+                                                       args=(bounds, full_set_of_values, fixed_reaction_ind_all,
+                                                             self.__cons_laws_lamb, indp_spec_ind_dec, inputs),
+                                                       x0=i,
+                                                       seed=seed,
+                                                       local_search_options={'method': "Nelder-Mead"}, maxiter=100)
+
+                if print_flag:
+                    print("Objective function value: " + str(result.fun))
+                    print("Decision vector used: ")
+                    print(result.x)
+
+                if abs(result.fun) > numpy.float64(1e-100):
+                    result1 = scipy.optimize.minimize(self.__feasible_point_obj_func, result.x,
+                                                      args=(bounds, full_set_of_values, fixed_reaction_ind_all,
+                                                            self.__cons_laws_lamb, indp_spec_ind_dec, inputs),
+                                                      method='Nelder-Mead', tol=1e-16)
+
+                    if print_flag:
+                        print("Objective function value: " + str(result1.fun))
+                        print("Decision vector used: ")
+                        print(result1.x)
+
+                    if abs(result1.fun) <= numpy.finfo(float).eps or confidence_level_flag:
+                        feasible_point_sets.append(result1.x)
+
+                else:
+                    feasible_point_sets.append(result.x)
+
+                if print_flag:
+                    print("")
+
+        return feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec
+
+    def run_mpi_optimization(self, bounds=None, iterations=10, seed=0, print_flag=False, dual_annealing_iters=1000,
+                             confidence_level_flag=False, change_in_rel_error=1e-2):
+
+        """
+        Function for running the optimization problem for the mass conservation approach.
+
+        Parameters
+        -----------
+            bounds: list of tuples
+                A list defining the lower and upper bounds for each variable in the decision vector.
+            iterations: int
+                The number of iterations to run the feasible point method.
+            seed: int
+                Seed for the random number generator. None should be used if a random generation is desired.
+            print_flag: bool
+                Should be set to True if the user wants the objective function values found in the optimization problem
+                and False otherwise.
+            dual_annealing_iters: integer
+                The number of iterations that should be ran for dual annealing routine in optimization.
+            confidence_level_flag: bool
+                If True a confidence level for the objective function will be given.
+            change_in_rel_error: float
+                The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
+                of :math:`\widetilde{f}`.
+        Returns
+        --------
+        params_for_global_min: list of numpy arrays
+            A list of numpy arrays that correspond to the decision vectors of the problem.
+        obj_fun_val_for_params: list of floats
+            A list of objective function values produced by the corresponding decision vectors in params_for_global_min.
+
+        Examples
+        ---------
+        Fill in
+        """
+
+        # initializing MPI proccess
+        from mpi4py import MPI
+        self.__comm = MPI.COMM_WORLD
+        self.__my_rank = self.__comm.Get_rank()
+        self.__num_cores = self.__comm.Get_size()
+
+        self.__comm.Barrier()
+
+        start_time = MPI.Wtime()
+
+        if self.__my_rank == 0:
+            print("Starting optimization ...")
+
+        all_vars_with_bounds = self.__sympy_reactions + self.__sympy_species
+        decision_vector_bounds_ind = [all_vars_with_bounds.index(i) for i in self.__decision_vector]
+
+        decision_vector_bounds = [bounds[i] for i in decision_vector_bounds_ind]
+
+        # creating initial decision vectors for feasible point method
+        if self.__my_rank == 0:
+            numpy.random.seed(seed)
+            samples = numpy.random.rand(iterations, len(self.__decision_vector))
+            ranges = numpy.asarray(decision_vector_bounds, dtype=numpy.float64)
+            samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+
+            # import math
+            # ranges = numpy.asarray([(math.log10(i[0]), math.log10(i[1])) for i in decision_vector_bounds],
+            #                        dtype=numpy.float64)
+            # samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+            # samples = numpy.power(10, samples)
+        else:
+            samples = None
+
+        sample_portion = self.__distribute_points(samples)
+
+        if self.__my_rank == 0:
+            print("Running feasible point method for " + str(iterations) + " iterations ...")
+
+        feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec = self.__mpi_feasible_point_method(bounds, seed,
+                                                                                                          print_flag,
+                                                                                                          confidence_level_flag,
+                                                                                                          sample_portion,
+                                                                                                          all_vars_with_bounds,
+                                                                                                          decision_vector_bounds)
+
+        # checking number of elements of feasible_point_sets for each core to see if we need to redistribute them
+        redistribute_flag = len(feasible_point_sets) == len(sample_portion)
+        val = self.__comm.allreduce(redistribute_flag, op=MPI.LAND)
+        if not val:
+            array_of_feasibles = self.__gather_numpy_array_of_values(feasible_point_sets)
+            feasible_point_sets = self.__distribute_points(array_of_feasibles)
+
+        self.__comm.Barrier()
+
+        if self.__my_rank == 0:
+            print("Feasible point method has finished.")
+
+        if self.__my_rank != 0:
+            self.__important_info += f"The number of feasible points used in determinant optimization by core {self.__my_rank}: " \
+                                    + str(len(feasible_point_sets))
+        else:
+            self.__important_info += f"The number of feasible points used in determinant optimization by core {self.__my_rank}: " \
+                                     + str(len(feasible_point_sets)) + "\n"
+
+        det_point_sets, det_point_sets_fun, obtained_minimums, full_set_of_values, inputs, input_values, smallest_value = \
+            self.__main_optimization_routine(decision_vector_bounds, bounds, feasible_point_sets, fixed_reaction_ind_all
+                                             , indp_spec_ind_dec, confidence_level_flag, seed, dual_annealing_iters,
+                                             print_flag)
+
+        self.__comm.Barrier()
+
+        if self.__my_rank == 0:
+            end_time = MPI.Wtime()
+            elapsed = end_time - start_time
+            print(f"Elapsed time for optimization in seconds: {elapsed}")
+
+        params = self.__final_check(det_point_sets, bounds, full_set_of_values, fixed_reaction_ind_all,
+                                    self.__cons_laws_lamb, indp_spec_ind_dec, inputs, input_values)
+
+        if confidence_level_flag:
+
+            full_obtained_minimums = self.__gather_single_value(obtained_minimums, iterations)
+
+            if self.__my_rank == 0:
+                self.__confidence_level(full_obtained_minimums, change_in_rel_error)
+
+        else:
+            smallest_values = self.__comm.gather(smallest_value, root=0)
+            if self.__my_rank == 0:
+                min_value = min(smallest_values)
+                self.__important_info += "Smallest value achieved by objective function: " + str(min_value)
+
+        list_params = self.__gather_list_of_values(params)
+        list_det_point_sets_fun = self.__gather_list_of_values(det_point_sets_fun)
+
+        self.__comm.Barrier()
+
+        return list_params, list_det_point_sets_fun, self.__my_rank
+
+    def __gather_single_value(self, value, number_of_values):
+
+        temp_full_value = self.__comm.gather(value, root=0)
+
+        if self.__my_rank == 0:
+            full_value = numpy.zeros(number_of_values, dtype=numpy.float64)
+
+            # putting all the obtained minimum values into a single array
+            count = 0
+            for i in temp_full_value:
+                for j in i:
+                    full_value[count] = j
+                    count += 1
+        else:
+            full_value = None
+
+        return full_value
+
+    def __gather_list_of_values(self, values):
+
+        full_values = self.__comm.gather(values, root=0)
+
+        if self.__my_rank == 0:
+            list_of_values = []
+            for i in range(len(full_values)):
+                list_of_values += full_values[i]
+        else:
+            list_of_values = []
+
+        return list_of_values
+
+    def __gather_numpy_array_of_values(self, values):
+
+        full_values = self.__comm.gather(values, root=0)
+
+        if self.__my_rank == 0:
+            list_of_values = []
+            for i in range(len(full_values)):
+                list_of_values += full_values[i]
+            array_of_values = numpy.zeros((len(list_of_values), list_of_values[0].shape[0]), dtype=numpy.float64)
+            for i in range(len(list_of_values)):
+                array_of_values[i, :] = list_of_values[i]
+        else:
+            array_of_values = None
+
+        return array_of_values
+
+    def __distribute_points(self, samples):
+
+        if self.__my_rank == 0:
+
+            # number of tasks per core
+            tasks = len(samples) // self.__num_cores  # // calculates the floor
+
+            # remainder
+            r = len(samples) - self.__num_cores * tasks
+
+            # array that holds how many tasks each core has
+            tasks_core = numpy.zeros(self.__num_cores, dtype=numpy.int64)
+            tasks_core.fill(tasks)
+
+            # distributing in the remainder
+            ii = 0
+            while r > 0:
+                tasks_core[ii] += 1
+                r -= 1
+                ii += 1
+
+            sample_portion = samples[0:tasks_core[0], :]
+
+            if self.__num_cores > 1:
+                for i in range(1, self.__num_cores):
+                    start = sum(tasks_core[0:i])
+                    end = start + tasks_core[i]
+                    self.__comm.send(samples[start:end, :], dest=i, tag=i * 11)
+
+        else:
+            if self.__num_cores > 1:
+                sample_portion = self.__comm.recv(source=0, tag=self.__my_rank * 11)
+
+        return sample_portion
+
     def run_optimization(self, bounds=None, iterations=10, seed=0, print_flag=False, dual_annealing_iters=1000,
                          confidence_level_flag=False, change_in_rel_error=1e-2):
 
         """
-                Function for running the optimization problem for the mass conservation approach.
+        Function for running the optimization problem for the mass conservation approach.
 
-                Parameters
-                -----------
-                    bounds: list of tuples
-                        A list defining the lower and upper bounds for each variable in the decision vector.
-                    iterations: int
-                        The number of iterations to run the feasible point method.
-                    seed: int
-                        Seed for the random number generator. None should be used if a random generation is desired.
-                    print_flag: bool
-                        Should be set to True if the user wants the objective function values found in the optimization problem
-                        and False otherwise.
-                    dual_annealing_iters: integer
-                        The number of iterations that should be ran for dual annealing routine in optimization.
-                    confidence_level_flag: bool
-                        If True a confidence level for the objective function will be given.
-                    change_in_rel_error: float
-                        The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
-                        of :math:`\widetilde{f}`.
-                Returns
-                --------
-                params_for_global_min: list of numpy arrays
-                    A list of numpy arrays that correspond to the decision vectors of the problem.
-                obj_fun_val_for_params: list of floats
-                    A list of objective function values produced by the corresponding decision vectors in params_for_global_min.
+        Parameters
+        -----------
+            bounds: list of tuples
+                A list defining the lower and upper bounds for each variable in the decision vector.
+            iterations: int
+                The number of iterations to run the feasible point method.
+            seed: int
+                Seed for the random number generator. None should be used if a random generation is desired.
+            print_flag: bool
+                Should be set to True if the user wants the objective function values found in the optimization problem
+                and False otherwise.
+            dual_annealing_iters: integer
+                The number of iterations that should be ran for dual annealing routine in optimization.
+            confidence_level_flag: bool
+                If True a confidence level for the objective function will be given.
+            change_in_rel_error: float
+                The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
+                of :math:`\widetilde{f}`.
+        Returns
+        --------
+        params_for_global_min: list of numpy arrays
+            A list of numpy arrays that correspond to the decision vectors of the problem.
+        obj_fun_val_for_params: list of floats
+            A list of objective function values produced by the corresponding decision vectors in params_for_global_min.
 
-                Examples
-                ---------
-                Fill in
-                """
+        Examples
+        ---------
+        Fill in
+        """
 
         print("Starting optimization ...")
         start_t = time.time()
@@ -837,6 +1105,93 @@ class GeneralApproach:
             raise Exception("Optimization needs to be run with more iterations or different bounds.")
 
 
+    def __main_optimization_routine(self, decision_vector_bounds, bounds, feasible_point_sets, fixed_reaction_ind_all,
+                                    indp_spec_ind_dec, confidence_level_flag, seed, dual_annealing_iters, print_flag):
+
+        self.__comm.Barrier()
+
+        if self.__my_rank == 0:
+            print("Starting determinant optimization ...")
+
+        bounds_2 = decision_vector_bounds
+
+        inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
+        full_set_of_values = numpy.zeros(len(bounds), dtype=numpy.float64)
+
+        input_values = numpy.zeros(len(self.__lambda_variables), dtype=numpy.float64)
+
+        det_point_sets = []
+        det_point_sets_fun = []
+        smallest_value = numpy.float(1e8)
+
+        obtained_minimums = numpy.zeros(len(feasible_point_sets), dtype=numpy.float64)
+
+        if len(feasible_point_sets) != 0:
+
+            for i in range(len(feasible_point_sets)):
+
+                with numpy.errstate(divide='ignore', invalid='ignore'):
+
+                    result = scipy.optimize.dual_annealing(self.__obj_func, bounds=bounds_2,
+                                                           args=(self.__lambda_det_jac, bounds,
+                                                                 full_set_of_values, fixed_reaction_ind_all,
+                                                                 self.__cons_laws_lamb, indp_spec_ind_dec,
+                                                                 inputs, input_values), x0=feasible_point_sets[i],
+                                                           seed=seed,
+                                                           local_search_options={'method': "Nelder-Mead"},
+                                                           maxiter=dual_annealing_iters)
+
+                    if print_flag:
+                        print("Global function value: " + str(result.fun))
+                        print("Decision vector used: ")
+                        print(result.x)
+
+                    if abs(result.fun) > numpy.float64(1e-100):
+
+                        result1 = scipy.optimize.minimize(self.__obj_func, result.x,
+                                                          args=(self.__lambda_det_jac, bounds,
+                                                                full_set_of_values, fixed_reaction_ind_all,
+                                                                self.__cons_laws_lamb, indp_spec_ind_dec,
+                                                                inputs, input_values),
+                                                          method='Nelder-Mead', tol=1e-16)
+
+                        if print_flag:
+                            print("Local function value: " + str(result1.fun))
+                            print("Decision vector used: ")
+                            print(result1.x)
+
+                        if smallest_value > result1.fun:
+                            smallest_value = result1.fun
+
+                        if confidence_level_flag:
+                            obtained_minimums[i] = result1.fun
+
+                        if abs(result1.fun) <= numpy.finfo(float).eps:
+                            det_point_sets.append(result1.x)
+                            det_point_sets_fun.append(result1.fun)
+
+                    else:
+                        if smallest_value > result.fun:
+                            smallest_value = result.fun
+                        det_point_sets.append(result.x)
+                        det_point_sets_fun.append(result.fun)
+                        if confidence_level_flag:
+                            obtained_minimums[i] = result.fun
+
+                    if print_flag:
+                        print("")
+
+            self.__comm.Barrier()
+            if self.__my_rank == 0:
+                print("Determinant optimization has finished.")
+
+
+            return det_point_sets, det_point_sets_fun, obtained_minimums, full_set_of_values, inputs, input_values, smallest_value
+
+        else:
+            raise Exception("Optimization needs to be run with more iterations or different bounds.")
+
+
     def __confidence_level(self, obtained_minimums, change_in_rel_error):
 
         a = 1
@@ -910,9 +1265,9 @@ class GeneralApproach:
             input_values[self.__R + len(indp_spec_ind):] = inputs[self.__R - len(reaction_ind) + len(indp_spec_ind):]
 
             check = self.__saddle_node_bifurcation(input_values)
-            print("saddle node check:")
-            print(check)
-            print("")
+            # print("saddle node check:")
+            # print(check)
+            # print("")
             if True: #check:
                 params.append(input_values.flatten())
 
@@ -989,47 +1344,47 @@ class GeneralApproach:
                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
 
         """
-                Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
-                approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
-                parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
-                produce jagged or missing sections in the plots provided. To produce better plots one should use the information
-                provided by this routine to run :func:`crnt4sbml.GeneralApproach.run_continuity_analysis`.
+        Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
+        approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
+        parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
+        produce jagged or missing sections in the plots provided. To produce better plots one should use the information
+        provided by this routine to run :func:`crnt4sbml.GeneralApproach.run_continuity_analysis`.
 
-                Parameters
-                ------------
-                    species: string
-                        A string stating the species that is the y-axis of the bifurcation diagram.
-                    parameters: list of numpy arrays
-                        A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-                        value.
-                    dir_path: string
-                        A string stating the path where the bifurcation diagrams should be saved.
-                    print_lbls_flag: bool
-                        If True the routine will print the special points found by AUTO 2000 and False will not print any
-                        special points.
-                    auto_parameters: dict
-                        Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
-                        PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
-                        be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
-                    plot_labels: list of strings
-                        A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-                        is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-                        you would like to use the default settings for some of the labels, simply provide None for that
-                        element.
-                Returns
-                ---------
-                    multistable_param_ind: list of integers
-                        A list of those indices in 'parameters' that produce multistable plots.
-                    plot_specifications: list of lists
-                        A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-                        Each element is a list where the first element specifies the range used for the x-axis, the second
-                        element is the range for the y-axis, and the last element provides the x-y values and special point label
-                        for each special point in the plot.
+        Parameters
+        ------------
+            species: string
+                A string stating the species that is the y-axis of the bifurcation diagram.
+            parameters: list of numpy arrays
+                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+                value.
+            dir_path: string
+                A string stating the path where the bifurcation diagrams should be saved.
+            print_lbls_flag: bool
+                If True the routine will print the special points found by AUTO 2000 and False will not print any
+                special points.
+            auto_parameters: dict
+                Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
+                PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
+                be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
+            plot_labels: list of strings
+                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+                you would like to use the default settings for some of the labels, simply provide None for that
+                element.
+        Returns
+        ---------
+            multistable_param_ind: list of integers
+                A list of those indices in 'parameters' that produce multistable plots.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
 
-                Example
-                ---------
-                See .
-                """
+        Example
+        ---------
+        See .
+        """
 
         # setting default values for AUTO
         if 'NMX' not in auto_parameters.keys():
@@ -1054,50 +1409,234 @@ class GeneralApproach:
 
         return multistable_param_ind, plot_specifications
 
+    def run_mpi_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
+                                           print_lbls_flag=False, auto_parameters=None, plot_labels=None):
+
+        """
+        Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
+        approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
+        parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
+        produce jagged or missing sections in the plots provided. To produce better plots one should use the information
+        provided by this routine to run :func:`crnt4sbml.GeneralApproach.run_continuity_analysis`.
+
+        Parameters
+        ------------
+            species: string
+                A string stating the species that is the y-axis of the bifurcation diagram.
+            parameters: list of numpy arrays
+                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+                value.
+            dir_path: string
+                A string stating the path where the bifurcation diagrams should be saved.
+            print_lbls_flag: bool
+                If True the routine will print the special points found by AUTO 2000 and False will not print any
+                special points.
+            auto_parameters: dict
+                Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
+                PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
+                be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
+            plot_labels: list of strings
+                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+                you would like to use the default settings for some of the labels, simply provide None for that
+                element.
+        Returns
+        ---------
+            multistable_param_ind: list of integers
+                A list of those indices in 'parameters' that produce multistable plots.
+            sample_portion: list of 1D numpy arrays
+                A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
+                distributed to the core.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
+
+        Example
+        ---------
+        See .
+        """
+
+        # setting default values for AUTO
+        if 'NMX' not in auto_parameters.keys():
+            auto_parameters['NMX'] = 10000
+
+        if 'ITMX' not in auto_parameters.keys():
+            auto_parameters['ITMX'] = 100
+
+        # making the directory if it doesn't exist
+        if not os.path.isdir(dir_path) and self.__my_rank == 0:
+            os.mkdir(dir_path)
+
+        species_num = [str(i) for i in self.__indp_species].index(species) + 1
+
+        species_y = str(self.__indp_species[species_num-1])
+
+        sample_portion = self.__distribute_list_of_points(parameters)
+        self.__comm.Barrier()
+
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_greedy_continuity_analysis \
+            (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
+             print_lbls_flag, auto_parameters, plot_labels, self.__my_rank)
+
+        self.__important_info += important_info
+
+        return multistable_param_ind, sample_portion, plot_specifications
+
+    def __distribute_list_of_points(self, samples):
+
+        if self.__my_rank == 0:
+
+            # number of tasks per core
+            tasks = len(samples) // self.__num_cores  # // calculates the floor
+
+            # remainder
+            r = len(samples) - self.__num_cores * tasks
+
+            # array that holds how many tasks each core has
+            tasks_core = numpy.zeros(self.__num_cores, dtype=numpy.int64)
+            tasks_core.fill(tasks)
+
+            # distributing in the remainder
+            ii = 0
+            while r > 0:
+                tasks_core[ii] += 1
+                r -= 1
+                ii += 1
+
+            sample_portion = samples[0:tasks_core[0]]
+
+            if self.__num_cores > 1:
+                for i in range(1, self.__num_cores):
+                    start = sum(tasks_core[0:i])
+                    end = start + tasks_core[i]
+                    self.__comm.send(samples[start:end], dest=i, tag=i * 11)
+
+        else:
+            if self.__num_cores > 1:
+                sample_portion = self.__comm.recv(source=0, tag=self.__my_rank * 11)
+
+        return sample_portion
+
+    def run_mpi_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
+                                    print_lbls_flag=False, auto_parameters=None, plot_labels=None):
+
+        """
+        Function for running the numerical continuation and bistability analysis portions of the mass conservation
+        approach.
+
+        Parameters
+        ------------
+            species: string
+                A string stating the species that is the y-axis of the bifurcation diagram.
+            parameters: list of numpy arrays
+                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+                value.
+            dir_path: string
+                A string stating the path where the bifurcation diagrams should be saved.
+            print_lbls_flag: bool
+                If True the routine will print the special points found by AUTO 2000 and False will not print any
+                special points.
+            auto_parameters: dict
+                Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
+                'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
+                necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
+                parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
+                10000 and 'ITMX' to 100.
+            plot_labels: list of strings
+                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+                you would like to use the default settings for some of the labels, simply provide None for that
+                element.
+        Returns
+        ---------
+            multistable_param_ind: list of integers
+                A list of those indices in 'parameters' that produce multistable plots.
+            sample_portion: list of 1D numpy arrays
+                A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
+                distributed to the core.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
+
+        Example
+        ---------
+        See .
+        """
+
+        # setting default values for AUTO
+        if 'NMX' not in auto_parameters.keys():
+            auto_parameters['NMX'] = 10000
+
+        if 'ITMX' not in auto_parameters.keys():
+            auto_parameters['ITMX'] = 100
+
+        # making the directory if it doesn't exist
+        if not os.path.isdir(dir_path) and self.__my_rank == 0:
+            os.mkdir(dir_path)
+
+        species_num = [str(i) for i in self.__indp_species].index(species) + 1
+
+        species_y = str(self.__indp_species[species_num - 1])
+
+        sample_portion = self.__distribute_list_of_points(parameters)
+        self.__comm.Barrier()
+
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_continuity_analysis \
+            (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
+             print_lbls_flag, auto_parameters, plot_labels, self.__my_rank)
+
+        self.__important_info += important_info
+
+        return multistable_param_ind, sample_portion, plot_specifications
+
     def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
 
         """
-                Function for running the numerical continuation and bistability analysis portions of the mass conservation
-                approach.
+        Function for running the numerical continuation and bistability analysis portions of the mass conservation
+        approach.
 
-                Parameters
-                ------------
-                    species: string
-                        A string stating the species that is the y-axis of the bifurcation diagram.
-                    parameters: list of numpy arrays
-                        A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-                        value.
-                    dir_path: string
-                        A string stating the path where the bifurcation diagrams should be saved.
-                    print_lbls_flag: bool
-                        If True the routine will print the special points found by AUTO 2000 and False will not print any
-                        special points.
-                    auto_parameters: dict
-                        Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
-                        'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
-                        necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
-                        parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
-                        10000 and 'ITMX' to 100.
-                    plot_labels: list of strings
-                        A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-                        is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-                        you would like to use the default settings for some of the labels, simply provide None for that
-                        element.
-                Returns
-                ---------
-                    multistable_param_ind: list of integers
-                        A list of those indices in 'parameters' that produce multistable plots.
-                    plot_specifications: list of lists
-                        A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-                        Each element is a list where the first element specifies the range used for the x-axis, the second
-                        element is the range for the y-axis, and the last element provides the x-y values and special point label
-                        for each special point in the plot.
+        Parameters
+        ------------
+            species: string
+                A string stating the species that is the y-axis of the bifurcation diagram.
+            parameters: list of numpy arrays
+                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+                value.
+            dir_path: string
+                A string stating the path where the bifurcation diagrams should be saved.
+            print_lbls_flag: bool
+                If True the routine will print the special points found by AUTO 2000 and False will not print any
+                special points.
+            auto_parameters: dict
+                Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
+                'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
+                necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
+                parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
+                10000 and 'ITMX' to 100.
+            plot_labels: list of strings
+                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+                you would like to use the default settings for some of the labels, simply provide None for that
+                element.
+        Returns
+        ---------
+            multistable_param_ind: list of integers
+                A list of those indices in 'parameters' that produce multistable plots.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
 
-                Example
-                ---------
-                See .
-                """
+        Example
+        ---------
+        See .
+        """
 
         # setting default values for AUTO
         if 'NMX' not in auto_parameters.keys():
@@ -1226,7 +1765,20 @@ class GeneralApproach:
         --------
         See .
         """
-        print(self.__important_info)
+        if self.__comm == None:
+            print(self.__important_info)
+        else:
+
+            all_important_info = self.__comm.gather(self.__important_info, root=0)
+            self.__comm.Barrier()
+
+            if self.__my_rank == 0:
+
+                print("")
+
+                for i in range(1, len(all_important_info)):
+                    print(all_important_info[i])
+                print(self.__important_info)
 
     def get_input_vector(self):
         """

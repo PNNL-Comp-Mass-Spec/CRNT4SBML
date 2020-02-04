@@ -6,11 +6,11 @@ import sympy
 
 
 # 1.
-# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
-# signal = "C1"
-# #response = "s6"
-# response = "s5"
-# iters = 10
+network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
+signal = "C1"
+#response = "s6"
+response = "s5"
+iters = 10
 
 # 2.
 # network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml") # yes 10
@@ -133,10 +133,10 @@ import sympy
 # response = "s1"
 # iters = 2
 
-network = crnt4sbml.CRNT("../sbml_files/open_fig5B_modified.xml")
-signal = "C1"
-response = "s4"
-iters = 2 # yes with 200 and bounds of (1e-2, 100.0)
+# network = crnt4sbml.CRNT("../sbml_files/open_fig5B_modified.xml")
+# signal = "C1"
+# response = "s4"
+# iters = 2 # yes with 200 and bounds of (1e-2, 100.0)
 
 network.basic_report()
 
@@ -172,14 +172,14 @@ GA = network.get_general_approach(signal=signal, response=response, fix_reaction
 #sys.exit()
 
 # 1.
-# bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
+bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
 # print(GA.get_input_vector())
 # print(GA.get_decision_vector())
 # print(GA.get_fixed_reactions())
 # print(GA.get_solutions_to_fixed_reactions())
 
 # 1.
-# bnds = [(1e-3, 100.0)]*len(network.get_c_graph().get_reactions()) + [(10.0, 100.0)] + [(-100.0, -1.0)] + [(-100.0, -1.0)]
+#bnds = [(1e-3, 100.0)]*len(network.get_c_graph().get_reactions()) + [(10.0, 100.0)] + [(-100.0, -1.0)] + [(-100.0, -1.0)]
 
 # 2.
 # bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(-10.0, 10.0)]*6 + [(1e-2, 100.0)]
@@ -252,12 +252,12 @@ GA = network.get_general_approach(signal=signal, response=response, fix_reaction
 #bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
 
 # 18.
-bnds = [(1e-2, 100.0)]*len(GA.get_input_vector())
+# bnds = [(1e-2, 100.0)]*len(GA.get_input_vector())
 
 
 # print(GA.get_input_vector())
 
-# sympy.pprint(GA.get_independent_odes_subs())
+#sympy.pprint(GA.get_independent_odes_subs())
 #
 # sympy.pprint(GA.get_determinant_of_jacobian())
 # #sys.exit()
@@ -267,16 +267,16 @@ bnds = [(1e-2, 100.0)]*len(GA.get_input_vector())
 
 
 
-params, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=True,
-                                           dual_annealing_iters=1000, confidence_level_flag=True)
+# params, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=True,
+#                                            dual_annealing_iters=1000, confidence_level_flag=True)
 
 
 #sys.exit()
 
 #numpy.save('params.npy', params)
-#params = numpy.load('params.npy')
+params = numpy.load('params.npy')
 
-#sys.exit()
+sys.exit()
 
 multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params, print_lbls_flag=True,
                                                                                auto_parameters={'PrincipalContinuationParameter': signal},

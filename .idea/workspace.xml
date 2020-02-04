@@ -4,12 +4,20 @@
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/crnt.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/crnt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/c_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/c_graph.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/semi_diffusive_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/semi_diffusive_approach.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/data_for_PCA/beginning_dec_vec_1000_samples.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/data_for_PCA/beginning_dec_vec_100_samples.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/data_for_PCA/end_dec_vec_1000_samples.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/data_for_PCA/end_dec_vec_100_samples.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/data_for_PCA/obj_function_1000_samples.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/data_for_PCA/obj_function_100_samples.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/general_approach_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/general_approach_script.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/song_c_graph.cys" beforeDir="false" afterPath="$PROJECT_DIR$/tests/song_c_graph.cys" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/network.graphml" beforeDir="false" afterPath="$PROJECT_DIR$/tests/network.graphml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/C1_vs_s4_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/C1_vs_s4_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/paper_general_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/paper_general_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/params.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/song_general_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/song_general_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,9 +90,9 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="473" y="127" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1576876711783" />
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1576876151650">
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1580499744230">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1576876151650" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1580499744230" />
   </component>
 </project>

@@ -488,6 +488,256 @@ class BistabilityFinder:
 
         return multistable_param_ind, important_info, plot_specifications
 
+    @classmethod
+    def run_mpi_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string, finalize_ant_string,
+                                    species_y, dir_path, print_lbls_flag, auto_parameters, plot_labels, my_rank):
+
+        from mpi4py import MPI
+
+        if my_rank == 0:
+            print("Running continuity analysis ...")
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
+            roadrunner.Logger.disableLogging()
+            roadrunner.Logger.disableConsoleLogging()
+            roadrunner.Logger.disableFileLogging()
+            rrplugins.setLogLevel('error')
+            try:
+                stderr_fileno = sys.stderr.fileno()
+                stderr_save = os.dup(stderr_fileno)
+                stderr_pipe = os.pipe()
+                os.dup2(stderr_pipe[1], stderr_fileno)
+                os.close(stderr_pipe[1])
+                notebook_exists = False
+            except Exception as e:
+                print(
+                    "Note: stderr is not being caught in the traditional fashion. This may be a result of using a notebook.")
+                notebook_exists = True
+
+        init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
+        auto_parameters['PrincipalContinuationParameter'] = pcp_x
+        start_time = MPI.Wtime()
+        multistable_param_ind = []
+        cont_direction = ["Positive", "Negative"]
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            auto = rrplugins.Plugin("tel_auto2000")
+        else:
+            auto = None
+
+        plot_specifications = []
+
+        for param_ind in range(len(params_for_global_min)):
+            final_ant_str = finalize_ant_string(params_for_global_min[param_ind], init_ant)
+
+            for dir_ind in range(2):
+                if os.path.isdir("./auto_fort_files_" + str(my_rank)):
+                    shutil.rmtree("./auto_fort_files_" + str(my_rank))
+
+                pts, lbls, antimony_r, flag, bi_data_np = cls.run_mpi_safety_wrapper(final_ant_str, cont_direction[dir_ind],
+                                                                                     auto, auto_parameters, my_rank)
+
+                if print_lbls_flag:
+                    print("Labels from numerical continuation: ")
+                    print(lbls)
+
+                if flag and lbls != ['EP', 'EP']:
+                    chnk_stable, chnk_unstable, special_points, sp_y_ind = cls.find_stable_unstable_regions(antimony_r,
+                                                                                                            species_y,
+                                                                                                            my_rank)
+
+                    multistable = cls.detect_multi_stability(chnk_stable, chnk_unstable, bi_data_np)
+
+                    if multistable:
+                        plt_specs = cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np,
+                                                            sp_y_ind, pcp_x, species_y, param_ind, dir_path, cls,
+                                                            plot_labels, my_rank)
+                        plot_specifications.append(plt_specs)
+                        multistable_param_ind.append(param_ind)
+                        break
+
+        if os.path.isdir("./auto_fort_files_" + str(my_rank)):
+            shutil.rmtree("./auto_fort_files_" + str(my_rank))
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            if not notebook_exists:
+                os.close(stderr_pipe[0])
+                os.dup2(stderr_save, stderr_fileno)
+                os.close(stderr_save)
+                os.close(stderr_fileno)
+
+        if my_rank == 0:
+            end_time = MPI.Wtime()
+            print("Elapsed time for continuity analysis in seconds: " + str(end_time - start_time))
+            print("")
+
+        important_info = f"\nNumber of multistability plots found by core {my_rank}: " + str(len(multistable_param_ind)) + "\n"
+
+        important_info += f"Elements in params_for_global_min that produce multistability found by core {my_rank}: \n" + \
+                          str(multistable_param_ind) + "\n"
+
+        return multistable_param_ind, important_info, plot_specifications
+
+    @classmethod
+    def run_mpi_greedy_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string,
+                                           finalize_ant_string, species_y, dir_path, print_lbls_flag,
+                                           auto_parameters, plot_labels, my_rank):
+
+        from mpi4py import MPI
+
+        if my_rank == 0:
+            print("Running continuity analysis ...")
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
+            roadrunner.Logger.disableLogging()
+            roadrunner.Logger.disableConsoleLogging()
+            roadrunner.Logger.disableFileLogging()
+            rrplugins.setLogLevel('error')
+            try:
+                sys.stderr.fileno()
+                stderr_fileno = sys.stderr.fileno()
+                stderr_save = os.dup(stderr_fileno)
+                stderr_pipe = os.pipe()
+                os.dup2(stderr_pipe[1], stderr_fileno)
+                os.close(stderr_pipe[1])
+                notebook_exists = False
+            except Exception as e:
+                print(
+                    "Note: stderr is not being caught in the traditional fashion. This may be a result of using a notebook.")
+                notebook_exists = True
+
+        init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
+        auto_parameters['PrincipalContinuationParameter'] = pcp_x
+        auto_parameters['IADS'] = 0
+        auto_parameters['A1'] = 1e10
+        auto_parameters['ITNW'] = 100
+        auto_parameters['NTST'] = 100
+        auto_parameters['NCOL'] = 100
+
+        start_time = MPI.Wtime()
+        multistable_param_ind = []
+        cont_direction = ["Positive", "Negative"]
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            auto = rrplugins.Plugin("tel_auto2000")
+        else:
+            auto = None
+
+        plot_specifications = []
+
+        for param_ind in range(len(params_for_global_min)):
+
+            final_ant_str = finalize_ant_string(params_for_global_min[param_ind], init_ant)
+            pcp_ranges_mag = cls.get_pcp_ranges(final_ant_str, pcp_x)
+
+            auto_parameters['RL0'] = pcp_ranges_mag[0]
+            auto_parameters['RL1'] = pcp_ranges_mag[1]
+
+            ds_vals = []
+            mag = pcp_ranges_mag[2]
+            mag -= 1
+            for i in range(5):
+                ds_vals.append(float(10 ** mag))
+                mag -= 1
+
+            multistable = False
+            lbls = []
+
+            for ds_val in ds_vals:
+                auto_parameters['DS'] = ds_val
+                for dir_ind in range(2):
+                    if os.path.isdir("./auto_fort_files_" + str(my_rank)):
+                        shutil.rmtree("./auto_fort_files_" + str(my_rank))
+
+                    pts, lbls, antimony_r, flag, bi_data_np = cls.run_mpi_safety_wrapper(final_ant_str,
+                                                                                     cont_direction[dir_ind], auto,
+                                                                                     auto_parameters, my_rank)
+
+                    if print_lbls_flag:
+                        print("Labels from numerical continuation: ")
+                        print(lbls)
+
+                    if flag and lbls != ['EP', 'EP']:
+                        chnk_stable, chnk_unstable, special_points, sp_y_ind = cls.find_stable_unstable_regions(
+                            antimony_r, species_y, my_rank)
+                        multistable = cls.detect_multi_stability(chnk_stable, chnk_unstable, bi_data_np)
+                        if multistable:  ################################################
+                            # if ds_val == 0.01 and dir_ind == 0:
+                            # running another numerical continuation with a smaller step size to try and get
+                            # better looking plots
+                            scnd_check = True
+                            if os.path.isdir("./auto_fort_files_" + str(my_rank)):
+                                shutil.rmtree("./auto_fort_files_" + str(my_rank))
+
+                                ind_ds_val = ds_vals.index(ds_val)
+                                ds_val = ds_vals[ind_ds_val + 1]
+
+                                auto_parameters['DS'] = ds_val
+                                for dir_ind2 in range(2):
+                                    if os.path.isdir("./auto_fort_files_" + str(my_rank)):
+                                        shutil.rmtree("./auto_fort_files_" + str(my_rank))
+
+                                    pts2, lbls2, antimony_r, flag2, bi_data_np2 = cls.run_mpi_safety_wrapper(final_ant_str,
+                                                                                                         cont_direction[
+                                                                                                             dir_ind2],
+                                                                                                         auto,
+                                                                                                         auto_parameters,
+                                                                                                             my_rank)
+
+                                    if flag2 and lbls2 != ['EP', 'EP']:
+                                        chnk_stable2, chnk_unstable2, special_points2, sp_y_ind2 = \
+                                            cls.find_stable_unstable_regions(antimony_r, species_y, my_rank)
+
+                                        multistable2 = cls.detect_multi_stability(chnk_stable2, chnk_unstable2,
+                                                                                  bi_data_np2)
+
+                                        if multistable2:
+                                            plt_specs = cls.plot_pcp_vs_species(chnk_stable2, chnk_unstable2,
+                                                                                special_points2, bi_data_np2, sp_y_ind2,
+                                                                                pcp_x, species_y, param_ind, dir_path,
+                                                                                cls, plot_labels, my_rank)
+                                            plot_specifications.append(plt_specs)
+                                            scnd_check = False
+                                            break
+
+                                if scnd_check:
+                                    plt_specs = cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points,
+                                                                        bi_data_np, sp_y_ind, pcp_x, species_y,
+                                                                        param_ind, dir_path, cls, plot_labels, my_rank)
+                                    plot_specifications.append(plt_specs)
+
+                            if param_ind not in multistable_param_ind:
+                                multistable_param_ind.append(param_ind)
+                            break
+                if multistable and 'MX' not in lbls:
+                    break
+            if print_lbls_flag:
+                print("")
+
+        if os.path.isdir("./auto_fort_files_" + str(my_rank)):
+            shutil.rmtree("./auto_fort_files_" + str(my_rank))
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            if not notebook_exists:
+                os.close(stderr_pipe[0])
+                os.dup2(stderr_save, stderr_fileno)
+                os.close(stderr_save)
+                os.close(stderr_fileno)
+
+        if my_rank == 0:
+            end_time = MPI.Wtime()
+            print("Elapsed time for continuity analysis in seconds: " + str(end_time - start_time))
+            print("")
+
+        important_info = f"\nNumber of multistability plots found by core {my_rank}: " + str(len(multistable_param_ind)) + "\n"
+
+        important_info += f"Elements in params_for_global_min that produce multistability found by core {my_rank}: \n" + \
+                          str(multistable_param_ind) + "\n"
+
+        return multistable_param_ind, important_info, plot_specifications
+
     @staticmethod
     def get_pcp_ranges(final_ant_str, pcp_x):
 
@@ -514,7 +764,7 @@ class BistabilityFinder:
             rl0 = -float(val) * 10 ** (mag + 1)
             rl1 = -float(val) * 10 ** (mag - 1)
             #rl0 = -100.0
-            rl1 = 10.0                                                                                             ###################################$$$$$$$$$$$$$$$$$$$$$$$$$$$
+            rl1 = 10.0
             # print("pcp_initial ")
             # print(pcp_initial)
             #mag = order_of_magnitude(abs(float(1.0)))
@@ -523,6 +773,80 @@ class BistabilityFinder:
             rl0 = float(val) * 10 ** (mag - 1)
 
         return [rl0, rl1, mag + 1]
+
+    @classmethod
+    def run_mpi_safety_wrapper(cls, final_ant_str, cont_direction, auto, auto_parameters, my_rank):
+
+        if sys_pf in ['win32', 'cygwin', 'msys']:
+            arguments = [final_ant_str, cont_direction, auto_parameters]
+            if os.path.exists("input_arguments_" + str(my_rank) + ".pickle"):
+                os.remove("input_arguments_" + str(my_rank) + ".pickle")
+                with open("input_arguments_" + str(my_rank) + ".pickle", 'wb') as outf:
+                    outf.write(pickle.dumps(arguments))
+            else:
+                with open("input_arguments_" + str(my_rank) + ".pickle", 'wb') as outf:
+                    outf.write(pickle.dumps(arguments))
+
+            # # making the directory auto_fort_files if is does not exist
+            if not os.path.isdir("./auto_fort_files_" + str(my_rank)):
+                os.mkdir("./auto_fort_files_" + str(my_rank))
+
+            subprocess.run(['python', '-m', 'crnt4sbml.safety_wrap'], shell=True, env=os.environ)
+
+            if os.path.exists("output_arguments_" + str(my_rank) + ".pickle"):
+                with open("output_arguments_" + str(my_rank) + ".pickle", 'rb') as pickle_file:
+                    output_arguments = pickle.loads(pickle_file.read())
+                os.remove("output_arguments_" + str(my_rank) + ".pickle")
+                pts = output_arguments[0]
+                lbls = output_arguments[1]
+                antimony_r = output_arguments[2]
+                flag = output_arguments[3]
+                bi_data_np = numpy.load("bi_data_np_" + str(my_rank) + ".npy")
+                os.remove("./bi_data_np_" + str(my_rank) + ".npy")
+                if os.path.exists("input_arguments_" + str(my_rank) + ".pickle"):
+                    os.remove("input_arguments_" + str(my_rank) + ".pickle")
+            else:
+                flag = False
+                pts = []
+                lbls = []
+                antimony_r = []
+                bi_data_np = numpy.zeros(1)
+                if os.path.exists("input_argument_" + str(my_rank) + "s.pickle"):
+                    os.remove("input_arguments_" + str(my_rank) + ".pickle")
+
+            time.sleep(1)
+        else:
+
+            if os.path.exists("bi_data_np_" + str(my_rank) + ".npy"):
+                os.remove("bi_data_np_" + str(my_rank) + ".npy")
+
+            queue = multiprocessing.Queue()
+            p = multiprocessing.Process(target=cls.run_numerical_continuation, args=(queue, final_ant_str,
+                                                                                     cont_direction,
+                                                                                     auto, auto_parameters, my_rank))
+
+            p.start()
+            p.join()  # this blocks until the process terminates
+
+            if p.exitcode == 0:
+                pts, lbls, antimony_r, flag = queue.get()
+                bi_data_np = numpy.load("bi_data_np_" + str(my_rank) + ".npy")
+                if os.path.exists("bi_data_np_" + str(my_rank) + ".npy"):
+                    os.remove("bi_data_np_" + str(my_rank) + ".npy")
+                p.terminate()
+                queue.close()
+            else:
+                flag = False
+                pts = []
+                lbls = []
+                antimony_r = []
+                bi_data_np = numpy.zeros(1)
+                p.terminate()
+                queue.close()
+                if os.path.exists("bi_data_np_" + str(my_rank) + ".npy"):
+                    os.remove("bi_data_np_" + str(my_rank) + ".npy")
+
+        return pts, lbls, antimony_r, flag, bi_data_np
 
     @classmethod
     def run_safety_wrapper(cls, final_ant_str, cont_direction, auto, auto_parameters):
@@ -599,57 +923,70 @@ class BistabilityFinder:
         return pts, lbls, antimony_r, flag, bi_data_np
 
     @classmethod
-    def run_numerical_continuation(cls, q, ant_str, direction, auto, auto_parameters):
+    def run_numerical_continuation(cls, q, ant_str, direction, auto, auto_parameters, core=None):
 
         antimony_r = cls.__loada(ant_str)
 
-        if True:
-
-            # making the directory auto_fort_files if is does not exist
+        # making the directory auto_fort_files if is does not exist
+        if core is None:
             if not os.path.isdir("./auto_fort_files"):
                 os.mkdir("./auto_fort_files")
+        else:
+            if not os.path.isdir("./auto_fort_files_" + str(core)):
+                os.mkdir("./auto_fort_files_" + str(core))
 
-            auto.setProperty("SBML", antimony_r.getCurrentSBML())
-            auto.setProperty("ScanDirection", direction)
-            auto.setProperty("PreSimulation", "True")
-            auto.setProperty("PreSimulationDuration", 1.0)
-            auto.setProperty('KeepTempFiles', True)
+        auto.setProperty("SBML", antimony_r.getCurrentSBML())
+        auto.setProperty("ScanDirection", direction)
+        auto.setProperty("PreSimulation", "True")
+        auto.setProperty("PreSimulationDuration", 1.0)
+        auto.setProperty('KeepTempFiles', True)
+        if core is None:
             auto.setProperty("TempFolder", "./auto_fort_files")
+        else:
+            auto.setProperty("TempFolder", "./auto_fort_files_" + str(core))
 
-            # assigning values provided by the user
-            for i in auto_parameters.keys():
-                auto.setProperty(i, auto_parameters[i])
+        # assigning values provided by the user
+        for i in auto_parameters.keys():
+            auto.setProperty(i, auto_parameters[i])
 
-            try:
-                auto.execute()
-                # indices where special points are
-                pts = auto.BifurcationPoints
-                # labeling of special points
-                lbls = auto.BifurcationLabels
-                # all data for parameters and species found by continuation
-                bi_data = auto.BifurcationData
+        try:
+            auto.execute()
+            # indices where special points are
+            pts = auto.BifurcationPoints
+            # labeling of special points
+            lbls = auto.BifurcationLabels
+            # all data for parameters and species found by continuation
+            bi_data = auto.BifurcationData
 
-                # convertes bi_data to numpy array, where first
-                # column is the principal continuation parameter and
-                # the rest of the columns are the species
-                bi_data_np = bi_data.toNumpy
-                flag = True
+            # convertes bi_data to numpy array, where first
+            # column is the principal continuation parameter and
+            # the rest of the columns are the species
+            bi_data_np = bi_data.toNumpy
+            flag = True
 
-            except Exception as e:
-                flag = False
-                pts = []
-                lbls = []
-                bi_data_np = numpy.zeros(2)
+        except Exception as e:
+            flag = False
+            pts = []
+            lbls = []
+            bi_data_np = numpy.zeros(2)
 
         ant_float_ids = antimony_r.model.getFloatingSpeciesIds()
-        numpy.save('bi_data_np.npy', bi_data_np)
+        if core is None:
+            numpy.save('bi_data_np.npy', bi_data_np)
+        else:
+            numpy.save('bi_data_np_' + str(core) + '.npy', bi_data_np)
         q.put([pts, lbls, ant_float_ids, flag])
 
     @staticmethod
-    def find_stable_unstable_regions(antimony_r, species_y):
-        with open("./auto_fort_files/fort.7", 'r') as fobj:
-            all_lines = [[num for num in line.split()] for line in fobj]
-        
+    def find_stable_unstable_regions(antimony_r, species_y, core=None):
+
+        if core is None:
+            with open("./auto_fort_files/fort.7", 'r') as fobj:
+                all_lines = [[num for num in line.split()] for line in fobj]
+        else:
+            with open("./auto_fort_files" + "_" + str(core) + "/fort.7", 'r') as fobj:
+                all_lines = [[num for num in line.split()] for line in fobj]
+
         # getting index where important information begins
         beg_ind = None
         for i in range(len(all_lines)):
@@ -750,7 +1087,7 @@ class BistabilityFinder:
 
     @staticmethod
     def plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np, sp_y_ind, pcp_x, species_y,
-                            param_ind, dir_path, cls, plot_labels):
+                            param_ind, dir_path, cls, plot_labels, core=None):
 
         # plotting stable points
         for i in range(len(chnk_stable)):
@@ -818,8 +1155,13 @@ class BistabilityFinder:
         plt.gca().set_ylim(first, second)
 
         plt.ticklabel_format(axis='both', style='sci', scilimits=(-2, 2))
-        plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + '.png')
-        plt.clf()
+
+        if core is None:
+            plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + '.png')
+            plt.clf()
+        else:
+            plt.savefig(dir_path + '/' + pcp_x + '_vs_' + species_y + '_' + str(param_ind) + "_core_" + str(core) + '.png')
+            plt.clf()
 
         plot_specs = [[lims[0], lims[1]], [first, second]]
         special_pnts_in_plot = []

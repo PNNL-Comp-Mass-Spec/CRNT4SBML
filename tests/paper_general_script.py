@@ -58,6 +58,9 @@ df = pandas.DataFrame(numpy.vstack([params_for_global_min[i] for i in multistabl
                       columns=["set" + str(i + 1) for i in multistable_param_ind],
                       index=[str(i) for i in GA.get_variables_for_lambda_functions()])
 
+print(df)
+sys.exit()
+
 ################## selected parameter set #########################
 decision_vector_values = numpy.array(df['set2'])
 plot_specifications = plot_specifications[1]  # warning, overwriting variable!!!

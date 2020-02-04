@@ -219,21 +219,23 @@ class Cgraph:
 
     def __extract_direct_reaction(self, reaction):
         r, p = self.__parse_reactants_and_products(reaction)
-        self.__g.add_edge(r, p,
-                          label=reaction.getId(),
-                          k=None,
-                          sbml_label=reaction.getId(),
-                          type=None)
-        self.__g_edges.append((r, p))
+        if (r, p) not in [i for i in self.__g.edges]:
+            self.__g.add_edge(r, p,
+                              label=reaction.getId(),
+                              k=None,
+                              sbml_label=reaction.getId(),
+                              type=None)
+            self.__g_edges.append((r, p))
 
     def __extract_reverse_reaction(self, reaction):
         r, p = self.__parse_reactants_and_products(reaction)
-        self.__g.add_edge(p, r,
-                          label=reaction.getId() + 'r',
-                          k=None,
-                          sbml_label=reaction.getId(),
-                          type=None)
-        self.__g_edges.append((p, r))
+        if (p, r) not in [i for i in self.__g.edges]:
+            self.__g.add_edge(p, r,
+                              label=reaction.getId() + 'r',
+                              k=None,
+                              sbml_label=reaction.getId(),
+                              type=None)
+            self.__g_edges.append((p, r))
 
     def __extract_catalysis_reaction(self, reaction):
 
@@ -252,28 +254,31 @@ class Cgraph:
         r, p, m = self.__parse_reactants_products_and_modifiers(reaction)
 
         # add complex formation
-        self.__g.add_edge(r, m,
-                          label=reaction.getId() + 'f',
-                          k=None,
-                          sbml_label=reaction.getId(),
-                          type="complex formation")
-        self.__g_edges.append((r, m))
+        if (r, m) not in [i for i in self.__g.edges]:
+            self.__g.add_edge(r, m,
+                              label=reaction.getId() + 'f',
+                              k=None,
+                              sbml_label=reaction.getId(),
+                              type="complex formation")
+            self.__g_edges.append((r, m))
 
         # add complex dissociation
-        self.__g.add_edge(m, r,
-                          label=reaction.getId() + 'd',
-                          k=None,
-                          sbml_label=reaction.getId(),
-                          type="complex dissociation")
-        self.__g_edges.append((m, r))
+        if (m, r) not in [i for i in self.__g.edges]:
+            self.__g.add_edge(m, r,
+                              label=reaction.getId() + 'd',
+                              k=None,
+                              sbml_label=reaction.getId(),
+                              type="complex dissociation")
+            self.__g_edges.append((m, r))
 
         # add catalysis
-        self.__g.add_edge(m, p,
-                          label=reaction.getId() + 'c',
-                          k=None,
-                          sbml_label=reaction.getId(),
-                          type="catalysis")
-        self.__g_edges.append((m, p))
+        if (m, p) not in [i for i in self.__g.edges]:
+            self.__g.add_edge(m, p,
+                              label=reaction.getId() + 'c',
+                              k=None,
+                              sbml_label=reaction.getId(),
+                              type="catalysis")
+            self.__g_edges.append((m, p))
 
     def __parse_reactions(self, model):
         for i in model.getListOfReactions():
