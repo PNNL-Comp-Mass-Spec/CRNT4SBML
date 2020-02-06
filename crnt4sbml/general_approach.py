@@ -784,6 +784,8 @@ class GeneralApproach:
             A list of numpy arrays that correspond to the decision vectors of the problem.
         obj_fun_val_for_params: list of floats
             A list of objective function values produced by the corresponding decision vectors in params_for_global_min.
+        my_rank: integer
+            An integer corresponding to the rank assigned to the core within the routine.
 
         Examples
         ---------
@@ -1473,12 +1475,25 @@ class GeneralApproach:
 
         species_y = str(self.__indp_species[species_num-1])
 
-        sample_portion = self.__distribute_list_of_points(parameters)
-        self.__comm.Barrier()
+        if self.__comm is not None:
+            sample_portion = self.__distribute_list_of_points(parameters)
+            self.__comm.Barrier()
+        else:
+
+            from mpi4py import MPI
+            self.__comm = MPI.COMM_WORLD
+            self.__my_rank = self.__comm.Get_rank()
+            self.__num_cores = self.__comm.Get_size()
+            self.__comm.Barrier()
+
+            if not os.path.isdir(dir_path) and self.__my_rank == 0:
+                os.mkdir(dir_path)
+            sample_portion = self.__distribute_list_of_points(parameters)
+            self.__comm.Barrier()
 
         multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_greedy_continuity_analysis \
             (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters, plot_labels, self.__my_rank)
+             print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
 
         self.__important_info += important_info
 
@@ -1582,12 +1597,25 @@ class GeneralApproach:
 
         species_y = str(self.__indp_species[species_num - 1])
 
-        sample_portion = self.__distribute_list_of_points(parameters)
-        self.__comm.Barrier()
+        if self.__comm is not None:
+            sample_portion = self.__distribute_list_of_points(parameters)
+            self.__comm.Barrier()
+        else:
+
+            from mpi4py import MPI
+            self.__comm = MPI.COMM_WORLD
+            self.__my_rank = self.__comm.Get_rank()
+            self.__num_cores = self.__comm.Get_size()
+            self.__comm.Barrier()
+
+            if not os.path.isdir(dir_path) and self.__my_rank == 0:
+                os.mkdir(dir_path)
+            sample_portion = self.__distribute_list_of_points(parameters)
+            self.__comm.Barrier()
 
         multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_continuity_analysis \
             (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters, plot_labels, self.__my_rank)
+             print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
 
         self.__important_info += important_info
 

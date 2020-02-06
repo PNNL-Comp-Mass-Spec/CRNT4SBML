@@ -4,18 +4,52 @@ import matplotlib.pyplot as plt
 # import matplotlib
 # matplotlib.use('Agg')
 
-import crnt4sbml
+
 import numpy
 import pandas
 import sympy
 import scipy.integrate as itg
-from plotnine import ggplot, aes, geom_line, ylim, scale_color_distiller, facet_wrap, theme_bw, geom_path, geom_point
+#from plotnine import ggplot, aes, geom_line, ylim, scale_color_distiller, facet_wrap, theme_bw, geom_path, geom_point
 import time
+import sys
 
-# import sys
-# sys.path.insert(0, "..")
+import sys
+sys.path.insert(0, "..")
+import crnt4sbml
 
-network = crnt4sbml.CRNT("../sbml_files/DoublePhos.xml")
+# 1.
+# network = crnt4sbml.CRNT("../sbml_files/DoublePhos.xml")
+# signal = 'C2'
+# response = 's4'
+
+# 2.
+# network = crnt4sbml.CRNT("../sbml_files/Fig4C_closed.xml")
+
+# 3.
+#network = crnt4sbml.CRNT("../sbml_files/closed_fig5A.xml")
+
+# 4.
+# network = crnt4sbml.CRNT("../sbml_files/irene2014.xml")
+
+# 5.
+# network = crnt4sbml.CRNT("../sbml_files/irene2009.xml")
+
+# 6.
+# network = crnt4sbml.CRNT("../sbml_files/hervagault_canu.xml")
+
+# 7.
+# network = crnt4sbml.CRNT("../sbml_files/conradi2007.xml")
+
+# 8.
+# network = crnt4sbml.CRNT("../sbml_files/double_insulin_binding.xml")
+
+# 9.
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/DoublePhos_OGlcNAc.xml")
+
+# 10.
+network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
+signal = 'C3'
+response = 's15'
 
 # network.print_biological_reaction_types()
 #
@@ -32,25 +66,74 @@ opt = network.get_mass_conservation_approach()
 #opt.get_decision_vector()
 
 # this function suggests physiological bounds
+# bounds, concentration_bounds = opt.get_optimization_bounds()
+#
+# # overwriting specie concentration bounds for s4. Concentrations are in pM.
+# opt.get_concentration_bounds_species()
+
+# 1.
 bounds, concentration_bounds = opt.get_optimization_bounds()
+iters = 10
 
-# overwriting specie concentration bounds for s4. Concentrations are in pM.
-opt.get_concentration_bounds_species()
+# 2.
+# bounds, concentration_bounds = opt.get_optimization_bounds()
+# iters = 10
 
-params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds,
+# 3.
+# bounds = [(1e-2, 1e2)]*12
+# concentration_bounds = [(1e-2, 1e2)]*6
+# iters = 100
+
+# 4.
+# bounds = [(1e-2, 1e2)]*12
+# concentration_bounds = [(1e-2, 1e2)]*5
+# iters = 100
+
+# 5.
+# bounds = [(1e-2, 1e2)]*10
+# concentration_bounds = [(1e-2, 1e2)]*4
+# iters = 100
+
+# 6.
+# bounds = [(1e-2, 1e2)]*13
+# concentration_bounds = [(1e-2, 1e2)]*4
+# iters = 100
+
+# 7.
+# bounds = [(1e-2, 1e2)]*20
+# concentration_bounds = [(1e-2, 1e2)]*7
+# iters = 100
+
+# 8.
+# bounds, concentration_bounds = opt.get_optimization_bounds()
+# iters = 100
+
+params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=iters, confidence_level_flag=False,
                                                                      concentration_bounds=concentration_bounds)
+
+#print(params_for_global_min)
+print(obj_fun_val_for_params)
+# params_for_global_min = numpy.load('params_double_phos_mpi.npy')
+# opt.generate_report()
+#sys.exit()
 
 # The reponse-related specie should be picked based on CellDesigner IDs. In our case phoshorylated A is s2.
 # How to pick continuation parameter? In our case it is the amount of A protein, thus the conservation law 3.
 #print(opt.get_conservation_laws())
 
-multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s4", parameters=params_for_global_min,
-                                                           auto_parameters={'PrincipalContinuationParameter': 'C2'},
+# multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min,
+#                                                            auto_parameters={'PrincipalContinuationParameter': signal}, dir_path="./num_cont_graphs_serial",
+#                                                            print_lbls_flag=False)
+
+multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species=response, parameters=params_for_global_min,
+                                                           auto_parameters={'PrincipalContinuationParameter': signal,
+                                                                            'RL0': 1e2, 'RL1': 1e6, 'A0': 0.0, 'A1': 5e6,
+                                                                            'DSMAX': 1e3}, dir_path="./num_cont_graphs_serial",
                                                            print_lbls_flag=False)
 
 opt.generate_report()
 
-
+sys.exit()
 
 #
 # numpy.save('./Double_Phos/the_params.npy', params_for_global_min)

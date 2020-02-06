@@ -51,11 +51,11 @@ class BistabilityFinder:
             print("Running the multistart optimization ...")
             start = time.process_time()
 
-            params_that_give_global_min, total_that_give_zero, total_that_pass_chk, obj_fun_val_global_min = \
+            params_that_give_global_min, total_that_give_zero, total_that_pass_chk, obj_fun_val_global_min, important_info = \
                 cls.multistart_optimization(num_x_cand, x_candidates, sys_min_val, bounds, temp_c,
                                             objective_function_to_optimize, equality_bounds_indices, seed,
                                             final_constraint_check, print_flag, numpy_dtype, concentration_bounds,
-                                            confidence_level_flag, change_in_rel_error)
+                                            confidence_level_flag, change_in_rel_error, core="serial", important_info=important_info)
             
             end = time.process_time()
             print("Elapsed time for multistart method in seconds: " + str(end - start))
@@ -70,28 +70,132 @@ class BistabilityFinder:
             raise Exception("Optimization needs to be run with more iterations or different bounds.")
 
     @classmethod
-    def feasible_point_method(cls, penalty_bounds, num_constraint_method_iters, sys_min_val, temp_c,
+    def run_mpi_optimization(cls, bounds, num_constraint_method_iters, sys_min_val, temp_c, penalty_objective_func,
+                             feasible_point_check, objective_function_to_optimize, final_constraint_check, seed,
+                             equality_bounds_indices, print_flag, numpy_dtype, concentration_bounds, confidence_level_flag,
+                             change_in_rel_error):
+
+        from mpi4py import MPI
+        cls.__comm = MPI.COMM_WORLD
+        cls.__my_rank = cls.__comm.Get_rank()
+        cls.__num_cores = cls.__comm.Get_size()
+
+        cls.__comm.Barrier()
+
+        important_info = ''
+
+        # running penalty method to find feasible points
+        if cls.__my_rank == 0:
+            print("")
+            print("Running feasible point method for " + str(num_constraint_method_iters) + " iterations ...")
+            start_time = MPI.Wtime()
+
+        x_candidates, num_initial_samples = cls.mpi_feasible_point_method(bounds, num_constraint_method_iters, sys_min_val, temp_c,
+                                                     penalty_objective_func, feasible_point_check, seed,
+                                                     equality_bounds_indices, print_flag,
+                                                     numpy_dtype, concentration_bounds, confidence_level_flag,
+                                                     change_in_rel_error, core=cls.__my_rank)
+
+        cls.__comm.Barrier()
+        if cls.__my_rank == 0:
+            end_time = MPI.Wtime()
+            print("Elapsed time for feasible point method: " + str(end_time - start_time))
+            print("")
+
+        # checking number of elements of feasible_point_sets for each core to see if we need to redistribute them
+        redistribute_flag = len(x_candidates) == num_initial_samples #len(sample_portion)
+        val = cls.__comm.allreduce(redistribute_flag, op=MPI.LAND)
+        if not val:
+            array_of_feasibles = cls.__gather_numpy_array_of_values(x_candidates)
+            x_candidates = cls.__distribute_points(array_of_feasibles)
+
+        cls.__comm.Barrier()
+
+        num_x_cand = len(x_candidates)
+        important_info += f"The number of feasible points that satisfy the constraints by core {cls.__my_rank}: " + str(num_x_cand) + "\n"
+
+        if cls.__my_rank == 0:
+            print("Running the multistart optimization ...")
+            start_time = MPI.Wtime()
+
+        # if num_x_cand = 0 throw error and don't cont.
+        if num_x_cand != 0:
+            params_that_give_global_min, total_that_give_zero, total_that_pass_chk, obj_fun_val_global_min, important_info = \
+                cls.multistart_optimization(num_x_cand, x_candidates, sys_min_val, bounds, temp_c,
+                                            objective_function_to_optimize, equality_bounds_indices, seed,
+                                            final_constraint_check, print_flag, numpy_dtype, concentration_bounds,
+                                            confidence_level_flag, change_in_rel_error, core=cls.__my_rank,
+                                            important_info=important_info,
+                                            total_iterations=num_constraint_method_iters)
+        else:
+            params_that_give_global_min, total_that_give_zero, total_that_pass_chk, obj_fun_val_global_min, important_info = \
+                cls.multistart_optimization(num_x_cand, x_candidates, sys_min_val, bounds, temp_c,
+                                            objective_function_to_optimize, equality_bounds_indices, seed,
+                                            final_constraint_check, print_flag, numpy_dtype, concentration_bounds,
+                                            confidence_level_flag, change_in_rel_error, core=None,
+                                            important_info=important_info,
+                                            total_iterations=num_constraint_method_iters)
+
+        cls.__comm.Barrier()
+        if cls.__my_rank == 0:
+            end_time = MPI.Wtime()
+            print("Elapsed time for multistart method in seconds: " + str(end_time - start_time))
+            print("")
+
+        important_info += f"Total feasible points that give F(x) = 0 by core {cls.__my_rank}: " + str(total_that_give_zero) + "\n"
+
+        important_info += f"Total number of points that passed final_check by core {cls.__my_rank}: " + str(total_that_pass_chk) + "\n"
+
+        cls.__comm.Barrier()
+        list_params = cls.__gather_list_of_values(params_that_give_global_min)
+        list_det_point_sets_fun = cls.__gather_list_of_values(obj_fun_val_global_min)
+
+        cls.__comm.Barrier()
+
+        return list_params, list_det_point_sets_fun, important_info, cls.__my_rank, cls.__comm, cls.__num_cores
+
+    @classmethod
+    def mpi_feasible_point_method(cls, penalty_bounds, num_constraint_method_iters, sys_min_val, temp_c,
                               penalty_objective_func, feasible_point_check, seed, equality_bounds_indices, print_flag,
-                              numpy_dtype, concentration_bounds, confidence_level_flag, change_in_rel_error):
-        # Generate starting points uniformly with length ranges
-        numpy.random.seed(seed)
-        samples = numpy.random.rand(num_constraint_method_iters, len(penalty_bounds) -
-                                    len(equality_bounds_indices)).astype(numpy_dtype)
+                              numpy_dtype, concentration_bounds, confidence_level_flag, change_in_rel_error, core=None):
 
-        x_candidates = []
-        x_off = numpy.zeros(len(penalty_bounds), dtype=numpy_dtype)
+        if cls.__my_rank == 0 or core is None:
+            numpy.random.seed(seed)
+            samples = numpy.random.rand(num_constraint_method_iters, len(penalty_bounds) -
+                                        len(equality_bounds_indices)).astype(numpy_dtype)
 
-        non_equality_bounds_indices = [i for i in range(len(penalty_bounds)) if i not in equality_bounds_indices]
-        
-        true_bounds = [(numpy_dtype(penalty_bounds[j][0]), numpy_dtype(penalty_bounds[j][1]))
-                       for j in non_equality_bounds_indices]
+            x_candidates = []
+            x_off = numpy.zeros(len(penalty_bounds), dtype=numpy_dtype)
 
-        ranges = numpy.asarray(true_bounds, dtype=numpy_dtype)
-        samples = samples*(ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+            non_equality_bounds_indices = [i for i in range(len(penalty_bounds)) if i not in equality_bounds_indices]
 
-        for n in range(num_constraint_method_iters):
+            true_bounds = [(numpy_dtype(penalty_bounds[j][0]), numpy_dtype(penalty_bounds[j][1]))
+                           for j in non_equality_bounds_indices]
+
+            ranges = numpy.asarray(true_bounds, dtype=numpy_dtype)
+            samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+
+
+            # import math
+            # ranges = numpy.asarray([(math.log10(i[0]), math.log10(i[1])) for i in decision_vector_bounds],
+            #                        dtype=numpy.float64)
+            # samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+            # samples = numpy.power(10, samples)
+        else:
+            samples = None
+            x_candidates = []
+            x_off = numpy.zeros(len(penalty_bounds), dtype=numpy_dtype)
+
+            non_equality_bounds_indices = [i for i in range(len(penalty_bounds)) if i not in equality_bounds_indices]
+
+            true_bounds = [(numpy_dtype(penalty_bounds[j][0]), numpy_dtype(penalty_bounds[j][1]))
+                           for j in non_equality_bounds_indices]
+
+        sample_portion = cls.__distribute_points(samples)
+
+        for n in range(sample_portion.shape[0]):
             with numpy.errstate(divide='ignore', invalid='ignore'):
-                result = scipy.optimize.minimize(penalty_objective_func, samples[n], args=
+                result = scipy.optimize.minimize(penalty_objective_func, sample_portion[n], args=
                 (temp_c, penalty_bounds, equality_bounds_indices, x_off, non_equality_bounds_indices,
                  concentration_bounds), method='SLSQP', tol=1e-16, bounds=true_bounds)
 
@@ -121,13 +225,155 @@ class BistabilityFinder:
                     if output or confidence_level_flag:
                         x_candidates.append(result.x)
 
+        return x_candidates, sample_portion.shape[0]
+
+    @classmethod
+    def feasible_point_method(cls, penalty_bounds, num_constraint_method_iters, sys_min_val, temp_c,
+                              penalty_objective_func, feasible_point_check, seed, equality_bounds_indices, print_flag,
+                              numpy_dtype, concentration_bounds, confidence_level_flag, change_in_rel_error):
+
+        # Generate starting points uniformly with length ranges
+        numpy.random.seed(seed)
+        samples = numpy.random.rand(num_constraint_method_iters, len(penalty_bounds) -
+                                    len(equality_bounds_indices)).astype(numpy_dtype)
+
+        x_candidates = []
+        x_off = numpy.zeros(len(penalty_bounds), dtype=numpy_dtype)
+
+        non_equality_bounds_indices = [i for i in range(len(penalty_bounds)) if i not in equality_bounds_indices]
+
+        true_bounds = [(numpy_dtype(penalty_bounds[j][0]), numpy_dtype(penalty_bounds[j][1]))
+                       for j in non_equality_bounds_indices]
+
+        ranges = numpy.asarray(true_bounds, dtype=numpy_dtype)
+        samples = samples*(ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+
+        for n in range(num_constraint_method_iters):
+            with numpy.errstate(divide='ignore', invalid='ignore'):
+                result = scipy.optimize.minimize(penalty_objective_func, samples[n], args=
+                (temp_c, penalty_bounds, equality_bounds_indices, x_off, non_equality_bounds_indices,
+                 concentration_bounds), method='SLSQP', tol=1e-16, bounds=true_bounds)
+
+                if abs(result.fun) > numpy_dtype(1e-100):
+                    result0 = scipy.optimize.minimize(penalty_objective_func, result.x, args=
+                    (temp_c, penalty_bounds, equality_bounds_indices, x_off, non_equality_bounds_indices,
+                     concentration_bounds), method='Nelder-Mead', tol=1e-16)
+
+                    output = feasible_point_check(result0.x, result0.fun, sys_min_val, equality_bounds_indices,
+                                                  non_equality_bounds_indices, penalty_bounds, concentration_bounds)
+                    if print_flag:
+                        print("Objective function value: " + str(result0.fun))
+                        print("Decision vector used: ")
+                        print(result0.x)
+                        print("")
+
+                    if output or confidence_level_flag:
+                        x_candidates.append(result0.x)
+                else:
+                    output = feasible_point_check(result.x, result.fun, sys_min_val, equality_bounds_indices,
+                                                  non_equality_bounds_indices, penalty_bounds, concentration_bounds)
+                    if print_flag:
+                        print("Objective function value: " + str(result.fun))
+                        print("Decision vector used: ")
+                        print(result.x)
+                        print("")
+                    if output or confidence_level_flag:
+                        x_candidates.append(result.x)
+
         return x_candidates
+
+    @classmethod
+    def __gather_single_value(cls, value, number_of_values):
+
+        temp_full_value = cls.__comm.gather(value, root=0)
+
+        if cls.__my_rank == 0:
+            full_value = numpy.zeros(number_of_values, dtype=numpy.float64)
+
+            # putting all the obtained minimum values into a single array
+            count = 0
+            for i in temp_full_value:
+                for j in i:
+                    full_value[count] = j
+                    count += 1
+        else:
+            full_value = None
+
+        return full_value
+
+    @classmethod
+    def __gather_list_of_values(cls, values):
+
+        full_values = cls.__comm.gather(values, root=0)
+
+        if cls.__my_rank == 0:
+            list_of_values = []
+            for i in range(len(full_values)):
+                list_of_values += full_values[i]
+        else:
+            list_of_values = []
+
+        return list_of_values
+
+    @classmethod
+    def __gather_numpy_array_of_values(cls, values):
+
+        full_values = cls.__comm.gather(values, root=0)
+
+        if cls.__my_rank == 0:
+            list_of_values = []
+            for i in range(len(full_values)):
+                list_of_values += full_values[i]
+            array_of_values = numpy.zeros((len(list_of_values), list_of_values[0].shape[0]), dtype=numpy.float64)
+            for i in range(len(list_of_values)):
+                array_of_values[i, :] = list_of_values[i]
+        else:
+            array_of_values = None
+
+        return array_of_values
+
+    @classmethod
+    def __distribute_points(cls, samples):
+
+        if cls.__my_rank == 0:
+
+            # number of tasks per core
+            tasks = len(samples) // cls.__num_cores  # // calculates the floor
+
+            # remainder
+            r = len(samples) - cls.__num_cores * tasks
+
+            # array that holds how many tasks each core has
+            tasks_core = numpy.zeros(cls.__num_cores, dtype=numpy.int64)
+            tasks_core.fill(tasks)
+
+            # distributing in the remainder
+            ii = 0
+            while r > 0:
+                tasks_core[ii] += 1
+                r -= 1
+                ii += 1
+
+            sample_portion = samples[0:tasks_core[0], :]
+
+            if cls.__num_cores > 1:
+                for i in range(1, cls.__num_cores):
+                    start = sum(tasks_core[0:i])
+                    end = start + tasks_core[i]
+                    cls.__comm.send(samples[start:end, :], dest=i, tag=i * 11)
+
+        else:
+            if cls.__num_cores > 1:
+                sample_portion = cls.__comm.recv(source=0, tag=cls.__my_rank * 11)
+
+        return sample_portion
 
     @classmethod 
     def multistart_optimization(cls, num_x_cand, x_candidates, sys_min_val, penalty_bounds, temp_c,
                                 objective_function_to_optimize, equality_bounds_indices, seed_given,
                                 final_constraint_check, print_flag, numpy_dtype, concentration_bounds,
-                                confidence_level_flag, change_in_rel_error):
+                                confidence_level_flag, change_in_rel_error, core=None, important_info=None,
+                                total_iterations=None):
         x_off = numpy.zeros(len(penalty_bounds), dtype=numpy_dtype)
         non_equality_bounds_indices = [i for i in range(len(penalty_bounds)) if i not in equality_bounds_indices]
 
@@ -138,61 +384,83 @@ class BistabilityFinder:
         x_that_give_global_min = []
         obj_fun_val_global_min = []
         start = 0
-        for i in range(num_x_cand):
-            with numpy.errstate(divide='ignore', invalid='ignore'):
-                result = scipy.optimize.basinhopping(objective_function_to_optimize, x_candidates[i],
-                                                     minimizer_kwargs={'method': 'Nelder-Mead',
-                                                                       'args': (temp_c, penalty_bounds, sys_min_val,
-                                                                                equality_bounds_indices, x_off,
-                                                                                non_equality_bounds_indices,
-                                                                                concentration_bounds), 'tol': 1e-16},
-                                                     niter=2, seed=seed_given)
+        if core is not None or core == "serial":
+            for i in range(num_x_cand):
+                with numpy.errstate(divide='ignore', invalid='ignore'):
+                    result = scipy.optimize.basinhopping(objective_function_to_optimize, x_candidates[i],
+                                                         minimizer_kwargs={'method': 'Nelder-Mead',
+                                                                           'args': (temp_c, penalty_bounds, sys_min_val,
+                                                                                    equality_bounds_indices, x_off,
+                                                                                    non_equality_bounds_indices,
+                                                                                    concentration_bounds), 'tol': 1e-16},
+                                                         niter=2, seed=seed_given)
 
-                start = start+1
+                    start = start+1
 
-                if print_flag:
-                    print("Global function value: " + str(result.fun))
-                    print("Decision vector produced: ")
-                    print(result.x)
-                
-                if result.fun > numpy_dtype(1e-200):
-                    result = scipy.optimize.minimize(objective_function_to_optimize, result.x,
-                                                     args=(temp_c, penalty_bounds, sys_min_val, equality_bounds_indices,
-                                                           x_off, non_equality_bounds_indices, concentration_bounds),
-                                                     method='Nelder-Mead', tol=1e-16)
-        
                     if print_flag:
-                        print("Local function value: " + str(result.fun))
+                        print("Global function value: " + str(result.fun))
                         print("Decision vector produced: ")
                         print(result.x)
 
-                if print_flag:
-                    print("")
-                        
-                if result.fun < smallest_value:
-                    smallest_value = result.fun
+                    if result.fun > numpy_dtype(1e-200):
+                        result = scipy.optimize.minimize(objective_function_to_optimize, result.x,
+                                                         args=(temp_c, penalty_bounds, sys_min_val, equality_bounds_indices,
+                                                               x_off, non_equality_bounds_indices, concentration_bounds),
+                                                         method='Nelder-Mead', tol=1e-16)
 
-                if confidence_level_flag:
-                    obtained_minimums[i] = result.fun
+                        if print_flag:
+                            print("Local function value: " + str(result.fun))
+                            print("Decision vector produced: ")
+                            print(result.x)
 
-            if abs(result.fun) <= sys_min_val: 
-                x_that_give_global_min.append(result.x)
-                obj_fun_val_global_min.append(result.fun)
+                    if print_flag:
+                        print("")
 
-        x_that_give_global_min2, total_that_give_zero, total_that_pass_chk, obj_fun_val_global_min2 = \
-            cls.__create_final_points(x_that_give_global_min, obj_fun_val_global_min, final_constraint_check,
-                                      penalty_bounds, sys_min_val, equality_bounds_indices, concentration_bounds)
+                    if result.fun < smallest_value:
+                        smallest_value = result.fun
+
+                    if confidence_level_flag:
+                        obtained_minimums[i] = result.fun
+
+                if abs(result.fun) <= sys_min_val:
+                    x_that_give_global_min.append(result.x)
+                    obj_fun_val_global_min.append(result.fun)
+
+            x_that_give_global_min2, total_that_give_zero, total_that_pass_chk, obj_fun_val_global_min2 = \
+                cls.__create_final_points(x_that_give_global_min, obj_fun_val_global_min, final_constraint_check,
+                                          penalty_bounds, sys_min_val, equality_bounds_indices, concentration_bounds)
+        else:
+            x_that_give_global_min2 = []
+            total_that_give_zero = 0
+            total_that_pass_chk = 0
+            obj_fun_val_global_min2 = []
+            smallest_value = None
+            core = "No core"
 
         if confidence_level_flag:
-            cls.__confidence_level(obtained_minimums, change_in_rel_error)
+            if core == "serial":
+                important_info = cls.__confidence_level(obtained_minimums, change_in_rel_error, important_info)
+            else:
+                full_obtained_minimums = cls.__gather_single_value(obtained_minimums, total_iterations)
 
+                if cls.__my_rank == 0:
+                    important_info = cls.__confidence_level(full_obtained_minimums, change_in_rel_error, important_info)
         else:
-            print("\nSmallest value achieved by objective function: " + str(smallest_value) + "\n")
+            if core == "serial":
+                important_info += "Smallest value achieved by objective function: " + str(smallest_value) + "\n"
+            elif core is not None or smallest_value is None:
+                smallest_values = cls.__comm.gather(smallest_value, root=0)
+                if cls.__my_rank == 0:
+                    for i in range(cls.__num_cores-1, 0, -1):
+                        if smallest_values[i] is None:
+                            del smallest_values[i]
+                    min_value = min(smallest_values)
+                    important_info += "Smallest value achieved by objective function: " + str(min_value) + "\n"
 
-        return x_that_give_global_min2, total_that_give_zero, total_that_pass_chk, obj_fun_val_global_min2
+        return x_that_give_global_min2, total_that_give_zero, total_that_pass_chk, obj_fun_val_global_min2, important_info
 
     @staticmethod
-    def __confidence_level(obtained_minimums, change_in_rel_error):
+    def __confidence_level(obtained_minimums, change_in_rel_error, important_info):
 
         a = 1
         b = 5
@@ -220,7 +488,8 @@ class BistabilityFinder:
 
             prob = 1.0
 
-        print(f"\nIt was found that {unique_elements[min_val_index]} is the minimum objective function value with a confidence level of {prob} .\n")
+        important_info += f"It was found that {unique_elements[min_val_index]} is the minimum objective function value with a confidence level of {prob} .\n"
+        return important_info
 
     @staticmethod
     def __create_final_points(x_that_give_global_min, obj_fun_val_global_min, final_constraint_check, penalty_bounds,
@@ -228,6 +497,7 @@ class BistabilityFinder:
         if len(x_that_give_global_min) != 0:
             temp2 = numpy.vstack(x_that_give_global_min)
             u, indices = numpy.unique(temp2, axis=0, return_index=True)
+            indices = numpy.sort(indices)
             x_that_give_global_min2 = []
             obj_fun_val_global_min2 = []
             for i in indices:
@@ -490,7 +760,7 @@ class BistabilityFinder:
 
     @classmethod
     def run_mpi_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string, finalize_ant_string,
-                                    species_y, dir_path, print_lbls_flag, auto_parameters, plot_labels, my_rank):
+                                    species_y, dir_path, print_lbls_flag, auto_parameters, plot_labels, my_rank, comm):
 
         from mpi4py import MPI
 
@@ -567,6 +837,7 @@ class BistabilityFinder:
                 os.close(stderr_save)
                 os.close(stderr_fileno)
 
+        comm.Barrier()
         if my_rank == 0:
             end_time = MPI.Wtime()
             print("Elapsed time for continuity analysis in seconds: " + str(end_time - start_time))
@@ -582,7 +853,7 @@ class BistabilityFinder:
     @classmethod
     def run_mpi_greedy_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string,
                                            finalize_ant_string, species_y, dir_path, print_lbls_flag,
-                                           auto_parameters, plot_labels, my_rank):
+                                           auto_parameters, plot_labels, my_rank, comm):
 
         from mpi4py import MPI
 
@@ -626,7 +897,6 @@ class BistabilityFinder:
             auto = None
 
         plot_specifications = []
-
         for param_ind in range(len(params_for_global_min)):
 
             final_ant_str = finalize_ant_string(params_for_global_min[param_ind], init_ant)
@@ -726,12 +996,13 @@ class BistabilityFinder:
                 os.close(stderr_save)
                 os.close(stderr_fileno)
 
+        comm.Barrier()
         if my_rank == 0:
             end_time = MPI.Wtime()
             print("Elapsed time for continuity analysis in seconds: " + str(end_time - start_time))
             print("")
 
-        important_info = f"\nNumber of multistability plots found by core {my_rank}: " + str(len(multistable_param_ind)) + "\n"
+        important_info = f"Number of multistability plots found by core {my_rank}: " + str(len(multistable_param_ind)) + "\n"
 
         important_info += f"Elements in params_for_global_min that produce multistability found by core {my_rank}: \n" + \
                           str(multistable_param_ind) + "\n"

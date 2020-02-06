@@ -6,10 +6,10 @@ import sympy
 
 
 # 1.
-network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
-signal = "C1"
-response = "s5"
-iters = 40
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
+# signal = "C1"
+# response = "s5"
+# iters = 100
 
 # 2.
 # network = crnt4sbml.CRNT("../sbml_files/hervagault_canu.xml") # yes with 100
@@ -40,19 +40,45 @@ iters = 40
 # response = "s4"
 # iters = 10
 
+# 5 diff
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/DoublePhos_OGlcNAc.xml")
+# signal = "C2"
+# response = "s4"
+# iters = 10
+
+# 5. diff 2
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/DoublePhos_OGlcNAc_2.xml")
+# signal = "C2"
+# response = "s4"
+# iters = 10
+
+
+# 5. dou
+network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/DoublePhos_DoublePath.xml")
+signal = "C2"
+response = "s4"
+iters = 10
+
 # 6.
 # network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/DoublePhos_DeadEnd_dbl_removed.xml")
 # signal = "C2"
 # response = "s5"
-# iters = 100
+# iters = 1000
 
-# network.basic_report()
-# network.print_c_graph()
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/irene_simple_bistable.xml")
+# signal = "C1"
+# response = "s1"
+# iters = 10
 
-# network.get_network_graphml()
-# opt = network.get_mass_conservation_approach()
-
-# sys.exit()
+network.basic_report()
+network.print_c_graph()
+#
+# # network.get_network_graphml()
+opt = network.get_mass_conservation_approach()
+#
+network.get_low_deficiency_approach().report_deficiency_one_theorem()
+network.get_low_deficiency_approach().report_deficiency_zero_theorem()
+sys.exit()
 #
 
 # print(network.get_c_graph().get_species())
@@ -60,12 +86,12 @@ iters = 40
 
 GA = network.get_general_approach(signal=signal, response=response, fix_reactions=True)
 
-# print(GA.get_conservation_laws())
+print(GA.get_conservation_laws())
 
-#sys.exit()
+sys.exit()
 
 # 1.
-bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
+# bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
 
 # 2.
 # bnds = [(1e-4, 1e2)]*len(GA.get_input_vector())
@@ -81,7 +107,7 @@ bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
 
 # 6.
 # bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
-# bnds = GA.get_optimization_bounds()
+bnds = GA.get_optimization_bounds()
 
 # params, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=True,
 #                                            dual_annealing_iters=5000, confidence_level_flag=True)
@@ -95,12 +121,15 @@ bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
 # params = numpy.load('params_DoublePhos_DeadEnd.npy')
 
 # sys.exit()
-
 params, obj_fun_vals, my_rank = GA.run_mpi_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
                                                         dual_annealing_iters=1000, confidence_level_flag=True)
+
+# params, obj_fun_vals, my_rank = GA.run_mpi_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
+#                                                         dual_annealing_iters=1000, confidence_level_flag=True)
 GA.generate_report()
 if my_rank == 0:
-    print(params)
+    #numpy.save('params_DoublePhos_DeadEnd_removed.npy', params)
+    #print(params)
     print(obj_fun_vals)
 
 # print(params)

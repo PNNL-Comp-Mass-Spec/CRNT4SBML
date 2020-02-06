@@ -62,6 +62,9 @@ class MassConservationApproach:
         self.__numpy_dtype = None
         self.__independent_odes = None
         self.__independent_species = None
+        self.__comm = None
+        self.__my_rank = None
+        self.__num_cores = None
 
         # vars used frequently
         self.__N = len(self.__cgraph.get_species())
@@ -377,8 +380,6 @@ class MassConservationApproach:
         # xvec = (k_1 , ... k_R, alpha_1, ... alpha_delta,
         # c_1, ..., c_(lambda - delta))
         self.__decision_vector_x = self.__reaction_pars + self.__free_pars
-        
-        self.__important_info = "The network is " + self.__classification[0] + "\n"
 
         self.__d_len = len(self.__decision_vector_x)
 
@@ -1008,6 +1009,89 @@ class MassConservationApproach:
 
         return params_for_global_min, obj_fun_val_for_params
 
+    def run_mpi_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
+                             numpy_dtype=numpy.float64, concentration_bounds=None, confidence_level_flag=False,
+                             change_in_rel_error=1e-2):
+        """
+        Function for running an mpi version of the optimization problem for the mass conservation approach.
+
+        Parameters
+        -----------
+            bounds: list of tuples
+                A list defining the lower and upper bounds for each variable in the decision vector. Here the reactions
+                are allowed to be set to a single value.
+            iterations: int
+                The number of iterations to run the feasible point method.
+            sys_min_val: float
+                The value that should be considered zero for the optimization problem.
+            seed: int
+                Seed for the random number generator. None should be used if a random generation is desired.
+            print_flag: bool
+                Should be set to True if the user wants the objective function values found in the optimization problem
+                and False otherwise.
+            numpy_dtype:
+                The numpy data type used within the optimization routine. All variables in the optimization routine will
+                be converted to this data type.
+            concentration_bounds: list of tuples
+                A list defining the lower and upper bounds for those species' concentrations not in the decision vector.
+                The user is not allowed to set the species' concentration to a single value. See also:
+                :func:`crnt4sbml.MassConservationApproach.get_concentration_bounds_species`.
+            confidence_level_flag: bool
+                If True a confidence level for the objective function will be given.
+            change_in_rel_error: float
+                The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
+                of :math:`\widetilde{f}`.
+        Returns
+        --------
+        params_for_global_min: list of numpy arrays
+            A list of numpy arrays that correspond to the decision vectors of the problem.
+        obj_fun_val_for_params: list of floats
+            A list of objective function values produced by the corresponding decision vectors in params_for_global_min.
+        my_rank: integer
+            An integer corresponding to the rank assigned to the core within the routine.
+
+        Examples
+        ---------
+        See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
+        """
+        self.__numpy_dtype = numpy_dtype
+        temp_c = numpy.zeros(self.__N, dtype=self.__numpy_dtype)
+
+        # testing to see if there are any equalities in bounds
+        equality_bounds_indices = []
+        for i in range(len(bounds)):
+            if not isinstance(bounds[i], tuple):
+                equality_bounds_indices.append(i)
+
+        # recasting user provided input to numpy_dtype
+        for i in range(len(bounds)):
+            bounds[i] = self.__numpy_dtype(bounds[i])
+
+        for i in range(len(concentration_bounds)):
+            concentration_bounds[i] = self.__numpy_dtype(concentration_bounds[i])
+
+        if len(concentration_bounds) != len(self.__concentration_bounds_species):
+            print("Concentration bounds is the incorrect length!")
+            sys.exit()
+
+        full_concentration_bounds = []
+        for i in range(self.__N):
+            if self.__concentration_pars[i] in self.__decision_vector_x:
+                indx = self.__decision_vector_x.index(self.__concentration_pars[i])
+                full_concentration_bounds.append(bounds[indx])
+            else:
+                indx = self.__concentration_bounds_species.index(self.__concentration_pars[i])
+                full_concentration_bounds.append(concentration_bounds[indx])
+
+        sys_min_val = self.__numpy_dtype(sys_min_val)
+
+        params_for_global_min, obj_fun_val_for_params, self.__important_info, self.__my_rank, self.__comm, self.__num_cores = BistabilityFinder.run_mpi_optimization(
+            bounds, iterations, sys_min_val, temp_c, self.__penalty_objective_func, self.__feasible_point_check,
+            self.__objective_function_to_optimize, self.__final_constraint_check, seed, equality_bounds_indices,
+            print_flag, numpy_dtype, full_concentration_bounds, confidence_level_flag, change_in_rel_error)
+
+        return params_for_global_min, obj_fun_val_for_params, self.__my_rank
+
     def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                 print_lbls_flag=False, auto_parameters=None, plot_labels=None):
         """
@@ -1078,6 +1162,96 @@ class MassConservationApproach:
 
         return multistable_param_ind, plot_specifications
 
+    def run_mpi_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
+                                    print_lbls_flag=False, auto_parameters=None, plot_labels=None):
+        """
+        Function for running the mpi numerical continuation and bistability analysis portions of the mass conservation
+        approach.
+
+        Parameters
+        ------------
+            species: string
+                A string stating the species that is the y-axis of the bifurcation diagram.
+            parameters: list of numpy arrays
+                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+                value.
+            dir_path: string
+                A string stating the path where the bifurcation diagrams should be saved.
+            print_lbls_flag: bool
+                If True the routine will print the special points found by AUTO 2000 and False will not print any
+                special points.
+            auto_parameters: dict
+                Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
+                'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
+                necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
+                parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
+                10000 and 'ITMX' to 100.
+            plot_labels: list of strings
+                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+                you would like to use the default settings for some of the labels, simply provide None for that
+                element.
+        Returns
+        ---------
+            multistable_param_ind: list of integers
+                A list of those indices in 'parameters' that produce multistable plots.
+            sample_portion: list of 1D numpy arrays
+                A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
+                distributed to the core.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
+
+        Example
+        ---------
+        See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
+        """
+        # setting default values for AUTO
+        if 'NMX' not in auto_parameters.keys():
+            auto_parameters['NMX'] = 10000
+
+        if 'ITMX' not in auto_parameters.keys():
+            auto_parameters['ITMX'] = 100
+
+        # making the directory if it doesn't exist
+        if not os.path.isdir(dir_path) and self.__my_rank == 0:
+            os.mkdir(dir_path)
+
+        species_num = self.__species.index(species) + 1
+
+        species_y = str(self.__concentration_pars[species_num-1])
+
+        if self.__comm is not None:
+            sample_portion = self.__distribute_list_of_points(parameters)
+            self.__comm.Barrier()
+        else:
+
+            from mpi4py import MPI
+            self.__comm = MPI.COMM_WORLD
+            self.__my_rank = self.__comm.Get_rank()
+            self.__num_cores = self.__comm.Get_size()
+            self.__comm.Barrier()
+
+            if not os.path.isdir(dir_path) and self.__my_rank == 0:
+                os.mkdir(dir_path)
+            sample_portion = self.__distribute_list_of_points(parameters)
+            self.__comm.Barrier()
+
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_continuity_analysis(species_num, sample_portion,
+                                                                                                               self.__initialize_ant_string,
+                                                                                                               self.__finalize_ant_string,
+                                                                                                               species_y, dir_path,
+                                                                                                               print_lbls_flag,
+                                                                                                               auto_parameters,
+                                                                                                               plot_labels, self.__my_rank,
+                                                                                                                   self.__comm)
+
+        self.__important_info += important_info
+
+        return multistable_param_ind, sample_portion, plot_specifications
+
     def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
         """
@@ -1145,6 +1319,127 @@ class MassConservationApproach:
 
         return multistable_param_ind, plot_specifications
 
+    def run_mpi_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
+                                           print_lbls_flag=False, auto_parameters=None, plot_labels=None):
+        """
+        Function for running the mpi greedy numerical continuation and bistability analysis portions of the mass conservation
+        approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
+        parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
+        produce jagged or missing sections in the plots provided. To produce better plots one should use the information
+        provided by this routine to run :func:`crnt4sbml.MassConservationApproach.run_continuity_analysis`.
+
+        Parameters
+        ------------
+            species: string
+                A string stating the species that is the y-axis of the bifurcation diagram.
+            parameters: list of numpy arrays
+                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+                value.
+            dir_path: string
+                A string stating the path where the bifurcation diagrams should be saved.
+            print_lbls_flag: bool
+                If True the routine will print the special points found by AUTO 2000 and False will not print any
+                special points.
+            auto_parameters: dict
+                Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
+                PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
+                be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
+            plot_labels: list of strings
+                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+                you would like to use the default settings for some of the labels, simply provide None for that
+                element.
+        Returns
+        ---------
+            multistable_param_ind: list of integers
+                A list of those indices in 'parameters' that produce multistable plots.
+            sample_portion: list of 1D numpy arrays
+                A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
+                distributed to the core.
+            plot_specifications: list of lists
+                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+                Each element is a list where the first element specifies the range used for the x-axis, the second
+                element is the range for the y-axis, and the last element provides the x-y values and special point label
+                for each special point in the plot.
+
+        Example
+        ---------
+        See :ref:`my-deficiency-label`.
+        """
+        # setting default values for AUTO
+        if 'NMX' not in auto_parameters.keys():
+            auto_parameters['NMX'] = 10000
+
+        if 'ITMX' not in auto_parameters.keys():
+            auto_parameters['ITMX'] = 100
+
+        # making the directory if it doesn't exist
+        if not os.path.isdir(dir_path) and self.__my_rank == 0:
+            os.mkdir(dir_path)
+
+        species_num = self.__species.index(species) + 1
+
+        species_y = str(self.__concentration_pars[species_num-1])
+
+        if self.__comm is not None:
+            sample_portion = self.__distribute_list_of_points(parameters)
+            self.__comm.Barrier()
+        else:
+
+            from mpi4py import MPI
+            self.__comm = MPI.COMM_WORLD
+            self.__my_rank = self.__comm.Get_rank()
+            self.__num_cores = self.__comm.Get_size()
+            self.__comm.Barrier()
+
+            if not os.path.isdir(dir_path) and self.__my_rank == 0:
+                os.mkdir(dir_path)
+            sample_portion = self.__distribute_list_of_points(parameters)
+            self.__comm.Barrier()
+
+        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_greedy_continuity_analysis\
+            (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
+             print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
+
+        self.__important_info += important_info
+
+        return multistable_param_ind, sample_portion, plot_specifications
+
+    def __distribute_list_of_points(self, samples):
+
+        if self.__my_rank == 0:
+
+            # number of tasks per core
+            tasks = len(samples) // self.__num_cores  # // calculates the floor
+
+            # remainder
+            r = len(samples) - self.__num_cores * tasks
+
+            # array that holds how many tasks each core has
+            tasks_core = numpy.zeros(self.__num_cores, dtype=numpy.int64)
+            tasks_core.fill(tasks)
+
+            # distributing in the remainder
+            ii = 0
+            while r > 0:
+                tasks_core[ii] += 1
+                r -= 1
+                ii += 1
+
+            sample_portion = samples[0:tasks_core[0]]
+
+            if self.__num_cores > 1:
+                for i in range(1, self.__num_cores):
+                    start = sum(tasks_core[0:i])
+                    end = start + tasks_core[i]
+                    self.__comm.send(samples[start:end], dest=i, tag=i * 11)
+
+        else:
+            if self.__num_cores > 1:
+                sample_portion = self.__comm.recv(source=0, tag=self.__my_rank * 11)
+
+        return sample_portion
+
     def generate_report(self):
         """
         Prints out helpful details constructed by :func:`crnt4sbml.MassConservationApproach.run_optimization` and
@@ -1154,7 +1449,21 @@ class MassConservationApproach:
         --------
         See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
         """
-        print(self.__important_info)
+
+        if self.__comm == None:
+            print(self.__important_info)
+        else:
+
+            all_important_info = self.__comm.gather(self.__important_info, root=0)
+            self.__comm.Barrier()
+
+            if self.__my_rank == 0:
+
+                print("")
+
+                for i in range(1, len(all_important_info)):
+                    print(all_important_info[i])
+                print(self.__important_info)
 
     def __initialize_ant_string(self, species_num, pcp_x):
         y = self.__cgraph.get_y()
