@@ -1002,7 +1002,7 @@ class BistabilityFinder:
             print("Elapsed time for continuity analysis in seconds: " + str(end_time - start_time))
             print("")
 
-        important_info = f"Number of multistability plots found by core {my_rank}: " + str(len(multistable_param_ind)) + "\n"
+        important_info = f"\nNumber of multistability plots found by core {my_rank}: " + str(len(multistable_param_ind)) + "\n"
 
         important_info += f"Elements in params_for_global_min that produce multistability found by core {my_rank}: \n" + \
                           str(multistable_param_ind) + "\n"

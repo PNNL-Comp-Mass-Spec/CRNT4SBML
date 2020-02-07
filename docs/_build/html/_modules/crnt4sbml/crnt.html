@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../basic_crnt.html">Low Deficiency Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../numerical_cont.html">Numerical Continuation Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
@@ -525,7 +526,7 @@ from .general_approach import GeneralApproach
         else:
             return SemiDiffusiveApproach(self.__cgraph, self.get_physiological_range)</div>
 
-<div class="viewcode-block" id="CRNT.get_general_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_general_approach">[docs]</a>    def get_general_approach(self, signal=None, response=None):
+<div class="viewcode-block" id="CRNT.get_general_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_general_approach">[docs]</a>    def get_general_approach(self, signal=None, response=None, fix_reactions=True):
         &quot;&quot;&quot;
         Initializes and creates an object for the class GeneralApproach for the CRNT object constructed.
 
@@ -549,9 +550,9 @@ from .general_approach import GeneralApproach
             &quot;&quot;&quot;
             print(re.sub(r&quot;^\s+&quot;, &quot;&quot;, message, flags=re.MULTILINE))
             #return None
-            return GeneralApproach(self.__cgraph, signal, response)
+            return GeneralApproach(self.__cgraph, signal, response, fix_reactions)
         else:
-            return GeneralApproach(self.__cgraph, signal, response)</div>
+            return GeneralApproach(self.__cgraph, signal, response, fix_reactions)</div>
 
 <div class="viewcode-block" id="CRNT.get_advanced_deficiency_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_advanced_deficiency_approach">[docs]</a>    def get_advanced_deficiency_approach(self):
         &quot;&quot;&quot;

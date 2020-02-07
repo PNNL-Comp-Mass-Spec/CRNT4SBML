@@ -54,10 +54,10 @@ import sympy
 
 
 # 5. dou
-network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/DoublePhos_DoublePath.xml")
-signal = "C2"
-response = "s4"
-iters = 10
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/DoublePhos_DoublePath.xml")
+# signal = "C2"
+# response = "s4"
+# iters = 10
 
 # 6.
 # network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/DoublePhos_DeadEnd_dbl_removed.xml")
@@ -70,25 +70,65 @@ iters = 10
 # response = "s1"
 # iters = 10
 
-network.basic_report()
-network.print_c_graph()
+# network.basic_report()
+# network.print_c_graph()
 #
 # # network.get_network_graphml()
-opt = network.get_mass_conservation_approach()
+# opt = network.get_mass_conservation_approach()
+# #
+# network.get_low_deficiency_approach().report_deficiency_one_theorem()
+# network.get_low_deficiency_approach().report_deficiency_zero_theorem()
+# sys.exit()
 #
-network.get_low_deficiency_approach().report_deficiency_one_theorem()
-network.get_low_deficiency_approach().report_deficiency_zero_theorem()
-sys.exit()
-#
+
+# 7.
+network = crnt4sbml.CRNT("../sbml_files/DoublePhos.xml")
+signal = 'C2'
+response = 's4'
+
+# 8.
+# network = crnt4sbml.CRNT("../sbml_files/Fig4C_closed.xml")
+# signal = 'C1'
+# response = 's1'
+
+# 9.
+# network = crnt4sbml.CRNT("../sbml_files/closed_fig5A.xml")
+# signal = 'C2'
+# response = 's9'
+
+# 10.
+# network = crnt4sbml.CRNT("../sbml_files/irene2014.xml")
+# signal = 'C1'
+# response = 's1'
+
+# 11.
+# network = crnt4sbml.CRNT("../sbml_files/irene2009.xml")
+# signal = 'C1'
+# response = 's3'
+
+# 12.
+# network = crnt4sbml.CRNT("../sbml_files/hervagault_canu.xml")
+# signal = 'C1'
+# response = 's1'
+
+# 13.
+# network = crnt4sbml.CRNT("../sbml_files/conradi2007.xml")
+# signal = 'C2'
+# response = 's1'
+
+# 14.
+# network = crnt4sbml.CRNT("../sbml_files/double_insulin_binding.xml")
+# signal = 'C2'
+# response = 's5'
 
 # print(network.get_c_graph().get_species())
 # print(network.get_c_graph().get_reactions())
 
 GA = network.get_general_approach(signal=signal, response=response, fix_reactions=True)
 
-print(GA.get_conservation_laws())
+#print(GA.get_conservation_laws())
 
-sys.exit()
+# sys.exit()
 
 # 1.
 # bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
@@ -107,52 +147,55 @@ sys.exit()
 
 # 6.
 # bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
+# bnds = GA.get_optimization_bounds()
+
+# 7.
 bnds = GA.get_optimization_bounds()
+iters = 10
 
-# params, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=True,
-#                                            dual_annealing_iters=5000, confidence_level_flag=True)
+# 8.
+# bnds = GA.get_optimization_bounds()
+# iters = 10
 
-# params, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
-#                                            dual_annealing_iters=1000, confidence_level_flag=True)
+# 9.
+# bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
+# iters = 100
 
-# numpy.save('params.npy', params)
+# 10.
+# bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
+# iters = 100
 
-# numpy.save('params_DoublePhos_DeadEnd_removed.npy', params)
-# params = numpy.load('params_DoublePhos_DeadEnd.npy')
+# 11.
+# bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
+# iters = 100
 
-# sys.exit()
-params, obj_fun_vals, my_rank = GA.run_mpi_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
-                                                        dual_annealing_iters=1000, confidence_level_flag=True)
+# 12.
+# bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
+# iters = 100
 
-# params, obj_fun_vals, my_rank = GA.run_mpi_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
-#                                                         dual_annealing_iters=1000, confidence_level_flag=True)
-GA.generate_report()
+# 13.
+# bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
+# iters = 100
+
+# 14.
+# bnds = GA.get_optimization_bounds()
+# iters = 100
+
+params, obj_fun_vals, my_rank = GA.run_mpi_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=True,
+                                                        dual_annealing_iters=100, confidence_level_flag=True)
+
 if my_rank == 0:
-    #numpy.save('params_DoublePhos_DeadEnd_removed.npy', params)
+    # numpy.save('params.npy', params)
     #print(params)
     print(obj_fun_vals)
+    print(len(obj_fun_vals))
 
-# print(params)
-# print(obj_fun_vals)
+# params = numpy.load('params.npy')
 
-#sys.exit()
-
-# multistable_param_ind, sample_portion, plot_specifications = GA.run_mpi_continuity_analysis(species=response, parameters=params, print_lbls_flag=False,
-#                                                                                             auto_parameters={'PrincipalContinuationParameter': signal}, dir_path="./num_cont_graphs_parallel")
+# sys.exit()
 
 multistable_param_ind, sample_portion, plot_specifications = GA.run_mpi_greedy_continuity_analysis(species=response, parameters=params, print_lbls_flag=False,
                                                                                    auto_parameters={'PrincipalContinuationParameter': signal}, dir_path="./num_cont_graphs_parallel")
-
-# multistable_param_ind, sample_portion, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params, print_lbls_flag=False,
-#                                                                                    auto_parameters={'PrincipalContinuationParameter': signal})
-
-# multistable_param_ind, plot_specifications = GA.run_continuity_analysis(species=response, parameters=params, print_lbls_flag=False,
-#                                                                                         auto_parameters={'PrincipalContinuationParameter': signal})
-
-# multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params, print_lbls_flag=True,
-#                                                                                auto_parameters={'PrincipalContinuationParameter': signal}, dir_path="./num_cont_DoublePhos_DeadEnd_removed")#,
-#                                                                                #plot_labels=['Rtot', 'S1*', None])
-
 
 GA.generate_report()
 

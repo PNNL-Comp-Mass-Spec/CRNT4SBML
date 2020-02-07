@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
@@ -244,7 +245,7 @@ into a new Python session by creating the following script:</p>
 <span class="kn">import</span> <span class="nn">numpy</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;important_variables.dill&quot;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="n">out</span> <span class="o">=</span> <span class="n">dill</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">dill</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
 <span class="n">params_for_global_min</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;params.npy&#39;</span><span class="p">)</span>
 </pre></div>

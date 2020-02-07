@@ -81,7 +81,7 @@ into a new Python session by creating the following script:
     import numpy
 
     with open("important_variables.dill", 'rb') as f:
-    out = dill.load(f)
+        out = dill.load(f)
 
     params_for_global_min = numpy.load('params.npy')
 

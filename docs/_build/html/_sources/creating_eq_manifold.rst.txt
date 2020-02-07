@@ -11,7 +11,7 @@ need for the user to provide bounds on the so called deficiency parameters, :mat
 be somewhat difficult to find as they are not tied to any physical aspect of the network. The second characteristic we
 impose is that the manifold will be as close as possible to being linear with respect to the deficiency parameters and
 those species not in the decision vector. If the manifold is close to being linear in these variables, then solving for
-them is much simpler resulting in a shorter solve time for SymPy's solve function and the avoidance of unsolvable
+them is much simpler, resulting in a shorter solve time for SymPy's solve function and the avoidance of unsolvable
 instances of the problem.
 
 We now describe the process taken to find the decision vector and resulting equilibrium manifold. As stated in :cite:`irene`,

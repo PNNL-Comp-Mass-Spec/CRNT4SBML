@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Creating the Equilibrium Manifold</a></li>
@@ -181,7 +182,7 @@ need for the user to provide bounds on the so called deficiency parameters, <img
 be somewhat difficult to find as they are not tied to any physical aspect of the network. The second characteristic we
 impose is that the manifold will be as close as possible to being linear with respect to the deficiency parameters and
 those species not in the decision vector. If the manifold is close to being linear in these variables, then solving for
-them is much simpler resulting in a shorter solve time for SymPy’s solve function and the avoidance of unsolvable
+them is much simpler, resulting in a shorter solve time for SymPy’s solve function and the avoidance of unsolvable
 instances of the problem.</p>
 <p>We now describe the process taken to find the decision vector and resulting equilibrium manifold. As stated in <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a>,
 the choice of the decision vector is as follows:</p>

@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parallel CRNT4SBML &mdash; CRNT4SBML 0.0.10 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Numerical Optimization Routine" href="numerical_opt.html" />
+    <link rel="prev" title="Semi-diffusive Approach Walkthrough" href="injectivity_walkthrough.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">CRNT4SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detect_bistability.html">Steps for Detecting Bistability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physiological_bounds.html">Creating Physiological Bounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parallel CRNT4SBML</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-the-proper-packages">Installing the proper packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requirements-for-parallel-version">Requirements for Parallel Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-virtual-environment">Creating a Virtual Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#parallel-mass-conservation-approach">Parallel Mass Conservation Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parallel-semi-diffusive-approach">Parallel Semi-diffusive Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parallel-general-approach">Parallel General Approach</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Parallel CRNT4SBML</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/parallel_crnt4sbml.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="parallel-crnt4sbml">
+<span id="parallel-crnt4sbml-label"></span><h1>Parallel CRNT4SBML<a class="headerlink" href="#parallel-crnt4sbml" title="Permalink to this headline">¶</a></h1>
+<p>Currently underdevelopment!!!!!!!!!!</p>
+<p>Due to the nature of the optimization problem formed and the numerical continuation performed, some models can take
+a long time to complete. In order to improve the user experience, we have developed parallel versions of the optimization
+and numerical continuation routines for all approaches using <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/">mpi4py</a>.</p>
+<div class="section" id="installing-the-proper-packages">
+<h2>Installing the proper packages<a class="headerlink" href="#installing-the-proper-packages" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="requirements-for-parallel-version">
+<h3>Requirements for Parallel Version<a class="headerlink" href="#requirements-for-parallel-version" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Python 3.7 (64-bit)</li>
+<li>networkx==2.3</li>
+<li>python-libsbml==5.18.0</li>
+<li>numpy==1.16.4</li>
+<li>sympy==1.4</li>
+<li>scipy==1.3.0</li>
+<li>matplotlib==3.1.0</li>
+<li>antimony==2.11.0</li>
+<li>rrplugins==1.2.2</li>
+<li>libroadrunner==1.5.2.1</li>
+<li>mpi4py==3.0.3</li>
+</ul>
+</div>
+<div class="section" id="creating-a-virtual-environment">
+<h3>Creating a Virtual Environment<a class="headerlink" href="#creating-a-virtual-environment" title="Permalink to this headline">¶</a></h3>
+<p>The preferred way to use the parallel version of CRNT4SBML is through a virtual environment. First follow the steps
+outlined in <a class="reference internal" href="installation.html#my-installation-label"><span class="std std-ref">Installation</span></a> to create a virtual environment with the name mpi_crnt4sbml. Once this is done,
+we can now activate this environment as follows:</p>
+<p>On Mac:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> /path/to/python_environments/mpi_crnt4sbml/bin/activate
+</pre></div>
+</div>
+<p>On Windows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> path<span class="se">\t</span>o<span class="se">\m</span>pi_crnt4sbml<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+</pre></div>
+</div>
+<p>Note, in case you are using PowerShell, make sure its policy is updated by executing command as administrator
+<code class="docutils literal notranslate"><span class="pre">Set-ExecutionPolicy</span> <span class="pre">RemoteSigned</span></code>. On the command line one should now see “(mpi_crnt4sbml)” on the left side of the
+command line, which indicates that one is now working in the virtual environment.</p>
+<p>Once the environment is activated, one can now install CRNT4SBML as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install crnt4sbml
+</pre></div>
+</div>
+<p>note that this will install crnt4sbml in the virtual environment mpi_crnt4sbml. One can only use crnt4sbml within this
+environment.</p>
+<p>One now needs to install mpi4py. Given mpi4py uses mpicc under the covers, we first need to install an MPI compiler
+onto our system. This is done differently on MacOS and Windows.</p>
+<p>On Mac:</p>
+<blockquote>
+<div><p>The simplest way to install mpicc on mac is to use homebrew. To begin, first install
+<a class="reference external" href="https://docs.brew.sh/Installation">homebrew</a>. Then, we need to install open-mpi. This is done in the terminal
+as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> brew install open-mpi
+</pre></div>
+</div>
+<p>Be sure to take note of the install location of open-mpi. We now need to set the environment variable for the MPI
+compiler. This is done as follows in the terminal (take note that here we are using version 4.0.2 of open-mpi):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">export</span> <span class="nv">MPICC</span><span class="o">=</span>path/to/open-mpi/4.0.2/bin/mpicc
+</pre></div>
+</div>
+<p>If a standard install was followed, “path/to/” can be replaced with “/usr/local/Cellar/”. We are now ready to
+install mpi4py. With the virtual environment mpi_crnt4sbml activated, mpi4py can be installed as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install mpi4py
+</pre></div>
+</div>
+</div></blockquote>
+<p>On Windows:</p>
+<blockquote>
+<div><p>The simplest way to install a proper MPI compiler on Windows is to use Microsoft MPI. If not already installed,
+One should download Microsoft MPI version 10 or newer. At the time of creating this documentation, this could be
+done using the following <a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=57467">link</a>. Using the link
+click download and download msmpisetup.exe and run it. After the download, one should have a proper MPI compiler
+that is compatible with mpi4py.</p>
+<p>Note that for some users, one will also need to set the MSMPI path under User Variables. By default the Variable
+should be set to MSMPI_BIN and the Value should be <code class="docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files\Microsoft</span> <span class="pre">MPI\Bin</span></code>. This can be done
+following the instructions <a class="reference external" href="https://www.computerhope.com/issues/ch000549.htm">here</a>.</p>
+<p>We are now ready to install mpi4py. With the virtual environment mpi_crnt4sbml activated, mpi4py can be installed
+as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install mpi4py
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="parallel-mass-conservation-approach">
+<h2>Parallel Mass Conservation Approach<a class="headerlink" href="#parallel-mass-conservation-approach" title="Permalink to this headline">¶</a></h2>
+<p>To run the mass conservation approach create the following python script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+
+<span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span><span class="p">,</span> <span class="n">my_rank</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_mpi_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+                                                                                  <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">concentration_bounds</span><span class="p">)</span>
+
+<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">sample_points</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_mpi_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s15&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                                                                   <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;C3&#39;</span><span class="p">})</span>
+
+<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will provide the following output along with creating the directory “num_cont_graphs” in your current
+directory that contains multistability plots. Please note that runtimes and the number of multistability plots produced
+may vary among different operating systems.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Creating Equilibrium Manifold ...
+Creating Equilibrium Manifold ...
+Elapsed <span class="nb">time</span> <span class="k">for</span> creating Equilibrium Manifold: <span class="m">1</span>.8794879999999994
+Elapsed <span class="nb">time</span> <span class="k">for</span> creating Equilibrium Manifold: <span class="m">1</span>.8736319999999997
+
+Running feasible point method <span class="k">for</span> <span class="m">10</span> iterations ...
+Elapsed <span class="nb">time</span> <span class="k">for</span> feasible point method: <span class="m">0</span>.788164
+
+Running the multistart optimization ...
+Elapsed <span class="nb">time</span> <span class="k">for</span> multistart method in seconds: <span class="m">3</span>.1570869999999998
+
+Running continuity analysis ...
+Elapsed <span class="nb">time</span> <span class="k">for</span> continuity analysis in seconds: <span class="m">15</span>.839016
+
+
+The number of feasible points that satisfy the constraints by core <span class="m">1</span>: <span class="m">5</span>
+Total feasible points that give F<span class="o">(</span>x<span class="o">)</span> <span class="o">=</span> <span class="m">0</span> by core <span class="m">1</span>: <span class="m">2</span>
+Total number of points that passed final_check by core <span class="m">1</span>: <span class="m">2</span>
+
+Number of multistability plots found by core <span class="m">1</span>: <span class="m">0</span>
+Elements in params_for_global_min that produce multistability found by core <span class="m">1</span>:
+<span class="o">[]</span>
+
+The number of feasible points that satisfy the constraints by core <span class="m">0</span>: <span class="m">5</span>
+Smallest value achieved by objective <span class="k">function</span>: <span class="m">0</span>.0
+Total feasible points that give F<span class="o">(</span>x<span class="o">)</span> <span class="o">=</span> <span class="m">0</span> by core <span class="m">0</span>: <span class="m">2</span>
+Total number of points that passed final_check by core <span class="m">0</span>: <span class="m">2</span>
+
+Number of multistability plots found by core <span class="m">0</span>: <span class="m">2</span>
+Elements in params_for_global_min that produce multistability found by core <span class="m">0</span>:
+<span class="o">[</span><span class="m">0</span>, <span class="m">1</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parallel-semi-diffusive-approach">
+<h2>Parallel Semi-diffusive Approach<a class="headerlink" href="#parallel-semi-diffusive-approach" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="parallel-general-approach">
+<h2>Parallel General Approach<a class="headerlink" href="#parallel-general-approach" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="numerical_opt.html" class="btn btn-neutral float-right" title="Numerical Optimization Routine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="injectivity_walkthrough.html" class="btn btn-neutral float-left" title="Semi-diffusive Approach Walkthrough" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

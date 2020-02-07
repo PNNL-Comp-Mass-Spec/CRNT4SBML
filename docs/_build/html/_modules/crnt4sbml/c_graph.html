@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../basic_crnt.html">Low Deficiency Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../numerical_cont.html">Numerical Continuation Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
@@ -389,21 +390,23 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
 
     def __extract_direct_reaction(self, reaction):
         r, p = self.__parse_reactants_and_products(reaction)
-        self.__g.add_edge(r, p,
-                          label=reaction.getId(),
-                          k=None,
-                          sbml_label=reaction.getId(),
-                          type=None)
-        self.__g_edges.append((r, p))
+        if (r, p) not in [i for i in self.__g.edges]:
+            self.__g.add_edge(r, p,
+                              label=reaction.getId(),
+                              k=None,
+                              sbml_label=reaction.getId(),
+                              type=None)
+            self.__g_edges.append((r, p))
 
     def __extract_reverse_reaction(self, reaction):
         r, p = self.__parse_reactants_and_products(reaction)
-        self.__g.add_edge(p, r,
-                          label=reaction.getId() + &#39;r&#39;,
-                          k=None,
-                          sbml_label=reaction.getId(),
-                          type=None)
-        self.__g_edges.append((p, r))
+        if (p, r) not in [i for i in self.__g.edges]:
+            self.__g.add_edge(p, r,
+                              label=reaction.getId() + &#39;r&#39;,
+                              k=None,
+                              sbml_label=reaction.getId(),
+                              type=None)
+            self.__g_edges.append((p, r))
 
     def __extract_catalysis_reaction(self, reaction):
 
@@ -422,28 +425,31 @@ warnings.filterwarnings(&quot;ignore&quot;, category=matplotlib.cbook.mplDepreca
         r, p, m = self.__parse_reactants_products_and_modifiers(reaction)
 
         # add complex formation
-        self.__g.add_edge(r, m,
-                          label=reaction.getId() + &#39;f&#39;,
-                          k=None,
-                          sbml_label=reaction.getId(),
-                          type=&quot;complex formation&quot;)
-        self.__g_edges.append((r, m))
+        if (r, m) not in [i for i in self.__g.edges]:
+            self.__g.add_edge(r, m,
+                              label=reaction.getId() + &#39;f&#39;,
+                              k=None,
+                              sbml_label=reaction.getId(),
+                              type=&quot;complex formation&quot;)
+            self.__g_edges.append((r, m))
 
         # add complex dissociation
-        self.__g.add_edge(m, r,
-                          label=reaction.getId() + &#39;d&#39;,
-                          k=None,
-                          sbml_label=reaction.getId(),
-                          type=&quot;complex dissociation&quot;)
-        self.__g_edges.append((m, r))
+        if (m, r) not in [i for i in self.__g.edges]:
+            self.__g.add_edge(m, r,
+                              label=reaction.getId() + &#39;d&#39;,
+                              k=None,
+                              sbml_label=reaction.getId(),
+                              type=&quot;complex dissociation&quot;)
+            self.__g_edges.append((m, r))
 
         # add catalysis
-        self.__g.add_edge(m, p,
-                          label=reaction.getId() + &#39;c&#39;,
-                          k=None,
-                          sbml_label=reaction.getId(),
-                          type=&quot;catalysis&quot;)
-        self.__g_edges.append((m, p))
+        if (m, p) not in [i for i in self.__g.edges]:
+            self.__g.add_edge(m, p,
+                              label=reaction.getId() + &#39;c&#39;,
+                              k=None,
+                              sbml_label=reaction.getId(),
+                              type=&quot;catalysis&quot;)
+            self.__g_edges.append((m, p))
 
     def __parse_reactions(self, model):
         for i in model.getListOfReactions():
