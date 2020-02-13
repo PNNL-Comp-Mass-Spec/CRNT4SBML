@@ -558,6 +558,79 @@ script we obtain the following output::
     Elements in params_for_global_min that produce multistability:
     [0]
 
+
+Double phosphorylation in signal transduction of :cite:`double_phos`
+-----------------------------------------------------------------------
+
+.. image:: ./images_for_docs/double_phos_cd.png
+   :width: 380px
+   :align: center
+   :height: 300px
+
+.. image:: ./images_for_docs/double_phos_c_graph.png
+   :width: 600px
+   :align: center
+   :height: 160px
+
+To run this example download the SBML :download:`file <../sbml_files/DoublePhos.xml>` and script
+:download:`run\_double\_phos <../example_scripts/run_double_phos.py>`.
+After running this script we obtain the following output::
+
+    Number of species: 9
+    Number of complexes: 10
+    Number of reactions: 12
+    Network deficiency: 2
+
+
+    Reaction graph of the form
+    reaction -- reaction label:
+    s1+s2 -> s2s1  --  re1f
+    s2s1 -> s1+s2  --  re1d
+    s2s1 -> s5+s2  --  re1c
+    s5+s3 -> s3s5  --  re2f
+    s3s5 -> s5+s3  --  re2d
+    s3s5 -> s1+s3  --  re2c
+    s5+s2 -> s2s5  --  re3f
+    s2s5 -> s5+s2  --  re3d
+    s2s5 -> s4+s2  --  re3c
+    s4+s3 -> s3s4  --  re4f
+    s3s4 -> s4+s3  --  re4d
+    s3s4 -> s5+s3  --  re4c
+
+    The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+    The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
+    Creating Equilibrium Manifold ...
+    Elapsed time for creating Equilibrium Manifold: 4.5310760000000005
+    Decision Vector:
+    [re1f, re1d, re1c, re2f, re2d, re2c, re3f, re3d, re3c, re4f, re4d, re4c, s2, s3, s3s4]
+
+    Species for concentration bounds:
+    [s1, s5, s2s1, s3s5, s4, s2s5]
+
+    Running feasible point method for 100 iterations ...
+    Elapsed time for feasible point method: 34.138042
+
+    Running the multistart optimization ...
+    Elapsed time for multistart method in seconds: 194.28234200000003
+
+    The number of feasible points that satisfy the constraints: 100
+    Smallest value achieved by objective function: 0.0
+    Total feasible points that give F(x) = 0: 97
+    Total number of points that passed final_check: 97
+
+    Running continuity analysis ...
+    Elapsed time for continuity analysis in seconds: 374.46599984169006
+
+    The number of feasible points that satisfy the constraints: 100
+    Smallest value achieved by objective function: 0.0
+    Total feasible points that give F(x) = 0: 97
+    Total number of points that passed final_check: 97
+    Number of multistability plots found: 89
+    Elements in params_for_global_min that produce multistability:
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
+     34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 64,
+     65, 66, 67, 69, 70, 71, 72, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 87, 88, 90, 91, 92, 93, 94, 95, 96]
+
 Double insulin binding
 -------------------------
 
@@ -703,23 +776,22 @@ following output::
     Elements in params_for_global_min that produce multistability:
     [45, 64, 250, 410, 426]
 
-..
-    Closed version of Figure 4B from :cite:`irene`
-    ------------------------------------------------
+Closed version of Figure 4B from :cite:`irene`
+------------------------------------------------
 
-    .. image:: ./images_for_docs/Fig4B_closed_cd.png
-   :width: 300px
-   :align: center
-   :height: 200px
+.. image:: ./images_for_docs/Fig4B_closed_cd.png
+    :width: 300px
+    :align: center
+    :height: 200px
 
-    .. image:: ./images_for_docs/Fig4B_closed_c_graph.png
-   :width: 350px
-   :align: center
-   :height: 150px
+.. image:: ./images_for_docs/Fig4B_closed_c_graph.png
+    :width: 350px
+    :align: center
+    :height: 150px
 
-    To run this example download the SBML :download:`file <../sbml_files/Fig4B_closed.xml>` and script
-    :download:`run\_Fig4B\_closed <../example_scripts/run_Fig4B_closed.py>`. After running this
-    script we obtain the following output::
+To run this example download the SBML :download:`file <../sbml_files/Fig4B_closed.xml>` and script
+:download:`run\_Fig4B\_closed <../example_scripts/run_Fig4B_closed.py>`. After running this
+script we obtain the following output::
 
     Number of species: 6
     Number of complexes: 7
@@ -765,23 +837,22 @@ following output::
     Total feasible points that give F(x) = 0: 0
     Total number of points that passed final_check: 0
 
-..
-    Closed version of Figure 4C from :cite:`irene`
-    ------------------------------------------------
+Closed version of Figure 4C from :cite:`irene`
+------------------------------------------------
 
-    .. image:: ./images_for_docs/Fig4C_closed_cd.png
-   :width: 250px
-   :align: center
-   :height: 200px
+.. image:: ./images_for_docs/Fig4C_closed_cd.png
+    :width: 250px
+    :align: center
+    :height: 200px
 
-    .. image:: ./images_for_docs/Fig4C_closed_c_graph.png
-   :width: 350px
-   :align: center
-   :height: 150px
+.. image:: ./images_for_docs/Fig4C_closed_c_graph.png
+    :width: 350px
+    :align: center
+    :height: 150px
 
-    To run this example download the SBML :download:`file <../sbml_files/Fig4C_closed.xml>` and script
-    :download:`run\_Fig4C\_closed <../example_scripts/run_Fig4C_closed.py>`. After running this script we obtain the
-    following output::
+To run this example download the SBML :download:`file <../sbml_files/Fig4C_closed.xml>` and script
+:download:`run\_Fig4C\_closed <../example_scripts/run_Fig4C_closed.py>`. After running this script we obtain the
+following output::
 
     Number of species: 5
     Number of complexes: 7
@@ -1006,23 +1077,23 @@ following output::
     Elements in params_for_global_min that produce multistability:
     [9]
 
-..
-    Figure 4B from :cite:`irene`
-    ------------------------------
 
-    .. image:: ./images_for_docs/Fig4B_open_cd.png
-   :width: 300px
-   :align: center
-   :height: 250px
+Figure 4B from :cite:`irene`
+------------------------------
 
-    .. image:: ./images_for_docs/Fig4B_open_c_graph.png
-   :width: 340px
-   :align: center
-   :height: 350px
+.. image:: ./images_for_docs/Fig4B_open_cd.png
+    :width: 300px
+    :align: center
+    :height: 250px
 
-    To run this example download the SBML :download:`file <../sbml_files/Fig4B_open.xml>` and script
-    :download:`run\_Fig4B\_open <../example_scripts/run_Fig4B_open.py>`. After running this script we obtain the
-    following output::
+.. image:: ./images_for_docs/Fig4B_open_c_graph.png
+    :width: 340px
+    :align: center
+    :height: 350px
+
+To run this example download the SBML :download:`file <../sbml_files/Fig4B_open.xml>` and script
+:download:`run\_Fig4B\_open <../example_scripts/run_Fig4B_open.py>`. After running this script we obtain the
+following output::
 
     Number of species: 6
     Number of complexes: 11
@@ -1080,23 +1151,22 @@ following output::
     Total feasible points that give F(x) = 0: 0
     Total number of points that passed final_check: 0
 
-..
-    Figure 4C from :cite:`irene`
-    ------------------------------
+Figure 4C from :cite:`irene`
+------------------------------
 
-    .. image:: ./images_for_docs/Fig4C_open_cd.png
-   :width: 350px
-   :align: center
-   :height: 300px
+.. image:: ./images_for_docs/Fig4C_open_cd.png
+    :width: 350px
+    :align: center
+    :height: 300px
 
-    .. image:: ./images_for_docs/Fig4C_open_c_graph.png
-   :width: 380px
-   :align: center
-   :height: 320px
+.. image:: ./images_for_docs/Fig4C_open_c_graph.png
+    :width: 380px
+    :align: center
+    :height: 320px
 
-    To run this example download the SBML :download:`file <../sbml_files/Fig4C_open.xml>` and script
-    :download:`run\_Fig4C\_open <../example_scripts/run_Fig4C_open.py>`. After running this script we obtain the
-    following output::
+To run this example download the SBML :download:`file <../sbml_files/Fig4C_open.xml>` and script
+:download:`run\_Fig4C\_open <../example_scripts/run_Fig4C_open.py>`. After running this script we obtain the
+following output::
 
     Number of species: 5
     Number of complexes: 8

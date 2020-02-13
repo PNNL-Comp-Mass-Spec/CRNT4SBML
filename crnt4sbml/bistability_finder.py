@@ -1172,7 +1172,6 @@ class BistabilityFinder:
 
             p.start()
             p.join()  # this blocks until the process terminates
-
             if p.exitcode == 0:
                 pts, lbls, antimony_r, flag = queue.get()
                 bi_data_np = numpy.load('bi_data_np.npy')

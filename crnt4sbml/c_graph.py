@@ -68,7 +68,7 @@ class Cgraph:
         self.__create_mass_action_monomials()
 
         if all([i <= 1 for i in self.get_number_of_terminal_strong_lc_per_lc()]) and \
-                self.get_dim_equilibrium_manifold() > 0:
+            self.get_dim_equilibrium_manifold() > 0:
             self.__create_BT_matrix()
             self.__create_lambda_matrix()
 
@@ -447,6 +447,80 @@ class Cgraph:
             sys.exit()
 
         self.__B = bt
+
+    def __simplify_nullspace(self, the_null_space):
+
+        # Flag that says a species or reaction was found in one of the column vectors of the nullspace
+        denom_flag = False
+
+        print("beginning null space")
+        #print(the_null_space)
+        print("")
+        for i in range(0, len(the_null_space)):
+            #print(the_null_space[i])
+            the_null_space[i] = sympy.simplify(the_null_space[i])
+
+        print(the_null_space)
+
+        # find those columns that have a common denominator
+        denom_list = []
+        for ii in the_null_space:
+
+            # getting common denominator
+            denom_in_column = [sympy.denom(i) for i in ii]
+            denom_list.append(denom_in_column)
+
+        print(f"denom_list {denom_list}")
+
+        like_columns = []
+        for i in denom_list:
+            same_denoms = [ii for ii in range(len(denom_list)) if denom_list[ii] == i]
+            if same_denoms not in like_columns:
+                like_columns.append(same_denoms)
+
+
+        print(like_columns)
+        temp_null = [sympy.zeros(len(self.__species), 1)] * (len(self.__species) - self.__S.rank())
+        count = 0
+        for ii in like_columns:
+
+            for i in ii:
+                temp_null[count] += the_null_space[i]
+                temp_null[count] = sympy.simplify(temp_null[count])
+            count += 1
+
+        print(temp_null)
+        sys.exit()
+
+        # collecting nullspace vectors with common denominators
+        all_denom = list(set(denom_list))
+        temp_null = [sympy.zeros(len(self.__species), 1)] * (len(self.__species) - self.__S.rank())
+
+
+        try:
+            for ii in range(len(all_denom)):
+                indices = [i for i, x in enumerate(denom_list) if x == all_denom[ii]]
+                print(f"indices {indices}")
+                for i in indices:
+                    temp_null[ii] += the_null_space[i]
+                    temp_null[ii] = sympy.simplify(temp_null[ii])
+        except Exception as e:
+            print("hi")
+
+        print(f"final temp null {temp_null}")
+        sys.exit()
+
+        # checking to see if a reaction or species is in the reduced nullspace
+        for i in temp_null:
+            atoms_of_col_vec = [ii.atoms() for ii in i[:, 0]]
+            for ii in atoms_of_col_vec:
+                if any([iii in self.__reactions + self.__species for iii in ii]):
+                    denom_flag = True
+
+        if denom_flag:
+            raise Exception("Nullspace calculation from S contains SymPy variables and this could not be resolved.")
+
+        return temp_null
 
     def __create_non_negative_b_matrix(self, the_null_space, sizes):
 

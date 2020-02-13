@@ -10,14 +10,104 @@ from plotnine import ggplot, aes, geom_line, ylim, scale_color_distiller, facet_
 from matplotlib import rc
 rc('text', usetex=True)
 
-network = crnt4sbml.CRNT("../sbml_files/Song.xml") # yes for 100
-signal = "C1"
-response = "s2"
-iters = 100
+# network = crnt4sbml.CRNT("../sbml_files/Song.xml") # yes for 100
+
+#network = crnt4sbml.CRNT("/Users/reye112/official_repo/crnt4sbml/models/strong_linkage_classes_test_2.xml")
+
+
+
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/simple_biterminal.xml")
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/simple_biterminal_v2.xml")
+network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts.xml")
+#network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/subspace_strange.xml")
+
+# signal = "C1"
+# response = "s2"
+# iters = 100
+#network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts.xml")
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Prion.xml")
+signal = "C2"
+response = "s11"   # ['s1', 's2', 's3', 's6', 's9', 's10', 's2s9', 's11', 's2s10']
+
+# opt = network.get_mass_conservation_approach()
+
+
+GA = network.get_general_approach(signal=signal, response=response)
+# #
+# print(GA.get_conservation_laws())
+#
+# print(GA.get_fixed_reactions())
+#
+# print(GA.get_solutions_to_fixed_reactions())
+
+#sys.exit()
+
+# bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*len(network.get_c_graph().get_species())
+# #
+# # # bnds = GA.get_optimization_bounds()
+# #
+# params_for_global_min, obj_fun_vals, my_rank = GA.run_mpi_optimization(bounds=bnds, iterations=100, seed=0, print_flag=True,
+#                                                           dual_annealing_iters=1000, confidence_level_flag=True)
+#
+# if my_rank == 0:
+#     numpy.save('./num_cont_irene_song_example/params.npy', params_for_global_min)
+params_for_global_min = numpy.load('./num_cont_irene_song_example/params.npy')
+
+
+# multistable_param_ind, sample_points, plot_specifications = GA.run_mpi_greedy_continuity_analysis(species=response, parameters=[params_for_global_min[8]], print_lbls_flag=True,
+#                                                                                auto_parameters={'PrincipalContinuationParameter': signal},
+#                                                                                dir_path="./num_cont_irene_song_example")
+print(GA.get_input_vector())
+print(params_for_global_min[8])
+
+# multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=True,
+#                                                                                            auto_parameters={'PrincipalContinuationParameter': signal,
+#                                                                                                             'ITMX':10000,'DSMIN':1e-16, 'NMX':100000},
+#                                                                                            dir_path="./num_cont_irene_song_example")
+
+multistable_param_ind, plot_specifications = GA.run_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=True,
+                                                                                           auto_parameters={'PrincipalContinuationParameter': signal,
+                                                                                                            'RL0': 0.0, 'RL1': 1000.0, 'A0': 0.0, 'A1': 1e10,
+                                                                                                            'ITMX':10000,'DSMAX': 1e-2,'DSMIN':1e-16, 'NMX':100000},
+                                                                                           dir_path="./num_cont_irene_song_example")
+
+GA.generate_report()
+sys.exit()
+
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/DoublePhos_DeadEnd.xml")
+# signal = "C2"
+# response = "s4"
+# iters = 10
 
 network.basic_report()
 network.print_c_graph()
 
+# sys.exit()
+
+print(network.get_c_graph().get_b())
+
+opt = network.get_mass_conservation_approach()
+
+# bb, cc = opt.get_optimization_bounds()
+
+# bounds = [(1e-3, 1000.0)]*len(bb)
+# concentration_bounds = [(1e-3, 1000.0)]*len(cc) #
+
+bounds, concentration_bounds = opt.get_optimization_bounds()
+
+params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=iters, print_flag=True,
+                                                                     concentration_bounds=concentration_bounds)
+
+print(params_for_global_min)
+print(obj_fun_val_for_params)
+
+multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min,
+                                                                               auto_parameters={'PrincipalContinuationParameter': signal},
+                                                                               dir_path="./num_cont_irene_song_example")
+
+opt.generate_report()
+sys.exit()
 GA = network.get_general_approach(signal=signal, response=response)
 
 print(GA.get_conservation_laws())

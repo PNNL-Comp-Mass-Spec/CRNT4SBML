@@ -88,8 +88,9 @@ class GeneralApproach:
         the_null_space = (self.__Y_mat * self.__A_mat).T.nullspace()
 
         # handling an edge case where the null space calculation isn't fully simplified by SymPy
-        if len(the_null_space) > len(self.__sympy_species) - self.__S_mat.rank():
-            the_null_space = self.__simplify_nullspace(the_null_space)
+        # if len(the_null_space) > len(self.__sympy_species) - self.__S_mat.rank():
+        #     print("entered")
+        #     the_null_space = self.__simplify_nullspace(the_null_space)
 
         # getting the number of columns given in nullspace computation
         sizes = len(the_null_space)
@@ -1267,9 +1268,9 @@ class GeneralApproach:
             input_values[self.__R + len(indp_spec_ind):] = inputs[self.__R - len(reaction_ind) + len(indp_spec_ind):]
 
             check = self.__saddle_node_bifurcation(input_values)
-            # print("saddle node check:")
-            # print(check)
-            # print("")
+            print("saddle node check:")
+            print(check)
+            print("")
             if True: #check:
                 params.append(input_values.flatten())
 

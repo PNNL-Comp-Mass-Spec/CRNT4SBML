@@ -92,7 +92,7 @@ On Mac:
 On Windows:
 
     The simplest way to install a proper MPI compiler on Windows is to use Microsoft MPI. If not already installed,
-    One should download Microsoft MPI version 10 or newer. At the time of creating this documentation, this could be
+    one should download Microsoft MPI version 10 or newer. At the time of creating this documentation, this could be
     done using the following `link <https://www.microsoft.com/en-us/download/details.aspx?id=57467>`_. Using the link
     click download and download msmpisetup.exe and run it. After the download, one should have a proper MPI compiler
     that is compatible with mpi4py.

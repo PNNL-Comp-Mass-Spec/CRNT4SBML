@@ -4,222 +4,25 @@
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.CRNT.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.CRNT.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.MassConservationApproach.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.MassConservationApproach.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.SemiDiffusiveApproach.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.SemiDiffusiveApproach.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/creating_eq_manifold.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/creating_eq_manifold.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/c_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/c_graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/example_use.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/example_use.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/.buildinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/20677993d9fc576ba14905a387b77b80/conradi2007.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/21533018187e27430a556f7b3cf8d945/Fig_1Aii.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/247d6ac7cbbbcbcb6f84264717b32635/double_insulin_binding.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/26d1325dd2f3c9a034967def37af7f3f/crnt4sbml_cytoscape_style.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/2d3ebdc4d4c7c39a0d381a4dde5cede8/run_feinberg_ex_3_D_3.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/37d2b9adbe4b846caa32d54ff025d5b8/run_p85-p110-PTEN.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/3f19c0198a065459b3e417e4dca666ee/run_open_fig5B.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/4b477301c154761c7fbc97fe7d262937/irene2009.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/55736f7119fed8bd0ca6ebaf7d4b96eb/irene2014.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/6140d06308182ba9be5b7963deb29539/run_irene2009.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/6237ee3bfcb71768613272987dd84293/run_open_fig5A.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/694465e7cca645ddbc5c56389be72cbc/feinberg_ex3_13.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/7e83bf043cf2fce8513ab3ee1e9ff338/a_full_use_case_scenario.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/7e86dc3d716ebd25bb328695b6889b07/open_fig5B.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/7f1ab99200c896bb88c0011e47723e78/Fig1Cii.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/86f133cd91774faee6724410b7c3e5f2/p85-p110-PTEN.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/9c586ac30f56fda166a155f967e692b2/run_irene2014.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/a113015dec8f693c6f8b4c246ca75fbd/hervagault_canu.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/a17a354b57ba8a247fe0c3f2fa529dae/open_fig5A.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/a93c607d2e241bcb3935a0a2cd34eb63/run_conradi2007.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/b77977f35999276f850c498637aa0dd1/run_double_insulin_binding.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/c4a6bea90cf259d8f6f4002f40fecd3f/run_closed_fig5A.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/c74be5b66a624f1a405553c25f6cdd81/run_hervagault_canu.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/c74d46c703a7e0a0b48515b223a70702/closed_fig5A.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/d19062b60d68b9bb404fadfbeca5fc23/run_fig1Aii.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/ea57c9e3140904f8a4be3f7d7196ed79/basic_example_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/ebb4ae1d8c7340a34d08130796787a2e/run_feinberg_ex3_13.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/fa51e1b680be8af2c1f744dd7b3b9f22/feinberg_ex_3_D_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/C3_vs_s2_0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/C3_vs_s2_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/C3_vs_s2_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/Fig_1Aii_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/catalysis_association_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/catalysis_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/catalysis_dissociation_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/catalysis_figure_1C_closed_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/catalysis_reaction_st.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/closed_fig5A_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/closed_fig5A_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/cluttered_cgraph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/complex_AE1_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/conradi2007_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/conradi2007_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/decision_tree_for_reaction_type.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/dissociation_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/double_insulin_binding_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/double_insulin_binding_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/edit_reaction_box_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/edit_species_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/feinberg_ex3_13_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/feinberg_ex3_13_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/feinberg_ex_3_D_3_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/feinberg_ex_3_D_3_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/fig1Aii_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/fig1Cii_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/fig_1Ci_C3_vs_s15_26.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/fig_1Cii_p9_vs_s7_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/fig_1c_ii_irene.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/figure_1C_closed_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/figure_1C_open_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/hervagault_canu_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/hervagault_canu_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/heterodimer_association_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/irene2009_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/irene2009_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/irene2014_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/irene2014_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/0774ded0b353015678c6840924f6fe3f1474fe2b.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/2c5c215231488e7c5ce198677103f8bc37553bdc.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/2ef3a77288c30061585deda8c9fd115d831b2eea.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/53a2a70830e9bf9992b0b2b22e7a338446b09f66.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/6642220313c835ac29786edbfa4dda384e655a27.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/6be8e1bb704b4017fb70d21c504705465fae0492.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/a8157b05e466aea65f81ad6cf35ea81cbedecbf9.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/ab9922a98e737c19771f1b35fa99454edc74a2b7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/b6cffeb75ef3495d2b094bc403e2f978800fd6ab.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/ca6d3830ff8264c353751b1a50dda3558443cf94.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/ce2b738e485fc84fd698379eb389b2929ab03f3c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/math/f3f5611176e857281e9fff1936aa24ee9b4990c9.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/new_document_box.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/open_fig5A_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/open_fig5A_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/open_fig5B_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/open_fig5B_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/p85-p110-PTEN_c_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/p85-p110-PTEN_cd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/phosphorylated_species_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/reaction_one_and_two_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/reaction_one_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/reaction_two_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/sim_bif_diag.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/sim_fwd_rev.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/species_A_E1_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/species_list_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/state_transition_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_images/tool_bar_cell_designer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/c_graph.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/crnt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/low_deficiency_approach.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/mass_conservation_approach.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/semi_diffusive_approach.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/creating_eq_manifold.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/creating_eq_manifold.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/example_use.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/example_use.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/index.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/index.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/numerical_opt.rst.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/physiological_bounds.rst.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/quickstart.rst.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/readme.rst.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/reference.rst.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/zbibliography.rst.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/ajax-loader.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/basic.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/comment-bright.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/comment-close.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/comment.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/copybutton.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/css/badge_only.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/css/theme.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/doctools.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/documentation_options.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/down-pressed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/down.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/file.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Inconsolata-Bold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Inconsolata-Regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Inconsolata.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato-Bold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato-Regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bold.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bold.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bold.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bolditalic.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bolditalic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bolditalic.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bolditalic.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-italic.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-italic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-italic.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-italic.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-regular.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-regular.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-regular.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab-Bold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab-Regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-bold.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-bold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-bold.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-bold.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-regular.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-regular.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-regular.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/jquery-3.2.1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/jquery.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/js/modernizr.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/js/theme.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/minus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/plus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/pygments.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/searchtools.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/underscore-1.3.1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/underscore.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/up-pressed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/up.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/websupport.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/authors.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/authors.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/basic_crnt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/basic_crnt.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/celldesigner_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/celldesigner_walkthrough.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.CRNT.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.CRNT.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.Cgraph.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.Cgraph.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.LowDeficiencyApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.LowDeficiencyApproach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.MassConservationApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.MassConservationApproach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.SemiDiffusiveApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.SemiDiffusiveApproach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/contributing.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/contributing.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/creating_eq_manifold.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/creating_eq_manifold.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/deficiency_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/deficiency_walkthrough.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/detect_bistability.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/detect_bistability.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/example_use.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/example_use.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/generating_c_graphs.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/generating_c_graphs.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/history.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/history.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/injectivity_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/injectivity_walkthrough.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/installation.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/installation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/more_examples.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/more_examples.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/parallel_crnt4sbml.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/parallel_crnt4sbml.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/zbibliography.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/zbibliography.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/c_graph.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/c_graph.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/more_examples.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/more_examples.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/parallel_crnt4sbml.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/parallel_crnt4sbml.rst.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/more_examples.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/more_examples.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/numerical_cont.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/numerical_cont.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/numerical_opt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/physiological_bounds.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/quickstart.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/readme.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/reference.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/search.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/parallel_crnt4sbml.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/parallel_crnt4sbml.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/more_examples.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/more_examples.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/mybib.bib" beforeDir="false" afterPath="$PROJECT_DIR$/docs/mybib.bib" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/mpi_DoublePhos.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/mpi_DoublePhos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/mpi_general_approach_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/mpi_general_approach_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/network.graphml" beforeDir="false" afterPath="$PROJECT_DIR$/tests/network.graphml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/song_general_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/song_general_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -287,13 +90,17 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
+    <state x="513" y="335" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1581356081967">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="513" y="335" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1680.1050@0.0.1680.1050" timestamp="1581356081967" />
     <state x="473" y="127" key="CommitChangelistDialog2" timestamp="1576876711783">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="473" y="127" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1576876711783" />
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1580499744230">
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1581463756397">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1580499744230" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1581463756397" />
   </component>
 </project>
