@@ -343,12 +343,12 @@ output::
 Enzymatic reaction with simple substrate cycle from :cite:`HERVAGAULT1987439`
 ------------------------------------------------------------------------------
 
-.. image:: ./images_for_docs/hervagault_canu_cd.png
+.. image:: ./images_for_docs/hervagault_canu_c_graph.png
    :width: 300px
    :align: center
    :height: 200px
 
-.. image:: ./images_for_docs/hervagault_canu_c_graph.png
+.. image:: ./images_for_docs/hervagault_canu_cd.png
    :width: 400px
    :align: center
    :height: 200px
@@ -359,7 +359,7 @@ the following output::
 
     Number of species: 7
     Number of complexes: 8
-    Number of reactions: 10
+    Number of reactions: 8
     Network deficiency: 1
 
 
@@ -368,44 +368,42 @@ the following output::
     s1+s2 -> s3  --  re1
     s3 -> s1+s2  --  re1r
     s3 -> s1+s4  --  re2
-    s1+s4 -> s3  --  re2r
     s3+s2 -> s5  --  re3
     s5 -> s3+s2  --  re3r
     s6+s4 -> s7  --  re4
     s7 -> s6+s4  --  re4r
     s7 -> s6+s2  --  re5
-    s6+s2 -> s7  --  re5r
 
     The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 2.7148660000000007
-
+    Elapsed time for creating Equilibrium Manifold: 0.8931420000000001
     Decision Vector:
-    [re1, re1r, re2, re2r, re3, re3r, re4, re4r, re5, re5r, s2, s4, s7]
+    [re1, re1r, re2, re3, re3r, re4, re4r, re5, s2, s6, s7]
 
     Species for concentration bounds:
-    [s1, s3, s5, s6]
+    [s1, s3, s4, s5]
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 35.764276
+    Elapsed time for feasible point method: 27.225825999999998
 
     Running the multistart optimization ...
 
     Smallest value achieved by objective function: 0.0
 
-    Elapsed time for multistart method: 251.99071399999997
+    Elapsed time for multistart method: 202.929372
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 16.844451189041138
+    Elapsed time for continuity analysis: 82.84032797813416
 
-    The number of feasible points that satisfy the constraints: 93
-    Total feasible points that give F(x) = 0: 24
-    Total number of points that passed final_check: 24
-    Number of multistability plots found: 19
+    The number of feasible points that satisfy the constraints: 100
+    Total feasible points that give F(x) = 0: 96
+    Total number of points that passed final_check: 96
+    Number of multistability plots found: 14
     Elements in params_for_global_min that produce multistability:
-    [1, 2, 3, 5, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+    [0, 1, 2, 4, 9, 23, 35, 39, 62, 68, 70, 78, 87, 92]
+
 
 G1/S transition in the cell cycle of Saccharomyces cerevisiae from :cite:`Conradi2007`
 ----------------------------------------------------------------------------------------

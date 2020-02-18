@@ -124,7 +124,7 @@
 </celldesigner:speciesAlias>
 <celldesigner:speciesAlias id="sa7" species="s7">
 <celldesigner:activity>inactive</celldesigner:activity>
-<celldesigner:bounds x="81.0" y="52.0" w="80.0" h="40.0"/>
+<celldesigner:bounds x="81.0" y="57.0" w="80.0" h="40.0"/>
 <celldesigner:font size="12"/>
 <celldesigner:view state="usual"/>
 <celldesigner:usualView>
@@ -293,7 +293,7 @@
 <celldesigner:lineDirection arm="2" index="0" value="unknown"/>
 </celldesigner:listOfLineDirection>
 </celldesigner:connectScheme>
-<celldesigner:editPoints num0="0" num1="0" num2="0" tShapeIndex="0">0.23880181767597142,0.45991375312992655</celldesigner:editPoints>
+<celldesigner:editPoints num0="0" num1="0" num2="0" tShapeIndex="0">0.23880181767597142,0.45991375312992633</celldesigner:editPoints>
 <celldesigner:line width="1.0" color="ff000000"/>
 </celldesigner:extension>
 </annotation>
@@ -323,7 +323,7 @@
 </speciesReference>
 </listOfProducts>
 </reaction>
-<reaction metaid="re2" id="re2">
+<reaction metaid="re2" id="re2" reversible="false">
 <annotation>
 <celldesigner:extension>
 <celldesigner:reactionType>DISSOCIATION</celldesigner:reactionType>
@@ -455,7 +455,7 @@
 <celldesigner:lineDirection arm="2" index="0" value="unknown"/>
 </celldesigner:listOfLineDirection>
 </celldesigner:connectScheme>
-<celldesigner:editPoints num0="0" num1="0" num2="0" tShapeIndex="0">0.26836434867776715,0.4968168462291871</celldesigner:editPoints>
+<celldesigner:editPoints num0="0" num1="0" num2="0" tShapeIndex="0">0.3717986314760513,0.35811339198435954</celldesigner:editPoints>
 <celldesigner:line width="1.0" color="ff000000"/>
 </celldesigner:extension>
 </annotation>
@@ -485,7 +485,7 @@
 </speciesReference>
 </listOfProducts>
 </reaction>
-<reaction metaid="re5" id="re5">
+<reaction metaid="re5" id="re5" reversible="false">
 <annotation>
 <celldesigner:extension>
 <celldesigner:reactionType>DISSOCIATION</celldesigner:reactionType>
@@ -510,7 +510,7 @@
 <celldesigner:lineDirection arm="2" index="1" value="unknown"/>
 </celldesigner:listOfLineDirection>
 </celldesigner:connectScheme>
-<celldesigner:editPoints num0="0" num1="0" num2="1" tShapeIndex="0">0.9527346748343951,0.22189240418857242 -0.6899798927613939,-0.39363270777479875</celldesigner:editPoints>
+<celldesigner:editPoints num0="0" num1="0" num2="1" tShapeIndex="0">0.9527346748343951,0.2218924041885724 -0.6867704946089335,-0.441417080266986</celldesigner:editPoints>
 <celldesigner:line width="1.0" color="ff000000"/>
 </celldesigner:extension>
 </annotation>

@@ -21,7 +21,7 @@ print("")
 print("Species for concentration bounds:")
 print(opt.get_concentration_bounds_species())
 
-bounds = [(1e-2, 1e2)]*13
+bounds = [(1e-2, 1e2)]*11
 concentration_bounds = [(1e-2, 1e2)]*4
 
 params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds,

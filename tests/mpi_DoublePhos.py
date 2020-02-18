@@ -1,11 +1,56 @@
 import numpy
-import pandas
+#import pandas
 import sympy
 import time
 import sys
 
 sys.path.insert(0, "..")
 import crnt4sbml
+
+
+network = crnt4sbml.CRNT("../sbml_files/DoublePhos.xml")
+
+network.basic_report()
+
+network.print_c_graph()
+
+ldt = network.get_low_deficiency_approach()
+ldt.report_deficiency_zero_theorem()
+ldt.report_deficiency_one_theorem()
+
+opt = network.get_mass_conservation_approach()
+
+print("Decision Vector:")
+print(opt.get_decision_vector())
+print("")
+
+print("Species for concentration bounds:")
+print(opt.get_concentration_bounds_species())
+
+bounds, concentration_bounds = opt.get_optimization_bounds()
+
+params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds,
+                                                                     concentration_bounds=concentration_bounds,
+                                                                     iterations=10)
+
+opt.generate_report()
+
+
+multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s4", parameters=params_for_global_min,
+                                                           auto_parameters={'PrincipalContinuationParameter': 'C2'})
+
+opt.generate_report()
+
+
+
+
+
+
+
+
+
+
+sys.exit()
 
 # network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
 #
@@ -42,9 +87,9 @@ import crnt4sbml
 # response = "s9"
 
 # 4.
-network = crnt4sbml.CRNT("../sbml_files/irene2014.xml")
-signal = "C1"
-response = "s1"
+# network = crnt4sbml.CRNT("../sbml_files/irene2014.xml")
+# signal = "C1"
+# response = "s1"
 
 # 5.
 # network = crnt4sbml.CRNT("../sbml_files/irene2009.xml")
@@ -138,7 +183,7 @@ params_for_global_min = numpy.load('params.npy')
 
 multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min[[58]],
                                                            auto_parameters={'PrincipalContinuationParameter': signal}, dir_path="./num_cont_graphs_parallel",
-                                                           print_lbls_flag=False)
+                                                           print_lbls_flag=True)
 
 # multistable_param_ind, sample_poriton, plot_specifications = opt.run_mpi_continuity_analysis(species=response, parameters=params_for_global_min,
 #                                                            auto_parameters={'PrincipalContinuationParameter': signal,

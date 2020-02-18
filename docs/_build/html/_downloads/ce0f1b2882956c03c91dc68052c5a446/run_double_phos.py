@@ -6,8 +6,6 @@ network.basic_report()
 
 network.print_c_graph()
 
-network.get_network_graphml()
-
 ldt = network.get_low_deficiency_approach()
 ldt.report_deficiency_zero_theorem()
 ldt.report_deficiency_one_theorem()

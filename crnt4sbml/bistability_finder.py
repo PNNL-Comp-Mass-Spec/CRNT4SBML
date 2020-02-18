@@ -1193,6 +1193,103 @@ class BistabilityFinder:
         return pts, lbls, antimony_r, flag, bi_data_np
 
     @classmethod
+    def run_safety_wrapper_v2(cls, final_ant_str, cont_direction, auto, auto_parameters):
+
+        # import antimony
+        # import roadrunner
+        # import rrplugins
+
+        arguments = [final_ant_str, cont_direction, auto_parameters]
+
+        # if os.path.exists("input_arguments.pickle"):
+        #     os.remove("input_arguments.pickle")
+        #     with open('input_arguments.pickle', 'wb') as outf:
+        #         outf.write(pickle.dumps(arguments))
+        # else:
+        #     with open('input_arguments.pickle', 'wb') as outf:
+        #         outf.write(pickle.dumps(arguments))
+
+        sys.exit()
+
+        # # making the directory auto_fort_files if is does not exist
+        if not os.path.isdir("./auto_fort_files"):
+            os.mkdir("./auto_fort_files")
+
+        print("hi")
+
+
+        roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
+        roadrunner.Logger.disableLogging()
+        roadrunner.Logger.disableConsoleLogging()
+        roadrunner.Logger.disableFileLogging()
+        rrplugins.setLogLevel('error')
+
+        ant_str = arguments[0]
+        direction = arguments[1]
+        auto = rrplugins.Plugin("tel_auto2000")
+        auto_parameters = arguments[2]
+
+        antimony_r = cls.__loada(ant_str)
+
+        auto.setProperty("SBML", antimony_r.getCurrentSBML())
+        auto.setProperty("ScanDirection", direction)
+        auto.setProperty("PreSimulation", "True")
+        auto.setProperty("PreSimulationDuration", 1.0)
+        auto.setProperty('KeepTempFiles', True)
+        auto.setProperty("TempFolder", "auto_fort_files")
+
+        # assigning values provided by the user
+        for i in auto_parameters.keys():
+            auto.setProperty(i, auto_parameters[i])
+
+        try:
+            auto.execute()
+            # indices where special points are
+            pts = auto.BifurcationPoints
+            # labeling of special points
+            lbls = auto.BifurcationLabels
+            # all data for parameters and species found by continuation
+            bi_data = auto.BifurcationData
+
+            # convertes bi_data to numpy array, where first
+            # column is the principal continuation parameter and
+            # the rest of the columns are the species
+            bi_data_np = bi_data.toNumpy
+            flag = True
+
+        except SystemExit as exeption:
+            print("hihiihi ")
+        else:
+            flag = False
+            pts = []
+            lbls = []
+            bi_data_np = numpy.zeros(2)
+
+
+        # if os.path.exists("output_arguments.pickle"):
+        #     with open('output_arguments.pickle', 'rb') as pickle_file:
+        #         output_arguments = pickle.loads(pickle_file.read())
+        #     os.remove("output_arguments.pickle")
+        #     pts = output_arguments[0]
+        #     lbls = output_arguments[1]
+        #     antimony_r = output_arguments[2]
+        #     flag = output_arguments[3]
+        #     bi_data_np = numpy.load('bi_data_np.npy')
+        #     os.remove('./bi_data_np.npy')
+        #     if os.path.exists("input_arguments.pickle"):
+        #         os.remove("input_arguments.pickle")
+        # else:
+        #     flag = False
+        #     pts = []
+        #     lbls = []
+        #     antimony_r = []
+        #     bi_data_np = numpy.zeros(1)
+        #     if os.path.exists("input_arguments.pickle"):
+        #         os.remove("input_arguments.pickle")
+
+        return pts, lbls, antimony_r, flag, bi_data_np
+
+    @classmethod
     def run_numerical_continuation(cls, q, ant_str, direction, auto, auto_parameters, core=None):
 
         antimony_r = cls.__loada(ant_str)
