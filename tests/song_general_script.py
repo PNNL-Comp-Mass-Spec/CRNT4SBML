@@ -16,9 +16,18 @@ rc('text', usetex=True)
 
 
 
+
 # network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/simple_biterminal.xml")
 # network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/simple_biterminal_v2.xml")
-network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts.xml")
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts.xml")  # No, but zero value found
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_1.xml")  # Yes
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_2.xml")  # No, bifurcation and limit points found and zero value found
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_3.xml")
+
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_4c.xml")
+#network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_1.xml")
+network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_4d.xml")
+
 #network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/subspace_strange.xml")
 
 # signal = "C1"
@@ -27,50 +36,65 @@ network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts.xml")
 #network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
 # network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts.xml")
 # network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Prion.xml")
-signal = "C2"
+signal = "C1"
 response = "s11"   # ['s1', 's2', 's3', 's6', 's9', 's10', 's2s9', 's11', 's2s10']
+
+network.basic_report()
 
 # opt = network.get_mass_conservation_approach()
 
 
 GA = network.get_general_approach(signal=signal, response=response)
 # #
-# print(GA.get_conservation_laws())
-#
-# print(GA.get_fixed_reactions())
-#
-# print(GA.get_solutions_to_fixed_reactions())
+print(GA.get_conservation_laws())
 
-#sys.exit()
-
-# bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*len(network.get_c_graph().get_species())
-# #
-# # # bnds = GA.get_optimization_bounds()
-# #
-# params_for_global_min, obj_fun_vals, my_rank = GA.run_mpi_optimization(bounds=bnds, iterations=100, seed=0, print_flag=True,
-#                                                           dual_annealing_iters=1000, confidence_level_flag=True)
+# sys.exit()
 #
+print(GA.get_fixed_reactions())
+print(GA.get_solutions_to_fixed_reactions())
+
+bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*len(network.get_c_graph().get_species())
+
+# # bnds = GA.get_optimization_bounds()
+
+print(GA.get_decision_vector())
+
+
+#
+params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=5, seed=0, print_flag=True,
+                                                                   dual_annealing_iters=1000, confidence_level_flag=True)
+
 # if my_rank == 0:
 #     numpy.save('./num_cont_irene_song_example/params.npy', params_for_global_min)
-params_for_global_min = numpy.load('./num_cont_irene_song_example/params.npy')
+# params_for_global_min = numpy.load('./num_cont_irene_song_example/params.npy')
 
+
+multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=True,
+                                                                               auto_parameters={'PrincipalContinuationParameter': signal})
+
+multistable_param_ind
 
 # multistable_param_ind, sample_points, plot_specifications = GA.run_mpi_greedy_continuity_analysis(species=response, parameters=[params_for_global_min[8]], print_lbls_flag=True,
 #                                                                                auto_parameters={'PrincipalContinuationParameter': signal},
 #                                                                                dir_path="./num_cont_irene_song_example")
 print(GA.get_input_vector())
-print(params_for_global_min[8])
+# print(params_for_global_min[8])
 
 # multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=True,
 #                                                                                            auto_parameters={'PrincipalContinuationParameter': signal,
 #                                                                                                             'ITMX':10000,'DSMIN':1e-16, 'NMX':100000},
 #                                                                                            dir_path="./num_cont_irene_song_example")
 
-multistable_param_ind, plot_specifications = GA.run_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=True,
-                                                                                           auto_parameters={'PrincipalContinuationParameter': signal,
-                                                                                                            'RL0': 0.0, 'RL1': 1000.0, 'A0': 0.0, 'A1': 1e10,
-                                                                                                            'ITMX':10000,'DSMAX': 1e-2,'DSMIN':1e-16, 'NMX':100000},
-                                                                                           dir_path="./num_cont_irene_song_example")
+# multistable_param_ind, plot_specifications = GA.run_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=True,
+#                                                                                            auto_parameters={'PrincipalContinuationParameter': signal,
+#                                                                                                             'RL0': 0.0, 'RL1': 1000.0, 'A0': 0.0, 'A1': 1e10,
+#                                                                                                             'ITMX':10000,'DSMAX': 1e-2,'DSMIN':1e-16, 'NMX':100000},
+#                                                                                            dir_path="./num_cont_irene_song_example")
+# [re5d, re6, re7d, re8, s9, s10, s2, s2s9, s11, s2s10]
+# [9.23607632e+01 2.18281896e-01 3.68527196e+00 6.25815358e-02
+#  2.59180887e+01 8.11668851e+00 1.86652612e+01 8.89018352e+01
+#  9.97857406e+01 3.06519501e+01]
+
 
 GA.generate_report()
 sys.exit()

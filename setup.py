@@ -34,7 +34,7 @@ setup(
                       'python-libsbml==5.18.0',
                       'numpy==1.16.4',
                       'sympy==1.4',
-                      'scipy==1.3.0',
+                      'scipy==1.4.1',
                       'matplotlib==3.1.0',
                       'antimony==2.11.0',
                       'libroadrunner==1.5.2.1',

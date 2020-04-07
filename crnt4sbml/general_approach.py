@@ -53,10 +53,10 @@ class GeneralApproach:
         self.__psi_vec = self.__cgraph.get_psi()
         self.__S_mat = self.__cgraph.get_s()
 
-        try:
-            self.__BT_mat = self.__cgraph.get_b()
-        except:
-            self.__create_BT_matrix()
+        # try:
+        #     self.__BT_mat = self.__cgraph.get_b()
+        # except Exception as e:
+        self.__create_BT_matrix()
 
         self.__cons_laws_sympy = None
         self.__indp_species = None
@@ -84,13 +84,8 @@ class GeneralApproach:
         self.__create_variables_for_optimization()
 
     def __create_BT_matrix(self):
-        # (bt = NullSpace[Transpose[Y.A]]) // MatrixForm
-        the_null_space = (self.__Y_mat * self.__A_mat).T.nullspace()
-
-        # handling an edge case where the null space calculation isn't fully simplified by SymPy
-        # if len(the_null_space) > len(self.__sympy_species) - self.__S_mat.rank():
-        #     print("entered")
-        #     the_null_space = self.__simplify_nullspace(the_null_space)
+        # (bt = NullSpace[Transpose[S]]) // MatrixForm
+        the_null_space = self.__S_mat.T.nullspace()
 
         # getting the number of columns given in nullspace computation
         sizes = len(the_null_space)
@@ -119,41 +114,6 @@ class GeneralApproach:
             sys.exit()
 
         self.__BT_mat = bt
-
-    def __simplify_nullspace(self, the_null_space):
-
-        # Flag that says a species or reaction was found in one of the column vectors of the nullspace
-        denom_flag = False
-
-        # find those columns that have a common denominator
-        denom_list = []
-        for ii in the_null_space:
-
-            # getting common denominator
-            denom_in_column = [sympy.denom(i) for i in ii]
-            denom_list.append(denom_in_column[0])
-
-        # collecting nullspace vectors with common denominators
-        all_denom = list(set(denom_list))
-        temp_null = [sympy.zeros(self.__N, 1)] * (len(self.__sympy_species) - self.__S_mat.rank())
-        for ii in range(len(all_denom)):
-
-            indices = [i for i, x in enumerate(denom_list) if x == all_denom[ii]]
-            for i in indices:
-                temp_null[ii] += the_null_space[i]
-                temp_null[ii] = sympy.simplify(temp_null[ii])
-
-        # checking to see if a reaction or species is in the reduced nullspace
-        for i in temp_null:
-            atoms_of_col_vec = [ii.atoms() for ii in i[:, 0]]
-            for ii in atoms_of_col_vec:
-                if any([iii in self.__sympy_reactions + self.__sympy_species for iii in ii]):
-                    denom_flag = True
-
-        if denom_flag:
-            raise Exception("Nullspace calculation from S contains SymPy variables and this could not be resolved.")
-
-        return temp_null
 
     def __create_non_negative_b_matrix(self, the_null_space, sizes):
 
@@ -226,8 +186,11 @@ class GeneralApproach:
 
         bt_nonzero_ind = []
         species_num = self.__sympy_species.index(sympy.Symbol(self.__response, positive=True))
+        # wanted_species = ['s1', 's3', 's6']
+        # temp_num = self.__sympy_species.index(sympy.Symbol('s1', positive=True))
         for i in range(bt_rows):
             bt_nonzero_ind.append([j for j in range(bt_cols) if self.__BT_mat[i, j] != 0 and j != species_num])
+            # bt_nonzero_ind.append([j for j in range(bt_cols) if self.__BT_mat[i, j] != 0 and j not in [species_num, temp_num]])
 
         chosen_indp_indices, chosen_dep_indices = self.__get_indp_dep_species_indices(bt_nonzero_ind, num_dep_eqns,
                                                                                       num_indp_eqns, ya)
@@ -244,6 +207,10 @@ class GeneralApproach:
         for i in range(len(self.__indp_system_subs)):
             for j in range(len(self.__replacements)):
                 self.__indp_system_subs[i] = self.__indp_system_subs[i].subs(self.__replacements[j][0], self.__replacements[j][1])
+
+        # s1, s3, s6
+        # sympy.pprint(self.__indp_system_subs)
+        # sys.exit()
 
     def __get_indp_dep_species_indices(self, bt_nonzero_ind, num_dep_eqns, num_indp_eqns, ya):
         # getting all combinations of the list indices
@@ -268,6 +235,7 @@ class GeneralApproach:
         chosen_indp_indices = []
         chosen_dep_indices = []
         for i in range(len(possible_indp_species)):
+
             _, vals = ya[possible_indp_species[i], :].T.rref()
 
             if len(vals) == num_indp_eqns:
@@ -384,7 +352,7 @@ class GeneralApproach:
     def __check(self):
 
         temp_jac_eps = self.__jac_eps[:, :]
-        k_vec = sympy.Matrix([[sympy.Symbol('k' + str(i))]  for i in range(self.__jac_eps.shape[0])])
+        k_vec = sympy.Matrix([[sympy.Symbol('k' + str(i))] for i in range(self.__jac_eps.shape[0])])
         temp_D2_g_u_w = self.__D2_g_u_w[:, :]*k_vec
 
         jac_eps_subs = []
@@ -637,6 +605,13 @@ class GeneralApproach:
             for i in self.__lambda_indp_odes:
                 fun += (i(*tuple(input_values)))**2
 
+            # C1 =  input_values[15] - input_values[13] - input_values[11]
+            # diff_rs = input_values[8] - input_values[9]
+            # # enforcement = diff_rs - numpy.float64(1.0)/C1
+            # enforcement = diff_rs + numpy.float64(1.0) / C1
+            #
+            # fun += enforcement**2
+
         return fun
 
     def __feasible_point_method(self, bounds, num_constraint_method_iters, seed, print_flag, confidence_level_flag):
@@ -711,49 +686,53 @@ class GeneralApproach:
                                     samples, all_vars_with_bounds, decision_vector_bounds):
 
         full_set_of_values = numpy.zeros(len(bounds), dtype=numpy.float64)
-
         fixed_reaction_ind_all = [all_vars_with_bounds.index(i) for i in self.__fixed_reactions]
         indp_spec_ind_dec = [self.__decision_vector.index(i) for i in self.__indp_species]
-        inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
+
+        if self.__fix_reactions:
+            inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
 
         feasible_point_sets = []
-        for i in samples:
+        if self.__fix_reactions:
+            for i in samples:
 
-            with numpy.errstate(divide='ignore', invalid='ignore'):
+                with numpy.errstate(divide='ignore', invalid='ignore'):
 
-                result = scipy.optimize.dual_annealing(self.__feasible_point_obj_func, bounds=decision_vector_bounds,
-                                                       args=(bounds, full_set_of_values, fixed_reaction_ind_all,
-                                                             self.__cons_laws_lamb, indp_spec_ind_dec, inputs),
-                                                       x0=i,
-                                                       seed=seed,
-                                                       local_search_options={'method': "Nelder-Mead"}, maxiter=100)
-
-                if print_flag:
-                    print("Objective function value: " + str(result.fun))
-                    print("Decision vector used: ")
-                    print(result.x)
-
-                if abs(result.fun) > numpy.float64(1e-100):
-                    result1 = scipy.optimize.minimize(self.__feasible_point_obj_func, result.x,
-                                                      args=(bounds, full_set_of_values, fixed_reaction_ind_all,
-                                                            self.__cons_laws_lamb, indp_spec_ind_dec, inputs),
-                                                      method='Nelder-Mead', tol=1e-16)
+                    result = scipy.optimize.dual_annealing(self.__feasible_point_obj_func, bounds=decision_vector_bounds,
+                                                           args=(bounds, full_set_of_values, fixed_reaction_ind_all,
+                                                                 self.__cons_laws_lamb, indp_spec_ind_dec, inputs),
+                                                           x0=i,
+                                                           seed=seed,
+                                                           local_search_options={'method': "Nelder-Mead"}, maxiter=100)
 
                     if print_flag:
-                        print("Objective function value: " + str(result1.fun))
+                        print("Objective function value: " + str(result.fun))
                         print("Decision vector used: ")
-                        print(result1.x)
+                        print(result.x)
 
-                    if abs(result1.fun) <= numpy.finfo(float).eps or confidence_level_flag:
-                        feasible_point_sets.append(result1.x)
+                    if abs(result.fun) > numpy.float64(1e-100):
+                        result1 = scipy.optimize.minimize(self.__feasible_point_obj_func, result.x,
+                                                          args=(bounds, full_set_of_values, fixed_reaction_ind_all,
+                                                                self.__cons_laws_lamb, indp_spec_ind_dec, inputs),
+                                                          method='Nelder-Mead', tol=1e-16)
 
-                else:
-                    feasible_point_sets.append(result.x)
+                        if print_flag:
+                            print("Objective function value: " + str(result1.fun))
+                            print("Decision vector used: ")
+                            print(result1.x)
 
-                if print_flag:
-                    print("")
+                        if abs(result1.fun) <= numpy.finfo(float).eps or confidence_level_flag:
+                            feasible_point_sets.append(result1.x)
 
-        return feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec
+                    else:
+                        feasible_point_sets.append(result.x)
+
+                    if print_flag:
+                        print("")
+        else:
+            feasible_point_sets = [i for i in samples]
+
+        return feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec, decision_vector_bounds
 
     def run_mpi_optimization(self, bounds=None, iterations=10, seed=0, print_flag=False, dual_annealing_iters=1000,
                              confidence_level_flag=False, change_in_rel_error=1e-2):
@@ -831,7 +810,7 @@ class GeneralApproach:
         if self.__my_rank == 0:
             print("Running feasible point method for " + str(iterations) + " iterations ...")
 
-        feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec = self.__mpi_feasible_point_method(bounds, seed,
+        feasible_point_sets, fixed_reaction_ind_all, indp_spec_ind_dec, decision_vector_bounds = self.__mpi_feasible_point_method(bounds, seed,
                                                                                                           print_flag,
                                                                                                           confidence_level_flag,
                                                                                                           sample_portion,
@@ -1036,6 +1015,39 @@ class GeneralApproach:
         if confidence_level_flag:
             obtained_minimums = numpy.zeros(len(feasible_point_sets), dtype=numpy.float64)
 
+
+        # tempp_array = numpy.array([1.69674118e+01, 9.20751634e+01, 2.10222056e-02, 2.33199217e-01, 7.81832030e-01,
+        #                            3.64986826e+00, 2.03781673e-01, 6.32113020e-02, 1.09999998e+00, 1.90000180e+00,
+        #                            2.58786329e+01, 8.12068620e+00, 1.86355883e+01, 8.88501878e+01, 9.97000000e+01,
+        #                            3.06996758e+01, 9.23022801e-10])
+
+        # tempp_array = numpy.array([1.69674118e+01, 9.20751634e+01, 2.10222056e-02, 2.33199217e-01, 7.81832030e-01,
+        #                            3.64986826e+00, 2.03781673e-01, 6.32113020e-02, 1.09999998e+00, 1.90000180e+00,
+        #                            2.58786329e+01, 8.12068620e+00, 1.86355883e+01, 8.88501878e+01, 9.97000000e+01,
+        #                            3.06996758e+01, 0.0])
+
+        # print(tempp_array)
+        # det_point_sets = [tempp_array]
+        #
+        # params = self.__final_check(det_point_sets, bounds, full_set_of_values, fixed_reaction_ind_all,
+        #                             self.__cons_laws_lamb, indp_spec_ind_dec, inputs, input_values)
+        #
+        # print("parameters used")
+        # print(params)
+        # print("")
+        # print("ODE values (should be zero)")
+        # print(f"independent odes: {self.__indp_species}")
+        # for i in range(len(self.__lambda_indp_odes)):
+        #     print(self.__indp_system_subs[i])
+        #     fun = (self.__lambda_indp_odes[i](*tuple(params[0]))) ** 2
+        #     print(fun)
+        #     print("")
+        # print("")
+        #
+        # determinant = (self.__lambda_det_jac(*tuple(params[0]))) ** 2
+        # print(f"determinant value = {determinant}")
+        # sys.exit()
+
         if len(feasible_point_sets) != 0:
 
             print("Starting determinant optimization ...")
@@ -1105,6 +1117,7 @@ class GeneralApproach:
             return params, det_point_sets_fun
 
         else:
+            print("Determinant optimization has finished.")
             raise Exception("Optimization needs to be run with more iterations or different bounds.")
 
 
@@ -1117,8 +1130,11 @@ class GeneralApproach:
             print("Starting determinant optimization ...")
 
         bounds_2 = decision_vector_bounds
+        if self.__fix_reactions:
+            inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
+        else:
+            inputs = numpy.zeros(len(self.__lambda_variables), dtype=numpy.float64)
 
-        inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
         full_set_of_values = numpy.zeros(len(bounds), dtype=numpy.float64)
 
         input_values = numpy.zeros(len(self.__lambda_variables), dtype=numpy.float64)
@@ -1389,6 +1405,18 @@ class GeneralApproach:
         See .
         """
 
+        if self.__comm is not None:
+
+            if self.__my_rank == 0:
+                print("")
+                print("A parallel version of numerical continuation is not available.")
+                print("Please rerun your script without mpiexec.")
+                print(
+                    "For your convenience, the provided parameters have been saved in the current directory under the name params.npy.")
+                numpy.save('./params.npy', parameters)
+
+            sys.exit()
+
         # setting default values for AUTO
         if 'NMX' not in auto_parameters.keys():
             auto_parameters['NMX'] = 10000
@@ -1412,93 +1440,93 @@ class GeneralApproach:
 
         return multistable_param_ind, plot_specifications
 
-    def run_mpi_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-                                           print_lbls_flag=False, auto_parameters=None, plot_labels=None):
-
-        """
-        Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
-        approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
-        parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
-        produce jagged or missing sections in the plots provided. To produce better plots one should use the information
-        provided by this routine to run :func:`crnt4sbml.GeneralApproach.run_continuity_analysis`.
-
-        Parameters
-        ------------
-            species: string
-                A string stating the species that is the y-axis of the bifurcation diagram.
-            parameters: list of numpy arrays
-                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-                value.
-            dir_path: string
-                A string stating the path where the bifurcation diagrams should be saved.
-            print_lbls_flag: bool
-                If True the routine will print the special points found by AUTO 2000 and False will not print any
-                special points.
-            auto_parameters: dict
-                Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
-                PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
-                be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
-            plot_labels: list of strings
-                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-                you would like to use the default settings for some of the labels, simply provide None for that
-                element.
-        Returns
-        ---------
-            multistable_param_ind: list of integers
-                A list of those indices in 'parameters' that produce multistable plots.
-            sample_portion: list of 1D numpy arrays
-                A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-                distributed to the core.
-            plot_specifications: list of lists
-                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-                Each element is a list where the first element specifies the range used for the x-axis, the second
-                element is the range for the y-axis, and the last element provides the x-y values and special point label
-                for each special point in the plot.
-
-        Example
-        ---------
-        See .
-        """
-
-        # setting default values for AUTO
-        if 'NMX' not in auto_parameters.keys():
-            auto_parameters['NMX'] = 10000
-
-        if 'ITMX' not in auto_parameters.keys():
-            auto_parameters['ITMX'] = 100
-
-        # making the directory if it doesn't exist
-        if not os.path.isdir(dir_path) and self.__my_rank == 0:
-            os.mkdir(dir_path)
-
-        species_num = [str(i) for i in self.__indp_species].index(species) + 1
-
-        species_y = str(self.__indp_species[species_num-1])
-
-        if self.__comm is not None:
-            sample_portion = self.__distribute_list_of_points(parameters)
-            self.__comm.Barrier()
-        else:
-
-            from mpi4py import MPI
-            self.__comm = MPI.COMM_WORLD
-            self.__my_rank = self.__comm.Get_rank()
-            self.__num_cores = self.__comm.Get_size()
-            self.__comm.Barrier()
-
-            if not os.path.isdir(dir_path) and self.__my_rank == 0:
-                os.mkdir(dir_path)
-            sample_portion = self.__distribute_list_of_points(parameters)
-            self.__comm.Barrier()
-
-        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_greedy_continuity_analysis \
-            (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
-
-        self.__important_info += important_info
-
-        return multistable_param_ind, sample_portion, plot_specifications
+    # def run_mpi_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
+    #                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
+    #
+    #     """
+    #     Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
+    #     approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
+    #     parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
+    #     produce jagged or missing sections in the plots provided. To produce better plots one should use the information
+    #     provided by this routine to run :func:`crnt4sbml.GeneralApproach.run_continuity_analysis`.
+    #
+    #     Parameters
+    #     ------------
+    #         species: string
+    #             A string stating the species that is the y-axis of the bifurcation diagram.
+    #         parameters: list of numpy arrays
+    #             A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+    #             value.
+    #         dir_path: string
+    #             A string stating the path where the bifurcation diagrams should be saved.
+    #         print_lbls_flag: bool
+    #             If True the routine will print the special points found by AUTO 2000 and False will not print any
+    #             special points.
+    #         auto_parameters: dict
+    #             Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
+    #             PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
+    #             be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
+    #         plot_labels: list of strings
+    #             A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+    #             is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+    #             you would like to use the default settings for some of the labels, simply provide None for that
+    #             element.
+    #     Returns
+    #     ---------
+    #         multistable_param_ind: list of integers
+    #             A list of those indices in 'parameters' that produce multistable plots.
+    #         sample_portion: list of 1D numpy arrays
+    #             A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
+    #             distributed to the core.
+    #         plot_specifications: list of lists
+    #             A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+    #             Each element is a list where the first element specifies the range used for the x-axis, the second
+    #             element is the range for the y-axis, and the last element provides the x-y values and special point label
+    #             for each special point in the plot.
+    #
+    #     Example
+    #     ---------
+    #     See .
+    #     """
+    #
+    #     # setting default values for AUTO
+    #     if 'NMX' not in auto_parameters.keys():
+    #         auto_parameters['NMX'] = 10000
+    #
+    #     if 'ITMX' not in auto_parameters.keys():
+    #         auto_parameters['ITMX'] = 100
+    #
+    #     # making the directory if it doesn't exist
+    #     if not os.path.isdir(dir_path) and self.__my_rank == 0:
+    #         os.mkdir(dir_path)
+    #
+    #     species_num = [str(i) for i in self.__indp_species].index(species) + 1
+    #
+    #     species_y = str(self.__indp_species[species_num-1])
+    #
+    #     if self.__comm is not None:
+    #         sample_portion = self.__distribute_list_of_points(parameters)
+    #         self.__comm.Barrier()
+    #     else:
+    #
+    #         from mpi4py import MPI
+    #         self.__comm = MPI.COMM_WORLD
+    #         self.__my_rank = self.__comm.Get_rank()
+    #         self.__num_cores = self.__comm.Get_size()
+    #         self.__comm.Barrier()
+    #
+    #         if not os.path.isdir(dir_path) and self.__my_rank == 0:
+    #             os.mkdir(dir_path)
+    #         sample_portion = self.__distribute_list_of_points(parameters)
+    #         self.__comm.Barrier()
+    #
+    #     multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_greedy_continuity_analysis \
+    #         (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
+    #          print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
+    #
+    #     self.__important_info += important_info
+    #
+    #     return multistable_param_ind, sample_portion, plot_specifications
 
     def __distribute_list_of_points(self, samples):
 
@@ -1535,92 +1563,92 @@ class GeneralApproach:
 
         return sample_portion
 
-    def run_mpi_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-                                    print_lbls_flag=False, auto_parameters=None, plot_labels=None):
-
-        """
-        Function for running the numerical continuation and bistability analysis portions of the mass conservation
-        approach.
-
-        Parameters
-        ------------
-            species: string
-                A string stating the species that is the y-axis of the bifurcation diagram.
-            parameters: list of numpy arrays
-                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-                value.
-            dir_path: string
-                A string stating the path where the bifurcation diagrams should be saved.
-            print_lbls_flag: bool
-                If True the routine will print the special points found by AUTO 2000 and False will not print any
-                special points.
-            auto_parameters: dict
-                Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
-                'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
-                necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
-                parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
-                10000 and 'ITMX' to 100.
-            plot_labels: list of strings
-                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-                you would like to use the default settings for some of the labels, simply provide None for that
-                element.
-        Returns
-        ---------
-            multistable_param_ind: list of integers
-                A list of those indices in 'parameters' that produce multistable plots.
-            sample_portion: list of 1D numpy arrays
-                A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-                distributed to the core.
-            plot_specifications: list of lists
-                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-                Each element is a list where the first element specifies the range used for the x-axis, the second
-                element is the range for the y-axis, and the last element provides the x-y values and special point label
-                for each special point in the plot.
-
-        Example
-        ---------
-        See .
-        """
-
-        # setting default values for AUTO
-        if 'NMX' not in auto_parameters.keys():
-            auto_parameters['NMX'] = 10000
-
-        if 'ITMX' not in auto_parameters.keys():
-            auto_parameters['ITMX'] = 100
-
-        # making the directory if it doesn't exist
-        if not os.path.isdir(dir_path) and self.__my_rank == 0:
-            os.mkdir(dir_path)
-
-        species_num = [str(i) for i in self.__indp_species].index(species) + 1
-
-        species_y = str(self.__indp_species[species_num - 1])
-
-        if self.__comm is not None:
-            sample_portion = self.__distribute_list_of_points(parameters)
-            self.__comm.Barrier()
-        else:
-
-            from mpi4py import MPI
-            self.__comm = MPI.COMM_WORLD
-            self.__my_rank = self.__comm.Get_rank()
-            self.__num_cores = self.__comm.Get_size()
-            self.__comm.Barrier()
-
-            if not os.path.isdir(dir_path) and self.__my_rank == 0:
-                os.mkdir(dir_path)
-            sample_portion = self.__distribute_list_of_points(parameters)
-            self.__comm.Barrier()
-
-        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_continuity_analysis \
-            (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
-
-        self.__important_info += important_info
-
-        return multistable_param_ind, sample_portion, plot_specifications
+    # def run_mpi_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
+    #                                 print_lbls_flag=False, auto_parameters=None, plot_labels=None):
+    #
+    #     """
+    #     Function for running the numerical continuation and bistability analysis portions of the mass conservation
+    #     approach.
+    #
+    #     Parameters
+    #     ------------
+    #         species: string
+    #             A string stating the species that is the y-axis of the bifurcation diagram.
+    #         parameters: list of numpy arrays
+    #             A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+    #             value.
+    #         dir_path: string
+    #             A string stating the path where the bifurcation diagrams should be saved.
+    #         print_lbls_flag: bool
+    #             If True the routine will print the special points found by AUTO 2000 and False will not print any
+    #             special points.
+    #         auto_parameters: dict
+    #             Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
+    #             'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
+    #             necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
+    #             parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
+    #             10000 and 'ITMX' to 100.
+    #         plot_labels: list of strings
+    #             A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+    #             is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+    #             you would like to use the default settings for some of the labels, simply provide None for that
+    #             element.
+    #     Returns
+    #     ---------
+    #         multistable_param_ind: list of integers
+    #             A list of those indices in 'parameters' that produce multistable plots.
+    #         sample_portion: list of 1D numpy arrays
+    #             A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
+    #             distributed to the core.
+    #         plot_specifications: list of lists
+    #             A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+    #             Each element is a list where the first element specifies the range used for the x-axis, the second
+    #             element is the range for the y-axis, and the last element provides the x-y values and special point label
+    #             for each special point in the plot.
+    #
+    #     Example
+    #     ---------
+    #     See .
+    #     """
+    #
+    #     # setting default values for AUTO
+    #     if 'NMX' not in auto_parameters.keys():
+    #         auto_parameters['NMX'] = 10000
+    #
+    #     if 'ITMX' not in auto_parameters.keys():
+    #         auto_parameters['ITMX'] = 100
+    #
+    #     # making the directory if it doesn't exist
+    #     if not os.path.isdir(dir_path) and self.__my_rank == 0:
+    #         os.mkdir(dir_path)
+    #
+    #     species_num = [str(i) for i in self.__indp_species].index(species) + 1
+    #
+    #     species_y = str(self.__indp_species[species_num - 1])
+    #
+    #     if self.__comm is not None:
+    #         sample_portion = self.__distribute_list_of_points(parameters)
+    #         self.__comm.Barrier()
+    #     else:
+    #
+    #         from mpi4py import MPI
+    #         self.__comm = MPI.COMM_WORLD
+    #         self.__my_rank = self.__comm.Get_rank()
+    #         self.__num_cores = self.__comm.Get_size()
+    #         self.__comm.Barrier()
+    #
+    #         if not os.path.isdir(dir_path) and self.__my_rank == 0:
+    #             os.mkdir(dir_path)
+    #         sample_portion = self.__distribute_list_of_points(parameters)
+    #         self.__comm.Barrier()
+    #
+    #     multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_continuity_analysis \
+    #         (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
+    #          print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
+    #
+    #     self.__important_info += important_info
+    #
+    #     return multistable_param_ind, sample_portion, plot_specifications
 
     def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
@@ -1666,6 +1694,18 @@ class GeneralApproach:
         ---------
         See .
         """
+
+        if self.__comm is not None:
+
+            if self.__my_rank == 0:
+                print("")
+                print("A parallel version of numerical continuation is not available.")
+                print("Please rerun your script without mpiexec.")
+                print(
+                    "For your convenience, the provided parameters have been saved in the current directory under the name params.npy.")
+                numpy.save('./params.npy', parameters)
+
+            sys.exit()
 
         # setting default values for AUTO
         if 'NMX' not in auto_parameters.keys():
@@ -1718,6 +1758,8 @@ class GeneralApproach:
         ant_str = ode_str
         for i in range(len(vars_to_initialize)):
             ant_str += str(vars_to_initialize[i]) + ' = ' + str(var_vals[i]) + ';'
+
+        print(ant_str)
 
         return ant_str
 
@@ -1970,6 +2012,10 @@ class GeneralApproach:
         """
 
         return self.__lambda_indp_odes
+
+    def get_full_set_of_values(self, params_for_global_min):
+
+        print(self.__lambda_variables)
 
 
 

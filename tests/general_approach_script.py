@@ -6,17 +6,17 @@ import sympy
 
 
 # 1.
-network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
-signal = "C1"
-#response = "s6"
-response = "s5"
-iters = 10
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
+# signal = "C1"
+# #response = "s6"
+# response = "s5"
+# iters = 10
 
 # 2.
-# network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml") # yes 10
-# signal = "C3"
-# response = "s15"
-# iters = 10
+network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml") # yes 10
+signal = "C3"
+response = "s15"
+iters = 10
 
 # 3.
 # network = crnt4sbml.CRNT("../sbml_files/closed_fig5A.xml") # yes 10

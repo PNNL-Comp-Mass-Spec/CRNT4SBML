@@ -567,7 +567,7 @@ class BistabilityFinder:
                 if print_lbls_flag:
                     print("Labels from numerical continuation: ")
                     print(lbls)
-                
+
                 if flag and lbls != ['EP', 'EP']:
                     chnk_stable, chnk_unstable, special_points, sp_y_ind = cls.find_stable_unstable_regions(antimony_r,
                                                                                                             species_y)
