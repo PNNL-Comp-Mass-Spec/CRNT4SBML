@@ -222,12 +222,12 @@ class GeneralApproach:
             self.__fixed_reaction_indices = [i for i in range(len(self.__lagrangian_vars)) if
                                              self.__lagrangian_vars[i] in self.__fixed_reactions]
 
-            print(self.__fixed_reaction_indices)
-            print(self.__fixed_reactions)
-            print(self.__soln_to_fixed_reactions)
-            print(self.__vars_for_lam_fixed_reactions)
-
-        print(self.__lagrangian_vars)
+            # print(self.__fixed_reaction_indices)
+            # print(self.__fixed_reactions)
+            # print(self.__soln_to_fixed_reactions)
+            # print(self.__vars_for_lam_fixed_reactions)
+        #
+        # print(self.__lagrangian_vars)
 
     @staticmethod
     def unique_everseen(iterable, key=None):
@@ -1421,26 +1421,7 @@ class GeneralApproach:
 
         return multistable_param_ind, plot_specifications
 
-    def __steady_state_finder_2(self, initial_species_values, result_x, spec_index, itg):
-
-        def ff(t, cs, ks, ode_lambda_functions):
-            return [i(*tuple(ks), *tuple(cs)) for i in ode_lambda_functions]
-
-        out = itg.solve_ivp(ff, [0.0, 100.0], initial_species_values, args=(result_x[0:self.__R], self.__ode_lambda_functions), method='LSODA')
-        y0 = out.y[:, -1]
-
-        i = 1
-        while abs(out.y[spec_index, -1] - out.y[spec_index, 0]) > 1e-8 and i < 1000:
-            tspan = [0.0 + i*100.0, 100.0 + i*100.0]
-            out = itg.solve_ivp(ff, tspan, y0, args=(result_x[0:self.__R], self.__ode_lambda_functions), method='LSODA')
-            y0 = out.y[:, -1]
-            i += 1
-
-        if i >= 1000:
-            print("Iterations greater than 1000 occurred in steady state finder.")
-        return out.y[:, -1]
-
-    def __find_viable_indices(self, result_x, path, pcp_scan, itg, spec_index, change_in_relative_error):
+    def __find_viable_indices(self, result_x, itg, spec_index, change_in_relative_error):
 
         conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple(result_x[self.__R:self.__R + self.__N]))
                              for i in range(len(self.__cons_laws_sympy_lamb))]
@@ -1456,65 +1437,24 @@ class GeneralApproach:
 
         all_unique_comb = [temp_comb[i] for i in range(len(temp_comb)) if len(set(temp_comb[i])) == len(temp_comb[i])]
 
-
-        # print(all_unique_comb)
-        print(f"conservation values = {conservation_vals}")
-        # print(f"species = {self.__sympy_species}")
-        # print(f"reactions = {self.__sympy_reactions}")
-        # print(f"result_x = {result_x}")
-        # print("")
-
-        def ff(t, cs, ks, ode_lambda_functions):
-            return [i(*tuple(ks), *tuple(cs)) for i in ode_lambda_functions]
-
         viable_indices = []
         viable_out_values = []
-        count = 0
         for i in all_unique_comb:
             initial_species_values = [0.0 for i in range(self.__N)]
 
             for j in range(len(conservation_vals)):
-                temp_index = cons_laws_spec_info[j][1].index(i[j])
+                # temp_index = cons_laws_spec_info[j][1].index(i[j])
                 initial_species_values[i[j]] = conservation_vals[j] #*cons_laws_spec_info[j][0][temp_index]  # TODO: do we multiply by the coefficient here?
 
-            # out = ff(0, initial_species_values, result_x[0:self.__R], self.__ode_lambda_functions)
-
-            # print(i)
-
-            # sys.exit()
-
             out = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
-
-            # print(i)
-            # print(out)
-
             steady_cons = [self.__cons_laws_sympy_lamb[i](*tuple(out)) for i in range(len(self.__cons_laws_sympy_lamb))]
-            print(f"steady conservation values = {steady_cons}")
 
-            if numpy.array_equal(numpy.array(initial_species_values), out):
-                viable = False
-            else:
+            if not numpy.array_equal(numpy.array(initial_species_values), out):
 
                 # accepting those indices that are smaller than a predescribed relative error
                 if all([abs(conservation_vals[ii] - steady_cons[ii])/abs(steady_cons[ii]) < change_in_relative_error for ii in range(len(conservation_vals))]):
-                # if all([abs(conservation_vals[ii] - steady_cons[ii]) < 1e-5 for ii in range(len(conservation_vals))]):  # TODO: might need to do relative error here
-                    # print("viable")
-                    viable = True
                     viable_out_values.append(out)
                     viable_indices.append(i)
-                else:
-                    viable = False
-
-
-            # if viable:
-            #     viable_indices.append(i)
-
-        print("")
-
-        print(viable_indices)
-        print(viable_out_values)
-
-        # sys.exit()
 
         return viable_indices, viable_out_values, conservation_vals
 
@@ -1522,64 +1462,41 @@ class GeneralApproach:
 
         import scipy.integrate as itg
 
-        pcp_scan = [numpy.linspace(0.0, 1000.0, 100)]*len(params_for_global_min)  # TODO: Automatically choose the range!!!
-
         lambda_inputs = self.__sympy_reactions + self.__sympy_species
         self.__ode_lambda_functions = [sympy.utilities.lambdify(lambda_inputs, self.__full_system[i]) for i in
                                        range(len(self.__full_system))]
 
+        self.__jac_lambda_function = sympy.utilities.lambdify(lambda_inputs, self.__full_system.jacobian(self.__sympy_species))
+
         spec_index = self.__sympy_species.index(sympy.Symbol(self.__response, positive=True))
 
-        print(f"length of params = {len(params_for_global_min)}")
+        viable_indices, viable_out_values, conservation_vals = self.__find_viable_indices(params_for_global_min[0], itg, spec_index, change_in_relative_error)
 
-        # for i in params_for_global_min:
-            # viable_indices = self.__find_viable_indices(params_for_global_min[0], path, pcp_scan, itg, spec_index)
-            # viable_indices, viable_out_values = self.__find_viable_indices(i, path, pcp_scan, itg, spec_index, change_in_relative_error)
-        viable_indices, viable_out_values, conservation_vals = self.__find_viable_indices(params_for_global_min[0], path, pcp_scan, itg, spec_index, change_in_relative_error)
-
-            # print('')
-
-
-        # viable_indices = [viable_indices[0], viable_indices[2]]
-        # viable_out_values = [viable_out_values[0],  viable_out_values[2]]
-
-        # sys.exit()
-
-        # sys.exit()
-
-        spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index = self.__initialize_direct_simulation_3(viable_indices, viable_out_values,
+        spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index = self.__initialize_direct_simulation(viable_indices, viable_out_values,
                                                                                                                            params_for_global_min[0], conservation_vals, itg,
-                                                                                                                           change_in_relative_error)
-        # spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index = self.__initialize_direct_simulation_2(viable_indices)
-
-        # spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index = self.__initialize_direct_simulation()
-
-        # change_in_relative_error = 1e-2
-
-        # sys.exit()
+                                                                                                                           change_in_relative_error, spec_index)
 
         plot_flag = True
 
         for i in range(len(params_for_global_min)):
 
+            conservation_vals = [self.__cons_laws_sympy_lamb[ii](*tuple(params_for_global_min[i][self.__R:self.__R + self.__N]))
+                                 for ii in range(len(self.__cons_laws_sympy_lamb))]
+
+            con_law_value = conservation_vals[self.__signal_index]
+            change = con_law_value * 0.5
+            pcp_scan = numpy.linspace(con_law_value - change, con_law_value + change, 100)
+
             forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(params_for_global_min[i], fwd_scan_vals,
-                                                                      rvrs_scan_vals, pcp_scan[i], fwd_scan_index,
+                                                                      rvrs_scan_vals, pcp_scan, fwd_scan_index,
                                                                       rvrs_scan_index, spec_index, itg, change_in_relative_error)
 
-            min_val, max_val = self.__get_min_max_vals(pcp_scan[i], forward_scan, reverse_scan)
-
-            print(min_val, max_val)
-
-            # print(pcp_scan[i])
-
-            # print([i for i in pcp_scan[i] if i >= min_val and i <= max_val])
-            # print(len([i for i in pcp_scan[i] if i >= min_val and i <= max_val]))
+            min_val, max_val = self.__get_min_max_vals(pcp_scan, forward_scan, reverse_scan)
 
             count = 0
-            scan_vals = pcp_scan[i]
+            scan_vals = pcp_scan
             while count < 5:
-                print(f"count = {count}")
-                if len([ii for ii in scan_vals if ii >= min_val and ii <= max_val]) < 10: #5:
+                if len([ii for ii in scan_vals if ii >= min_val and ii <= max_val]) < 10:
 
                     second_scan = numpy.linspace(min_val, max_val, 60)
 
@@ -1588,35 +1505,25 @@ class GeneralApproach:
                                                                               rvrs_scan_index, spec_index, itg, change_in_relative_error)
 
                     min_val, max_val = self.__get_min_max_vals(second_scan, forward_scan, reverse_scan)
-                    print(min_val, max_val)
                     scan_vals = second_scan
                     count += 1
                 else:
                     break
 
             if count == 0:
-                second_scan = pcp_scan[i]
-
-            # sys.exit()
+                second_scan = pcp_scan
 
             if plot_flag:
                 self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, path, i)
-                # self.__plot_direct_simulation(pcp_scan[i], forward_scan, reverse_scan, path, i)
 
-            # sys.exit()
-            print("")
-
-    def __initialize_direct_simulation_3(self, viable_indices, viable_out_values, result_x, conservation_vals, itg, change_in_relative_error):
-
-        lambda_inputs = self.__sympy_reactions + self.__sympy_species
-        self.__ode_lambda_functions = [sympy.utilities.lambdify(lambda_inputs, self.__full_system[i]) for i in
-                                       range(len(self.__full_system))]
-        spec_index = self.__sympy_species.index(sympy.Symbol(self.__response, positive=True))
+    def __initialize_direct_simulation(self, viable_indices, viable_out_values, result_x, conservation_vals, itg, change_in_relative_error, spec_index):
 
         combos = list(itertools.combinations([i for i in range(len(viable_out_values))], 2))
         diff = [numpy.abs(viable_out_values[i[0]][spec_index] - viable_out_values[i[1]][spec_index]) for i in combos]
-        stop_flag = True
+        maxpos = diff.index(max(diff))
+        chosen_initial_combo = combos[maxpos]
 
+        stop_flag = True
         while stop_flag:
 
             # selecting largest difference as the right pair
@@ -1624,24 +1531,10 @@ class GeneralApproach:
 
             chosen_combo = combos[maxpos]
 
-            # choosing the largest value at the species index as the "high concentration" option
-            if viable_out_values[chosen_combo[0]][spec_index] < viable_out_values[chosen_combo[1]][spec_index]:
-
-                fwd_scan_vals =  [[viable_indices[chosen_combo[1]][j], j] for j in range(len(viable_indices[chosen_combo[1]]))]
-                fwd_ind = chosen_combo[1]
-                rvrs_scan_vals = [[viable_indices[chosen_combo[0]][j], j] for j in range(len(viable_indices[chosen_combo[0]]))]
-                rvrs_ind = chosen_combo[0]
-
-            else:
-                fwd_scan_vals = [[viable_indices[chosen_combo[0]][j], j] for j in range(len(viable_indices[chosen_combo[0]]))]
-                fwd_ind = chosen_combo[0]
-                rvrs_scan_vals = [[viable_indices[chosen_combo[1]][j], j] for j in range(len(viable_indices[chosen_combo[1]]))]
-                rvrs_ind = chosen_combo[1]
-
-            # index to change in forward scan
-            fwd_scan_index = [i[0] for i in fwd_scan_vals if i[1] == self.__signal_index][0]
-            # index to change in reverse scan
-            rvrs_scan_index = [i[0] for i in rvrs_scan_vals if i[1] == self.__signal_index][0]
+            fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind = self.__get_important_scan_vals(chosen_combo,
+                                                                                                                               spec_index,
+                                                                                                                               viable_out_values,
+                                                                                                                               viable_indices)
 
             # determining if the forward or reverse scan is constant, if so, remove it as a viable combination
             con_law_value = conservation_vals[self.__signal_index]
@@ -1653,9 +1546,45 @@ class GeneralApproach:
                                                                       rvrs_scan_index, spec_index, itg,
                                                                       change_in_relative_error)
 
-            combos, diff, stop_flag = self.__get_new_combo(forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff)
+            combos, diff, stop_flag, combos_flag = self.__get_new_combo(forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff)
+
+            # if all combinations are thought to produce constant in time return the initial combo and continue
+            if combos_flag:
+                fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind = self.__get_important_scan_vals(
+                    chosen_initial_combo,
+                    spec_index,
+                    viable_out_values,
+                    viable_indices)
+                break
 
         return spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index
+
+    def __get_important_scan_vals(self, chosen_combo, spec_index, viable_out_values, viable_indices):
+
+        # choosing the largest value at the species index as the "high concentration" option
+        if viable_out_values[chosen_combo[0]][spec_index] < viable_out_values[chosen_combo[1]][spec_index]:
+
+            fwd_scan_vals = [[viable_indices[chosen_combo[1]][j], j] for j in
+                             range(len(viable_indices[chosen_combo[1]]))]
+            fwd_ind = chosen_combo[1]
+            rvrs_scan_vals = [[viable_indices[chosen_combo[0]][j], j] for j in
+                              range(len(viable_indices[chosen_combo[0]]))]
+            rvrs_ind = chosen_combo[0]
+
+        else:
+            fwd_scan_vals = [[viable_indices[chosen_combo[0]][j], j] for j in
+                             range(len(viable_indices[chosen_combo[0]]))]
+            fwd_ind = chosen_combo[0]
+            rvrs_scan_vals = [[viable_indices[chosen_combo[1]][j], j] for j in
+                              range(len(viable_indices[chosen_combo[1]]))]
+            rvrs_ind = chosen_combo[1]
+
+        # index to change in forward scan
+        fwd_scan_index = [i[0] for i in fwd_scan_vals if i[1] == self.__signal_index][0]
+        # index to change in reverse scan
+        rvrs_scan_index = [i[0] for i in rvrs_scan_vals if i[1] == self.__signal_index][0]
+
+        return fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind
 
     def __get_new_combo(self, forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff):
 
@@ -1665,36 +1594,29 @@ class GeneralApproach:
 
         fwd_rel_change = abs(max(forward_scan) - min(forward_scan)) / max(forward_scan)
 
-        if fwd_rel_change >= 1.0:
+        if fwd_rel_change >= 0.98:
             constant_index.append(fwd_ind)
-
-        # print(f"fwd_rel_change = {fwd_rel_change}")
 
         rvrs_rel_change = abs(max(reverse_scan) - min(reverse_scan)) / max(reverse_scan)
 
-        if rvrs_rel_change >= 1.0:
+        if rvrs_rel_change >= 0.98:
             constant_index.append(rvrs_ind)
-
-        # print(f"rvrs_rel_change = {rvrs_rel_change}")
 
         #if one or both of them are deemed to be constant, then we throw out one or both from the combos.
         #Use fwd_ind and rvrs_ind to throw out combos that were constant, then redo process with new
         #combo being created. Continue until process with no constant combo is found. If all combos are eleminated
-        #throw a system exit.
-        print(f"constant index = {constant_index}")
+        #return the initial combo.
         if constant_index:
             ind_to_remove = [i for i in range(len(combos)) if combos[i][0] in constant_index or combos[i][1] in constant_index]
             combos = [combos[i] for i in range(len(combos)) if i not in ind_to_remove]
             diff = [diff[i] for i in range(len(diff)) if i not in ind_to_remove]
 
             if not combos:
-                print("Direct simulation is unable to continue. All combinations of the initial species concentrations produce")
-                print("numerical simulations that are constant in time.")
-                sys.exit()
+                return combos, diff, True, True
 
-            return combos, diff, True
+            return combos, diff, True, False
         else:
-            return combos, diff, False
+            return combos, diff, False, False
 
     def __get_min_max_vals(self, pcp_scan, forward_scan, reverse_scan):
 
@@ -1736,7 +1658,7 @@ class GeneralApproach:
 
         for i in fwd_scan_vals:
             initial_species_values[i[0]] = conservation_vals[i[1]]
-        print(initial_species_values)
+
         forward_scan = []
         for i in pcp_scan:
             initial_species_values[fwd_scan_index] = i # TODO: multiply by const?
@@ -1746,9 +1668,7 @@ class GeneralApproach:
         initial_species_values = [0.0 for i in range(self.__N)]
         for i in rvrs_scan_vals:
             initial_species_values[i[0]] = conservation_vals[i[1]]
-        print(initial_species_values)
 
-        # sys.exit()
         reverse_scan = []
         for i in pcp_scan:
             initial_species_values[rvrs_scan_index] = i # TODO: multiply by const?
@@ -1759,34 +1679,39 @@ class GeneralApproach:
 
     def __steady_state_finder(self, initial_species_values, result_x, spec_index, itg, change_in_relative_error):
 
-        def ff(t, cs, ks, ode_lambda_functions):
+        def ff(t, cs, ks, ode_lambda_functions, jacobian):
             return [i(*tuple(ks), *tuple(cs)) for i in ode_lambda_functions]
+
+        def jac_f(t, cs, ks, ode_lambda_functions, jacobian):
+            return jacobian(*tuple(ks), *tuple(cs))
 
         len_time_interval = 100.0
 
         with numpy.errstate(divide='ignore', invalid='ignore'):
-            out = itg.solve_ivp(ff, [0.0, len_time_interval], initial_species_values, args=(result_x[0:self.__R], self.__ode_lambda_functions), method='LSODA')
+            out = itg.solve_ivp(ff, [0.0, len_time_interval], initial_species_values, args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function), jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True) #'RK45')  #'LSODA')
             y0 = out.y[:, -1]
 
         flag = True
 
         i = 1
         while flag:
-        # while abs(out.y[spec_index, -1] - out.y[spec_index, 0]) > 1e-8 and i < 1000:  # TODO: need to do relative error here too.
             tspan = [0.0 + i*len_time_interval, len_time_interval + i*len_time_interval]
-            with numpy.errstate(divide='ignore', invalid='ignore'):
-                out = itg.solve_ivp(ff, tspan, y0, args=(result_x[0:self.__R], self.__ode_lambda_functions), method='LSODA')
-                y0 = out.y[:, -1]
-            i += 1
-
-            # if there is a division by zero we exit the routine
             try:
-                flag = abs(out.y[spec_index, -1] - out.y[spec_index, 0]) / abs(out.y[spec_index, -1]) > change_in_relative_error and i < 1000
+                with numpy.errstate(divide='ignore', invalid='ignore'):
+                    out = itg.solve_ivp(ff, tspan, y0, args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function), jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True) #'RK45')  #'LSODA')
+                    y0 = out.y[:, -1]
+                i += 1
             except Exception as e:
                 flag = False
 
-        if i >= 1000:
-            print("Iterations greater than 1000 occurred in steady state finder.")
+            # if there is a division by zero we exit the routine
+            try:
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    flag = abs(out.y[spec_index, -1] - out.y[spec_index, 0]) / abs(out.y[spec_index, -1]) > change_in_relative_error and i < 1000
+            except Exception as e:
+                flag = False
+
         return out.y[:, -1]
 
     def __plot_direct_simulation(self, pcp_scan, forward_scan, reverse_scan, path, index):
