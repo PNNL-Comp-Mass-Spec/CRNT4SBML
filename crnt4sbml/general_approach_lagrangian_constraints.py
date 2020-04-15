@@ -1119,7 +1119,7 @@ class GeneralApproach:
 
         return viable_indices, viable_out_values, conservation_vals
 
-    def run_direct_simulation(self, params_for_global_min, path, change_in_relative_error=1e-6):
+    def run_direct_simulation(self, params_for_global_min=None, path="./", change_in_relative_error=1e-6, parallel_flag=False):
 
         import scipy.integrate as itg
 
@@ -1130,6 +1130,48 @@ class GeneralApproach:
         self.__jac_lambda_function = sympy.utilities.lambdify(lambda_inputs, self.__full_system.jacobian(self.__sympy_species))
 
         spec_index = self.__sympy_species.index(sympy.Symbol(self.__response, positive=True))
+
+        if parallel_flag is False and self.__comm is None:
+
+            #making the directory if it doesn't exist
+            if not os.path.isdir(path):
+                os.mkdir(path)
+
+            print("Starting direct simulation ...")
+            start_t = time.time()
+
+        elif parallel_flag is True and self.__comm is None:
+
+                from mpi4py import MPI
+                self.__comm = MPI.COMM_WORLD
+                self.__my_rank = self.__comm.Get_rank()
+                self.__num_cores = self.__comm.Get_size()
+                self.__comm.Barrier()
+
+                if not os.path.isdir(path) and self.__my_rank == 0:
+                    os.mkdir(path)
+
+                self.__comm.Barrier()
+
+                start_time = MPI.Wtime()
+
+                if self.__my_rank == 0:
+                    print("Starting direct simulation ...")
+        elif self.__comm is not None:
+
+            if not os.path.isdir(path) and self.__my_rank == 0:
+                os.mkdir(path)
+
+            self.__comm.Barrier()
+
+            start_time = MPI.Wtime()
+
+            if self.__my_rank == 0:
+                print("Starting direct simulation ...")
+
+        else:
+            print("Starting direct simulation ...")
+            start_t = time.time()
 
         viable_indices, viable_out_values, conservation_vals = self.__find_viable_indices(params_for_global_min[0], itg, spec_index, change_in_relative_error)
 
@@ -1175,7 +1217,24 @@ class GeneralApproach:
                 second_scan = pcp_scan
 
             if plot_flag:
-                self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, path, i)
+
+                if self.__comm is None:
+                    self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, path, i)
+                else:
+                    if self.__my_rank == 0:
+                        self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, path, i)
+
+
+        if self.__comm is None:
+            end_t = time.time()
+            elapsed = end_t - start_t
+            print("Elapsed time for direct simulation in seconds: " + str(elapsed))
+        else:
+            self.__comm.Barrier()
+            if self.__my_rank == 0:
+                end_time = MPI.Wtime()
+                elapsed = end_time - start_time
+                print(f"Elapsed time for direct simulation in seconds: {elapsed}")
 
     def __initialize_direct_simulation(self, viable_indices, viable_out_values, result_x, conservation_vals, itg, change_in_relative_error, spec_index):
 
@@ -1312,6 +1371,9 @@ class GeneralApproach:
     def __conduct_fwd_rvrs_scan(self, result_x, fwd_scan_vals, rvrs_scan_vals, pcp_scan, fwd_scan_index,
                                 rvrs_scan_index, spec_index, itg, change_in_relative_error):
 
+        if self.__comm is not None:
+            pcp_scan = self.__distribute_list_of_points(pcp_scan)
+
         conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple(result_x[self.__R:self.__R + self.__N]))
                              for i in range(len(self.__cons_laws_sympy_lamb))]
 
@@ -1336,7 +1398,19 @@ class GeneralApproach:
             steady_state = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
             reverse_scan.append(steady_state[spec_index])
 
-        return forward_scan, reverse_scan
+        if self.__comm is not None:
+            list_forward_scan = self.__gather_list_of_values(forward_scan)
+            list_reverse_scan = self.__gather_list_of_values(reverse_scan)
+
+            list_forward_scan = self.__comm.bcast(list_forward_scan, root=0)
+            list_reverse_scan = self.__comm.bcast(list_reverse_scan, root=0)
+
+            self.__comm.Barrier()
+
+            return list_forward_scan, list_reverse_scan
+
+        else:
+            return forward_scan, reverse_scan
 
     def __steady_state_finder(self, initial_species_values, result_x, spec_index, itg, change_in_relative_error):
 
@@ -1387,12 +1461,12 @@ class GeneralApproach:
         for i in range(len(forward_scan)):
             out_i = pandas.DataFrame([forward_scan[i]], columns=[out.columns[2]])
             out_i['signal'] = pcp_scan[i]
-            out_i['dir'] = 'Low concentration'
+            out_i['dir'] = 'Forward scan'
             out = pandas.concat([out, out_i[out.columns]])
         for i in range(len(reverse_scan)):
             out_i = pandas.DataFrame([reverse_scan[i]], columns=[out.columns[2]])
             out_i['signal'] = pcp_scan[i]
-            out_i['dir'] = 'High concentration'
+            out_i['dir'] = 'Reverse scan'
             out = pandas.concat([out, out_i[out.columns]])
 
         g = (ggplot(out)
