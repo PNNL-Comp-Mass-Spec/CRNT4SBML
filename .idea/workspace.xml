@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach_lagrangian_constraints.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach_lagrangian_constraints.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/lagrangian_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/lagrangian_approach.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_direct_2/params_DoublePhos.npy" beforeDir="false" afterPath="$PROJECT_DIR$/tests/num_cont_direct_2/params_DoublePhos.npy" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -43,12 +43,12 @@ import sympy
 # bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
 
 # 5.
-# network = crnt4sbml.CRNT("../sbml_files/irene2009.xml") # yes
-# signal = "C1"
-# response = "s3"
-# iters = 100
-# d_iters = 1000
-# bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
+network = crnt4sbml.CRNT("../sbml_files/irene2009.xml") # yes
+signal = "C1"
+response = "s3"
+iters = 100
+d_iters = 1000
+bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
 
 # 6.
 # network = crnt4sbml.CRNT("../sbml_files/conradi2007.xml")
@@ -91,13 +91,6 @@ import sympy
 # bnds = [(2.4, 2.42), (27.5, 28.1), (2.0, 2.15), (48.25, 48.4), (0.5, 1.1), (1.8, 2.1), (17.0, 17.5), (92.4, 92.6), (0.01, 0.025), (0.2, 0.25), (0.78, 0.79), (3.6, 3.7), (0.15, 0.25), (0.06, 0.065)] + \
 #        [(0.0, 100.0), (18.0, 18.5), (0.0, 100.0), (0.0, 100.0), (27.0, 27.1), (8.2, 8.3), (90.0, 90.1), (97.5, 97.9), (30.0, 30.1)]
 
-# 11.
-network = crnt4sbml.CRNT("../sbml_files/two_dim_tk.xml")
-signal = "C1"
-response = "s1"
-iters = 5
-d_iters = 1000
-bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
 
 # network.basic_report()
 
@@ -113,11 +106,13 @@ GA.initialize_general_approach(signal=signal, response=response)
 
 cons = [] #[{'type': 'ineq', 'fun': lambda x:  x[9] - 2.0*x[8]}, {'type': 'eq', 'fun': lambda x:  x[16]}]
 
-params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=True,
+params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
                                                           dual_annealing_iters=d_iters, confidence_level_flag=True,
-                                                          constraints=cons)
+                                                          constraints=cons, parallel_flag=True)
 
 GA.generate_report()
+
+sys.exit()
 
 # numpy.save('./num_cont_direct_2/params.npy', params_for_global_min)
 
@@ -170,7 +165,7 @@ GA.generate_report()
 
 # params_for_global_min = numpy.load('./num_cont_direct_2/params_DoublePhos.npy')
 
-# params_for_global_min = numpy.load('./num_cont_direct_2/params_Nuts.npy')
+params_for_global_min = numpy.load('./num_cont_direct_2/params_Nuts.npy')
 
 
 path = './num_cont_direct_2'

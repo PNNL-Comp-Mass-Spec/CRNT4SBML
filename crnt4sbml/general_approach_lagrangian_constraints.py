@@ -434,7 +434,6 @@ class GeneralApproach:
         else:
             return fun
 
-
     def __obj_func(self, x, h_func, x_full, lambda_cons_laws_sympy, bounds, full_constraints):
 
         x_full[0:len(self.__x_bar)] = x
@@ -465,122 +464,6 @@ class GeneralApproach:
             return numpy.Inf
         else:
             return fun
-
-    def run_mpi_optimization(self, bounds=None, iterations=10, seed=0, print_flag=False, dual_annealing_iters=1000,
-                             confidence_level_flag=False, change_in_rel_error=1e-2):
-
-        """
-        Function for running the optimization problem for the mass conservation approach.
-
-        Parameters
-        -----------
-            bounds: list of tuples
-                A list defining the lower and upper bounds for each variable in the decision vector.
-            iterations: int
-                The number of iterations to run the feasible point method.
-            seed: int
-                Seed for the random number generator. None should be used if a random generation is desired.
-            print_flag: bool
-                Should be set to True if the user wants the objective function values found in the optimization problem
-                and False otherwise.
-            dual_annealing_iters: integer
-                The number of iterations that should be ran for dual annealing routine in optimization.
-            confidence_level_flag: bool
-                If True a confidence level for the objective function will be given.
-            change_in_rel_error: float
-                The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
-                of :math:`\widetilde{f}`.
-        Returns
-        --------
-        params_for_global_min: list of numpy arrays
-            A list of numpy arrays that correspond to the decision vectors of the problem.
-        obj_fun_val_for_params: list of floats
-            A list of objective function values produced by the corresponding decision vectors in params_for_global_min.
-        my_rank: integer
-            An integer corresponding to the rank assigned to the core within the routine.
-
-        Examples
-        ---------
-        Fill in
-        """
-
-        # initializing MPI proccess
-        from mpi4py import MPI
-        self.__comm = MPI.COMM_WORLD
-        self.__my_rank = self.__comm.Get_rank()
-        self.__num_cores = self.__comm.Get_size()
-
-        self.__comm.Barrier()
-
-        start_time = MPI.Wtime()
-
-        if self.__my_rank == 0:
-            print("Starting optimization ...")
-
-        # creating initial decision vectors for feasible point method
-        if self.__my_rank == 0:
-            numpy.random.seed(seed)
-            samples = numpy.random.rand(iterations, len(self.__decision_vector))
-            ranges = numpy.asarray(decision_vector_bounds, dtype=numpy.float64)
-            samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
-
-            # import math
-            # ranges = numpy.asarray([(math.log10(i[0]), math.log10(i[1])) for i in decision_vector_bounds],
-            #                        dtype=numpy.float64)
-            # samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
-            # samples = numpy.power(10, samples)
-        else:
-            samples = None
-
-        sample_portion = self.__distribute_points(samples)
-
-
-        self.__comm.Barrier()
-
-        if self.__my_rank == 0:
-            print("Feasible point method has finished.")
-
-        if self.__my_rank != 0:
-            self.__important_info += f"The number of feasible points used in determinant optimization by core {self.__my_rank}: " \
-                                    + str(len(feasible_point_sets))
-        else:
-            self.__important_info += f"The number of feasible points used in determinant optimization by core {self.__my_rank}: " \
-                                     + str(len(feasible_point_sets)) + "\n"
-
-        det_point_sets, det_point_sets_fun, obtained_minimums, full_set_of_values, inputs, input_values, smallest_value = \
-            self.__main_optimization_routine(decision_vector_bounds, bounds, feasible_point_sets, fixed_reaction_ind_all
-                                             , indp_spec_ind_dec, confidence_level_flag, seed, dual_annealing_iters,
-                                             print_flag)
-
-        self.__comm.Barrier()
-
-        if self.__my_rank == 0:
-            end_time = MPI.Wtime()
-            elapsed = end_time - start_time
-            print(f"Elapsed time for optimization in seconds: {elapsed}")
-
-        params = self.__final_check(det_point_sets, bounds, full_set_of_values, fixed_reaction_ind_all,
-                                    self.__cons_laws_lamb, indp_spec_ind_dec, inputs, input_values)
-
-        if confidence_level_flag:
-
-            full_obtained_minimums = self.__gather_single_value(obtained_minimums, iterations)
-
-            if self.__my_rank == 0:
-                self.__confidence_level(full_obtained_minimums, change_in_rel_error)
-
-        else:
-            smallest_values = self.__comm.gather(smallest_value, root=0)
-            if self.__my_rank == 0:
-                min_value = min(smallest_values)
-                self.__important_info += "Smallest value achieved by objective function: " + str(min_value)
-
-        list_params = self.__gather_list_of_values(params)
-        list_det_point_sets_fun = self.__gather_list_of_values(det_point_sets_fun)
-
-        self.__comm.Barrier()
-
-        return list_params, list_det_point_sets_fun, self.__my_rank
 
     def __gather_single_value(self, value, number_of_values):
 
@@ -665,7 +548,7 @@ class GeneralApproach:
         return sample_portion
 
     def run_optimization(self, bounds=None, iterations=10, seed=0, print_flag=False, dual_annealing_iters=1000,
-                         confidence_level_flag=False, change_in_rel_error=1e-2, constraints=None):
+                         confidence_level_flag=False, change_in_rel_error=1e-2, constraints=None, parallel_flag=False):
         # TODO: write up documentation
         """
         Function for running the optimization problem for the mass conservation approach.
@@ -690,6 +573,8 @@ class GeneralApproach:
                 of :math:`\widetilde{f}`.
             constraints: list of dictionaries
                 Fill in later!
+            parallel_flag: bool
+                Fill in later!!
         Returns
         --------
         params_for_global_min: list of numpy arrays
@@ -702,20 +587,151 @@ class GeneralApproach:
         Fill in
         """
 
-        print("Starting optimization ...")
-        start_t = time.time()
+        if parallel_flag:
+
+            # initializing MPI proccess
+            from mpi4py import MPI
+            self.__comm = MPI.COMM_WORLD
+            self.__my_rank = self.__comm.Get_rank()
+            self.__num_cores = self.__comm.Get_size()
+
+            self.__comm.Barrier()
+
+            start_time = MPI.Wtime()
+
+            if self.__my_rank == 0:
+                print("Starting optimization ...")
+
+            # creating initial decision vectors for feasible point method
+            if self.__my_rank == 0:
+                samples, temp_bounds, x_full, feasible_point_sets, full_constraints = self.__initialize_optimization(
+                    seed, iterations, bounds, constraints)
+            else:
+                samples = None
+                temp_bounds = None
+                x_full = None
+                full_constraints = None
+
+            sample_portion = self.__distribute_points(samples)
+
+            # broadcast important variables
+            temp_bounds = self.__comm.bcast(temp_bounds, root=0)
+            x_full = self.__comm.bcast(x_full, root=0)
+            full_constraints = self.__comm.bcast(full_constraints, root=0)
+
+            self.__comm.Barrier()
+
+            # if self.__my_rank == 0:
+            #     print("Feasible point method has finished.")
+            #
+            # if self.__my_rank != 0:
+            #     self.__important_info += f"The number of feasible points used in determinant optimization by core {self.__my_rank}: " \
+            #                              + str(len(feasible_point_sets))
+            # else:
+            #     self.__important_info += f"The number of feasible points used in determinant optimization by core {self.__my_rank}: " \
+            #                              + str(len(feasible_point_sets)) + "\n"
+
+            # det_point_sets, det_point_sets_fun, obtained_minimums, full_set_of_values, inputs, input_values, smallest_value = \
+            #     self.__main_optimization_routine(decision_vector_bounds, bounds, feasible_point_sets,
+            #                                      fixed_reaction_ind_all
+            #                                      , indp_spec_ind_dec, confidence_level_flag, seed, dual_annealing_iters,
+            #                                      print_flag)
+
+            det_point_sets, det_point_sets_fun, obtained_minimums, smallest_value = self.__main_optimization_routine(sample_portion, temp_bounds, bounds, x_full,
+                                                                                                                     full_constraints, confidence_level_flag, seed,
+                                                                                                                     dual_annealing_iters, print_flag, parallel_flag)
+
+            self.__comm.Barrier()
+
+            # params = self.__final_check(det_point_sets, bounds, full_set_of_values, fixed_reaction_ind_all,
+            #                             self.__cons_laws_lamb, indp_spec_ind_dec, inputs, input_values)
+
+            if confidence_level_flag:
+
+                full_obtained_minimums = self.__gather_single_value(obtained_minimums, iterations)
+
+                if self.__my_rank == 0:
+                    self.__confidence_level(full_obtained_minimums, change_in_rel_error)
+
+            else:
+                smallest_values = self.__comm.gather(smallest_value, root=0)
+                if self.__my_rank == 0:
+                    min_value = min(smallest_values)
+                    self.__important_info += "Smallest value achieved by objective function: " + str(min_value)
+
+            list_det_point_sets = self.__gather_list_of_values(det_point_sets)
+            list_det_point_sets_fun = self.__gather_list_of_values(det_point_sets_fun)
+
+            self.__comm.Barrier()
+
+            if self.__my_rank == 0:
+                end_time = MPI.Wtime()
+                elapsed = end_time - start_time
+                print(f"Elapsed time for optimization in seconds: {elapsed}")
+
+            return list_det_point_sets, list_det_point_sets_fun
+
+        else:
+            print("Starting optimization ...")
+            start_t = time.time()
+            samples, temp_bounds, x_full, feasible_point_sets, full_constraints = self.__initialize_optimization(seed, iterations, bounds, constraints)
+
+            # print("Running feasible point method for " + str(iterations) + " iterations ...")
+            # feasible_point_sets, x_full = self.__feasible_point_method(bounds, iterations, seed, print_flag, confidence_level_flag, dual_annealing_iters)
+            # print("Feasible point method has finished.")
+
+            # self.__important_info += "\nThe number of feasible points used in determinant optimization: " + str(len(feasible_point_sets)) + "\n"
+
+            det_point_sets, det_point_sets_fun, obtained_minimums, smallest_value = self.__main_optimization_routine(feasible_point_sets, temp_bounds, bounds, x_full, full_constraints,
+                                                                                                                     confidence_level_flag, seed, dual_annealing_iters, print_flag, parallel_flag)
+
+            end_t = time.time()
+            elapsed = end_t - start_t
+            print("Elapsed time for optimization in seconds: " + str(elapsed))
+
+            if confidence_level_flag:
+                self.__confidence_level(obtained_minimums, change_in_rel_error)
+
+            else:
+                self.__important_info += "Smallest value achieved by objective function: " + str(smallest_value) + "\n"
+
+            return det_point_sets, det_point_sets_fun
+
+    # def __feasible_point_method(self, bounds, iterations, seed, print_flag, confidence_level_flag, dual_annealing_iters):
+    #
+    #     numpy.random.seed(seed)
+    #
+    #     samples = numpy.random.rand(iterations, len(bounds))
+    #
+    #     ranges = numpy.asarray(bounds, dtype=numpy.float64)
+    #     samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+    #
+    #     lower_bounds = numpy.zeros(len(bounds), dtype=numpy.float64)
+    #     upper_bounds = numpy.zeros(len(bounds), dtype=numpy.float64)
+    #
+    #     for i in range(len(bounds)):
+    #         lower_bounds[i] = numpy.float64(bounds[i][0])
+    #         upper_bounds[i] = numpy.float64(bounds[i][1])
+    #
+    #     x_full = numpy.zeros(len(self.__lagrangian_vars), dtype=numpy.float64)
+    #     feasible_point_sets = [samples[i] for i in range(iterations)]
+    #
+    #     return feasible_point_sets, x_full
+
+    def __initialize_optimization(self, seed, iterations, bounds, constraints):
 
         numpy.random.seed(seed)
 
-        # if self.__fix_reactions:
-        #     samples = numpy.random.rand(iterations, len(bounds)-len(self.__fixed_reaction_indices))
-        #
-        #     temp_bounds = [bounds[i] for i in range(len(bounds)) if i not in self.__fixed_reaction_indices]
-        #
-        #     ranges = numpy.asarray(temp_bounds, dtype=numpy.float64)
-        #     samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
-        #
-        # else:
+        if self.__fix_reactions:
+            samples = numpy.random.rand(iterations, len(bounds) - len(self.__fixed_reaction_indices))
+
+            temp_bounds = [bounds[i] for i in range(len(bounds)) if i not in self.__fixed_reaction_indices]
+
+            ranges = numpy.asarray(temp_bounds, dtype=numpy.float64)
+            samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+
+        else:
+            temp_bounds = None
         samples = numpy.random.rand(iterations, len(bounds))
 
         ranges = numpy.asarray(bounds, dtype=numpy.float64)
@@ -723,14 +739,16 @@ class GeneralApproach:
 
         x_full = numpy.zeros(len(self.__lagrangian_vars), dtype=numpy.float64)
 
-        feasible_point_sets = [samples[i] for i in range(iterations)] # TODO: decide if we want to take out feasible point method
+        feasible_point_sets = [samples[i] for i in
+                               range(iterations)]  # TODO: decide if we want to take out feasible point method
 
         # setting up equality and inequality constraints provided by the user
-        if constraints: #and not self.__fix_reactions:
+        if constraints:  # and not self.__fix_reactions:
             full_constraints = []
             for i in constraints:
                 if i["type"] == "ineq":
-                    full_constraints.append([lambda x, func: numpy.maximum(numpy.float64(0.0), numpy.float64(-1.0*func(x))), i["fun"]])
+                    full_constraints.append(
+                        [lambda x, func: numpy.maximum(numpy.float64(0.0), numpy.float64(-1.0 * func(x))), i["fun"]])
                 elif i["type"] == "eq":
                     full_constraints.append([lambda x, func: numpy.float64(numpy.abs(func(x))), i["fun"]])
 
@@ -752,21 +770,20 @@ class GeneralApproach:
         else:
             full_constraints = []
 
-        # print("Running feasible point method for " + str(iterations) + " iterations ...")
-        # feasible_point_sets, x_full = self.__feasible_point_method(bounds, iterations, seed, print_flag, confidence_level_flag, dual_annealing_iters)
-        # print("Feasible point method has finished.")
+        return samples, temp_bounds, x_full, feasible_point_sets, full_constraints
 
-        self.__important_info += "\nThe number of feasible points used in determinant optimization: " + str(len(feasible_point_sets)) + "\n"
+    def __main_optimization_routine(self, feasible_point_sets, temp_bounds, bounds, x_full, full_constraints,
+                                    confidence_level_flag, seed, dual_annealing_iters, print_flag, parallel_flag):
 
         det_point_sets = []
         det_point_sets_fun = []
         smallest_value = numpy.float(1e8)
         if confidence_level_flag:
-            obtained_minimums = numpy.zeros(iterations, dtype=numpy.float64)
+            obtained_minimums = numpy.zeros(len(feasible_point_sets), dtype=numpy.float64)
+        else:
+            obtained_minimums = None
 
         if len(feasible_point_sets) != 0:
-
-            print("Starting determinant optimization ...")
 
             for i in range(len(feasible_point_sets)):
 
@@ -789,16 +806,6 @@ class GeneralApproach:
                                                                local_search_options={'method': "Nelder-Mead"},
                                                                maxiter=dual_annealing_iters)
 
-                    # result = scipy.optimize.basinhopping(self.__obj_func, feasible_point_sets[i],
-                    #                                      minimizer_kwargs={'method': 'Nelder-Mead',
-                    #                                                        'args': (self.__lambda_obj_func_h, x_full,
-                    #                                                                 self.__cons_laws_sympy_lamb),
-                    #                                                        'tol': 1e-16},
-                    #                                      niter=dual_annealing_iters, seed=seed)
-
-                    # result = scipy.optimize.differential_evolution(self.__obj_func, full_bounds,
-                    #                                                args=(self.__lambda_obj_func_h, x_full))
-
                     if print_flag:
                         print("Global function value: " + str(result.fun))
                         print("Decision vector used: ")
@@ -810,7 +817,7 @@ class GeneralApproach:
                                                                                            x_full,
                                                                                            self.__cons_laws_sympy_lamb,
                                                                                            bounds, full_constraints),
-                                                         method='Nelder-Mead', tol=1e-16)
+                                                          method='Nelder-Mead', tol=1e-16)
 
                         if print_flag:
                             print("Local function value: " + str(result1.fun))
@@ -837,188 +844,11 @@ class GeneralApproach:
 
                     if print_flag:
                         print("")
-        else:
+        elif not parallel_flag:
             print("Determinant optimization has finished.")
             raise Exception("Optimization needs to be run with more iterations or different bounds.")
 
-        print("Determinant optimization has finished.")
-
-        end_t = time.time()
-        elapsed = end_t - start_t
-        print("Elapsed time for optimization in seconds: " + str(elapsed))
-
-        if confidence_level_flag:
-            self.__confidence_level(obtained_minimums, change_in_rel_error)
-
-        else:
-            self.__important_info += "Smallest value achieved by objective function: " + str(smallest_value) + "\n"
-
-        return det_point_sets, det_point_sets_fun
-
-    def __feasible_point_method(self, bounds, iterations, seed, print_flag, confidence_level_flag, dual_annealing_iters):
-
-        numpy.random.seed(seed)
-
-        samples = numpy.random.rand(iterations, len(bounds))
-
-        ranges = numpy.asarray(bounds, dtype=numpy.float64)
-        samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
-
-        lower_bounds = numpy.zeros(len(bounds), dtype=numpy.float64)
-        upper_bounds = numpy.zeros(len(bounds), dtype=numpy.float64)
-
-        for i in range(len(bounds)):
-            lower_bounds[i] = numpy.float64(bounds[i][0])
-            upper_bounds[i] = numpy.float64(bounds[i][1])
-
-        x_full = numpy.zeros(len(self.__lagrangian_vars), dtype=numpy.float64)
-
-        # x_full[len(bounds) + 1: len(bounds) + len(bounds) + 1] = lower_bounds
-        #
-        # x_full[len(bounds) + len(bounds) + 1:] = upper_bounds
-
-        # x_full[len(bounds) + len(self.__cons_laws_sympy): len(bounds) + len(bounds) + len(
-        #     self.__cons_laws_sympy)] = lower_bounds
-        #
-        # x_full[len(bounds) + len(bounds) + len(self.__cons_laws_sympy):] = upper_bounds
-
-        feasible_point_sets = []
-        if False:
-            for i in range(iterations):
-
-                with numpy.errstate(divide='ignore', invalid='ignore'):
-
-                    result = scipy.optimize.dual_annealing(self.__feasible_point_obj_func,
-                                                           bounds=bounds,
-                                                           args=(self.__steady_state_lambda, x_full, self.__cons_laws_sympy_lamb,
-                                                                 bounds),
-                                                           x0=samples[i],
-                                                           seed=seed,
-                                                           local_search_options={'method': "Nelder-Mead"}, maxiter=10) #dual_annealing_iters)
-
-                    # result = scipy.optimize.basinhopping(self.__feasible_point_obj_func, samples[i],
-                    #                                      minimizer_kwargs={'method': 'Nelder-Mead',
-                    #                                                        'args': (self.__steady_state_lambda, x_full,
-                    #                                                                 self.__cons_laws_sympy_lamb),
-                    #                                                        'tol': 1e-16},
-                    #                                      niter=10, seed=seed)
-
-                    if print_flag:
-                        print("Objective function value: " + str(result.fun))
-                        print("Decision vector used: ")
-                        print(result.x)
-
-                    if abs(result.fun) > numpy.float64(1e-100):
-                        result1 = scipy.optimize.minimize(self.__feasible_point_obj_func, result.x,
-                                                          args=(self.__steady_state_lambda, x_full, self.__cons_laws_sympy_lamb,
-                                                                bounds),
-                                                          method='Nelder-Mead', tol=1e-16)
-
-                        if print_flag:
-                            print("Objective function value: " + str(result1.fun))
-                            print("Decision vector used: ")
-                            print(result1.x)
-
-                        if abs(result1.fun) <= numpy.finfo(float).eps or confidence_level_flag:
-                            feasible_point_sets.append(result1.x)
-
-                    else:
-                        feasible_point_sets.append(result.x)
-
-                    if print_flag:
-                        print("")
-        feasible_point_sets = [samples[i] for i in range(iterations)]
-        return feasible_point_sets, x_full
-
-    def __main_optimization_routine(self, decision_vector_bounds, bounds, feasible_point_sets, fixed_reaction_ind_all,
-                                    indp_spec_ind_dec, confidence_level_flag, seed, dual_annealing_iters, print_flag):
-
-        self.__comm.Barrier()
-
-        if self.__my_rank == 0:
-            print("Starting determinant optimization ...")
-
-        bounds_2 = decision_vector_bounds
-        if self.__fix_reactions:
-            inputs = numpy.zeros(len(self.__vars_for_lam_fixed_reactions), dtype=numpy.float64)
-        else:
-            inputs = numpy.zeros(len(self.__lambda_variables), dtype=numpy.float64)
-
-        full_set_of_values = numpy.zeros(len(bounds), dtype=numpy.float64)
-
-        input_values = numpy.zeros(len(self.__lambda_variables), dtype=numpy.float64)
-
-        det_point_sets = []
-        det_point_sets_fun = []
-        smallest_value = numpy.float(1e8)
-
-        obtained_minimums = numpy.zeros(len(feasible_point_sets), dtype=numpy.float64)
-
-        if len(feasible_point_sets) != 0:
-
-            for i in range(len(feasible_point_sets)):
-
-                with numpy.errstate(divide='ignore', invalid='ignore'):
-
-                    result = scipy.optimize.dual_annealing(self.__obj_func, bounds=bounds_2,
-                                                           args=(self.__lambda_det_jac, bounds,
-                                                                 full_set_of_values, fixed_reaction_ind_all,
-                                                                 self.__cons_laws_lamb, indp_spec_ind_dec,
-                                                                 inputs, input_values), x0=feasible_point_sets[i],
-                                                           seed=seed,
-                                                           local_search_options={'method': "Nelder-Mead"},
-                                                           maxiter=dual_annealing_iters)
-
-                    if print_flag:
-                        print("Global function value: " + str(result.fun))
-                        print("Decision vector used: ")
-                        print(result.x)
-
-                    if abs(result.fun) > numpy.float64(1e-100):
-
-                        result1 = scipy.optimize.minimize(self.__obj_func, result.x,
-                                                          args=(self.__lambda_det_jac, bounds,
-                                                                full_set_of_values, fixed_reaction_ind_all,
-                                                                self.__cons_laws_lamb, indp_spec_ind_dec,
-                                                                inputs, input_values),
-                                                          method='Nelder-Mead', tol=1e-16)
-
-                        if print_flag:
-                            print("Local function value: " + str(result1.fun))
-                            print("Decision vector used: ")
-                            print(result1.x)
-
-                        if smallest_value > result1.fun:
-                            smallest_value = result1.fun
-
-                        if confidence_level_flag:
-                            obtained_minimums[i] = result1.fun
-
-                        if abs(result1.fun) <= numpy.finfo(float).eps:
-                            det_point_sets.append(result1.x)
-                            det_point_sets_fun.append(result1.fun)
-
-                    else:
-                        if smallest_value > result.fun:
-                            smallest_value = result.fun
-                        det_point_sets.append(result.x)
-                        det_point_sets_fun.append(result.fun)
-                        if confidence_level_flag:
-                            obtained_minimums[i] = result.fun
-
-                    if print_flag:
-                        print("")
-
-            self.__comm.Barrier()
-            if self.__my_rank == 0:
-                print("Determinant optimization has finished.")
-
-
-            return det_point_sets, det_point_sets_fun, obtained_minimums, full_set_of_values, inputs, input_values, smallest_value
-
-        else:
-            raise Exception("Optimization needs to be run with more iterations or different bounds.")
-
+        return det_point_sets, det_point_sets_fun, obtained_minimums, smallest_value
 
     def __confidence_level(self, obtained_minimums, change_in_rel_error):
 
@@ -1131,94 +961,6 @@ class GeneralApproach:
 
         return multistable_param_ind, plot_specifications
 
-    # def run_mpi_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-    #                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
-    #
-    #     """
-    #     Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation
-    #     approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
-    #     parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
-    #     produce jagged or missing sections in the plots provided. To produce better plots one should use the information
-    #     provided by this routine to run :func:`crnt4sbml.GeneralApproach.run_continuity_analysis`.
-    #
-    #     Parameters
-    #     ------------
-    #         species: string
-    #             A string stating the species that is the y-axis of the bifurcation diagram.
-    #         parameters: list of numpy arrays
-    #             A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-    #             value.
-    #         dir_path: string
-    #             A string stating the path where the bifurcation diagrams should be saved.
-    #         print_lbls_flag: bool
-    #             If True the routine will print the special points found by AUTO 2000 and False will not print any
-    #             special points.
-    #         auto_parameters: dict
-    #             Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
-    #             PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
-    #             be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
-    #         plot_labels: list of strings
-    #             A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-    #             is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-    #             you would like to use the default settings for some of the labels, simply provide None for that
-    #             element.
-    #     Returns
-    #     ---------
-    #         multistable_param_ind: list of integers
-    #             A list of those indices in 'parameters' that produce multistable plots.
-    #         sample_portion: list of 1D numpy arrays
-    #             A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-    #             distributed to the core.
-    #         plot_specifications: list of lists
-    #             A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-    #             Each element is a list where the first element specifies the range used for the x-axis, the second
-    #             element is the range for the y-axis, and the last element provides the x-y values and special point label
-    #             for each special point in the plot.
-    #
-    #     Example
-    #     ---------
-    #     See .
-    #     """
-    #
-    #     # setting default values for AUTO
-    #     if 'NMX' not in auto_parameters.keys():
-    #         auto_parameters['NMX'] = 10000
-    #
-    #     if 'ITMX' not in auto_parameters.keys():
-    #         auto_parameters['ITMX'] = 100
-    #
-    #     # making the directory if it doesn't exist
-    #     if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #         os.mkdir(dir_path)
-    #
-    #     species_num = [str(i) for i in self.__indp_species].index(species) + 1
-    #
-    #     species_y = str(self.__indp_species[species_num-1])
-    #
-    #     if self.__comm is not None:
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #     else:
-    #
-    #         from mpi4py import MPI
-    #         self.__comm = MPI.COMM_WORLD
-    #         self.__my_rank = self.__comm.Get_rank()
-    #         self.__num_cores = self.__comm.Get_size()
-    #         self.__comm.Barrier()
-    #
-    #         if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #             os.mkdir(dir_path)
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #
-    #     multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_greedy_continuity_analysis \
-    #         (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-    #          print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
-    #
-    #     self.__important_info += important_info
-    #
-    #     return multistable_param_ind, sample_portion, plot_specifications
-
     def __distribute_list_of_points(self, samples):
 
         if self.__my_rank == 0:
@@ -1253,93 +995,6 @@ class GeneralApproach:
                 sample_portion = self.__comm.recv(source=0, tag=self.__my_rank * 11)
 
         return sample_portion
-
-    # def run_mpi_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-    #                                 print_lbls_flag=False, auto_parameters=None, plot_labels=None):
-    #
-    #     """
-    #     Function for running the numerical continuation and bistability analysis portions of the mass conservation
-    #     approach.
-    #
-    #     Parameters
-    #     ------------
-    #         species: string
-    #             A string stating the species that is the y-axis of the bifurcation diagram.
-    #         parameters: list of numpy arrays
-    #             A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-    #             value.
-    #         dir_path: string
-    #             A string stating the path where the bifurcation diagrams should be saved.
-    #         print_lbls_flag: bool
-    #             If True the routine will print the special points found by AUTO 2000 and False will not print any
-    #             special points.
-    #         auto_parameters: dict
-    #             Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
-    #             'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
-    #             necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
-    #             parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
-    #             10000 and 'ITMX' to 100.
-    #         plot_labels: list of strings
-    #             A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-    #             is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-    #             you would like to use the default settings for some of the labels, simply provide None for that
-    #             element.
-    #     Returns
-    #     ---------
-    #         multistable_param_ind: list of integers
-    #             A list of those indices in 'parameters' that produce multistable plots.
-    #         sample_portion: list of 1D numpy arrays
-    #             A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-    #             distributed to the core.
-    #         plot_specifications: list of lists
-    #             A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-    #             Each element is a list where the first element specifies the range used for the x-axis, the second
-    #             element is the range for the y-axis, and the last element provides the x-y values and special point label
-    #             for each special point in the plot.
-    #
-    #     Example
-    #     ---------
-    #     See .
-    #     """
-    #
-    #     # setting default values for AUTO
-    #     if 'NMX' not in auto_parameters.keys():
-    #         auto_parameters['NMX'] = 10000
-    #
-    #     if 'ITMX' not in auto_parameters.keys():
-    #         auto_parameters['ITMX'] = 100
-    #
-    #     # making the directory if it doesn't exist
-    #     if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #         os.mkdir(dir_path)
-    #
-    #     species_num = [str(i) for i in self.__indp_species].index(species) + 1
-    #
-    #     species_y = str(self.__indp_species[species_num - 1])
-    #
-    #     if self.__comm is not None:
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #     else:
-    #
-    #         from mpi4py import MPI
-    #         self.__comm = MPI.COMM_WORLD
-    #         self.__my_rank = self.__comm.Get_rank()
-    #         self.__num_cores = self.__comm.Get_size()
-    #         self.__comm.Barrier()
-    #
-    #         if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #             os.mkdir(dir_path)
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #
-    #     multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_continuity_analysis \
-    #         (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-    #          print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
-    #
-    #     self.__important_info += important_info
-    #
-    #     return multistable_param_ind, sample_portion, plot_specifications
 
     def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
@@ -1443,8 +1098,7 @@ class GeneralApproach:
             initial_species_values = [0.0 for i in range(self.__N)]
 
             for j in range(len(conservation_vals)):
-                # temp_index = cons_laws_spec_info[j][1].index(i[j])
-                initial_species_values[i[j]] = conservation_vals[j] #*cons_laws_spec_info[j][0][temp_index]  # TODO: do we multiply by the coefficient here?
+                initial_species_values[i[j]] = conservation_vals[j]
 
             out = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
             steady_cons = [self.__cons_laws_sympy_lamb[i](*tuple(out)) for i in range(len(self.__cons_laws_sympy_lamb))]
@@ -1453,6 +1107,13 @@ class GeneralApproach:
 
                 # accepting those indices that are smaller than a predescribed relative error
                 if all([abs(conservation_vals[ii] - steady_cons[ii])/abs(steady_cons[ii]) < change_in_relative_error for ii in range(len(conservation_vals))]):
+                    viable_out_values.append(out)
+                    viable_indices.append(i)
+            elif len(out) == 2:
+
+                # accepting those indices that are smaller than a predescribed relative error
+                if all([abs(conservation_vals[ii] - steady_cons[ii]) / abs(steady_cons[ii]) < change_in_relative_error
+                        for ii in range(len(conservation_vals))]):
                     viable_out_values.append(out)
                     viable_indices.append(i)
 
@@ -1661,7 +1322,7 @@ class GeneralApproach:
 
         forward_scan = []
         for i in pcp_scan:
-            initial_species_values[fwd_scan_index] = i # TODO: multiply by const?
+            initial_species_values[fwd_scan_index] = i
             steady_state = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
             forward_scan.append(steady_state[spec_index])
 
@@ -1671,7 +1332,7 @@ class GeneralApproach:
 
         reverse_scan = []
         for i in pcp_scan:
-            initial_species_values[rvrs_scan_index] = i # TODO: multiply by const?
+            initial_species_values[rvrs_scan_index] = i
             steady_state = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
             reverse_scan.append(steady_state[spec_index])
 
@@ -1994,9 +1655,9 @@ class GeneralApproach:
             if self.__my_rank == 0:
 
                 print("")
-
                 for i in range(1, len(all_important_info)):
-                    print(all_important_info[i])
+                    if all_important_info[i] != "":
+                        print(all_important_info[i])
                 print(self.__important_info)
 
     def get_input_vector(self):
