@@ -327,8 +327,6 @@ class GeneralApproach:
 
         self.__jac_mod_system = self.__indp_system_subs.jacobian(sympy.Matrix(self.__indp_species))
 
-        # self.__jac_mod_system = self.__modified_ode_system.jacobian(sympy.Matrix(self.__species_mod_system))
-
         self.__det_jac = self.__jac_mod_system.det(method='lu')
 
         self.__build_lagrangian()
@@ -337,28 +335,21 @@ class GeneralApproach:
 
     def __build_lagrangian(self):
 
-        # self.__x_bar = self.__sympy_reactions + self.__sympy_species
-        # self.__lagrangian_vars = self.__x_bar + [sympy.Symbol('C' + str(i + 1), real=True) for i in
-        #                                          range(len(self.__cons_laws_sympy))]
-        # self.__lagrangian_vars = self.__x_bar + [sympy.Symbol(self.__signal, real=True)]
+        if self.__fix_reactions:
+            self.__lagrangian = self.__det_jac**2
+        else:
+            second_term = sympy.S.Zero
+            for i in self.__indp_system_subs:
+                second_term += i**2
 
-        second_term = sympy.S.Zero
-        for i in self.__indp_system_subs:
-            second_term += i**2
-        # for i in self.__modified_ode_system:
-        #     second_term += i**2
+            self.__lagrangian = self.__det_jac**2 + second_term
 
-        self.__lagrangian = self.__det_jac**2 + second_term
+            # enforcing a steady state
+            self.__steady_state_func = second_term
 
-        # self.__lagrangian_vars = self.__x_bar + [sympy.Symbol('C' + str(i + 1), real=True) for i in range(len(self.__cons_laws_sympy))]
-        # self.__lagrangian_vars = self.__x_bar + [sympy.Symbol(self.__signal, real=True)]
+            self.__steady_state_lambda = sympy.utilities.lambdify(self.__lagrangian_vars, self.__steady_state_func)
 
         self.__lambda_lagrangian = sympy.utilities.lambdify(self.__lagrangian_vars, self.__lagrangian)
-
-        # enforcing a steady state
-        self.__steady_state_func = second_term
-
-        self.__steady_state_lambda = sympy.utilities.lambdify(self.__lagrangian_vars, self.__steady_state_func)
 
     def __build_objective_function(self):
 
@@ -368,66 +359,36 @@ class GeneralApproach:
 
         self.__lambda_obj_func_h = self.__lambda_lagrangian
 
-    def __feasible_point_obj_func(self, x, steady_func, x_full, lambda_cons_laws_sympy, bounds):
-
-        x_full[0:len(self.__x_bar)] = x
-
-        count = 0
-        for i in lambda_cons_laws_sympy:
-            x_full[len(self.__x_bar) + count] = i(*tuple(x[self.__R:self.__R + self.__N]))
-            count += 1
-
-        # x_full[len(self.__x_bar)] = lambda_cons_laws_sympy[self.__signal_index](*tuple(x[self.__R:self.__R + self.__N]))
-
-        fun = steady_func(*tuple(x_full))
-
-        sumval = numpy.float64(0.0)
-        for i in range(len(x)):
-            sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(bounds[i][0]) - x[i])
-            sumval += numpy.maximum(numpy.float64(0.0), x[i] - numpy.float64(bounds[i][1]))
-
-        fun += sumval
-
-        if numpy.isnan(fun):
-            return numpy.Inf
-        else:
-            return fun
-
     def __obj_func_fixed(self, x, h_func, x_full, lambda_cons_laws_sympy, bounds, full_constraints):
 
-        print(x)
         count0 = 0
         for i in range(len(x_full) - len(lambda_cons_laws_sympy)):
             if i not in self.__fixed_reaction_indices:
                 x_full[i] = x[count0]
                 count0 += 1
 
-        # x_full[0:len(self.__x_bar)] = x
-
-        # x_full[len(self.__x_bar)] = lambda_cons_laws_sympy[self.__signal_index](*tuple(x[self.__R:self.__R + self.__N]))
-
         count = 0
         for i in lambda_cons_laws_sympy:
-            x_full[len(self.__x_bar) + count] = i(*tuple(x[self.__R-len(lambda_cons_laws_sympy):self.__R-len(lambda_cons_laws_sympy) + self.__N]))
+            x_full[len(self.__x_bar) + count] = i(*tuple(x[self.__R-len(self.__fixed_reaction_indices):self.__R-len(self.__fixed_reaction_indices) + self.__N]))
             count += 1
 
-        print(x_full)
-        sys.exit()
+        for i in range(len(self.__lambda_fixed_reactions)):
+            x_full[self.__fixed_reaction_indices[i]] = self.__lambda_fixed_reactions[i](*tuple([x_full[i] for i in range(len(x_full)) if i not in self.__fixed_reaction_indices]))
 
         fun = h_func(*tuple(x_full))
 
         # bounds of the optimization problem
         sumval = numpy.float64(0.0)
-        for i in range(len(x)):
-            sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(bounds[i][0]) - x[i])
-            sumval += numpy.maximum(numpy.float64(0.0), x[i] - numpy.float64(bounds[i][1]))
+        for i in range(len(x_full) - len(lambda_cons_laws_sympy)):
+            sumval += numpy.maximum(numpy.float64(0.0), numpy.float64(bounds[i][0]) - x_full[i])
+            sumval += numpy.maximum(numpy.float64(0.0), x_full[i] - numpy.float64(bounds[i][1]))
 
         fun += sumval
 
         # constraints of the optimization problem
         if full_constraints:
             for i in range(len(full_constraints)):
-                fun += full_constraints[i][0](x, full_constraints[i][1])
+                fun += full_constraints[i][0](x_full[0:len(x_full) - len(lambda_cons_laws_sympy)], full_constraints[i][1])
 
         if numpy.isnan(fun):
             return numpy.Inf
@@ -437,8 +398,6 @@ class GeneralApproach:
     def __obj_func(self, x, h_func, x_full, lambda_cons_laws_sympy, bounds, full_constraints):
 
         x_full[0:len(self.__x_bar)] = x
-
-        # x_full[len(self.__x_bar)] = lambda_cons_laws_sympy[self.__signal_index](*tuple(x[self.__R:self.__R + self.__N]))
 
         count = 0
         for i in lambda_cons_laws_sympy:
@@ -621,30 +580,11 @@ class GeneralApproach:
 
             self.__comm.Barrier()
 
-            # if self.__my_rank == 0:
-            #     print("Feasible point method has finished.")
-            #
-            # if self.__my_rank != 0:
-            #     self.__important_info += f"The number of feasible points used in determinant optimization by core {self.__my_rank}: " \
-            #                              + str(len(feasible_point_sets))
-            # else:
-            #     self.__important_info += f"The number of feasible points used in determinant optimization by core {self.__my_rank}: " \
-            #                              + str(len(feasible_point_sets)) + "\n"
-
-            # det_point_sets, det_point_sets_fun, obtained_minimums, full_set_of_values, inputs, input_values, smallest_value = \
-            #     self.__main_optimization_routine(decision_vector_bounds, bounds, feasible_point_sets,
-            #                                      fixed_reaction_ind_all
-            #                                      , indp_spec_ind_dec, confidence_level_flag, seed, dual_annealing_iters,
-            #                                      print_flag)
-
             det_point_sets, det_point_sets_fun, obtained_minimums, smallest_value = self.__main_optimization_routine(sample_portion, temp_bounds, bounds, x_full,
                                                                                                                      full_constraints, confidence_level_flag, seed,
                                                                                                                      dual_annealing_iters, print_flag, parallel_flag)
 
             self.__comm.Barrier()
-
-            # params = self.__final_check(det_point_sets, bounds, full_set_of_values, fixed_reaction_ind_all,
-            #                             self.__cons_laws_lamb, indp_spec_ind_dec, inputs, input_values)
 
             if confidence_level_flag:
 
@@ -676,12 +616,6 @@ class GeneralApproach:
             start_t = time.time()
             samples, temp_bounds, x_full, feasible_point_sets, full_constraints = self.__initialize_optimization(seed, iterations, bounds, constraints)
 
-            # print("Running feasible point method for " + str(iterations) + " iterations ...")
-            # feasible_point_sets, x_full = self.__feasible_point_method(bounds, iterations, seed, print_flag, confidence_level_flag, dual_annealing_iters)
-            # print("Feasible point method has finished.")
-
-            # self.__important_info += "\nThe number of feasible points used in determinant optimization: " + str(len(feasible_point_sets)) + "\n"
-
             det_point_sets, det_point_sets_fun, obtained_minimums, smallest_value = self.__main_optimization_routine(feasible_point_sets, temp_bounds, bounds, x_full, full_constraints,
                                                                                                                      confidence_level_flag, seed, dual_annealing_iters, print_flag, parallel_flag)
 
@@ -697,27 +631,6 @@ class GeneralApproach:
 
             return det_point_sets, det_point_sets_fun
 
-    # def __feasible_point_method(self, bounds, iterations, seed, print_flag, confidence_level_flag, dual_annealing_iters):
-    #
-    #     numpy.random.seed(seed)
-    #
-    #     samples = numpy.random.rand(iterations, len(bounds))
-    #
-    #     ranges = numpy.asarray(bounds, dtype=numpy.float64)
-    #     samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
-    #
-    #     lower_bounds = numpy.zeros(len(bounds), dtype=numpy.float64)
-    #     upper_bounds = numpy.zeros(len(bounds), dtype=numpy.float64)
-    #
-    #     for i in range(len(bounds)):
-    #         lower_bounds[i] = numpy.float64(bounds[i][0])
-    #         upper_bounds[i] = numpy.float64(bounds[i][1])
-    #
-    #     x_full = numpy.zeros(len(self.__lagrangian_vars), dtype=numpy.float64)
-    #     feasible_point_sets = [samples[i] for i in range(iterations)]
-    #
-    #     return feasible_point_sets, x_full
-
     def __initialize_optimization(self, seed, iterations, bounds, constraints):
 
         numpy.random.seed(seed)
@@ -732,41 +645,28 @@ class GeneralApproach:
 
         else:
             temp_bounds = None
-        samples = numpy.random.rand(iterations, len(bounds))
+            samples = numpy.random.rand(iterations, len(bounds))
 
-        ranges = numpy.asarray(bounds, dtype=numpy.float64)
-        samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
+            ranges = numpy.asarray(bounds, dtype=numpy.float64)
+            samples = samples * (ranges[:, 1] - ranges[:, 0]) + ranges[:, 0]
 
         x_full = numpy.zeros(len(self.__lagrangian_vars), dtype=numpy.float64)
 
-        feasible_point_sets = [samples[i] for i in
-                               range(iterations)]  # TODO: decide if we want to take out feasible point method
+        feasible_point_sets = [samples[i] for i in range(iterations)]
 
         # setting up equality and inequality constraints provided by the user
-        if constraints:  # and not self.__fix_reactions:
+        if constraints:
             full_constraints = []
             for i in constraints:
                 if i["type"] == "ineq":
                     full_constraints.append(
-                        [lambda x, func: numpy.maximum(numpy.float64(0.0), numpy.float64(-1.0 * func(x))), i["fun"]])
+                        [lambda x, func: numpy.maximum(numpy.float64(0.0), numpy.float64(-1.0 * func(x))), i["fun"]])          # TODO: make it be 0.5 times greater or something
                 elif i["type"] == "eq":
                     full_constraints.append([lambda x, func: numpy.float64(numpy.abs(func(x))), i["fun"]])
 
                 else:
                     print("The type of constraint provided is unknown. Please review the entered constraints.")
                     sys.exit()
-        # elif constraints and self.__fix_reactions:
-        #     full_constraints = []
-        #     for i in constraints:
-        #         if i["type"] == "ineq":
-        #             full_constraints.append(
-        #                 [lambda x, func: numpy.maximum(numpy.float64(0.0), numpy.float64(-1.0 * func(x))), i["fun"]])
-        #         elif i["type"] == "eq":
-        #             full_constraints.append([lambda x, func: numpy.float64(numpy.abs(func(x))), i["fun"]])
-        #
-        #         else:
-        #             print("The type of constraint provided is unknown. Please review the entered constraints.")
-        #             sys.exit()
         else:
             full_constraints = []
 
@@ -813,11 +713,19 @@ class GeneralApproach:
 
                     if abs(result.fun) > numpy.float64(1e-100):
 
-                        result1 = scipy.optimize.minimize(self.__obj_func, result.x, args=(self.__lambda_obj_func_h,
-                                                                                           x_full,
-                                                                                           self.__cons_laws_sympy_lamb,
-                                                                                           bounds, full_constraints),
-                                                          method='Nelder-Mead', tol=1e-16)
+                        if self.__fix_reactions:
+                            result1 = scipy.optimize.minimize(self.__obj_func_fixed, result.x, args=(self.__lambda_obj_func_h,
+                                                                                               x_full,
+                                                                                               self.__cons_laws_sympy_lamb,
+                                                                                               bounds, full_constraints),
+                                                              method='Nelder-Mead', tol=1e-16)
+                        else:
+                            result1 = scipy.optimize.minimize(self.__obj_func, result.x, args=(self.__lambda_obj_func_h,
+                                                                                               x_full,
+                                                                                               self.__cons_laws_sympy_lamb,
+                                                                                               bounds,
+                                                                                               full_constraints),
+                                                              method='Nelder-Mead', tol=1e-16)
 
                         if print_flag:
                             print("Local function value: " + str(result1.fun))
@@ -831,13 +739,17 @@ class GeneralApproach:
                             obtained_minimums[i] = result1.fun
 
                         if abs(result1.fun) <= numpy.finfo(float).eps:
-                            det_point_sets.append(result1.x)
+                            # det_point_sets.append(result1.x)
+                            out = self.__construct_full_reactions_and_species(result1.x, x_full, self.__cons_laws_sympy_lamb)
+                            det_point_sets.append(out)
                             det_point_sets_fun.append(result1.fun)
 
                     else:
                         if smallest_value > result.fun:
                             smallest_value = result.fun
-                        det_point_sets.append(result.x)
+                        # det_point_sets.append(result.x)
+                        out = self.__construct_full_reactions_and_species(result.x, x_full, self.__cons_laws_sympy_lamb)
+                        det_point_sets.append(out)
                         det_point_sets_fun.append(result.fun)
                         if confidence_level_flag:
                             obtained_minimums[i] = result.fun
@@ -849,6 +761,31 @@ class GeneralApproach:
             raise Exception("Optimization needs to be run with more iterations or different bounds.")
 
         return det_point_sets, det_point_sets_fun, obtained_minimums, smallest_value
+
+    def __construct_full_reactions_and_species(self, x, x_full, lambda_cons_laws_sympy):
+
+        if self.__fix_reactions:
+
+            count0 = 0
+            for i in range(len(x_full) - len(lambda_cons_laws_sympy)):
+                if i not in self.__fixed_reaction_indices:
+                    x_full[i] = x[count0]
+                    count0 += 1
+
+            count = 0
+            for i in lambda_cons_laws_sympy:
+                x_full[len(self.__x_bar) + count] = i(*tuple(x[self.__R - len(
+                    self.__fixed_reaction_indices):self.__R - len(self.__fixed_reaction_indices) + self.__N]))
+                count += 1
+
+            for i in range(len(self.__lambda_fixed_reactions)):
+                x_full[self.__fixed_reaction_indices[i]] = self.__lambda_fixed_reactions[i](
+                    *tuple([x_full[i] for i in range(len(x_full)) if i not in self.__fixed_reaction_indices]))
+
+            return numpy.array(list(x_full[0:len(self.__x_bar)]))
+
+        else:
+            return x
 
     def __confidence_level(self, obtained_minimums, change_in_rel_error):
 

@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/crnt4sbml_repo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/crnt4sbml_repo.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/crnt.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/crnt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach_lagrangian_constraints.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach_lagrangian_constraints.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/lagrangian_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/lagrangian_approach.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_direct_2/sim_bif_diag_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/tests/num_cont_direct_2/sim_bif_diag_0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_direct_2/sim_bif_diag_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_direct_2/C1_vs_s3_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_direct_2/C1_vs_s3_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_direct_2/sim_bif_diag_0.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,10 +87,10 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="349" y="164" key="SettingsEditor/0.0.1680.1050@0.0.1680.1050" timestamp="1587393860328" />
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1586974964071">
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1587401510813">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1586974964071" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1587401510813" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -10,11 +10,7 @@ from .low_deficiency_approach import LowDeficiencyApproach
 from .mass_conservation_approach import MassConservationApproach
 from .semi_diffusive_approach import SemiDiffusiveApproach
 from .advanced_deficiency_approach import AdvancedDeficiencyApproach
-# from .general_approach_lagrangian import GeneralApproach
 from .general_approach_lagrangian_constraints import GeneralApproach
-# from .general_approach_lagrangian_v2 import GeneralApproach
-# from .general_approach_lagrangian_v3 import GeneralApproach
-# from .general_approach import GeneralApproach
 
 class CRNT:
     """

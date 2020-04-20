@@ -6,16 +6,18 @@ import sympy
 
 
 # 1.
-# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_1.xml")  # yes
-# signal = "C1"
-# response = "s11"
-# iters = 50
-# d_iters = 100
-# bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
+network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_1.xml")  # yes
+signal = "C1"
+response = "s11"
+iters = 50
+d_iters = 100
+bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
 
 # network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_4c.xml")
 # signal = "C1"
 # response = "s11"
+# iters = 5
+# d_iters = 100
 # bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
 
 # 2.
@@ -43,12 +45,12 @@ import sympy
 # bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
 
 # 5.
-network = crnt4sbml.CRNT("../sbml_files/irene2009.xml") # yes
-signal = "C1"
-response = "s3"
-iters = 100
-d_iters = 1000
-bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
+# network = crnt4sbml.CRNT("../sbml_files/irene2009.xml") # yes
+# signal = "C1"
+# response = "s3"
+# iters = 100
+# d_iters = 1000
+# bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
 
 # 6.
 # network = crnt4sbml.CRNT("../sbml_files/conradi2007.xml")
@@ -96,23 +98,34 @@ bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.
 
 GA = network.get_general_approach()
 
-# print(GA.get_conservation_laws())
+print(GA.get_conservation_laws())
 
 
 # 9.
 # bnds = GA.get_optimization_bounds()
 
+# print(len(network.get_c_graph().get_reactions()))
+# print(len(network.get_c_graph().get_species()))
+
+# bnds = [(i, i+1) for i in range(len(network.get_c_graph().get_reactions()))] + \
+#        [(i+len(network.get_c_graph().get_reactions()), i+len(network.get_c_graph().get_reactions())+1) for i in range(len(network.get_c_graph().get_species()))]
+
+print(bnds)
+# sys.exit()
+
 GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
 
 cons = [] #[{'type': 'ineq', 'fun': lambda x:  x[9] - 2.0*x[8]}, {'type': 'eq', 'fun': lambda x:  x[16]}]
 
-params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
+params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=True,
                                                           dual_annealing_iters=d_iters, confidence_level_flag=True,
                                                           constraints=cons, parallel_flag=False)
 
+
+# print(params_for_global_min)
 GA.generate_report()
 
-sys.exit()
+# sys.exit()
 
 # numpy.save('./num_cont_direct_2/params.npy', params_for_global_min)
 
@@ -155,7 +168,7 @@ sys.exit()
 
 # params_for_global_min = numpy.load('./num_cont_direct_2/params_irene2014.npy')
 
-params_for_global_min = numpy.load('./num_cont_direct_2/params_irene2009.npy')
+# params_for_global_min = numpy.load('./num_cont_direct_2/params_irene2009.npy')
 
 # params_for_global_min = numpy.load('./num_cont_direct_2/params_conradi2007.npy')
 
@@ -176,7 +189,7 @@ path = './num_cont_direct_2'
 
 # params_for_global_min = [params_for_global_min[12]]
 
-# GA.run_direct_simulation(params_for_global_min, path, change_in_relative_error=1e-6, parallel_flag=True)
+GA.run_direct_simulation(params_for_global_min, path, change_in_relative_error=1e-6, parallel_flag=False)
 
 
 # multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=True,
