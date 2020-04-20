@@ -222,12 +222,12 @@ class GeneralApproach:
             self.__fixed_reaction_indices = [i for i in range(len(self.__lagrangian_vars)) if
                                              self.__lagrangian_vars[i] in self.__fixed_reactions]
 
-            # print(self.__fixed_reaction_indices)
-            # print(self.__fixed_reactions)
-            # print(self.__soln_to_fixed_reactions)
-            # print(self.__vars_for_lam_fixed_reactions)
-        #
-        # print(self.__lagrangian_vars)
+            print(self.__fixed_reaction_indices)
+            print(self.__fixed_reactions)
+            print(self.__soln_to_fixed_reactions)
+            print(self.__vars_for_lam_fixed_reactions)
+
+        print(self.__lagrangian_vars)
 
     @staticmethod
     def unique_everseen(iterable, key=None):
@@ -1119,7 +1119,7 @@ class GeneralApproach:
 
         return viable_indices, viable_out_values, conservation_vals
 
-    def run_direct_simulation(self, params_for_global_min=None, path="./", change_in_relative_error=1e-6, parallel_flag=False):
+    def run_direct_simulation(self, params_for_global_min=None, path="./", change_in_relative_error=1e-6, parallel_flag=False, left_multiplier=0.5, right_multiplier=0.5):
 
         import scipy.integrate as itg
 
@@ -1176,8 +1176,9 @@ class GeneralApproach:
         viable_indices, viable_out_values, conservation_vals = self.__find_viable_indices(params_for_global_min[0], itg, spec_index, change_in_relative_error)
 
         spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index = self.__initialize_direct_simulation(viable_indices, viable_out_values,
-                                                                                                                           params_for_global_min[0], conservation_vals, itg,
-                                                                                                                           change_in_relative_error, spec_index)
+                                                                                                                         params_for_global_min[0], conservation_vals, itg,
+                                                                                                                         change_in_relative_error, spec_index, left_multiplier,
+                                                                                                                         right_multiplier)
 
         plot_flag = True
 
@@ -1187,8 +1188,11 @@ class GeneralApproach:
                                  for ii in range(len(self.__cons_laws_sympy_lamb))]
 
             con_law_value = conservation_vals[self.__signal_index]
-            change = con_law_value * 0.5
-            pcp_scan = numpy.linspace(con_law_value - change, con_law_value + change, 100)
+            # change = con_law_value * 0.5
+            # pcp_scan = numpy.linspace(con_law_value - change, con_law_value + change, 100)
+            change_left = con_law_value * left_multiplier
+            change_right = con_law_value * right_multiplier
+            pcp_scan = numpy.linspace(con_law_value - change_left, con_law_value + change_right, 100)
 
             forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(params_for_global_min[i], fwd_scan_vals,
                                                                       rvrs_scan_vals, pcp_scan, fwd_scan_index,
@@ -1236,7 +1240,8 @@ class GeneralApproach:
                 elapsed = end_time - start_time
                 print(f"Elapsed time for direct simulation in seconds: {elapsed}")
 
-    def __initialize_direct_simulation(self, viable_indices, viable_out_values, result_x, conservation_vals, itg, change_in_relative_error, spec_index):
+    def __initialize_direct_simulation(self, viable_indices, viable_out_values, result_x, conservation_vals, itg,
+                                       change_in_relative_error, spec_index, left_multiplier, right_multiplier):
 
         combos = list(itertools.combinations([i for i in range(len(viable_out_values))], 2))
         diff = [numpy.abs(viable_out_values[i[0]][spec_index] - viable_out_values[i[1]][spec_index]) for i in combos]
@@ -1258,8 +1263,11 @@ class GeneralApproach:
 
             # determining if the forward or reverse scan is constant, if so, remove it as a viable combination
             con_law_value = conservation_vals[self.__signal_index]
-            change = con_law_value*0.25
-            pcp_scan = numpy.linspace(con_law_value - change, con_law_value + change, 10)
+            # change = con_law_value*0.25
+            # pcp_scan = numpy.linspace(con_law_value - change, con_law_value + change, 10)
+            change_left = con_law_value * left_multiplier
+            change_right = con_law_value * right_multiplier
+            pcp_scan = numpy.linspace(con_law_value - change_left, con_law_value + change_right, 10)
 
             forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(result_x, fwd_scan_vals,
                                                                       rvrs_scan_vals, pcp_scan, fwd_scan_index,

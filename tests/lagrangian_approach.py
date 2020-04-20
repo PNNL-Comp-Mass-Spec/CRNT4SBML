@@ -102,16 +102,17 @@ GA = network.get_general_approach()
 # 9.
 # bnds = GA.get_optimization_bounds()
 
-GA.initialize_general_approach(signal=signal, response=response)
+GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
 
 cons = [] #[{'type': 'ineq', 'fun': lambda x:  x[9] - 2.0*x[8]}, {'type': 'eq', 'fun': lambda x:  x[16]}]
 
-# params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
-#                                                           dual_annealing_iters=d_iters, confidence_level_flag=True,
-#                                                           constraints=cons, parallel_flag=True)
-#
-# GA.generate_report()
+params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
+                                                          dual_annealing_iters=d_iters, confidence_level_flag=True,
+                                                          constraints=cons, parallel_flag=False)
 
+GA.generate_report()
+
+sys.exit()
 
 # numpy.save('./num_cont_direct_2/params.npy', params_for_global_min)
 
@@ -173,9 +174,9 @@ path = './num_cont_direct_2'
 
 # print(params_for_global_min)
 
-params_for_global_min = params_for_global_min[0:2]
+# params_for_global_min = [params_for_global_min[12]]
 
-GA.run_direct_simulation(params_for_global_min, path, change_in_relative_error=1e-6, parallel_flag=True)
+# GA.run_direct_simulation(params_for_global_min, path, change_in_relative_error=1e-6, parallel_flag=True)
 
 
 # multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=True,
