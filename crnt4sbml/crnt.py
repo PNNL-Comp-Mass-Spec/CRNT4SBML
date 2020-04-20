@@ -10,7 +10,7 @@ from .low_deficiency_approach import LowDeficiencyApproach
 from .mass_conservation_approach import MassConservationApproach
 from .semi_diffusive_approach import SemiDiffusiveApproach
 from .advanced_deficiency_approach import AdvancedDeficiencyApproach
-from .general_approach_lagrangian_constraints import GeneralApproach
+from .general_approach import GeneralApproach
 
 class CRNT:
     """
@@ -354,7 +354,6 @@ class CRNT:
         else:
             return SemiDiffusiveApproach(self.__cgraph, self.get_physiological_range)
 
-    # def get_general_approach(self, signal=None, response=None, fix_reactions=True):
     def get_general_approach(self):
         """
         Initializes and creates an object for the class GeneralApproach for the CRNT object constructed.
@@ -378,11 +377,8 @@ class CRNT:
             One should not run the optimization-based methods.
             """
             print(re.sub(r"^\s+", "", message, flags=re.MULTILINE))
-            #return None
-            # return GeneralApproach(self.__cgraph, signal, response, fix_reactions)
             return GeneralApproach(self.__cgraph)
         else:
-            # return GeneralApproach(self.__cgraph, signal, response, fix_reactions)
             return GeneralApproach(self.__cgraph)
 
     def get_advanced_deficiency_approach(self):

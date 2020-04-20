@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crnt4sbml/crnt.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/crnt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach_lagrangian_constraints.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach_lagrangian_constraints.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach_lagrangian.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach_lagrangian_constraints.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach_lagrangian_v2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach_lagrangian_v3.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach_v2.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/lagrangian_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/lagrangian_approach.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_direct_2/C1_vs_s3_0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_direct_2/C1_vs_s3_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/num_cont_direct_2/sim_bif_diag_0.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

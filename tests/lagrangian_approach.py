@@ -9,7 +9,7 @@ import sympy
 network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_1.xml")  # yes
 signal = "C1"
 response = "s11"
-iters = 50
+iters = 5 #50
 d_iters = 100
 bnds = [(1e-2, 100.0)]*len(network.get_c_graph().get_reactions()) + [(1e-2, 100.0)]*(len(network.get_c_graph().get_species()))
 
