@@ -6,11 +6,9 @@
 Parallel CRNT4SBML
 ====================
 
-Currently underdevelopment!!!!!!!!!!
-
-Due to the nature of the optimization problem formed and the numerical continuation performed, some models can take
-a long time to complete. In order to improve the user experience, we have developed parallel versions of the optimization
-and numerical continuation routines for all approaches using `mpi4py <https://mpi4py.readthedocs.io/en/stable/>`_.
+Due to the nature of the optimization problem formed, some models can take a long time to complete. In order to improve
+the user experience, we have developed parallel versions of the optimization routine for all approaches
+using `mpi4py <https://mpi4py.readthedocs.io/en/stable/>`_.
 
 Installing the proper packages
 +++++++++++++++++++++++++++++++++
@@ -112,7 +110,7 @@ On Windows:
 Parallel Mass Conservation Approach
 +++++++++++++++++++++++++++++++++++++
 
-To run the mass conservation approach create the following python script:
+To run the optimization for the mass conservation approach create the following python script named mpi_run.py:
 
 .. code-block:: python
 
@@ -127,14 +125,21 @@ To run the mass conservation approach create the following python script:
    params_for_global_min, obj_fun_val_for_params, my_rank = opt.run_mpi_optimization(bounds=bounds,
                                                                                      concentration_bounds=concentration_bounds)
 
-   multistable_param_ind, sample_points, plot_specifications = opt.run_mpi_greedy_continuity_analysis(species="s15", parameters=params_for_global_min,
-                                                                                                      auto_parameters={'PrincipalContinuationParameter': 'C3'})
+   if my_rank == 0:
+       numpy.save('params.npy', params_for_global_min)
 
    opt.generate_report()
 
-This will provide the following output along with creating the directory "num\_cont\_graphs" in your current
-directory that contains multistability plots. Please note that runtimes and the number of multistability plots produced
-may vary among different operating systems.
+You can then run the script from the console using 2 cores using the following command:
+
+    .. code-block:: console
+
+        $ mpiexec -np 2 python mpi_run.py
+
+
+This will provide the following output along with saving the params_for_global_min to the file params.npy in the current
+directory. You can then load in params.npy and run a serial version of the numerical continuation. Please note that
+runtimes may vary among different operating systems.
 
 ::
 
@@ -157,27 +162,121 @@ may vary among different operating systems.
     Total feasible points that give F(x) = 0 by core 1: 2
     Total number of points that passed final_check by core 1: 2
 
-    Number of multistability plots found by core 1: 0
-    Elements in params_for_global_min that produce multistability found by core 1:
-    []
-
     The number of feasible points that satisfy the constraints by core 0: 5
     Smallest value achieved by objective function: 0.0
     Total feasible points that give F(x) = 0 by core 0: 2
     Total number of points that passed final_check by core 0: 2
 
-    Number of multistability plots found by core 0: 2
-    Elements in params_for_global_min that produce multistability found by core 0:
-    [0, 1]
-
-
 
 Parallel Semi-diffusive Approach
 +++++++++++++++++++++++++++++++++++++
 
+To run the optimization for the semi-diffusive approach create the following python script named mpi_run.py:
+
+.. code-block:: python
+
+   import crnt4sbml
+
+   network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
+
+   opt = network.get_semi_diffusive_approach()
+
+   bounds = opt.get_optimization_bounds()
+   iters = 10
+
+   params_for_global_min, obj_fun_val_for_params, my_rank = opt.run_mpi_optimization(bounds=bounds, iterations=iters, confidence_level_flag=False)
+
+   if my_rank == 0:
+       numpy.save('params.npy', params_for_global_min)
+
+   opt.generate_report()
+
+You can then run the script from the console using 2 cores using the following command:
+
+    .. code-block:: console
+
+        $ mpiexec -np 2 python mpi_run.py
+
+This will provide the following output along with saving the params_for_global_min to the file params.npy in the current
+directory. You can then load in params.npy and run a serial version of the numerical continuation. Please note that
+runtimes may vary among different operating systems.
+
+::
+
+    Running feasible point method for 10 iterations ...
+    Elapsed time for feasible point method: 0.5645819999999999
+
+    Running the multistart optimization ...
+    Elapsed time for multistart method in seconds: 13.225637
+
+    The number of feasible points that satisfy the constraints by core 1: 5
+    Total feasible points that give F(x) = 0 by core 1: 5
+    Total number of points that passed final_check by core 1: 5
+
+    The number of feasible points that satisfy the constraints by core 0: 5
+    Smallest value achieved by objective function: 0.0
+    Total feasible points that give F(x) = 0 by core 0: 4
+    Total number of points that passed final_check by core 0: 4
+
+
+.. _parallel-gen-app-label:
 
 Parallel General Approach
 +++++++++++++++++++++++++++
+
+Further libraries required
+---------------------------
+
+- plotnine==0.6.0
+
+To run the optimization and direct simulation bistability anaylsis for the general approach create the following
+python script named mpi_run.py:
+
+.. code-block:: python
+
+   import crnt4sbml
+
+   network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
+
+   signal = "C3"
+   response = "s15"
+   iters = 10
+   d_iters = 100
+
+   GA = network.get_general_approach()
+
+   bnds = GA.get_optimization_bounds()
+
+   GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
+
+   cons = []
+   params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
+                                                             dual_annealing_iters=d_iters, confidence_level_flag=True,
+                                                             constraints=cons, parallel_flag=True)
+
+   GA.generate_report()
+
+   path = './num_cont_direct'
+   GA.run_direct_simulation(params_for_global_min, path, change_in_relative_error=1e-6, parallel_flag=True)
+
+You can then run the script from the console using 4 cores using the following command:
+
+    .. code-block:: console
+
+        $ mpiexec -np 4 python mpi_run.py
+
+This will provide the following output along with saving the direct simulation plots in the directory path
+./num_cont_direct. Please note that runtimes may vary among different operating systems.
+
+::
+
+    Starting optimization ...
+    Elapsed time for optimization in seconds: 5.100053
+
+    It was found that 0.0 is the minimum objective function value with a confidence level of 1.0 .
+
+    Starting direct simulation ...
+    Elapsed time for direct simulation in seconds: 204.56610999999998
 
 
 .. _pip: https://pip.pypa.io

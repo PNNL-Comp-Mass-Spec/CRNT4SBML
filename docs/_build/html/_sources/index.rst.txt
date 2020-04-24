@@ -14,6 +14,7 @@ Welcome to CRNT4SBML's documentation!
    basic_crnt
    deficiency_walkthrough
    injectivity_walkthrough
+   general_app_walkthrough
    parallel_crnt4sbml
    numerical_opt
    numerical_cont

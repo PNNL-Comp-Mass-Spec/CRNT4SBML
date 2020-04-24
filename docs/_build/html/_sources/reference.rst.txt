@@ -11,3 +11,4 @@ Reference
     LowDeficiencyApproach
     MassConservationApproach
     SemiDiffusiveApproach
+    GeneralApproach

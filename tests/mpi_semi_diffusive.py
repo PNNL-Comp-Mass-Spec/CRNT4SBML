@@ -11,8 +11,9 @@ import crnt4sbml
 #network = crnt4sbml.CRNT("../sbml_files/open_fig5B.xml")
 
 # 2.
-network = crnt4sbml.CRNT("../sbml_files/open_fig5A.xml")
+# network = crnt4sbml.CRNT("../sbml_files/open_fig5A.xml")
 
+network = crnt4sbml.CRNT("../sbml_files/Fig1Cii.xml")
 
 # optimization approach
 opt = network.get_semi_diffusive_approach()
@@ -31,16 +32,14 @@ opt = network.get_semi_diffusive_approach()
 
 # 2.
 bounds = opt.get_optimization_bounds()
-iters = 500
-response = "s4"
-signal = 're3'
+iters = 10 #500
+# response = "s4"
+# signal = 're3'
 
 params_for_global_min, obj_fun_val_for_params, my_rank = opt.run_mpi_optimization(bounds=bounds, iterations=iters, confidence_level_flag=False)
 
 if my_rank == 0:
-    #print(params_for_global_min)
-    print(obj_fun_val_for_params)
-    print(len(obj_fun_val_for_params))
+    numpy.save('params.npy', params_for_global_min)
 
 #opt.generate_report()
 
@@ -55,8 +54,8 @@ if my_rank == 0:
 #                                                                                           'RL0': 0.1, 'RL1': 30, 'A0': 0.0, 'A1': 10000},
 #                                                                          dir_path="./num_cont_graphs_parallel")
 
-multistable_param_ind, sample_point, plot_specifications = opt.run_mpi_greedy_continuity_analysis(species=response, parameters=params_for_global_min,
-                                                           auto_parameters={'PrincipalContinuationParameter': signal},
-                                                           print_lbls_flag=False, dir_path="./num_cont_graphs_parallel")
+# multistable_param_ind, sample_point, plot_specifications = opt.run_mpi_greedy_continuity_analysis(species=response, parameters=params_for_global_min,
+#                                                            auto_parameters={'PrincipalContinuationParameter': signal},
+#                                                            print_lbls_flag=False, dir_path="./num_cont_graphs_parallel")
 
 opt.generate_report()

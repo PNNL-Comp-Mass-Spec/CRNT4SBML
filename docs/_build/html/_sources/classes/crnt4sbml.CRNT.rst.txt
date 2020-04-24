@@ -19,6 +19,7 @@ crnt4sbml.CRNT
       ~CRNT.get_low_deficiency_approach
       ~CRNT.get_mass_conservation_approach
       ~CRNT.get_semi_diffusive_approach
+      ~CRNT.get_general_approach
       ~CRNT.get_advanced_deficiency_approach
       ~CRNT.get_c_graph
       ~CRNT.print_c_graph

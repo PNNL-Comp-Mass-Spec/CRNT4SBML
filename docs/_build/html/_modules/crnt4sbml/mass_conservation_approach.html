@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../basic_crnt.html">Low Deficiency Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general_app_walkthrough.html">General Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../numerical_cont.html">Numerical Continuation Routine</a></li>
@@ -1223,7 +1224,7 @@ from .bistability_finder import BistabilityFinder
 
         Examples
         ---------
-        See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
+        See :ref:`parallel-crnt4sbml-label`.
         &quot;&quot;&quot;
         self.__numpy_dtype = numpy_dtype
         temp_c = numpy.zeros(self.__N, dtype=self.__numpy_dtype)
@@ -1333,95 +1334,95 @@ from .bistability_finder import BistabilityFinder
 
         return multistable_param_ind, plot_specifications</div>
 
-<div class="viewcode-block" id="MassConservationApproach.run_mpi_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_mpi_continuity_analysis">[docs]</a>    def run_mpi_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
-                                    print_lbls_flag=False, auto_parameters=None, plot_labels=None):
-        &quot;&quot;&quot;
-        Function for running the mpi numerical continuation and bistability analysis portions of the mass conservation
-        approach.
-
-        Parameters
-        ------------
-            species: string
-                A string stating the species that is the y-axis of the bifurcation diagram.
-            parameters: list of numpy arrays
-                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-                value.
-            dir_path: string
-                A string stating the path where the bifurcation diagrams should be saved.
-            print_lbls_flag: bool
-                If True the routine will print the special points found by AUTO 2000 and False will not print any
-                special points.
-            auto_parameters: dict
-                Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
-                &#39;SBML&#39; or &#39;ScanDirection&#39; in these parameters as these are automatically assigned. It is absolutely
-                necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
-                parameters refer to :download:`AUTO parameters &lt;../auto2000_input.pdf&gt;`. &#39;NMX&#39; will default to
-                10000 and &#39;ITMX&#39; to 100.
-            plot_labels: list of strings
-                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-                you would like to use the default settings for some of the labels, simply provide None for that
-                element.
-        Returns
-        ---------
-            multistable_param_ind: list of integers
-                A list of those indices in &#39;parameters&#39; that produce multistable plots.
-            sample_portion: list of 1D numpy arrays
-                A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-                distributed to the core.
-            plot_specifications: list of lists
-                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-                Each element is a list where the first element specifies the range used for the x-axis, the second
-                element is the range for the y-axis, and the last element provides the x-y values and special point label
-                for each special point in the plot.
-
-        Example
-        ---------
-        See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
-        &quot;&quot;&quot;
-        # setting default values for AUTO
-        if &#39;NMX&#39; not in auto_parameters.keys():
-            auto_parameters[&#39;NMX&#39;] = 10000
-
-        if &#39;ITMX&#39; not in auto_parameters.keys():
-            auto_parameters[&#39;ITMX&#39;] = 100
-
-        # making the directory if it doesn&#39;t exist
-        if not os.path.isdir(dir_path) and self.__my_rank == 0:
-            os.mkdir(dir_path)
-
-        species_num = self.__species.index(species) + 1
-
-        species_y = str(self.__concentration_pars[species_num-1])
-
-        if self.__comm is not None:
-            sample_portion = self.__distribute_list_of_points(parameters)
-            self.__comm.Barrier()
-        else:
-
-            from mpi4py import MPI
-            self.__comm = MPI.COMM_WORLD
-            self.__my_rank = self.__comm.Get_rank()
-            self.__num_cores = self.__comm.Get_size()
-            self.__comm.Barrier()
-
-            if not os.path.isdir(dir_path) and self.__my_rank == 0:
-                os.mkdir(dir_path)
-            sample_portion = self.__distribute_list_of_points(parameters)
-            self.__comm.Barrier()
-
-        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_continuity_analysis(species_num, sample_portion,
-                                                                                                               self.__initialize_ant_string,
-                                                                                                               self.__finalize_ant_string,
-                                                                                                               species_y, dir_path,
-                                                                                                               print_lbls_flag,
-                                                                                                               auto_parameters,
-                                                                                                               plot_labels, self.__my_rank,
-                                                                                                                   self.__comm)
-
-        self.__important_info += important_info
-
-        return multistable_param_ind, sample_portion, plot_specifications</div>
+    # def run_mpi_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
+    #                                 print_lbls_flag=False, auto_parameters=None, plot_labels=None):
+    #     &quot;&quot;&quot;
+    #     Function for running the mpi numerical continuation and bistability analysis portions of the mass conservation
+    #     approach.
+    #
+    #     Parameters
+    #     ------------
+    #         species: string
+    #             A string stating the species that is the y-axis of the bifurcation diagram.
+    #         parameters: list of numpy arrays
+    #             A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+    #             value.
+    #         dir_path: string
+    #             A string stating the path where the bifurcation diagrams should be saved.
+    #         print_lbls_flag: bool
+    #             If True the routine will print the special points found by AUTO 2000 and False will not print any
+    #             special points.
+    #         auto_parameters: dict
+    #             Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
+    #             &#39;SBML&#39; or &#39;ScanDirection&#39; in these parameters as these are automatically assigned. It is absolutely
+    #             necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
+    #             parameters refer to :download:`AUTO parameters &lt;../auto2000_input.pdf&gt;`. &#39;NMX&#39; will default to
+    #             10000 and &#39;ITMX&#39; to 100.
+    #         plot_labels: list of strings
+    #             A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+    #             is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+    #             you would like to use the default settings for some of the labels, simply provide None for that
+    #             element.
+    #     Returns
+    #     ---------
+    #         multistable_param_ind: list of integers
+    #             A list of those indices in &#39;parameters&#39; that produce multistable plots.
+    #         sample_portion: list of 1D numpy arrays
+    #             A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
+    #             distributed to the core.
+    #         plot_specifications: list of lists
+    #             A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+    #             Each element is a list where the first element specifies the range used for the x-axis, the second
+    #             element is the range for the y-axis, and the last element provides the x-y values and special point label
+    #             for each special point in the plot.
+    #
+    #     Example
+    #     ---------
+    #     See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
+    #     &quot;&quot;&quot;
+    #     # setting default values for AUTO
+    #     if &#39;NMX&#39; not in auto_parameters.keys():
+    #         auto_parameters[&#39;NMX&#39;] = 10000
+    #
+    #     if &#39;ITMX&#39; not in auto_parameters.keys():
+    #         auto_parameters[&#39;ITMX&#39;] = 100
+    #
+    #     # making the directory if it doesn&#39;t exist
+    #     if not os.path.isdir(dir_path) and self.__my_rank == 0:
+    #         os.mkdir(dir_path)
+    #
+    #     species_num = self.__species.index(species) + 1
+    #
+    #     species_y = str(self.__concentration_pars[species_num-1])
+    #
+    #     if self.__comm is not None:
+    #         sample_portion = self.__distribute_list_of_points(parameters)
+    #         self.__comm.Barrier()
+    #     else:
+    #
+    #         from mpi4py import MPI
+    #         self.__comm = MPI.COMM_WORLD
+    #         self.__my_rank = self.__comm.Get_rank()
+    #         self.__num_cores = self.__comm.Get_size()
+    #         self.__comm.Barrier()
+    #
+    #         if not os.path.isdir(dir_path) and self.__my_rank == 0:
+    #             os.mkdir(dir_path)
+    #         sample_portion = self.__distribute_list_of_points(parameters)
+    #         self.__comm.Barrier()
+    #
+    #     multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_continuity_analysis(species_num, sample_portion,
+    #                                                                                                            self.__initialize_ant_string,
+    #                                                                                                            self.__finalize_ant_string,
+    #                                                                                                            species_y, dir_path,
+    #                                                                                                            print_lbls_flag,
+    #                                                                                                            auto_parameters,
+    #                                                                                                            plot_labels, self.__my_rank,
+    #                                                                                                                self.__comm)
+    #
+    #     self.__important_info += important_info
+    #
+    #     return multistable_param_ind, sample_portion, plot_specifications
 
 <div class="viewcode-block" id="MassConservationApproach.run_greedy_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis">[docs]</a>    def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
@@ -1490,91 +1491,91 @@ from .bistability_finder import BistabilityFinder
 
         return multistable_param_ind, plot_specifications</div>
 
-<div class="viewcode-block" id="MassConservationApproach.run_mpi_greedy_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_mpi_greedy_continuity_analysis">[docs]</a>    def run_mpi_greedy_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
-                                           print_lbls_flag=False, auto_parameters=None, plot_labels=None):
-        &quot;&quot;&quot;
-        Function for running the mpi greedy numerical continuation and bistability analysis portions of the mass conservation
-        approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
-        parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
-        produce jagged or missing sections in the plots provided. To produce better plots one should use the information
-        provided by this routine to run :func:`crnt4sbml.MassConservationApproach.run_continuity_analysis`.
-
-        Parameters
-        ------------
-            species: string
-                A string stating the species that is the y-axis of the bifurcation diagram.
-            parameters: list of numpy arrays
-                A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-                value.
-            dir_path: string
-                A string stating the path where the bifurcation diagrams should be saved.
-            print_lbls_flag: bool
-                If True the routine will print the special points found by AUTO 2000 and False will not print any
-                special points.
-            auto_parameters: dict
-                Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
-                PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
-                be set. For more information on these parameters refer to :download:`AUTO parameters &lt;../auto2000_input.pdf&gt;`.
-            plot_labels: list of strings
-                A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-                is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-                you would like to use the default settings for some of the labels, simply provide None for that
-                element.
-        Returns
-        ---------
-            multistable_param_ind: list of integers
-                A list of those indices in &#39;parameters&#39; that produce multistable plots.
-            sample_portion: list of 1D numpy arrays
-                A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-                distributed to the core.
-            plot_specifications: list of lists
-                A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-                Each element is a list where the first element specifies the range used for the x-axis, the second
-                element is the range for the y-axis, and the last element provides the x-y values and special point label
-                for each special point in the plot.
-
-        Example
-        ---------
-        See :ref:`my-deficiency-label`.
-        &quot;&quot;&quot;
-        # setting default values for AUTO
-        if &#39;NMX&#39; not in auto_parameters.keys():
-            auto_parameters[&#39;NMX&#39;] = 10000
-
-        if &#39;ITMX&#39; not in auto_parameters.keys():
-            auto_parameters[&#39;ITMX&#39;] = 100
-
-        # making the directory if it doesn&#39;t exist
-        if not os.path.isdir(dir_path) and self.__my_rank == 0:
-            os.mkdir(dir_path)
-
-        species_num = self.__species.index(species) + 1
-
-        species_y = str(self.__concentration_pars[species_num-1])
-
-        if self.__comm is not None:
-            sample_portion = self.__distribute_list_of_points(parameters)
-            self.__comm.Barrier()
-        else:
-
-            from mpi4py import MPI
-            self.__comm = MPI.COMM_WORLD
-            self.__my_rank = self.__comm.Get_rank()
-            self.__num_cores = self.__comm.Get_size()
-            self.__comm.Barrier()
-
-            if not os.path.isdir(dir_path) and self.__my_rank == 0:
-                os.mkdir(dir_path)
-            sample_portion = self.__distribute_list_of_points(parameters)
-            self.__comm.Barrier()
-
-        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_greedy_continuity_analysis\
-            (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
-
-        self.__important_info += important_info
-
-        return multistable_param_ind, sample_portion, plot_specifications</div>
+    # def run_mpi_greedy_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
+    #                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
+    #     &quot;&quot;&quot;
+    #     Function for running the mpi greedy numerical continuation and bistability analysis portions of the mass conservation
+    #     approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
+    #     parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
+    #     produce jagged or missing sections in the plots provided. To produce better plots one should use the information
+    #     provided by this routine to run :func:`crnt4sbml.MassConservationApproach.run_continuity_analysis`.
+    #
+    #     Parameters
+    #     ------------
+    #         species: string
+    #             A string stating the species that is the y-axis of the bifurcation diagram.
+    #         parameters: list of numpy arrays
+    #             A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+    #             value.
+    #         dir_path: string
+    #             A string stating the path where the bifurcation diagrams should be saved.
+    #         print_lbls_flag: bool
+    #             If True the routine will print the special points found by AUTO 2000 and False will not print any
+    #             special points.
+    #         auto_parameters: dict
+    #             Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
+    #             PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
+    #             be set. For more information on these parameters refer to :download:`AUTO parameters &lt;../auto2000_input.pdf&gt;`.
+    #         plot_labels: list of strings
+    #             A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+    #             is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+    #             you would like to use the default settings for some of the labels, simply provide None for that
+    #             element.
+    #     Returns
+    #     ---------
+    #         multistable_param_ind: list of integers
+    #             A list of those indices in &#39;parameters&#39; that produce multistable plots.
+    #         sample_portion: list of 1D numpy arrays
+    #             A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
+    #             distributed to the core.
+    #         plot_specifications: list of lists
+    #             A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+    #             Each element is a list where the first element specifies the range used for the x-axis, the second
+    #             element is the range for the y-axis, and the last element provides the x-y values and special point label
+    #             for each special point in the plot.
+    #
+    #     Example
+    #     ---------
+    #     See :ref:`my-deficiency-label`.
+    #     &quot;&quot;&quot;
+    #     # setting default values for AUTO
+    #     if &#39;NMX&#39; not in auto_parameters.keys():
+    #         auto_parameters[&#39;NMX&#39;] = 10000
+    #
+    #     if &#39;ITMX&#39; not in auto_parameters.keys():
+    #         auto_parameters[&#39;ITMX&#39;] = 100
+    #
+    #     # making the directory if it doesn&#39;t exist
+    #     if not os.path.isdir(dir_path) and self.__my_rank == 0:
+    #         os.mkdir(dir_path)
+    #
+    #     species_num = self.__species.index(species) + 1
+    #
+    #     species_y = str(self.__concentration_pars[species_num-1])
+    #
+    #     if self.__comm is not None:
+    #         sample_portion = self.__distribute_list_of_points(parameters)
+    #         self.__comm.Barrier()
+    #     else:
+    #
+    #         from mpi4py import MPI
+    #         self.__comm = MPI.COMM_WORLD
+    #         self.__my_rank = self.__comm.Get_rank()
+    #         self.__num_cores = self.__comm.Get_size()
+    #         self.__comm.Barrier()
+    #
+    #         if not os.path.isdir(dir_path) and self.__my_rank == 0:
+    #             os.mkdir(dir_path)
+    #         sample_portion = self.__distribute_list_of_points(parameters)
+    #         self.__comm.Barrier()
+    #
+    #     multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_greedy_continuity_analysis\
+    #         (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
+    #          print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
+    #
+    #     self.__important_info += important_info
+    #
+    #     return multistable_param_ind, sample_portion, plot_specifications
 
     def __distribute_list_of_points(self, samples):
 

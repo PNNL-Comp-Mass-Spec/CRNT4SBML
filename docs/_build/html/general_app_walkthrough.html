@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Generating Presentable C-graphs &mdash; CRNT4SBML 0.0.10 documentation</title>
+  <title>General Approach Walkthrough &mdash; CRNT4SBML 0.0.10 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Further Examples" href="more_examples.html" />
-    <link rel="prev" title="Creating the Equilibrium Manifold" href="creating_eq_manifold.html" /> 
+    <link rel="next" title="Parallel CRNT4SBML" href="parallel_crnt4sbml.html" />
+    <link rel="prev" title="Semi-diffusive Approach Walkthrough" href="injectivity_walkthrough.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -96,12 +96,12 @@
 <li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
-<li class="toctree-l1"><a class="reference internal" href="general_app_walkthrough.html">General Approach Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">General Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
@@ -154,13 +154,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Generating Presentable C-graphs</li>
+      <li>General Approach Walkthrough</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/generating_c_graphs.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/general_app_walkthrough.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -173,37 +173,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="generating-presentable-c-graphs">
-<span id="presentable-graph-label"></span><h1>Generating Presentable C-graphs<a class="headerlink" href="#generating-presentable-c-graphs" title="Permalink to this headline">¶</a></h1>
-<p>In practice complex networks can be difficult to display in terms of the CellDesigner format. For this reason, it is
-usually simpler to present networks in terms of C-graphs. Although CRNT4SBML provides the functions
-<a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.plot_c_graph" title="crnt4sbml.CRNT.plot_c_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.plot_c_graph()</span></code></a> and <a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.plot_save_c_graph" title="crnt4sbml.CRNT.plot_save_c_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.plot_save_c_graph()</span></code></a> to plot and save
-C-graphs using Matplotlib, respectively, for large networks these displays can be cluttered. For example, consider the
-following semi-diffusive network:</p>
-<a class="reference internal image-reference" href="_images/cluttered_cgraph.png"><img alt="_images/cluttered_cgraph.png" class="align-center" src="_images/cluttered_cgraph.png" style="width: 400px; height: 300px;" /></a>
-<p>As mentioned in the NetorkX <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/drawing.html">documentation</a> ,
-the graph visualization tools provided are not up to par with other graph visualization tools. For this reason, we suggest
-using the cross-platform and easily installable tool <a class="reference external" href="https://cytoscape.org/">Cytoscape</a> to create presentable C-graphs.
-Cytoscape allows one to import a network defined in the GraphML format which it can then use to create a C-graph.
-To create a GraphML format of the provided network, CRNT4SBML contains the function <a class="reference internal" href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_network_graphml" title="crnt4sbml.CRNT.get_network_graphml"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.get_network_graphml()</span></code></a>.
-Note that this function only extracts the nodes, edges, and edge labels. Below
-we use  use <a class="reference download internal" download="" href="_downloads/7f1ab99200c896bb88c0011e47723e78/Fig1Cii.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Cii.xml</span></code></a>
-to demonstrate turning a network into a GraphML file.</p>
+  <div class="section" id="general-approach-walkthrough">
+<span id="gen-app-label"></span><h1>General Approach Walkthrough<a class="headerlink" href="#general-approach-walkthrough" title="Permalink to this headline">¶</a></h1>
+<p>Under Development</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
-
-<span class="n">c</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
-
-<span class="n">c</span><span class="o">.</span><span class="n">get_network_graphml</span><span class="p">()</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This will provide a GraphML file for the Fig1Cii network in the current directory under the name network.graphml. We may
-then use this file within Cytoscape by opening up the application and navigating to the menu bar selecting File -&gt; Import -&gt;
-Network from File… then selecting network.graphml from the appropriate directory. We can then import the
-<a class="reference download internal" download="" href="_downloads/26d1325dd2f3c9a034967def37af7f3f/crnt4sbml_cytoscape_style.xml"><code class="xref download docutils literal notranslate"><span class="pre">CRNT4SBML</span> <span class="pre">Cytoscape</span> <span class="pre">Style</span></code></a> by navigating to the menu bar selecting File -&gt;
-Import -&gt; Styles from File … then selecting crnt4sbml_cytoscape_style.xml from the appropriate directory. Once the style
-has been imported, we can use this style by selecting “Style” in the Control Panel and selecting “CRNT4SBML Style” in
-the Current Style drop down box. Using the CRNT4SBML Style leads to the following C-graph.</p>
-<a class="reference internal image-reference" href="_images/fig1Cii_c_graph.png"><img alt="_images/fig1Cii_c_graph.png" class="align-center" src="_images/fig1Cii_c_graph.png" style="width: 500px; height: 400px;" /></a>
 </div>
 
 
@@ -214,10 +190,10 @@ the Current Style drop down box. Using the CRNT4SBML Style leads to the followin
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="more_examples.html" class="btn btn-neutral float-right" title="Further Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="parallel_crnt4sbml.html" class="btn btn-neutral float-right" title="Parallel CRNT4SBML" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="creating_eq_manifold.html" class="btn btn-neutral float-left" title="Creating the Equilibrium Manifold" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="injectivity_walkthrough.html" class="btn btn-neutral float-left" title="Semi-diffusive Approach Walkthrough" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

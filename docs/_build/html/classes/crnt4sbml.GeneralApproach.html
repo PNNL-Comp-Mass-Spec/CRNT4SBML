@@ -1,0 +1,708 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crnt4sbml.GeneralApproach &mdash; CRNT4SBML 0.0.10 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributing" href="../contributing.html" />
+    <link rel="prev" title="crnt4sbml.SemiDiffusiveApproach" href="crnt4sbml.SemiDiffusiveApproach.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">CRNT4SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../detect_bistability.html">Steps for Detecting Bistability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physiological_bounds.html">Creating Physiological Bounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general_app_walkthrough.html">General Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example_use.html">An Example User Case Scenario</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../reference.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.CRNT.html">crnt4sbml.CRNT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.Cgraph.html">crnt4sbml.Cgraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.LowDeficiencyApproach.html">crnt4sbml.LowDeficiencyApproach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.MassConservationApproach.html">crnt4sbml.MassConservationApproach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.SemiDiffusiveApproach.html">crnt4sbml.SemiDiffusiveApproach</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">crnt4sbml.GeneralApproach</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../reference.html">Reference</a> &raquo;</li>
+        
+      <li>crnt4sbml.GeneralApproach</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/classes/crnt4sbml.GeneralApproach.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="crnt4sbml-generalapproach">
+<h1>crnt4sbml.GeneralApproach<a class="headerlink" href="#crnt4sbml-generalapproach" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="crnt4sbml.GeneralApproach">
+<em class="property">class </em><code class="descclassname">crnt4sbml.</code><code class="descname">GeneralApproach</code><span class="sig-paren">(</span><em>cgraph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for constructing a more general approach to bistability detection for systems with mass action kinetics.</p>
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>cgraph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialization of GeneralApproach class.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_general_approach" title="crnt4sbml.CRNT.get_general_approach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crnt4sbml.CRNT.get_general_approach()</span></code></a></p>
+</div>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.__init__" title="crnt4sbml.GeneralApproach.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cgraph)</td>
+<td>Initialization of GeneralApproach class.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.initialize_general_approach" title="crnt4sbml.GeneralApproach.initialize_general_approach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_general_approach</span></code></a>([signal,&nbsp;…])</td>
+<td>Function for initializing the necessary variables for the general approach.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.generate_report" title="crnt4sbml.GeneralApproach.generate_report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_report</span></code></a>()</td>
+<td>Prints out helpful details constructed by <a class="reference internal" href="#crnt4sbml.GeneralApproach.run_optimization" title="crnt4sbml.GeneralApproach.run_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_optimization()</span></code></a>, <a class="reference internal" href="#crnt4sbml.GeneralApproach.run_continuity_analysis" title="crnt4sbml.GeneralApproach.run_continuity_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_continuity_analysis()</span></code></a>, and <a class="reference internal" href="#crnt4sbml.GeneralApproach.run_greedy_continuity_analysis" title="crnt4sbml.GeneralApproach.run_greedy_continuity_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_greedy_continuity_analysis()</span></code></a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_conservation_laws" title="crnt4sbml.GeneralApproach.get_conservation_laws"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_conservation_laws</span></code></a>()</td>
+<td>Returns a string representation of the conservation laws.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_input_vector" title="crnt4sbml.GeneralApproach.get_input_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_input_vector</span></code></a>()</td>
+<td>Returns a list of SymPy variables that specifies the ordering of the reactions and species for which bounds need to be provided.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_decision_vector" title="crnt4sbml.GeneralApproach.get_decision_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_decision_vector</span></code></a>()</td>
+<td>Returns a list of SymPy variables that specifies the ordering of the reactions and species of the decision vector used in optimization.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_optimization_bounds" title="crnt4sbml.GeneralApproach.get_optimization_bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimization_bounds</span></code></a>()</td>
+<td>Returns a list of tuples that corresponds to the determined physiological bounds chosen for the problem.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_independent_odes" title="crnt4sbml.GeneralApproach.get_independent_odes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_independent_odes</span></code></a>()</td>
+<td>Returns a Sympy Matrix representing the independent ODE system without conservation laws substituted in.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_independent_odes_subs" title="crnt4sbml.GeneralApproach.get_independent_odes_subs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_independent_odes_subs</span></code></a>()</td>
+<td>Returns a Sympy Matrix representing the independent ODE system with conservation laws substituted in.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_independent_species" title="crnt4sbml.GeneralApproach.get_independent_species"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_independent_species</span></code></a>()</td>
+<td>Returns a list of SymPy variables that reflects the independent species chosen for the general approach.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_fixed_reactions" title="crnt4sbml.GeneralApproach.get_fixed_reactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fixed_reactions</span></code></a>()</td>
+<td>Returns a list of SymPy variables that describe the reactions that were chosen to be fixed when ensuring a steady-state solution exists.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_solutions_to_fixed_reactions" title="crnt4sbml.GeneralApproach.get_solutions_to_fixed_reactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solutions_to_fixed_reactions</span></code></a>()</td>
+<td>Returns a list of SymPy expressions corresponding to the fixed reactions.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_jacobian" title="crnt4sbml.GeneralApproach.get_jacobian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_jacobian</span></code></a>()</td>
+<td>Returns a Sympy expression of the Jacobian, where the Jacobian is with respect to the independent species.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_determinant_of_jacobian" title="crnt4sbml.GeneralApproach.get_determinant_of_jacobian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_determinant_of_jacobian</span></code></a>()</td>
+<td>Returns a Sympy expression of the determinant of the Jacobian, where the Jacobian is with respect to the independent species.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.run_optimization" title="crnt4sbml.GeneralApproach.run_optimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_optimization</span></code></a>([bounds,&nbsp;iterations,&nbsp;seed,&nbsp;…])</td>
+<td>Function for running the optimization problem for the general approach.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.run_continuity_analysis" title="crnt4sbml.GeneralApproach.run_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
+<td>Function for running the numerical continuation and bistability analysis portions of the general approach.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.run_greedy_continuity_analysis" title="crnt4sbml.GeneralApproach.run_greedy_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_greedy_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
+<td>Function for running the greedy numerical continuation and bistability analysis portions of the general approach.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.run_direct_simulation" title="crnt4sbml.GeneralApproach.run_direct_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_direct_simulation</span></code></a>([…])</td>
+<td>Function for running direct simulation to conduct bistability analysis of the general approach.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.generate_report">
+<code class="descname">generate_report</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.generate_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.generate_report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints out helpful details constructed by <a class="reference internal" href="#crnt4sbml.GeneralApproach.run_optimization" title="crnt4sbml.GeneralApproach.run_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_optimization()</span></code></a>,
+<a class="reference internal" href="#crnt4sbml.GeneralApproach.run_continuity_analysis" title="crnt4sbml.GeneralApproach.run_continuity_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_continuity_analysis()</span></code></a>, and
+<a class="reference internal" href="#crnt4sbml.GeneralApproach.run_greedy_continuity_analysis" title="crnt4sbml.GeneralApproach.run_greedy_continuity_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_greedy_continuity_analysis()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<p>See also <a class="reference internal" href="../quickstart.html#quickstart-gen-app-label"><span class="std std-ref">General Approach Example</span></a> and <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_conservation_laws">
+<code class="descname">get_conservation_laws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_conservation_laws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_conservation_laws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string representation of the conservation laws. Here the values on the left hand side of each equation
+are the constants of the conservation laws.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">GA</span><span class="o">.</span><span class="n">get_conservation_laws</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_decision_vector">
+<code class="descname">get_decision_vector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_decision_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_decision_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy variables that specifies the ordering of the reactions and species of the decision
+vector used in optimization. Note: this method should not be used to create bounds for the optimization
+routine, rather <a class="reference internal" href="#crnt4sbml.GeneralApproach.get_input_vector" title="crnt4sbml.GeneralApproach.get_input_vector"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.get_input_vector()</span></code></a> should be used.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">GA</span><span class="o">.</span><span class="n">get_decision_vector</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_determinant_of_jacobian">
+<code class="descname">get_determinant_of_jacobian</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_determinant_of_jacobian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_determinant_of_jacobian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Sympy expression of the determinant of the Jacobian, where the Jacobian is with respect to the
+independent species.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_determinant_of_jacobian</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_fixed_reactions">
+<code class="descname">get_fixed_reactions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_fixed_reactions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_fixed_reactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy variables that describe the reactions that were chosen to be fixed when ensuring a
+steady-state solution exists. Note that fixed_reactions must be set to True in
+<a class="reference internal" href="#crnt4sbml.GeneralApproach.initialize_general_approach" title="crnt4sbml.GeneralApproach.initialize_general_approach"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.initialize_general_approach()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">fix_reactions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_fixed_reactions</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_independent_odes">
+<code class="descname">get_independent_odes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_independent_odes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_independent_odes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Sympy Matrix representing the independent ODE system without conservation laws substituted in. Each row
+corresponds to the ODE for the species corresponding to the list provided by <a class="reference internal" href="#crnt4sbml.GeneralApproach.get_independent_species" title="crnt4sbml.GeneralApproach.get_independent_species"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.get_independent_species()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_independent_odes</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_independent_odes_subs">
+<code class="descname">get_independent_odes_subs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_independent_odes_subs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_independent_odes_subs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Sympy Matrix representing the independent ODE system with conservation laws substituted in. Each row
+corresponds to the ODE for the species corresponding to the list provided by
+<a class="reference internal" href="#crnt4sbml.GeneralApproach.get_independent_species" title="crnt4sbml.GeneralApproach.get_independent_species"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.get_independent_species()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_independent_odes_subs</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_independent_species">
+<code class="descname">get_independent_species</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_independent_species"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_independent_species" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy variables that reflects the independent species chosen for the general approach.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_independent_species</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_input_vector">
+<code class="descname">get_input_vector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_input_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_input_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy variables that specifies the ordering of the reactions and species for which bounds
+need to be provided.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">GA</span><span class="o">.</span><span class="n">get_input_vector</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_jacobian">
+<code class="descname">get_jacobian</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_jacobian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_jacobian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Sympy expression of the Jacobian, where the Jacobian is with respect to the independent species.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_jacobian</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_optimization_bounds">
+<code class="descname">get_optimization_bounds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_optimization_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_optimization_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of tuples that corresponds to the determined physiological bounds chosen for the problem. Each
+entry corresponds to the list provided by <a class="reference internal" href="#crnt4sbml.GeneralApproach.get_input_vector" title="crnt4sbml.GeneralApproach.get_input_vector"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.get_input_vector()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_solutions_to_fixed_reactions">
+<code class="descname">get_solutions_to_fixed_reactions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_solutions_to_fixed_reactions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_solutions_to_fixed_reactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SymPy expressions corresponding to the fixed reactions. The ordering of the elements
+corresponds to the list returned by <a class="reference internal" href="#crnt4sbml.GeneralApproach.get_fixed_reactions" title="crnt4sbml.GeneralApproach.get_fixed_reactions"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.get_fixed_reactions()</span></code></a>. Note that
+fixed_reactions must be set to True in <a class="reference internal" href="#crnt4sbml.GeneralApproach.initialize_general_approach" title="crnt4sbml.GeneralApproach.initialize_general_approach"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.initialize_general_approach()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">fix_reactions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_solutions_to_fixed_reactions</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.initialize_general_approach">
+<code class="descname">initialize_general_approach</code><span class="sig-paren">(</span><em>signal=None</em>, <em>response=None</em>, <em>fix_reactions=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.initialize_general_approach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.initialize_general_approach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for initializing the necessary variables for the general approach.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>signal</strong> (<em>String</em>) – A string stating the conservation law that is the x-axis of the bifurcation diagram.</li>
+<li><strong>response</strong> (<em>String</em>) – A string stating the species that is the y-axis of the bifurcation diagram.</li>
+<li><strong>fix_reactions</strong> (<em>bool</em>) – A bool that determines if a steady state is enforced by fixing the reactions. See <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a>
+for specific details.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See also <a class="reference internal" href="../quickstart.html#quickstart-gen-app-label"><span class="std std-ref">General Approach Example</span></a> and <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.run_continuity_analysis">
+<code class="descname">run_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em>, <em>plot_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.run_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.run_continuity_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for running the numerical continuation and bistability analysis portions of the general
+approach.</p>
+<p>Note: A parallel version of this routine is not available.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>species</strong> (<em>string</em>) – A string stating the species that is the y-axis of the bifurcation diagram.</li>
+<li><strong>parameters</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+value.</li>
+<li><strong>dir_path</strong> (<em>string</em>) – A string stating the path where the bifurcation diagrams should be saved.</li>
+<li><strong>print_lbls_flag</strong> (<em>bool</em>) – If True the routine will print the special points found by AUTO 2000 and False will not print any
+special points.</li>
+<li><strong>auto_parameters</strong> (<em>dict</em>) – Dictionary defining the parameters for the AUTO 2000 run. Please note that one should <strong>not</strong> set
+‘SBML’ or ‘ScanDirection’ in these parameters as these are automatically assigned. It is absolutely
+necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
+parameters refer to <a class="reference download internal" download="" href="../_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>. ‘NMX’ will default to
+10000 and ‘ITMX’ to 100.</li>
+<li><strong>plot_labels</strong> (<em>list of strings</em>) – A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+you would like to use the default settings for some of the labels, simply provide None for that
+element.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>multistable_param_ind</strong> (<em>list of integers</em>) – A list of those indices in ‘parameters’ that produce multistable plots.</li>
+<li><strong>plot_specifications</strong> (<em>list of lists</em>) – A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+Each element is a list where the first element specifies the range used for the x-axis, the second
+element is the range for the y-axis, and the last element provides the x-y values and special point label
+for each special point in the plot.</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>See <a class="reference internal" href="../quickstart.html#quickstart-gen-app-label"><span class="std std-ref">General Approach Example</span></a> and <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a>..</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.run_direct_simulation">
+<code class="descname">run_direct_simulation</code><span class="sig-paren">(</span><em>params_for_global_min=None</em>, <em>dir_path='./'</em>, <em>change_in_relative_error=1e-06</em>, <em>parallel_flag=False</em>, <em>left_multiplier=0.5</em>, <em>right_multiplier=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.run_direct_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.run_direct_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for running direct simulation to conduct bistability analysis of the general approach.</p>
+<p>Note: This routine is more expensive than the numerical continuation routines, but can provide solutions
+when the Jacobian of the ODE system is always singular. A parallel version of this routine is available.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>params_for_global_min</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays corresponding to the input vectors that produce a small objective function
+value.</li>
+<li><strong>dir_path</strong> (<em>string</em>) – A string stating the path where the bifurcation diagrams should be saved.</li>
+<li><strong>change_in_relative_error</strong> (<em>float</em>) – A float value that determines how small the relative error should be in order for the solution of the
+ODE system to be considered at a steady state. Note: a smaller value will run faster, but may produce
+an ODE system that is not at a steady state.</li>
+<li><strong>parallel_flag</strong> (<em>bool</em>) – If set to True a parallel version of direct simulation is ran. If False, a serial version of the
+routine is ran. See <a class="reference internal" href="../parallel_crnt4sbml.html#parallel-gen-app-label"><span class="std std-ref">Parallel General Approach</span></a> for further information.</li>
+<li><strong>left_multiplier</strong> (<em>float</em>) – A float value that determines the percentage of the PCP that will be searched to the left of the PCP
+value. For example, the lowerbound for the PCP range will be PCP_value - PCP_value*left_multiplier.</li>
+<li><strong>right_multiplier</strong> (<em>float</em>) – A float value that determines the percentage of the PCP that will be searched to the right of the PCP
+value. For example, the upperbound for the PCP range will be PCP_value + PCP_value*right_multiplier.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>See <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.run_greedy_continuity_analysis">
+<code class="descname">run_greedy_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em>, <em>plot_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.run_greedy_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.run_greedy_continuity_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for running the greedy numerical continuation and bistability analysis portions of the general
+approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
+parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
+produce jagged or missing sections in the plots provided. To produce better plots one should use the information
+provided by this routine to run <a class="reference internal" href="#crnt4sbml.GeneralApproach.run_continuity_analysis" title="crnt4sbml.GeneralApproach.run_continuity_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_continuity_analysis()</span></code></a>.</p>
+<p>Note: A parallel version of this routine is not available.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>species</strong> (<em>string</em>) – A string stating the species that is the y-axis of the bifurcation diagram.</li>
+<li><strong>parameters</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays corresponding to the decision vectors that produce a small objective function
+value.</li>
+<li><strong>dir_path</strong> (<em>string</em>) – A string stating the path where the bifurcation diagrams should be saved.</li>
+<li><strong>print_lbls_flag</strong> (<em>bool</em>) – If True the routine will print the special points found by AUTO 2000 and False will not print any
+special points.</li>
+<li><strong>auto_parameters</strong> (<em>dict</em>) – Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
+PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
+be set. For more information on these parameters refer to <a class="reference download internal" download="" href="../_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>.</li>
+<li><strong>plot_labels</strong> (<em>list of strings</em>) – A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
+is the label for x-axis, second is the y-axis label, and the last element is the title label. If
+you would like to use the default settings for some of the labels, simply provide None for that
+element.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>multistable_param_ind</strong> (<em>list of integers</em>) – A list of those indices in ‘parameters’ that produce multistable plots.</li>
+<li><strong>plot_specifications</strong> (<em>list of lists</em>) – A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
+Each element is a list where the first element specifies the range used for the x-axis, the second
+element is the range for the y-axis, and the last element provides the x-y values and special point label
+for each special point in the plot.</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>See <a class="reference internal" href="../quickstart.html#quickstart-gen-app-label"><span class="std std-ref">General Approach Example</span></a> and <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.run_optimization">
+<code class="descname">run_optimization</code><span class="sig-paren">(</span><em>bounds=None</em>, <em>iterations=10</em>, <em>seed=0</em>, <em>print_flag=False</em>, <em>dual_annealing_iters=1000</em>, <em>confidence_level_flag=False</em>, <em>change_in_rel_error=0.01</em>, <em>constraints=None</em>, <em>parallel_flag=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.run_optimization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.run_optimization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for running the optimization problem for the general approach.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bounds</strong> (<em>list of tuples</em>) – A list defining the lower and upper bounds for each variable in the input vector. See
+<a class="reference internal" href="#crnt4sbml.GeneralApproach.get_input_vector" title="crnt4sbml.GeneralApproach.get_input_vector"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.get_input_vector()</span></code></a>.</li>
+<li><strong>iterations</strong> (<em>int</em>) – The number of iterations to run the feasible point method.</li>
+<li><strong>seed</strong> (<em>int</em>) – Seed for the random number generator. None should be used if a random generation is desired.</li>
+<li><strong>print_flag</strong> (<em>bool</em>) – Should be set to True if the user wants the objective function values found in the optimization problem
+and False otherwise.</li>
+<li><strong>dual_annealing_iters</strong> (<em>integer</em>) – The number of iterations that should be ran for dual annealing routine in optimization.</li>
+<li><strong>confidence_level_flag</strong> (<em>bool</em>) – If True a confidence level for the objective function will be given.</li>
+<li><strong>change_in_rel_error</strong> (<em>float</em>) – The maximum relative error that should be allowed to consider <img class="math" src="../_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> in the neighborhood
+of <img class="math" src="../_images/math/e57da723a78793be0af414e375cc2eff8c6dac64.png" alt="\widetilde{f}"/>.</li>
+<li><strong>constraints</strong> (<em>list of dictionaries</em>) – Each dictionary is of the form {‘type’: ‘…’, ‘fun’: lambda x:  … }, where ‘type’ can be set to
+‘ineq’ or ‘eq’ and the lambda function to be defined by the user. The ‘ineq’ refers to an
+inequality constraint c(x) with c(x) &lt;= 0. For the lambda function the input x refers to the input vector
+of the optimization routine. See <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a> for further details.</li>
+<li><strong>parallel_flag</strong> (<em>bool</em>) – If set to True a parallel version of the optimization routine is ran. If False, a serial version of the
+optimization routine is ran. See <a class="reference internal" href="../parallel_crnt4sbml.html#parallel-gen-app-label"><span class="std std-ref">Parallel General Approach</span></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>params_for_global_min</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays that correspond to the input vectors of the problem.</li>
+<li><strong>obj_fun_val_for_params</strong> (<em>list of floats</em>) – A list of objective function values produced by the corresponding input vectors in params_for_global_min.</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>See <a class="reference internal" href="../quickstart.html#quickstart-gen-app-label"><span class="std std-ref">General Approach Example</span></a> and <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="crnt4sbml.SemiDiffusiveApproach.html" class="btn btn-neutral float-left" title="crnt4sbml.SemiDiffusiveApproach" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

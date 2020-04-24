@@ -165,11 +165,8 @@ iters = 100
 # params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=iters, confidence_level_flag=False,
 #                                                                      concentration_bounds=concentration_bounds)
 
-# if my_rank == 0:
-#     #print(params_for_global_min)
-#     print(obj_fun_val_for_params)
-#     print(len(obj_fun_val_for_params))
-# numpy.save('params.npy', params_for_global_min)
+if my_rank == 0:
+    numpy.save('params.npy', params_for_global_min)
 
 params_for_global_min = numpy.load('params.npy')
 

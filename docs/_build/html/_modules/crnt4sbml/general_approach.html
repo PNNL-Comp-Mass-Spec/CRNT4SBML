@@ -1,4 +1,176 @@
-import sympy
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crnt4sbml.general_approach &mdash; CRNT4SBML 0.0.10 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">CRNT4SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../detect_bistability.html">Steps for Detecting Bistability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../physiological_bounds.html">Creating Physiological Bounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general_app_walkthrough.html">General Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example_use.html">An Example User Case Scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>crnt4sbml.general_approach</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crnt4sbml.general_approach</h1><div class="highlight"><pre>
+<span></span>import sympy
 import sys
 import itertools
 import numpy
@@ -11,24 +183,24 @@ import os
 from .bistability_finder import BistabilityFinder
 
 
-class GeneralApproach:
-    """
+<div class="viewcode-block" id="GeneralApproach"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach">[docs]</a>class GeneralApproach:
+    &quot;&quot;&quot;
     Class for constructing a more general approach to bistability detection for systems with mass action kinetics.
-    """
-    def __init__(self, cgraph):
-        """
+    &quot;&quot;&quot;
+<div class="viewcode-block" id="GeneralApproach.__init__"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.__init__">[docs]</a>    def __init__(self, cgraph):
+        &quot;&quot;&quot;
         Initialization of GeneralApproach class.
 
         See also
         ---------
         crnt4sbml.CRNT.get_general_approach
-        """
+        &quot;&quot;&quot;
         self.__cgraph = cgraph
 
-        if not self.__cgraph.get_dim_equilibrium_manifold() > 0:
-            print("# of species - rank(S) is not greater than zero.")
-            print("This implies that there are no mass conservation laws.")
-            print("The general approach cannot be ran!")
+        if not self.__cgraph.get_dim_equilibrium_manifold() &gt; 0:
+            print(&quot;# of species - rank(S) is not greater than zero.&quot;)
+            print(&quot;This implies that there are no mass conservation laws.&quot;)
+            print(&quot;The general approach cannot be ran!&quot;)
             sys.exit()
 
         # todo: check that there is more than one independent ODE
@@ -63,17 +235,17 @@ class GeneralApproach:
         self.__lambda_jec = None
         self.__lambda_D2_g_u_w = None
         self.__lambda_jac_eps = None
-        self.__important_info = ""
+        self.__important_info = &quot;&quot;
         self.__lambda_variables = None
         self.__indices_in_dec_vec = None
         self.__comm = None
         self.__my_rank = None
         self.__num_cores = None
 
-        self.__create_conservation_laws()
+        self.__create_conservation_laws()</div>
 
-    def initialize_general_approach(self, signal=None, response=None, fix_reactions=False):
-        """
+<div class="viewcode-block" id="GeneralApproach.initialize_general_approach"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.initialize_general_approach">[docs]</a>    def initialize_general_approach(self, signal=None, response=None, fix_reactions=False):
+        &quot;&quot;&quot;
         Function for initializing the necessary variables for the general approach.
 
         Parameters
@@ -88,16 +260,16 @@ class GeneralApproach:
 
         Examples
         ---------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
 
         See also :ref:`quickstart-gen-app-label` and :ref:`gen-app-label`.
-        """
-        if signal in ['C' + str(i + 1) for i in range(len(self.__cons_laws_sympy))] \
+        &quot;&quot;&quot;
+        if signal in [&#39;C&#39; + str(i + 1) for i in range(len(self.__cons_laws_sympy))] \
                 and response in self.__cgraph.get_species():
 
             self.__signal = signal
@@ -108,9 +280,9 @@ class GeneralApproach:
             self.__create_variables_for_optimization()
 
         else:
-            print("The provided signal, response, or both are not properly defined.")
-            print("This may be the result of the values not being provided or the signal is not a conservation law or")
-            print("the response is not a species concentration.")
+            print(&quot;The provided signal, response, or both are not properly defined.&quot;)
+            print(&quot;This may be the result of the values not being provided or the signal is not a conservation law or&quot;)
+            print(&quot;the response is not a species concentration.&quot;)</div>
 
     def __create_BT_matrix(self):
         # (bt = NullSpace[Transpose[S]]) // MatrixForm
@@ -137,9 +309,9 @@ class GeneralApproach:
         # of bt are linearly independent
         _, vals = bt.T.rref()
         if len(vals) != sizes:
-            print(" ")
-            print("Error: Not all rows of B^T are linearly independent!")
-            print(" ")
+            print(&quot; &quot;)
+            print(&quot;Error: Not all rows of B^T are linearly independent!&quot;)
+            print(&quot; &quot;)
             sys.exit()
 
         self.__BT_mat = bt
@@ -154,7 +326,7 @@ class GeneralApproach:
             a_null[i, :] = temp_vec
 
         a_eq = numpy.array([numpy.sum(a_null, axis=0)])
-        # must multiply by negative one because in optimization we have the inequality <= 0.0
+        # must multiply by negative one because in optimization we have the inequality &lt;= 0.0
         a_ub = -1.0 * a_null
         b_ub = numpy.zeros(self.__N)
         b_eq = numpy.array([1.0])
@@ -172,11 +344,11 @@ class GeneralApproach:
 
             # Solving the linear programming problem
             out = scipy.optimize.linprog(crit, A_eq=a_eq, b_eq=b_eq, A_ub=a_ub, b_ub=b_ub, bounds=(None, None),
-                                         method='simplex')
+                                         method=&#39;simplex&#39;)
             # multiplying our nullspace vectors with the minimized value
             # to create a nonnegative vector
             sol[i, :] = numpy.dot(a_null, out.x)
-            sol[i, [numpy.abs(sol[i, :]) < numpy.finfo(float).eps][0]] = numpy.float64(0.0)
+            sol[i, [numpy.abs(sol[i, :]) &lt; numpy.finfo(float).eps][0]] = numpy.float64(0.0)
 
         # getting the unique vectors
         unique_vecs = numpy.unique(sol, axis=0)
@@ -206,11 +378,11 @@ class GeneralApproach:
 
     def __create_modified_ode_system(self):
 
-        conservation_constants = ['C' + str(i + 1) for i in range(len(self.__cons_laws_sympy))]
+        conservation_constants = [&#39;C&#39; + str(i + 1) for i in range(len(self.__cons_laws_sympy))]
 
         self.__signal_index = conservation_constants.index(self.__signal)
 
-        cons_laws_sympy_eq = [sympy.Eq(sympy.Symbol('C' + str(i + 1), real=True), self.__cons_laws_sympy[i])
+        cons_laws_sympy_eq = [sympy.Eq(sympy.Symbol(&#39;C&#39; + str(i + 1), real=True), self.__cons_laws_sympy[i])
                               for i in range(len(self.__cons_laws_sympy))]
 
         elements = self.__cons_laws_sympy[self.__signal_index].atoms()
@@ -235,7 +407,7 @@ class GeneralApproach:
         self.__construct_independent_system_with_substitution()
 
         self.__x_bar = self.__sympy_reactions + self.__sympy_species
-        self.__lagrangian_vars = self.__x_bar + [sympy.Symbol('C' + str(i + 1), real=True) for i in
+        self.__lagrangian_vars = self.__x_bar + [sympy.Symbol(&#39;C&#39; + str(i + 1), real=True) for i in
                                                  range(len(self.__cons_laws_sympy))]
 
         if self.__fix_reactions:
@@ -245,9 +417,9 @@ class GeneralApproach:
 
     @staticmethod
     def __unique_everseen(iterable, key=None):
-        "List unique elements, preserving order. Remember all elements ever seen."
-        # unique_everseen('AAAABBBCCDAABBB') --> A B C D
-        # unique_everseen('ABBCcAD', str.lower) --> A B C D
+        &quot;List unique elements, preserving order. Remember all elements ever seen.&quot;
+        # unique_everseen(&#39;AAAABBBCCDAABBB&#39;) --&gt; A B C D
+        # unique_everseen(&#39;ABBCcAD&#39;, str.lower) --&gt; A B C D
         seen = set()
         seen_add = seen.add
         if key is None:
@@ -291,8 +463,8 @@ class GeneralApproach:
 
         # looking for other fixed reaction sets if no solution was found
         if sympy.S.Zero in temp_solution_tuple:
-            print("")
-            print("At least one fixed reaction found to be zero. \nAttempting to find nonzero values for all fixed reactions.")
+            print(&quot;&quot;)
+            print(&quot;At least one fixed reaction found to be zero. \nAttempting to find nonzero values for all fixed reactions.&quot;)
 
             no_zero_values_flag = False
             reactions_found_to_be_zero = []
@@ -319,14 +491,14 @@ class GeneralApproach:
                         zero_indices = [ii for ii in range(len(temp_solution_tuple2)) if
                                         temp_solution_tuple2[ii] == sympy.S.Zero]
                         [reactions_found_to_be_zero.append(i[ii]) for ii in zero_indices if i[ii] not in reactions_found_to_be_zero]
-            print("Done searching for nonzero values for all fixed reactions.")
-            print("")
+            print(&quot;Done searching for nonzero values for all fixed reactions.&quot;)
+            print(&quot;&quot;)
 
         if no_zero_values_flag:
             self.__soln_to_fixed_reactions = list(temp_solution_tuple)
         else:
-            print("There was no solution which resulted in all fixed reaction values being nonzero.")
-            print(f"Consider removing one or all of the following reactions {reactions_found_to_be_zero}. \n")
+            print(&quot;There was no solution which resulted in all fixed reaction values being nonzero.&quot;)
+            print(f&quot;Consider removing one or all of the following reactions {reactions_found_to_be_zero}. \n&quot;)
             self.__soln_to_fixed_reactions = list(temp_solution_tuple)
 
         for i in range(len(self.__soln_to_fixed_reactions)):
@@ -341,7 +513,7 @@ class GeneralApproach:
 
         self.__jac_mod_system = self.__indp_system_subs.jacobian(sympy.Matrix(self.__indp_species))
 
-        self.__det_jac = self.__jac_mod_system.det(method='lu')
+        self.__det_jac = self.__jac_mod_system.det(method=&#39;lu&#39;)
 
         self.__build_lagrangian()
 
@@ -501,28 +673,28 @@ class GeneralApproach:
 
             # distributing in the remainder
             ii = 0
-            while r > 0:
+            while r &gt; 0:
                 tasks_core[ii] += 1
                 r -= 1
                 ii += 1
 
             sample_portion = samples[0:tasks_core[0], :]
 
-            if self.__num_cores > 1:
+            if self.__num_cores &gt; 1:
                 for i in range(1, self.__num_cores):
                     start = sum(tasks_core[0:i])
                     end = start + tasks_core[i]
                     self.__comm.send(samples[start:end, :], dest=i, tag=i * 11)
 
         else:
-            if self.__num_cores > 1:
+            if self.__num_cores &gt; 1:
                 sample_portion = self.__comm.recv(source=0, tag=self.__my_rank * 11)
 
         return sample_portion
 
-    def run_optimization(self, bounds=None, iterations=10, seed=0, print_flag=False, dual_annealing_iters=1000,
+<div class="viewcode-block" id="GeneralApproach.run_optimization"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_optimization">[docs]</a>    def run_optimization(self, bounds=None, iterations=10, seed=0, print_flag=False, dual_annealing_iters=1000,
                          confidence_level_flag=False, change_in_rel_error=1e-2, constraints=None, parallel_flag=False):
-        """
+        &quot;&quot;&quot;
         Function for running the optimization problem for the general approach.
 
         Parameters
@@ -545,9 +717,9 @@ class GeneralApproach:
                 The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
                 of :math:`\widetilde{f}`.
             constraints: list of dictionaries
-                Each dictionary is of the form {'type': '...', 'fun': lambda x:  ... }, where 'type' can be set to
-                'ineq' or 'eq' and the lambda function to be defined by the user. The 'ineq' refers to an
-                inequality constraint c(x) with c(x) <= 0. For the lambda function the input x refers to the input vector
+                Each dictionary is of the form {&#39;type&#39;: &#39;...&#39;, &#39;fun&#39;: lambda x:  ... }, where &#39;type&#39; can be set to
+                &#39;ineq&#39; or &#39;eq&#39; and the lambda function to be defined by the user. The &#39;ineq&#39; refers to an
+                inequality constraint c(x) with c(x) &lt;= 0. For the lambda function the input x refers to the input vector
                 of the optimization routine. See :ref:`gen-app-label` for further details.
             parallel_flag: bool
                 If set to True a parallel version of the optimization routine is ran. If False, a serial version of the
@@ -562,7 +734,7 @@ class GeneralApproach:
         Examples
         ---------
         See :ref:`quickstart-gen-app-label` and :ref:`gen-app-label`.
-        """
+        &quot;&quot;&quot;
 
         if parallel_flag:
 
@@ -577,7 +749,7 @@ class GeneralApproach:
             start_time = MPI.Wtime()
 
             if self.__my_rank == 0:
-                print("Starting optimization ...")
+                print(&quot;Starting optimization ...&quot;)
 
             # creating initial decision vectors for feasible point method
             if self.__my_rank == 0:
@@ -615,7 +787,7 @@ class GeneralApproach:
                 smallest_values = self.__comm.gather(smallest_value, root=0)
                 if self.__my_rank == 0:
                     min_value = min(smallest_values)
-                    self.__important_info += "Smallest value achieved by objective function: " + str(min_value)
+                    self.__important_info += &quot;Smallest value achieved by objective function: &quot; + str(min_value)
 
             list_det_point_sets = self.__gather_list_of_values(det_point_sets)
             list_det_point_sets_fun = self.__gather_list_of_values(det_point_sets_fun)
@@ -625,12 +797,12 @@ class GeneralApproach:
             if self.__my_rank == 0:
                 end_time = MPI.Wtime()
                 elapsed = end_time - start_time
-                print(f"Elapsed time for optimization in seconds: {elapsed}")
+                print(f&quot;Elapsed time for optimization in seconds: {elapsed}&quot;)
 
             return list_det_point_sets, list_det_point_sets_fun
 
         else:
-            print("Starting optimization ...")
+            print(&quot;Starting optimization ...&quot;)
             start_t = time.time()
             samples, temp_bounds, x_full, feasible_point_sets, full_constraints = self.__initialize_optimization(seed, iterations, bounds, constraints)
 
@@ -639,15 +811,15 @@ class GeneralApproach:
 
             end_t = time.time()
             elapsed = end_t - start_t
-            print("Elapsed time for optimization in seconds: " + str(elapsed))
+            print(&quot;Elapsed time for optimization in seconds: &quot; + str(elapsed))
 
             if confidence_level_flag:
                 self.__confidence_level(obtained_minimums, change_in_rel_error)
 
             else:
-                self.__important_info += "Smallest value achieved by objective function: " + str(smallest_value) + "\n"
+                self.__important_info += &quot;Smallest value achieved by objective function: &quot; + str(smallest_value) + &quot;\n&quot;
 
-            return det_point_sets, det_point_sets_fun
+            return det_point_sets, det_point_sets_fun</div>
 
     def __initialize_optimization(self, seed, iterations, bounds, constraints):
 
@@ -676,14 +848,14 @@ class GeneralApproach:
         if constraints:
             full_constraints = []
             for i in constraints:
-                if i["type"] == "ineq":
+                if i[&quot;type&quot;] == &quot;ineq&quot;:
                     full_constraints.append(
-                        [lambda x, func: numpy.maximum(numpy.float64(0.0), numpy.float64(-1.0 * func(x))), i["fun"]])          # TODO: make it be 0.5 times greater or something
-                elif i["type"] == "eq":
-                    full_constraints.append([lambda x, func: numpy.float64(numpy.abs(func(x))), i["fun"]])
+                        [lambda x, func: numpy.maximum(numpy.float64(0.0), numpy.float64(-1.0 * func(x))), i[&quot;fun&quot;]])          # TODO: make it be 0.5 times greater or something
+                elif i[&quot;type&quot;] == &quot;eq&quot;:
+                    full_constraints.append([lambda x, func: numpy.float64(numpy.abs(func(x))), i[&quot;fun&quot;]])
 
                 else:
-                    print("The type of constraint provided is unknown. Please review the entered constraints.")
+                    print(&quot;The type of constraint provided is unknown. Please review the entered constraints.&quot;)
                     sys.exit()
         else:
             full_constraints = []
@@ -705,7 +877,7 @@ class GeneralApproach:
 
             for i in range(len(feasible_point_sets)):
 
-                with numpy.errstate(divide='ignore', invalid='ignore'):
+                with numpy.errstate(divide=&#39;ignore&#39;, invalid=&#39;ignore&#39;):
 
                     if self.__fix_reactions:
                         result = scipy.optimize.dual_annealing(self.__obj_func_fixed, bounds=temp_bounds,
@@ -713,7 +885,7 @@ class GeneralApproach:
                                                                      self.__cons_laws_sympy_lamb, bounds,
                                                                      full_constraints),
                                                                x0=feasible_point_sets[i], seed=seed,
-                                                               local_search_options={'method': "Nelder-Mead"},
+                                                               local_search_options={&#39;method&#39;: &quot;Nelder-Mead&quot;},
                                                                maxiter=dual_annealing_iters)
                     else:
                         result = scipy.optimize.dual_annealing(self.__obj_func, bounds=bounds,
@@ -721,49 +893,49 @@ class GeneralApproach:
                                                                      self.__cons_laws_sympy_lamb, bounds,
                                                                      full_constraints),
                                                                x0=feasible_point_sets[i], seed=seed,
-                                                               local_search_options={'method': "Nelder-Mead"},
+                                                               local_search_options={&#39;method&#39;: &quot;Nelder-Mead&quot;},
                                                                maxiter=dual_annealing_iters)
 
                     if print_flag:
-                        print("Global function value: " + str(result.fun))
-                        print("Decision vector used: ")
+                        print(&quot;Global function value: &quot; + str(result.fun))
+                        print(&quot;Decision vector used: &quot;)
                         print(result.x)
 
-                    if abs(result.fun) > numpy.float64(1e-100):
+                    if abs(result.fun) &gt; numpy.float64(1e-100):
 
                         if self.__fix_reactions:
                             result1 = scipy.optimize.minimize(self.__obj_func_fixed, result.x, args=(self.__lambda_obj_func_h,
                                                                                                x_full,
                                                                                                self.__cons_laws_sympy_lamb,
                                                                                                bounds, full_constraints),
-                                                              method='Nelder-Mead', tol=1e-16)
+                                                              method=&#39;Nelder-Mead&#39;, tol=1e-16)
                         else:
                             result1 = scipy.optimize.minimize(self.__obj_func, result.x, args=(self.__lambda_obj_func_h,
                                                                                                x_full,
                                                                                                self.__cons_laws_sympy_lamb,
                                                                                                bounds,
                                                                                                full_constraints),
-                                                              method='Nelder-Mead', tol=1e-16)
+                                                              method=&#39;Nelder-Mead&#39;, tol=1e-16)
 
                         if print_flag:
-                            print("Local function value: " + str(result1.fun))
-                            print("Decision vector used: ")
+                            print(&quot;Local function value: &quot; + str(result1.fun))
+                            print(&quot;Decision vector used: &quot;)
                             print(result1.x)
 
-                        if smallest_value > result1.fun:
+                        if smallest_value &gt; result1.fun:
                             smallest_value = result1.fun
 
                         if confidence_level_flag:
                             obtained_minimums[i] = result1.fun
 
-                        if abs(result1.fun) <= numpy.finfo(float).eps:
+                        if abs(result1.fun) &lt;= numpy.finfo(float).eps:
                             # det_point_sets.append(result1.x)
                             out = self.__construct_full_reactions_and_species(result1.x, x_full, self.__cons_laws_sympy_lamb)
                             det_point_sets.append(out)
                             det_point_sets_fun.append(result1.fun)
 
                     else:
-                        if smallest_value > result.fun:
+                        if smallest_value &gt; result.fun:
                             smallest_value = result.fun
                         # det_point_sets.append(result.x)
                         out = self.__construct_full_reactions_and_species(result.x, x_full, self.__cons_laws_sympy_lamb)
@@ -773,10 +945,10 @@ class GeneralApproach:
                             obtained_minimums[i] = result.fun
 
                     if print_flag:
-                        print("")
+                        print(&quot;&quot;)
         elif not parallel_flag:
-            print("Determinant optimization has finished.")
-            raise Exception("Optimization needs to be run with more iterations or different bounds.")
+            print(&quot;Determinant optimization has finished.&quot;)
+            raise Exception(&quot;Optimization needs to be run with more iterations or different bounds.&quot;)
 
         return det_point_sets, det_point_sets_fun, obtained_minimums, smallest_value
 
@@ -817,10 +989,10 @@ class GeneralApproach:
 
         numpy_float64_smallest_positive_value = numpy.nextafter(numpy.float64(0), numpy.float64(1))
 
-        if f_til > numpy_float64_smallest_positive_value:
+        if f_til &gt; numpy_float64_smallest_positive_value:
 
             r = numpy.count_nonzero(
-                numpy.abs(f_til - obtained_minimums) / f_til < numpy.float64(change_in_rel_error))
+                numpy.abs(f_til - obtained_minimums) / f_til &lt; numpy.float64(change_in_rel_error))
 
             n_til = obtained_minimums.shape[0]
             a_bar = a + b - 1
@@ -833,12 +1005,12 @@ class GeneralApproach:
 
             prob = 1.0
 
-        self.__important_info += f"It was found that {unique_elements[min_val_index]} is the minimum objective function value with a confidence level of {prob} .\n"
+        self.__important_info += f&quot;It was found that {unique_elements[min_val_index]} is the minimum objective function value with a confidence level of {prob} .\n&quot;
 
-    def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
+<div class="viewcode-block" id="GeneralApproach.run_greedy_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_greedy_continuity_analysis">[docs]</a>    def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
 
-        """
+        &quot;&quot;&quot;
         Function for running the greedy numerical continuation and bistability analysis portions of the general
         approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
         parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
@@ -862,7 +1034,7 @@ class GeneralApproach:
             auto_parameters: dict
                 Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
                 PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
-                be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
+                be set. For more information on these parameters refer to :download:`AUTO parameters &lt;../auto2000_input.pdf&gt;`.
             plot_labels: list of strings
                 A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
                 is the label for x-axis, second is the y-axis label, and the last element is the title label. If
@@ -871,7 +1043,7 @@ class GeneralApproach:
         Returns
         ---------
             multistable_param_ind: list of integers
-                A list of those indices in 'parameters' that produce multistable plots.
+                A list of those indices in &#39;parameters&#39; that produce multistable plots.
             plot_specifications: list of lists
                 A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
                 Each element is a list where the first element specifies the range used for the x-axis, the second
@@ -881,28 +1053,28 @@ class GeneralApproach:
         Example
         ---------
         See :ref:`quickstart-gen-app-label` and :ref:`gen-app-label`.
-        """
+        &quot;&quot;&quot;
 
         if self.__comm is not None:
 
             if self.__my_rank == 0:
-                print("")
-                print("A parallel version of numerical continuation is not available.")
-                print("Please rerun your script without mpiexec.")
+                print(&quot;&quot;)
+                print(&quot;A parallel version of numerical continuation is not available.&quot;)
+                print(&quot;Please rerun your script without mpiexec.&quot;)
                 print(
-                    "For your convenience, the provided parameters have been saved in the current directory under the name params.npy.")
-                numpy.save('./params.npy', parameters)
+                    &quot;For your convenience, the provided parameters have been saved in the current directory under the name params.npy.&quot;)
+                numpy.save(&#39;./params.npy&#39;, parameters)
 
             sys.exit()
 
         # setting default values for AUTO
-        if 'NMX' not in auto_parameters.keys():
-            auto_parameters['NMX'] = 10000
+        if &#39;NMX&#39; not in auto_parameters.keys():
+            auto_parameters[&#39;NMX&#39;] = 10000
 
-        if 'ITMX' not in auto_parameters.keys():
-            auto_parameters['ITMX'] = 100
+        if &#39;ITMX&#39; not in auto_parameters.keys():
+            auto_parameters[&#39;ITMX&#39;] = 100
 
-        # making the directory if it doesn't exist
+        # making the directory if it doesn&#39;t exist
         if not os.path.isdir(dir_path):
             os.mkdir(dir_path)
 
@@ -916,7 +1088,7 @@ class GeneralApproach:
 
         self.__important_info += important_info
 
-        return multistable_param_ind, plot_specifications
+        return multistable_param_ind, plot_specifications</div>
 
     def __distribute_list_of_points(self, samples):
 
@@ -934,29 +1106,29 @@ class GeneralApproach:
 
             # distributing in the remainder
             ii = 0
-            while r > 0:
+            while r &gt; 0:
                 tasks_core[ii] += 1
                 r -= 1
                 ii += 1
 
             sample_portion = samples[0:tasks_core[0]]
 
-            if self.__num_cores > 1:
+            if self.__num_cores &gt; 1:
                 for i in range(1, self.__num_cores):
                     start = sum(tasks_core[0:i])
                     end = start + tasks_core[i]
                     self.__comm.send(samples[start:end], dest=i, tag=i * 11)
 
         else:
-            if self.__num_cores > 1:
+            if self.__num_cores &gt; 1:
                 sample_portion = self.__comm.recv(source=0, tag=self.__my_rank * 11)
 
         return sample_portion
 
-    def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
+<div class="viewcode-block" id="GeneralApproach.run_continuity_analysis"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_continuity_analysis">[docs]</a>    def run_continuity_analysis(self, species=None, parameters=None, dir_path=&quot;./num_cont_graphs&quot;,
                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
 
-        """
+        &quot;&quot;&quot;
         Function for running the numerical continuation and bistability analysis portions of the general
         approach.
 
@@ -976,10 +1148,10 @@ class GeneralApproach:
                 special points.
             auto_parameters: dict
                 Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
-                'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
+                &#39;SBML&#39; or &#39;ScanDirection&#39; in these parameters as these are automatically assigned. It is absolutely
                 necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
-                parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
-                10000 and 'ITMX' to 100.
+                parameters refer to :download:`AUTO parameters &lt;../auto2000_input.pdf&gt;`. &#39;NMX&#39; will default to
+                10000 and &#39;ITMX&#39; to 100.
             plot_labels: list of strings
                 A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
                 is the label for x-axis, second is the y-axis label, and the last element is the title label. If
@@ -988,7 +1160,7 @@ class GeneralApproach:
         Returns
         ---------
             multistable_param_ind: list of integers
-                A list of those indices in 'parameters' that produce multistable plots.
+                A list of those indices in &#39;parameters&#39; that produce multistable plots.
             plot_specifications: list of lists
                 A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
                 Each element is a list where the first element specifies the range used for the x-axis, the second
@@ -998,28 +1170,28 @@ class GeneralApproach:
         Example
         ---------
         See :ref:`quickstart-gen-app-label` and :ref:`gen-app-label`..
-        """
+        &quot;&quot;&quot;
 
         if self.__comm is not None:
 
             if self.__my_rank == 0:
-                print("")
-                print("A parallel version of numerical continuation is not available.")
-                print("Please rerun your script without mpiexec.")
+                print(&quot;&quot;)
+                print(&quot;A parallel version of numerical continuation is not available.&quot;)
+                print(&quot;Please rerun your script without mpiexec.&quot;)
                 print(
-                    "For your convenience, the provided parameters have been saved in the current directory under the name params.npy.")
-                numpy.save('./params.npy', parameters)
+                    &quot;For your convenience, the provided parameters have been saved in the current directory under the name params.npy.&quot;)
+                numpy.save(&#39;./params.npy&#39;, parameters)
 
             sys.exit()
 
         # setting default values for AUTO
-        if 'NMX' not in auto_parameters.keys():
-            auto_parameters['NMX'] = 10000
+        if &#39;NMX&#39; not in auto_parameters.keys():
+            auto_parameters[&#39;NMX&#39;] = 10000
 
-        if 'ITMX' not in auto_parameters.keys():
-            auto_parameters['ITMX'] = 100
+        if &#39;ITMX&#39; not in auto_parameters.keys():
+            auto_parameters[&#39;ITMX&#39;] = 100
 
-        # making the directory if it doesn't exist
+        # making the directory if it doesn&#39;t exist
         if not os.path.isdir(dir_path):
             os.mkdir(dir_path)
 
@@ -1033,7 +1205,7 @@ class GeneralApproach:
 
         self.__important_info += important_info
 
-        return multistable_param_ind, plot_specifications
+        return multistable_param_ind, plot_specifications</div>
 
     def __find_viable_indices(self, result_x, itg, spec_index, change_in_relative_error):
 
@@ -1065,22 +1237,22 @@ class GeneralApproach:
             if not numpy.array_equal(numpy.array(initial_species_values), out):
 
                 # accepting those indices that are smaller than a predescribed relative error
-                if all([abs(conservation_vals[ii] - steady_cons[ii])/abs(steady_cons[ii]) < change_in_relative_error for ii in range(len(conservation_vals))]):
+                if all([abs(conservation_vals[ii] - steady_cons[ii])/abs(steady_cons[ii]) &lt; change_in_relative_error for ii in range(len(conservation_vals))]):
                     viable_out_values.append(out)
                     viable_indices.append(i)
             elif len(out) == 2:
 
                 # accepting those indices that are smaller than a predescribed relative error
-                if all([abs(conservation_vals[ii] - steady_cons[ii]) / abs(steady_cons[ii]) < change_in_relative_error
+                if all([abs(conservation_vals[ii] - steady_cons[ii]) / abs(steady_cons[ii]) &lt; change_in_relative_error
                         for ii in range(len(conservation_vals))]):
                     viable_out_values.append(out)
                     viable_indices.append(i)
 
         return viable_indices, viable_out_values, conservation_vals
 
-    def run_direct_simulation(self, params_for_global_min=None, dir_path="./", change_in_relative_error=1e-6, parallel_flag=False, left_multiplier=0.5, right_multiplier=0.5):
+<div class="viewcode-block" id="GeneralApproach.run_direct_simulation"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_direct_simulation">[docs]</a>    def run_direct_simulation(self, params_for_global_min=None, dir_path=&quot;./&quot;, change_in_relative_error=1e-6, parallel_flag=False, left_multiplier=0.5, right_multiplier=0.5):
 
-        """
+        &quot;&quot;&quot;
         Function for running direct simulation to conduct bistability analysis of the general approach.
 
         Note: This routine is more expensive than the numerical continuation routines, but can provide solutions
@@ -1110,7 +1282,7 @@ class GeneralApproach:
         Example
         ---------
         See :ref:`gen-app-label`.
-        """
+        &quot;&quot;&quot;
         import scipy.integrate as itg
 
         lambda_inputs = self.__sympy_reactions + self.__sympy_species
@@ -1123,11 +1295,11 @@ class GeneralApproach:
 
         if parallel_flag is False and self.__comm is None:
 
-            #making the directory if it doesn't exist
+            #making the directory if it doesn&#39;t exist
             if not os.path.isdir(dir_path):
                 os.mkdir(dir_path)
 
-            print("Starting direct simulation ...")
+            print(&quot;Starting direct simulation ...&quot;)
             start_t = time.time()
 
         elif parallel_flag is True and self.__comm is None:
@@ -1146,7 +1318,7 @@ class GeneralApproach:
                 start_time = MPI.Wtime()
 
                 if self.__my_rank == 0:
-                    print("Starting direct simulation ...")
+                    print(&quot;Starting direct simulation ...&quot;)
         elif self.__comm is not None:
 
             from mpi4py import MPI
@@ -1163,10 +1335,10 @@ class GeneralApproach:
             start_time = MPI.Wtime()
 
             if self.__my_rank == 0:
-                print("Starting direct simulation ...")
+                print(&quot;Starting direct simulation ...&quot;)
 
         else:
-            print("Starting direct simulation ...")
+            print(&quot;Starting direct simulation ...&quot;)
             start_t = time.time()
 
         viable_indices, viable_out_values, conservation_vals = self.__find_viable_indices(params_for_global_min[0], itg, spec_index, change_in_relative_error)
@@ -1198,8 +1370,8 @@ class GeneralApproach:
 
             count = 0
             scan_vals = pcp_scan
-            while count < 5:
-                if len([ii for ii in scan_vals if ii >= min_val and ii <= max_val]) < 10:
+            while count &lt; 5:
+                if len([ii for ii in scan_vals if ii &gt;= min_val and ii &lt;= max_val]) &lt; 10:
 
                     second_scan = numpy.linspace(min_val, max_val, 60)
 
@@ -1228,13 +1400,13 @@ class GeneralApproach:
         if self.__comm is None:
             end_t = time.time()
             elapsed = end_t - start_t
-            print("Elapsed time for direct simulation in seconds: " + str(elapsed))
+            print(&quot;Elapsed time for direct simulation in seconds: &quot; + str(elapsed))
         else:
             self.__comm.Barrier()
             if self.__my_rank == 0:
                 end_time = MPI.Wtime()
                 elapsed = end_time - start_time
-                print(f"Elapsed time for direct simulation in seconds: {elapsed}")
+                print(f&quot;Elapsed time for direct simulation in seconds: {elapsed}&quot;)</div>
 
     def __initialize_direct_simulation(self, viable_indices, viable_out_values, result_x, conservation_vals, itg,
                                        change_in_relative_error, spec_index, left_multiplier, right_multiplier):
@@ -1285,8 +1457,8 @@ class GeneralApproach:
 
     def __get_important_scan_vals(self, chosen_combo, spec_index, viable_out_values, viable_indices):
 
-        # choosing the largest value at the species index as the "high concentration" option
-        if viable_out_values[chosen_combo[0]][spec_index] < viable_out_values[chosen_combo[1]][spec_index]:
+        # choosing the largest value at the species index as the &quot;high concentration&quot; option
+        if viable_out_values[chosen_combo[0]][spec_index] &lt; viable_out_values[chosen_combo[1]][spec_index]:
 
             fwd_scan_vals = [[viable_indices[chosen_combo[1]][j], j] for j in
                              range(len(viable_indices[chosen_combo[1]]))]
@@ -1318,12 +1490,12 @@ class GeneralApproach:
 
         fwd_rel_change = abs(max(forward_scan) - min(forward_scan)) / max(forward_scan)
 
-        if fwd_rel_change >= 0.98:
+        if fwd_rel_change &gt;= 0.98:
             constant_index.append(fwd_ind)
 
         rvrs_rel_change = abs(max(reverse_scan) - min(reverse_scan)) / max(reverse_scan)
 
-        if rvrs_rel_change >= 0.98:
+        if rvrs_rel_change &gt;= 0.98:
             constant_index.append(rvrs_ind)
 
         #if one or both of them are deemed to be constant, then we throw out one or both from the combos.
@@ -1426,8 +1598,8 @@ class GeneralApproach:
 
         len_time_interval = 100.0
 
-        with numpy.errstate(divide='ignore', invalid='ignore'):
-            out = itg.solve_ivp(ff, [0.0, len_time_interval], initial_species_values, args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function), jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True) #'RK45')  #'LSODA')
+        with numpy.errstate(divide=&#39;ignore&#39;, invalid=&#39;ignore&#39;):
+            out = itg.solve_ivp(ff, [0.0, len_time_interval], initial_species_values, args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function), jac=jac_f, method=&#39;BDF&#39;, rtol=1e-6, atol=1e-9, vectorized=True) #&#39;RK45&#39;)  #&#39;LSODA&#39;)
             y0 = out.y[:, -1]
 
         flag = True
@@ -1436,8 +1608,8 @@ class GeneralApproach:
         while flag:
             tspan = [0.0 + i*len_time_interval, len_time_interval + i*len_time_interval]
             try:
-                with numpy.errstate(divide='ignore', invalid='ignore'):
-                    out = itg.solve_ivp(ff, tspan, y0, args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function), jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True) #'RK45')  #'LSODA')
+                with numpy.errstate(divide=&#39;ignore&#39;, invalid=&#39;ignore&#39;):
+                    out = itg.solve_ivp(ff, tspan, y0, args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function), jac=jac_f, method=&#39;BDF&#39;, rtol=1e-6, atol=1e-9, vectorized=True) #&#39;RK45&#39;)  #&#39;LSODA&#39;)
                     y0 = out.y[:, -1]
                 i += 1
             except Exception as e:
@@ -1446,8 +1618,8 @@ class GeneralApproach:
             # if there is a division by zero we exit the routine
             try:
                 with warnings.catch_warnings():
-                    warnings.simplefilter("ignore")
-                    flag = abs(out.y[spec_index, -1] - out.y[spec_index, 0]) / abs(out.y[spec_index, -1]) > change_in_relative_error and i < 1000
+                    warnings.simplefilter(&quot;ignore&quot;)
+                    flag = abs(out.y[spec_index, -1] - out.y[spec_index, 0]) / abs(out.y[spec_index, -1]) &gt; change_in_relative_error and i &lt; 1000
             except Exception as e:
                 flag = False
 
@@ -1459,28 +1631,28 @@ class GeneralApproach:
         from plotnine import ggplot, aes, geom_line, ylim, scale_color_distiller, facet_wrap, theme_bw, geom_path, \
             geom_point, labs, annotate
         from matplotlib import rc
-        rc('text', usetex=True)
+        rc(&#39;text&#39;, usetex=True)
 
-        out = pandas.DataFrame(columns=['dir', 'signal'] + [self.__response])
+        out = pandas.DataFrame(columns=[&#39;dir&#39;, &#39;signal&#39;] + [self.__response])
         for i in range(len(forward_scan)):
             out_i = pandas.DataFrame([forward_scan[i]], columns=[out.columns[2]])
-            out_i['signal'] = pcp_scan[i]
-            out_i['dir'] = 'Forward scan'
+            out_i[&#39;signal&#39;] = pcp_scan[i]
+            out_i[&#39;dir&#39;] = &#39;Forward scan&#39;
             out = pandas.concat([out, out_i[out.columns]])
         for i in range(len(reverse_scan)):
             out_i = pandas.DataFrame([reverse_scan[i]], columns=[out.columns[2]])
-            out_i['signal'] = pcp_scan[i]
-            out_i['dir'] = 'Reverse scan'
+            out_i[&#39;signal&#39;] = pcp_scan[i]
+            out_i[&#39;dir&#39;] = &#39;Reverse scan&#39;
             out = pandas.concat([out, out_i[out.columns]])
 
         g = (ggplot(out)
-             + aes(x='signal', y=self.__response, color='dir')
-             + labs(x=f"{self.__signal} total", y=f"[{self.__response}]", color="")
+             + aes(x=&#39;signal&#39;, y=self.__response, color=&#39;dir&#39;)
+             + labs(x=f&quot;{self.__signal} total&quot;, y=f&quot;[{self.__response}]&quot;, color=&quot;&quot;)
              + geom_path(size=2, alpha=0.5)
-             + geom_point(color="black")
+             + geom_point(color=&quot;black&quot;)
              + theme_bw()
-             + geom_point(color="black"))
-        g.save(filename=path + f"/sim_bif_diag_{index}.png", format="png", width=6, height=4, units='in', verbose=False)
+             + geom_point(color=&quot;black&quot;))
+        g.save(filename=path + f&quot;/sim_bif_diag_{index}.png&quot;, format=&quot;png&quot;, width=6, height=4, units=&#39;in&#39;, verbose=False)
 
 
     def __construct_independent_system(self):
@@ -1563,7 +1735,7 @@ class GeneralApproach:
         # constructing the independent ODEs
         indp_odes_temp = ya[chosen_indp_indices, :] * sympy.Matrix(self.__sympy_reactions) # new approach
 
-        cons_laws_sympy_eq = [sympy.Eq(sympy.Symbol('C' + str(i + 1), real=True), self.__cons_laws_sympy[i])
+        cons_laws_sympy_eq = [sympy.Eq(sympy.Symbol(&#39;C&#39; + str(i + 1), real=True), self.__cons_laws_sympy[i])
                               for i in range(len(self.__cons_laws_sympy))]
 
         dep_conc_in_laws = self.__dependent_species_concentrations(self.__cons_laws_sympy, dep_spec_conc)
@@ -1579,7 +1751,7 @@ class GeneralApproach:
         for i in range(len(cons_laws_sympy)):
             temp = []
             for j in range(len(dep_spec_conc)):
-                if cons_laws_sympy[i].count(dep_spec_conc[j]) > 0:
+                if cons_laws_sympy[i].count(dep_spec_conc[j]) &gt; 0:
                     temp.append(dep_spec_conc[j])
             dep_conc_in_laws.append(temp)
         return dep_conc_in_laws
@@ -1596,7 +1768,7 @@ class GeneralApproach:
                     cons_laws_sympy = [cons_laws_sympy[j].subs(dep_conc_in_laws[i][0], temp[0])
                                        for j in range(len(cons_laws_sympy))]
 
-                    cons_laws_sympy_eq = [sympy.Eq(sympy.Symbol('C' + str(i+1), real=True), cons_laws_sympy[i])
+                    cons_laws_sympy_eq = [sympy.Eq(sympy.Symbol(&#39;C&#39; + str(i+1), real=True), cons_laws_sympy[i])
                                           for i in range(len(cons_laws_sympy))]
 
                     replacements.append([dep_conc_in_laws[i][0], temp[0]])
@@ -1615,22 +1787,22 @@ class GeneralApproach:
         [indp_odes_str.append(str(self.__indp_system_subs[i])) for i in range(len(self.__indp_species)) if i != species_num-1]
 
         for i in range(len(indp_odes_str)):
-            indp_odes_str[i] = indp_odes_str[i].replace('**', '^')
+            indp_odes_str[i] = indp_odes_str[i].replace(&#39;**&#39;, &#39;^&#39;)
 
         ind_spec_conc = []
         ind_spec_conc.append(self.__indp_species[species_num-1])
         [ind_spec_conc.append(str(i)) for i in self.__indp_species if i != self.__indp_species[species_num-1]]
 
         # building the string of ODEs in Antimony syntax
-        ode_str = ''
+        ode_str = &#39;&#39;
         for i in range(len(ind_spec_conc)):
-            ode_str += 'J' + str(i) + ': -> ' + str(ind_spec_conc[i]) + '; ' + indp_odes_str[i] + ';'
+            ode_str += &#39;J&#39; + str(i) + &#39;: -&gt; &#39; + str(ind_spec_conc[i]) + &#39;; &#39; + indp_odes_str[i] + &#39;;&#39;
 
         return ode_str, pcp_x
 
     def __finalize_ant_string(self, result_x, ode_str):
 
-        vars_to_initialize = [str(i) for i in self.__x_bar] + ['C' + str(i + 1)
+        vars_to_initialize = [str(i) for i in self.__x_bar] + [&#39;C&#39; + str(i + 1)
                                                                for i in range(len(self.__cons_laws_sympy))]
 
         conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple(result_x[self.__R:self.__R + self.__N]))
@@ -1640,84 +1812,84 @@ class GeneralApproach:
 
         ant_str = ode_str
         for i in range(len(self.__x_bar)):
-            ant_str += str(vars_to_initialize[i]) + ' = ' + str(var_vals[i]) + ';'
+            ant_str += str(vars_to_initialize[i]) + &#39; = &#39; + str(var_vals[i]) + &#39;;&#39;
 
         count = 0
         for i in range(len(self.__x_bar), len(vars_to_initialize)):
-            ant_str += str(vars_to_initialize[i]) + ' = ' + str(conservation_vals[count]) + ';'
+            ant_str += str(vars_to_initialize[i]) + &#39; = &#39; + str(conservation_vals[count]) + &#39;;&#39;
             count += 1
         print(ant_str)
 
         return ant_str
 
-    def get_optimization_bounds(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_optimization_bounds"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_optimization_bounds">[docs]</a>    def get_optimization_bounds(self):
+        &quot;&quot;&quot;
         Returns a list of tuples that corresponds to the determined physiological bounds chosen for the problem. Each
         entry corresponds to the list provided by :func:`crnt4sbml.GeneralApproach.get_input_vector`.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
-        >>> GA.get_optimization_bounds()
-        """
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
+        &gt;&gt;&gt; GA.get_optimization_bounds()
+        &quot;&quot;&quot;
         graph_edges = self.__cgraph.get_g_edges()
         dec_vec_var_def = []
         for i in self.__sympy_reactions + self.__sympy_species:
 
             if i in self.__sympy_species:
-                dec_vec_var_def.append("concentration")
+                dec_vec_var_def.append(&quot;concentration&quot;)
             elif i in self.__sympy_reactions:
 
                 ind = self.__sympy_reactions.index(i)
                 reaction = graph_edges[ind]
 
-                reaction_type = self.__cgraph.get_graph().edges[reaction]['type']
+                reaction_type = self.__cgraph.get_graph().edges[reaction][&#39;type&#39;]
                 dec_vec_var_def.append(reaction_type)
 
                 if reaction_type is None:
-                    output_statement = "The reaction type of reaction " + self.__cgraph.get_graph().edges[reaction][
-                        'label'] \
-                                       + " could not be identified as it does not fit any biological criteria " + \
-                                       "established. \n" + "You must enter bounds manually for this reaction! \n"
+                    output_statement = &quot;The reaction type of reaction &quot; + self.__cgraph.get_graph().edges[reaction][
+                        &#39;label&#39;] \
+                                       + &quot; could not be identified as it does not fit any biological criteria &quot; + \
+                                       &quot;established. \n&quot; + &quot;You must enter bounds manually for this reaction! \n&quot;
                     print(output_statement)
 
         bounds = [self.__get_physiological_range(i) for i in dec_vec_var_def]
 
-        return bounds
+        return bounds</div>
 
     @staticmethod
     def __get_physiological_range(for_what=None):
-        """
+        &quot;&quot;&quot;
         Molecule concentrations: 5e-13 ... 5e-7 M (basically from 1 per cell to 1e6 per cell)
         Complex formation (bimolecular association): 1e4 ... 1e8  M^-1s^-1
-        Example A + B -> [AB]  (or first step in enzymatic catalysis mechanism)
+        Example A + B -&gt; [AB]  (or first step in enzymatic catalysis mechanism)
         Complex dissociation: 1e-5 ... 1e-3 s^-1
-        Example [AB] -> A + B  (e.g enzyme substrat dissociation)
+        Example [AB] -&gt; A + B  (e.g enzyme substrat dissociation)
         Catalysis (equivalent to kcat in Michaelis-Menten): 1e-3 ... 1e0 s^-1
-        Examples: [AB] -> A + C  or  X -> Y  (e.g. final step in enzymatic catalysis)
-        """
-        valid = {"concentration", "complex formation", "complex dissociation", "catalysis"}
+        Examples: [AB] -&gt; A + C  or  X -&gt; Y  (e.g. final step in enzymatic catalysis)
+        &quot;&quot;&quot;
+        valid = {&quot;concentration&quot;, &quot;complex formation&quot;, &quot;complex dissociation&quot;, &quot;catalysis&quot;}
         if for_what is None:
-            warnings.warn("Please provide the argument what the range should be provided for.")
+            warnings.warn(&quot;Please provide the argument what the range should be provided for.&quot;)
             return None
         if for_what not in valid:
-            raise ValueError("for_what argument must be one of %r." % valid)
-        if for_what == "concentration":
+            raise ValueError(&quot;for_what argument must be one of %r.&quot; % valid)
+        if for_what == &quot;concentration&quot;:
             return 5e-13, 5e-7
-        if for_what == "complex formation":
+        if for_what == &quot;complex formation&quot;:
             return 1e4, 1e8
-        if for_what == "complex dissociation":
+        if for_what == &quot;complex dissociation&quot;:
             return 1e-5, 1e-3
-        if for_what == "catalysis":
+        if for_what == &quot;catalysis&quot;:
             return 1e-3, 1e0
 
-    def generate_report(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.generate_report"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.generate_report">[docs]</a>    def generate_report(self):
+        &quot;&quot;&quot;
         Prints out helpful details constructed by :func:`crnt4sbml.GeneralApproach.run_optimization`,
         :func:`crnt4sbml.GeneralApproach.run_continuity_analysis`, and
         :func:`crnt4sbml.GeneralApproach.run_greedy_continuity_analysis`.
@@ -1725,7 +1897,7 @@ class GeneralApproach:
         Example
         --------
         See also :ref:`quickstart-gen-app-label` and :ref:`gen-app-label`
-        """
+        &quot;&quot;&quot;
         if self.__comm == None:
             print(self.__important_info)
         else:
@@ -1735,182 +1907,224 @@ class GeneralApproach:
 
             if self.__my_rank == 0:
 
-                print("")
+                print(&quot;&quot;)
                 for i in range(1, len(all_important_info)):
-                    if all_important_info[i] != "":
+                    if all_important_info[i] != &quot;&quot;:
                         print(all_important_info[i])
-                print(self.__important_info)
+                print(self.__important_info)</div>
 
-    def get_input_vector(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_input_vector"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_input_vector">[docs]</a>    def get_input_vector(self):
+        &quot;&quot;&quot;
         Returns a list of SymPy variables that specifies the ordering of the reactions and species for which bounds
         need to be provided.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
-        >>> print(GA.get_input_vector())
-        """
-        return self.__sympy_reactions + self.__sympy_species
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
+        &gt;&gt;&gt; print(GA.get_input_vector())
+        &quot;&quot;&quot;
+        return self.__sympy_reactions + self.__sympy_species</div>
 
-    def get_decision_vector(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_decision_vector"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_decision_vector">[docs]</a>    def get_decision_vector(self):
+        &quot;&quot;&quot;
         Returns a list of SymPy variables that specifies the ordering of the reactions and species of the decision
         vector used in optimization. Note: this method should not be used to create bounds for the optimization
         routine, rather :func:`crnt4sbml.GeneralApproach.get_input_vector` should be used.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
-        >>> print(GA.get_decision_vector())
-        """
-        return self.__decision_vector
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
+        &gt;&gt;&gt; print(GA.get_decision_vector())
+        &quot;&quot;&quot;
+        return self.__decision_vector</div>
 
-    def get_independent_odes_subs(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_independent_odes_subs"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_independent_odes_subs">[docs]</a>    def get_independent_odes_subs(self):
+        &quot;&quot;&quot;
         Returns a Sympy Matrix representing the independent ODE system with conservation laws substituted in. Each row
         corresponds to the ODE for the species corresponding to the list provided by
         :func:`crnt4sbml.GeneralApproach.get_independent_species`.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
-        >>> GA.get_independent_odes_subs()
-        """
-        return self.__indp_system_subs
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
+        &gt;&gt;&gt; GA.get_independent_odes_subs()
+        &quot;&quot;&quot;
+        return self.__indp_system_subs</div>
 
-    def get_independent_odes(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_independent_odes"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_independent_odes">[docs]</a>    def get_independent_odes(self):
+        &quot;&quot;&quot;
         Returns a Sympy Matrix representing the independent ODE system without conservation laws substituted in. Each row
         corresponds to the ODE for the species corresponding to the list provided by :func:`crnt4sbml.GeneralApproach.get_independent_species`.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
-        >>> GA.get_independent_odes()
-        """
-        return self.__indp_system
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
+        &gt;&gt;&gt; GA.get_independent_odes()
+        &quot;&quot;&quot;
+        return self.__indp_system</div>
 
-    def get_independent_species(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_independent_species"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_independent_species">[docs]</a>    def get_independent_species(self):
+        &quot;&quot;&quot;
         Returns a list of SymPy variables that reflects the independent species chosen for the general approach.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
-        >>> GA.get_independent_species()
-        """
-        return self.__indp_species
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
+        &gt;&gt;&gt; GA.get_independent_species()
+        &quot;&quot;&quot;
+        return self.__indp_species</div>
 
-    def get_fixed_reactions(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_fixed_reactions"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_fixed_reactions">[docs]</a>    def get_fixed_reactions(self):
+        &quot;&quot;&quot;
         Returns a list of SymPy variables that describe the reactions that were chosen to be fixed when ensuring a
         steady-state solution exists. Note that fixed_reactions must be set to True in
         :func:`crnt4sbml.GeneralApproach.initialize_general_approach`.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
-        >>> GA.get_fixed_reactions()
-        """
-        return self.__fixed_reactions
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
+        &gt;&gt;&gt; GA.get_fixed_reactions()
+        &quot;&quot;&quot;
+        return self.__fixed_reactions</div>
 
-    def get_solutions_to_fixed_reactions(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_solutions_to_fixed_reactions"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_solutions_to_fixed_reactions">[docs]</a>    def get_solutions_to_fixed_reactions(self):
+        &quot;&quot;&quot;
         Returns a list of SymPy expressions corresponding to the fixed reactions. The ordering of the elements
         corresponds to the list returned by :func:`crnt4sbml.GeneralApproach.get_fixed_reactions`. Note that
         fixed_reactions must be set to True in :func:`crnt4sbml.GeneralApproach.initialize_general_approach`.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
-        >>> GA.get_solutions_to_fixed_reactions()
-        """
-        return self.__soln_to_fixed_reactions
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
+        &gt;&gt;&gt; GA.get_solutions_to_fixed_reactions()
+        &quot;&quot;&quot;
+        return self.__soln_to_fixed_reactions</div>
 
-    def get_conservation_laws(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_conservation_laws"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_conservation_laws">[docs]</a>    def get_conservation_laws(self):
+        &quot;&quot;&quot;
         Returns a string representation of the conservation laws. Here the values on the left hand side of each equation
         are the constants of the conservation laws.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> print(GA.get_conservation_laws())
-        """
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; print(GA.get_conservation_laws())
+        &quot;&quot;&quot;
         rhs = self.__cons_laws_sympy
-        laws = ""
+        laws = &quot;&quot;
         for i in range(rhs.shape[0]):
-            laws += 'C' + str(i + 1) + ' = ' + str(rhs[i]) + '\n'
+            laws += &#39;C&#39; + str(i + 1) + &#39; = &#39; + str(rhs[i]) + &#39;\n&#39;
 
-        return laws
+        return laws</div>
 
-    def get_determinant_of_jacobian(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_determinant_of_jacobian"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_determinant_of_jacobian">[docs]</a>    def get_determinant_of_jacobian(self):
+        &quot;&quot;&quot;
         Returns a Sympy expression of the determinant of the Jacobian, where the Jacobian is with respect to the
         independent species.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
-        >>> GA.get_determinant_of_jacobian()
-        """
-        return self.__det_jac
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
+        &gt;&gt;&gt; GA.get_determinant_of_jacobian()
+        &quot;&quot;&quot;
+        return self.__det_jac</div>
 
-    def get_jacobian(self):
-        """
+<div class="viewcode-block" id="GeneralApproach.get_jacobian"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_jacobian">[docs]</a>    def get_jacobian(self):
+        &quot;&quot;&quot;
         Returns a Sympy expression of the Jacobian, where the Jacobian is with respect to the independent species.
 
         Example
         --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
-        >>> GA.get_jacobian()
-        """
-        return self.__jac_mod_system
+        &gt;&gt;&gt; import crnt4sbml
+        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
+        &gt;&gt;&gt; GA = network.get_general_approach()
+        &gt;&gt;&gt; signal = &quot;C1&quot;
+        &gt;&gt;&gt; response = &quot;s1&quot;
+        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
+        &gt;&gt;&gt; GA.get_jacobian()
+        &quot;&quot;&quot;
+        return self.__jac_mod_system</div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -95,6 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="general_app_walkthrough.html">General Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
@@ -178,6 +179,7 @@
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#P"><strong>P</strong></a>
@@ -192,6 +194,8 @@
 
       <ul>
         <li><a href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.__init__">(crnt4sbml.CRNT method)</a>
+</li>
+        <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.__init__">(crnt4sbml.GeneralApproach method)</a>
 </li>
         <li><a href="classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.__init__">(crnt4sbml.LowDeficiencyApproach method)</a>
 </li>
@@ -240,9 +244,13 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.generate_report">generate_report() (crnt4sbml.MassConservationApproach method)</a>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach">GeneralApproach (class in crnt4sbml)</a>
+</li>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.generate_report">generate_report() (crnt4sbml.GeneralApproach method)</a>
 
       <ul>
+        <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.generate_report">(crnt4sbml.MassConservationApproach method)</a>
+</li>
         <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.generate_report">(crnt4sbml.SemiDiffusiveApproach method)</a>
 </li>
       </ul></li>
@@ -266,19 +274,29 @@
 </li>
       <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_concentration_vals">get_concentration_vals() (crnt4sbml.MassConservationApproach method)</a>
 </li>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_conservation_laws">get_conservation_laws() (crnt4sbml.MassConservationApproach method)</a>
-</li>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_dch_matrix">get_dch_matrix() (crnt4sbml.MassConservationApproach method)</a>
-</li>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_decision_vector">get_decision_vector() (crnt4sbml.MassConservationApproach method)</a>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_conservation_laws">get_conservation_laws() (crnt4sbml.GeneralApproach method)</a>
 
       <ul>
+        <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_conservation_laws">(crnt4sbml.MassConservationApproach method)</a>
+</li>
+      </ul></li>
+      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_dch_matrix">get_dch_matrix() (crnt4sbml.MassConservationApproach method)</a>
+</li>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_decision_vector">get_decision_vector() (crnt4sbml.GeneralApproach method)</a>
+
+      <ul>
+        <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_decision_vector">(crnt4sbml.MassConservationApproach method)</a>
+</li>
         <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_decision_vector">(crnt4sbml.SemiDiffusiveApproach method)</a>
 </li>
       </ul></li>
       <li><a href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_deficiency">get_deficiency() (crnt4sbml.Cgraph method)</a>
 </li>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_determinant_of_jacobian">get_determinant_of_jacobian() (crnt4sbml.GeneralApproach method)</a>
+</li>
       <li><a href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_dim_equilibrium_manifold">get_dim_equilibrium_manifold() (crnt4sbml.Cgraph method)</a>
+</li>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_fixed_reactions">get_fixed_reactions() (crnt4sbml.GeneralApproach method)</a>
 </li>
       <li><a href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_g_edges">get_g_edges() (crnt4sbml.Cgraph method)</a>
 </li>
@@ -294,9 +312,25 @@
 </li>
       <li><a href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_if_cgraph_weakly_reversible">get_if_cgraph_weakly_reversible() (crnt4sbml.Cgraph method)</a>
 </li>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_independent_odes">get_independent_odes() (crnt4sbml.MassConservationApproach method)</a>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_independent_odes">get_independent_odes() (crnt4sbml.GeneralApproach method)</a>
+
+      <ul>
+        <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_independent_odes">(crnt4sbml.MassConservationApproach method)</a>
 </li>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_independent_species">get_independent_species() (crnt4sbml.MassConservationApproach method)</a>
+      </ul></li>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_independent_odes_subs">get_independent_odes_subs() (crnt4sbml.GeneralApproach method)</a>
+</li>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_independent_species">get_independent_species() (crnt4sbml.GeneralApproach method)</a>
+
+      <ul>
+        <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_independent_species">(crnt4sbml.MassConservationApproach method)</a>
+</li>
+      </ul></li>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_input_vector">get_input_vector() (crnt4sbml.GeneralApproach method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_jacobian">get_jacobian() (crnt4sbml.GeneralApproach method)</a>
 </li>
       <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_key_species">get_key_species() (crnt4sbml.SemiDiffusiveApproach method)</a>
 </li>
@@ -306,8 +340,6 @@
 </li>
       <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_lambda_g_matrix">get_lambda_g_matrix() (crnt4sbml.MassConservationApproach method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_lambda_objective_fun">get_lambda_objective_fun() (crnt4sbml.MassConservationApproach method)</a>
 
       <ul>
@@ -338,9 +370,11 @@
 </li>
       <li><a href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_ode_system">get_ode_system() (crnt4sbml.Cgraph method)</a>
 </li>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_optimization_bounds">get_optimization_bounds() (crnt4sbml.MassConservationApproach method)</a>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_optimization_bounds">get_optimization_bounds() (crnt4sbml.GeneralApproach method)</a>
 
       <ul>
+        <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.get_optimization_bounds">(crnt4sbml.MassConservationApproach method)</a>
+</li>
         <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds">(crnt4sbml.SemiDiffusiveApproach method)</a>
 </li>
       </ul></li>
@@ -355,6 +389,8 @@
       <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_s_to_matrix">get_s_to_matrix() (crnt4sbml.SemiDiffusiveApproach method)</a>
 </li>
       <li><a href="classes/crnt4sbml.CRNT.html#crnt4sbml.CRNT.get_semi_diffusive_approach">get_semi_diffusive_approach() (crnt4sbml.CRNT method)</a>
+</li>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_solutions_to_fixed_reactions">get_solutions_to_fixed_reactions() (crnt4sbml.GeneralApproach method)</a>
 </li>
       <li><a href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_species">get_species() (crnt4sbml.Cgraph method)</a>
 </li>
@@ -375,6 +411,14 @@
       <li><a href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_y">get_y() (crnt4sbml.Cgraph method)</a>
 </li>
       <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.get_y_r_matrix">get_y_r_matrix() (crnt4sbml.SemiDiffusiveApproach method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.initialize_general_approach">initialize_general_approach() (crnt4sbml.GeneralApproach method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -426,41 +470,37 @@
 </li>
       <li><a href="classes/crnt4sbml.LowDeficiencyApproach.html#crnt4sbml.LowDeficiencyApproach.report_deficiency_zero_theorem">report_deficiency_zero_theorem() (crnt4sbml.LowDeficiencyApproach method)</a>
 </li>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_continuity_analysis">run_continuity_analysis() (crnt4sbml.MassConservationApproach method)</a>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_continuity_analysis">run_continuity_analysis() (crnt4sbml.GeneralApproach method)</a>
 
       <ul>
+        <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_continuity_analysis">(crnt4sbml.MassConservationApproach method)</a>
+</li>
         <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis">(crnt4sbml.SemiDiffusiveApproach method)</a>
 </li>
       </ul></li>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis">run_greedy_continuity_analysis() (crnt4sbml.MassConservationApproach method)</a>
-
-      <ul>
-        <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis">(crnt4sbml.SemiDiffusiveApproach method)</a>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_direct_simulation">run_direct_simulation() (crnt4sbml.GeneralApproach method)</a>
 </li>
-      </ul></li>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_mpi_continuity_analysis">run_mpi_continuity_analysis() (crnt4sbml.MassConservationApproach method)</a>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_greedy_continuity_analysis">run_greedy_continuity_analysis() (crnt4sbml.GeneralApproach method)</a>
 
       <ul>
-        <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_mpi_continuity_analysis">(crnt4sbml.SemiDiffusiveApproach method)</a>
+        <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis">(crnt4sbml.MassConservationApproach method)</a>
+</li>
+        <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis">(crnt4sbml.SemiDiffusiveApproach method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_mpi_greedy_continuity_analysis">run_mpi_greedy_continuity_analysis() (crnt4sbml.MassConservationApproach method)</a>
-
-      <ul>
-        <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_mpi_greedy_continuity_analysis">(crnt4sbml.SemiDiffusiveApproach method)</a>
-</li>
-      </ul></li>
       <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_mpi_optimization">run_mpi_optimization() (crnt4sbml.MassConservationApproach method)</a>
 
       <ul>
         <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_mpi_optimization">(crnt4sbml.SemiDiffusiveApproach method)</a>
 </li>
       </ul></li>
-      <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_optimization">run_optimization() (crnt4sbml.MassConservationApproach method)</a>
+      <li><a href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_optimization">run_optimization() (crnt4sbml.GeneralApproach method)</a>
 
       <ul>
+        <li><a href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_optimization">(crnt4sbml.MassConservationApproach method)</a>
+</li>
         <li><a href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_optimization">(crnt4sbml.SemiDiffusiveApproach method)</a>
 </li>
       </ul></li>

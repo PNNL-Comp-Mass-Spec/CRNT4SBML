@@ -343,12 +343,12 @@ output::
 Enzymatic reaction with simple substrate cycle from :cite:`HERVAGAULT1987439`
 ------------------------------------------------------------------------------
 
-.. image:: ./images_for_docs/hervagault_canu_c_graph.png
+.. image:: ./images_for_docs/hervagault_canu_cd.png
    :width: 300px
    :align: center
    :height: 200px
 
-.. image:: ./images_for_docs/hervagault_canu_cd.png
+.. image:: ./images_for_docs/hervagault_canu_c_graph.png
    :width: 400px
    :align: center
    :height: 200px

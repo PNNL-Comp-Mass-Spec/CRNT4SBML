@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../basic_crnt.html">Low Deficiency Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general_app_walkthrough.html">General Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../numerical_cont.html">Numerical Continuation Routine</a></li>
@@ -109,6 +110,7 @@
 <li class="toctree-l2"><a class="reference internal" href="crnt4sbml.LowDeficiencyApproach.html">crnt4sbml.LowDeficiencyApproach</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">crnt4sbml.MassConservationApproach</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crnt4sbml.SemiDiffusiveApproach.html">crnt4sbml.SemiDiffusiveApproach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crnt4sbml.GeneralApproach.html">crnt4sbml.GeneralApproach</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
@@ -270,10 +272,13 @@
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_optimization" title="crnt4sbml.MassConservationApproach.run_optimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_optimization</span></code></a>([bounds,&nbsp;iterations,&nbsp;…])</td>
 <td>Function for running the optimization problem for the mass conservation approach.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_mpi_optimization" title="crnt4sbml.MassConservationApproach.run_mpi_optimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_mpi_optimization</span></code></a>([bounds,&nbsp;iterations,&nbsp;…])</td>
+<td>Function for running an mpi version of the optimization problem for the mass conservation approach.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
 <td>Function for running the numerical continuation and bistability analysis portions of the mass conservation approach.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_greedy_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_greedy_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
 <td>Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation approach.</td>
 </tr>
 </tbody>
@@ -885,99 +890,6 @@ for each special point in the plot.</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="crnt4sbml.MassConservationApproach.run_mpi_continuity_analysis">
-<code class="descname">run_mpi_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em>, <em>plot_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_mpi_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_mpi_continuity_analysis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function for running the mpi numerical continuation and bistability analysis portions of the mass conservation
-approach.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>species</strong> (<em>string</em>) – A string stating the species that is the y-axis of the bifurcation diagram.</li>
-<li><strong>parameters</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-value.</li>
-<li><strong>dir_path</strong> (<em>string</em>) – A string stating the path where the bifurcation diagrams should be saved.</li>
-<li><strong>print_lbls_flag</strong> (<em>bool</em>) – If True the routine will print the special points found by AUTO 2000 and False will not print any
-special points.</li>
-<li><strong>auto_parameters</strong> (<em>dict</em>) – Dictionary defining the parameters for the AUTO 2000 run. Please note that one should <strong>not</strong> set
-‘SBML’ or ‘ScanDirection’ in these parameters as these are automatically assigned. It is absolutely
-necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
-parameters refer to <a class="reference download internal" download="" href="../_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>. ‘NMX’ will default to
-10000 and ‘ITMX’ to 100.</li>
-<li><strong>plot_labels</strong> (<em>list of strings</em>) – A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-you would like to use the default settings for some of the labels, simply provide None for that
-element.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><strong>multistable_param_ind</strong> (<em>list of integers</em>) – A list of those indices in ‘parameters’ that produce multistable plots.</li>
-<li><strong>sample_portion</strong> (<em>list of 1D numpy arrays</em>) – A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-distributed to the core.</li>
-<li><strong>plot_specifications</strong> (<em>list of lists</em>) – A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-Each element is a list where the first element specifies the range used for the x-axis, the second
-element is the range for the y-axis, and the last element provides the x-y values and special point label
-for each special point in the plot.</li>
-</ul>
-</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Example</p>
-<p>See <a class="reference internal" href="../quickstart.html#quickstart-deficiency-label"><span class="std std-ref">Mass Conservation Approach Example</span></a> and <a class="reference internal" href="../deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="crnt4sbml.MassConservationApproach.run_mpi_greedy_continuity_analysis">
-<code class="descname">run_mpi_greedy_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em>, <em>plot_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_mpi_greedy_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_mpi_greedy_continuity_analysis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function for running the mpi greedy numerical continuation and bistability analysis portions of the mass conservation
-approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
-parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
-produce jagged or missing sections in the plots provided. To produce better plots one should use the information
-provided by this routine to run <a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_continuity_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.run_continuity_analysis()</span></code></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>species</strong> (<em>string</em>) – A string stating the species that is the y-axis of the bifurcation diagram.</li>
-<li><strong>parameters</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-value.</li>
-<li><strong>dir_path</strong> (<em>string</em>) – A string stating the path where the bifurcation diagrams should be saved.</li>
-<li><strong>print_lbls_flag</strong> (<em>bool</em>) – If True the routine will print the special points found by AUTO 2000 and False will not print any
-special points.</li>
-<li><strong>auto_parameters</strong> (<em>dict</em>) – Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
-PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
-be set. For more information on these parameters refer to <a class="reference download internal" download="" href="../_downloads/63e7f39b5fcbf412c2e8da659a8d6871/auto2000_input.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AUTO</span> <span class="pre">parameters</span></code></a>.</li>
-<li><strong>plot_labels</strong> (<em>list of strings</em>) – A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-you would like to use the default settings for some of the labels, simply provide None for that
-element.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><strong>multistable_param_ind</strong> (<em>list of integers</em>) – A list of those indices in ‘parameters’ that produce multistable plots.</li>
-<li><strong>sample_portion</strong> (<em>list of 1D numpy arrays</em>) – A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-distributed to the core.</li>
-<li><strong>plot_specifications</strong> (<em>list of lists</em>) – A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-Each element is a list where the first element specifies the range used for the x-axis, the second
-element is the range for the y-axis, and the last element provides the x-y values and special point label
-for each special point in the plot.</li>
-</ul>
-</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Example</p>
-<p>See <a class="reference internal" href="../deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a>.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="crnt4sbml.MassConservationApproach.run_mpi_optimization">
 <code class="descname">run_mpi_optimization</code><span class="sig-paren">(</span><em>bounds=None</em>, <em>iterations=10</em>, <em>sys_min_val=2.220446049250313e-16</em>, <em>seed=0</em>, <em>print_flag=False</em>, <em>numpy_dtype=&lt;class 'numpy.float64'&gt;</em>, <em>concentration_bounds=None</em>, <em>confidence_level_flag=False</em>, <em>change_in_rel_error=0.01</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_mpi_optimization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_mpi_optimization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for running an mpi version of the optimization problem for the mass conservation approach.</p>
@@ -1015,7 +927,7 @@ of <img class="math" src="../_images/math/e57da723a78793be0af414e375cc2eff8c6dac
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<p>See <a class="reference internal" href="../quickstart.html#quickstart-deficiency-label"><span class="std std-ref">Mass Conservation Approach Example</span></a> and <a class="reference internal" href="../deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a>.</p>
+<p>See <a class="reference internal" href="../parallel_crnt4sbml.html#parallel-crnt4sbml-label"><span class="std std-ref">Parallel CRNT4SBML</span></a>.</p>
 </dd></dl>
 
 <dl class="method">

@@ -29,5 +29,6 @@ crnt4sbml.SemiDiffusiveApproach
       ~SemiDiffusiveApproach.get_lambda_objective_fun
       ~SemiDiffusiveApproach.get_optimization_bounds
       ~SemiDiffusiveApproach.run_optimization
+      ~SemiDiffusiveApproach.run_mpi_optimization
       ~SemiDiffusiveApproach.run_continuity_analysis
       ~SemiDiffusiveApproach.run_greedy_continuity_analysis

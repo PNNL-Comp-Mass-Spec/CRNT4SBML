@@ -366,9 +366,7 @@ class CRNT:
         --------
         >>> import crnt4sbml
         >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> signal = 'C1'
-        >>> response = 's1'
-        >>> approach = network.get_general_approach(signal, response)
+        >>> GA = network.get_general_approach()
         """
         ldh = LowDeficiencyApproach(self.__cgraph)
         if ldh.does_satisfy_any_low_deficiency_theorem():
