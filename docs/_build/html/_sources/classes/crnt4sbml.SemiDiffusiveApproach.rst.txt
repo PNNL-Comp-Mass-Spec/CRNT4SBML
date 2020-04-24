@@ -1,5 +1,5 @@
 crnt4sbml.SemiDiffusiveApproach
-=====================================
+===============================
 
 .. currentmodule:: crnt4sbml
 
@@ -32,3 +32,9 @@ crnt4sbml.SemiDiffusiveApproach
       ~SemiDiffusiveApproach.run_mpi_optimization
       ~SemiDiffusiveApproach.run_continuity_analysis
       ~SemiDiffusiveApproach.run_greedy_continuity_analysis
+   
+   
+
+   
+   
+   

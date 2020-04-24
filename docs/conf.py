@@ -29,7 +29,7 @@ import crnt4sbml
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
-# needs_sphinx = '1.0'
+needs_sphinx = '1.8.2'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
@@ -38,12 +38,12 @@ extensions = ['sphinx.ext.viewcode', 'sphinxcontrib.bibtex', 'sphinx.ext.imgmath
 autodoc_default_flags = ['members']
 autosummary_generate = True
 
-#add_module_names = False
+# add_module_names = False
 
-#in docs:
-#rm -f docs/crnt4sbml_test.rst
-#        rm -f docs/modules.rst
-#        sphinx-apidoc -o docs/ crnt4sbml_test
+# in docs:
+#     rm -f docs/crnt4sbml.rst
+#     rm -f docs/modules.rst
+#     sphinx-apidoc -o docs/crnt4sbml
 
 
 # Add any paths that cont
@@ -173,3 +173,4 @@ texinfo_documents = [
 
 def setup(app):
     app.add_javascript('copybutton.js')
+    # app.add_js_file('copybutton.js')

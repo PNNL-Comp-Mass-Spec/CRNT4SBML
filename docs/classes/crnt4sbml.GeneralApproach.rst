@@ -1,5 +1,5 @@
 crnt4sbml.GeneralApproach
-========================================
+=========================
 
 .. currentmodule:: crnt4sbml
 
@@ -31,4 +31,9 @@ crnt4sbml.GeneralApproach
       ~GeneralApproach.run_continuity_analysis
       ~GeneralApproach.run_greedy_continuity_analysis
       ~GeneralApproach.run_direct_simulation
+   
+   
 
+   
+   
+   

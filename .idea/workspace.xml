@@ -3,10 +3,68 @@
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HISTORY.rst" beforeDir="false" afterPath="$PROJECT_DIR$/HISTORY.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/setup.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/authors.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/authors.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/contributing.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/contributing.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/history.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/history.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/readme.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/readme.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/.buildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/.buildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/c_graph.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/c_graph.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/crnt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/crnt.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/general_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/general_approach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/low_deficiency_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/low_deficiency_approach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/mass_conservation_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/mass_conservation_approach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/semi_diffusive_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/semi_diffusive_approach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.CRNT.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.CRNT.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.Cgraph.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.Cgraph.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.GeneralApproach.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.GeneralApproach.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.LowDeficiencyApproach.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.LowDeficiencyApproach.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.MassConservationApproach.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.MassConservationApproach.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.SemiDiffusiveApproach.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.SemiDiffusiveApproach.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/documentation_options.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/documentation_options.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/authors.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/authors.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/basic_crnt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/basic_crnt.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/celldesigner_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/celldesigner_walkthrough.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.CRNT.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.CRNT.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.Cgraph.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.Cgraph.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.GeneralApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.GeneralApproach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.LowDeficiencyApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.LowDeficiencyApproach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.MassConservationApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.MassConservationApproach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.SemiDiffusiveApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.SemiDiffusiveApproach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/contributing.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/contributing.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/creating_eq_manifold.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/creating_eq_manifold.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/deficiency_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/deficiency_walkthrough.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/detect_bistability.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/detect_bistability.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/example_use.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/example_use.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/general_app_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/general_app_walkthrough.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/generating_c_graphs.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/generating_c_graphs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/history.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/history.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/injectivity_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/injectivity_walkthrough.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/installation.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/installation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/more_examples.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/more_examples.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/numerical_cont.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/numerical_cont.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/numerical_opt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/numerical_opt.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/parallel_crnt4sbml.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/parallel_crnt4sbml.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/physiological_bounds.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/physiological_bounds.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/quickstart.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/quickstart.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/readme.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/readme.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/reference.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/reference.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/classes/crnt4sbml.CRNT.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/classes/crnt4sbml.CRNT.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/classes/crnt4sbml.Cgraph.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/classes/crnt4sbml.Cgraph.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/classes/crnt4sbml.GeneralApproach.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/classes/crnt4sbml.GeneralApproach.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/classes/crnt4sbml.LowDeficiencyApproach.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/classes/crnt4sbml.LowDeficiencyApproach.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/classes/crnt4sbml.MassConservationApproach.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/classes/crnt4sbml.MassConservationApproach.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/classes/crnt4sbml.SemiDiffusiveApproach.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/classes/crnt4sbml.SemiDiffusiveApproach.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements_dev.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements_dev.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

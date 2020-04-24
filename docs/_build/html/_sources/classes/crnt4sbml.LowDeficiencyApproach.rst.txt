@@ -1,5 +1,5 @@
 crnt4sbml.LowDeficiencyApproach
-=====================================
+===============================
 
 .. currentmodule:: crnt4sbml
 
@@ -19,3 +19,9 @@ crnt4sbml.LowDeficiencyApproach
       ~LowDeficiencyApproach.does_satisfy_any_low_deficiency_theorem
       ~LowDeficiencyApproach.report_deficiency_zero_theorem
       ~LowDeficiencyApproach.report_deficiency_one_theorem
+   
+   
+
+   
+   
+   

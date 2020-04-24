@@ -1,5 +1,5 @@
 crnt4sbml.MassConservationApproach
-========================================
+==================================
 
 .. currentmodule:: crnt4sbml
 
@@ -38,9 +38,9 @@ crnt4sbml.MassConservationApproach
       ~MassConservationApproach.run_mpi_optimization
       ~MassConservationApproach.run_continuity_analysis
       ~MassConservationApproach.run_greedy_continuity_analysis
-
    
    
 
+   
    
    
