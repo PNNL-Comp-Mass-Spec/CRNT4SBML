@@ -4,7 +4,7 @@
 
 __author__ = """Brandon Reyes"""
 __email__ = 'reyesb123@gmail.com'
-__version__ = '0.0.10'
+__version__ = '0.0.11'
 
 from .crnt import CRNT
 from .c_graph import Cgraph

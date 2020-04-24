@@ -52,3 +52,8 @@ History
 ------------------
 
 * Adding routine for an exhaustive equilibrium manifold creation in the mass conservation approach.
+
+0.0.11 (4-23-2020)
+------------------
+
+* Adding a general approach for mass conserving systems.
