@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Confidence Level Routine &mdash; CRNT4SBML 0.0.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/copybutton.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Generating Presentable C-graphs" href="generating_c_graphs.html" />
+    <link rel="prev" title="Creating the Equilibrium Manifold" href="creating_eq_manifold.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRNT4SBML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">CRNT4SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detect_bistability.html">Steps for Detecting Bistability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physiological_bounds.html">Creating Physiological Bounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="general_app_walkthrough.html">General Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="direct_simulation.html">Direct Simulation for the General Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Confidence Level Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRNT4SBML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Confidence Level Routine</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/confidence_level.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="confidence-level-routine">
+<span id="confidence-level-label"></span><h1>Confidence Level Routine<a class="headerlink" href="#confidence-level-routine" title="Permalink to this headline">¶</a></h1>
+<p>Although the general, mass conservation, and semi-diffusive approaches can quickly provide confirmation of bistability
+for most examples, this may not always be the case. In fact, an important item of discussion is that these approaches
+cannot exclude bistability, even if a large amount of random decision vectors are explored. It is this uncertainty that
+we wish to address. This is done by assigning a probability that the minimum objective function value achieved is equal
+to the true global minimum. We achieve this probability by considering a slightly modified version of the unified
+Bayesian stopping rule in <a class="reference internal" href="zbibliography.html#bolton2004549" id="id1">[BGS04]</a> and Theorem 4.1 of <a class="reference internal" href="zbibliography.html#snyman-bayesian" id="id2">[SF87]</a>, where the rule was first
+established.</p>
+<p>Let <img class="math" src="_images/math/aa39b51ef6a5dabf9e8021989291ea189f7d0379.png" alt="\alpha_k"/> and <img class="math" src="_images/math/4ded8e7fcd2caa6e31062548304bd5c44e53d03e.png" alt="\alpha^*"/> denote the probability that the optimization routine has converged to the
+local minimum objective function value, say <img class="math" src="_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/>, and global minimum objective function value, say <img class="math" src="_images/math/320932cd4c48e21d49c798bda20cb6eca2cbc5bd.png" alt="f^*"/>.
+Assuming that <img class="math" src="_images/math/6204ff6aeab0b0dad7ab1752cc8cdb052ec9bf00.png" alt="\alpha^* \geq \alpha_k"/> for all local minimum values <img class="math" src="_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> we may then state that the
+probability that <img class="math" src="_images/math/a6b30012e7889dd815875bb9ef935dbba2915db4.png" alt="\tilde{f} = f^*"/> is as follows:</p>
+<p><img class="math" src="_images/math/93437f6a96ee91f72a43c82204ffe6f7e8abf38d.png" alt="Pr[\tilde{f} = f^*] \geq q(n, r) = 1 - \dfrac{(n + a + b - 1)! (2n + b - r - 1)!}{(2n + a + b - 1)! (n + b-r-1)!}"/>,</p>
+<p>where <img class="math" src="_images/math/e11f2701c4a39c7fe543a6c4150b421d50f1c159.png" alt="n"/> is the number of initial decision vectors that are considered, <img class="math" src="_images/math/9a1243d36d74457d7555ef61b0e9cfe429fa3e32.png" alt="\tilde{f} = min \{f_1, \dots, f_n \}"/>
+, <img class="math" src="_images/math/bd9d9c7512c898e0a254a0882184197bc1bd9c9f.png" alt="a"/> and <img class="math" src="_images/math/57c9d14bb082716df9000146882ce365335d08f1.png" alt="b"/> are parameters of the Beta distribution <img class="math" src="_images/math/012ac187270bd23a1dc012a19e0b80c7f61176ae.png" alt="\beta(a, b)"/>, and <img class="math" src="_images/math/fc5ebb20cb2e24341c498e2198daabbadc1fd1c7.png" alt="q(n, r)"/> is the
+confidence level. We then let <img class="math" src="_images/math/eaa6ad49a7f78fe5a13b486690163bf2dc7e3e60.png" alt="r"/> be the number of <img class="math" src="_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> for <img class="math" src="_images/math/dde7b3b532fb65b9e6146b7aace1212a250b64d5.png" alt="k = 1, \dots, n"/> that are in the
+neighborhood of <img class="math" src="_images/math/405a53280bd24b61d3142c94e47c3e4a21c9d059.png" alt="\tilde{f}"/>.</p>
+<p>Given our minimum objective function value is zero, for some networks it may be the case that the <img class="math" src="_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> are nearly
+zero with respect to machine precision. For this reason, we say that <img class="math" src="_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> is in the neighborhood of <img class="math" src="_images/math/405a53280bd24b61d3142c94e47c3e4a21c9d059.png" alt="\tilde{f}"/>
+if</p>
+<p><img class="math" src="_images/math/3cefcae4cbd0aa9b0ae01d3c428faf32b5d60dbe.png" alt="\dfrac{| \tilde{f} - f_k |}{\tilde{f}} \leq 10^{-2}"/>.</p>
+<p>This means that <img class="math" src="_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> is in the neighborhood of <img class="math" src="_images/math/405a53280bd24b61d3142c94e47c3e4a21c9d059.png" alt="\tilde{f}"/> if the relative error of <img class="math" src="_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> and <img class="math" src="_images/math/405a53280bd24b61d3142c94e47c3e4a21c9d059.png" alt="\tilde{f}"/>
+is less than 1%. If <img class="math" src="_images/math/405a53280bd24b61d3142c94e47c3e4a21c9d059.png" alt="\tilde{f}"/> is considered zero with respect to the system’s minimum positive normalized float, then we
+consider this value zero and provide <img class="math" src="_images/math/906535956996d0e697e16e0735c3a8cdf458c7f2.png" alt="q(n,r) = 1.0"/>, skipping the computation of <img class="math" src="_images/math/f8928ed95b28c619a48f8c7a476849672bfcb384.png" alt="q(n,r)"/>. Thus, we can state that
+the probability that the obtained <img class="math" src="_images/math/405a53280bd24b61d3142c94e47c3e4a21c9d059.png" alt="\tilde{f}"/> is the global minimum (for the prescribed bounds of the decision vector)
+is greater than or equal to the confidence level <img class="math" src="_images/math/fc5ebb20cb2e24341c498e2198daabbadc1fd1c7.png" alt="q(n, r)"/>. Using the standard practice in statistics, it should be
+noted that <img class="math" src="_images/math/b126efb72c46d2e7d0049fe54133e11e668f03aa.png" alt="q(n,r) \geq 0.95"/> is often considered an acceptable confidence level to make the conclusion that <img class="math" src="_images/math/405a53280bd24b61d3142c94e47c3e4a21c9d059.png" alt="\tilde{f}"/>
+is the global minimum of the objective function.</p>
+<p>For information on how to enable the construction of a confidence level for each of the approaches, please refer to the
+following for each approach:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Mass conservation approach:</dt>
+<dd><ul class="first last">
+<li>If using <a class="reference internal" href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_optimization" title="crnt4sbml.MassConservationApproach.run_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.run_optimization()</span></code></a> set confidence_level_flag = True and and prescribe a value to change_in_rel_error (if applicable)</li>
+<li>If using <a class="reference internal" href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_mpi_optimization" title="crnt4sbml.MassConservationApproach.run_mpi_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach.run_mpi_optimization()</span></code></a> set confidence_level_flag = True and and prescribe a value to change_in_rel_error (if applicable)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Semi-diffusive approach:</dt>
+<dd><ul class="first last">
+<li>If using <a class="reference internal" href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_optimization" title="crnt4sbml.SemiDiffusiveApproach.run_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.SemiDiffusiveApproach.run_optimization()</span></code></a> set confidence_level_flag = True and prescribe a value to change_in_rel_error (if applicable)</li>
+<li>If using <a class="reference internal" href="classes/crnt4sbml.SemiDiffusiveApproach.html#crnt4sbml.SemiDiffusiveApproach.run_mpi_optimization" title="crnt4sbml.SemiDiffusiveApproach.run_mpi_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.SemiDiffusiveApproach.run_mpi_optimization()</span></code></a> set confidence_level_flag = True and and prescribe a value to change_in_rel_error (if applicable)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>General approach:</dt>
+<dd><ul class="first last">
+<li>If using <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_optimization" title="crnt4sbml.GeneralApproach.run_optimization"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_optimization()</span></code></a> set confidence_level_flag = True and prescribe a value to change_in_rel_error (if applicable)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="generating_c_graphs.html" class="btn btn-neutral float-right" title="Generating Presentable C-graphs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="creating_eq_manifold.html" class="btn btn-neutral float-left" title="Creating the Equilibrium Manifold" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Brandon Reyes
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

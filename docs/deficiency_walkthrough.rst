@@ -6,7 +6,7 @@ Mass Conservation Approach Walkthrough
 
 Using the SBML file constructed as in :ref:`my-celldesigner-label`, we will proceed by completing a more in-depth
 explanation of running the mass conservation approach of :cite:`irene`. Note that the mass conservation approach can
-be ran on any network that has conservation laws, even if that network does have a sink/source. One can test whether or
+be ran on any uniterminal network that has conservation laws, even if that network does have a sink/source. One can test whether or
 not there are conservation laws by seeing if the output of :func:`crnt4sbml.Cgraph.get_dim_equilibrium_manifold` is
 greater than zero. This tutorial will use :download:`Fig1Ci.xml <../sbml_files/Fig1Ci.xml>`.
 The following code will import crnt4sbml and the SBML file. For a little more detail on this process consider :ref:`my-basic-label`.

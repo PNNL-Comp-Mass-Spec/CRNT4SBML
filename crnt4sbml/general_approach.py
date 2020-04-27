@@ -625,6 +625,7 @@ class GeneralApproach:
             if self.__my_rank == 0:
                 end_time = MPI.Wtime()
                 elapsed = end_time - start_time
+                self.__important_info += str(len(list_det_point_sets)) + " point(s) passed the optimization criteria. " + "\n"
                 print(f"Elapsed time for optimization in seconds: {elapsed}")
 
             return list_det_point_sets, list_det_point_sets_fun
@@ -643,9 +644,10 @@ class GeneralApproach:
 
             if confidence_level_flag:
                 self.__confidence_level(obtained_minimums, change_in_rel_error)
-
+                self.__important_info += str(len(det_point_sets_fun)) + " point(s) passed the optimization criteria. " + "\n"
             else:
                 self.__important_info += "Smallest value achieved by objective function: " + str(smallest_value) + "\n"
+                self.__important_info += str(len(det_point_sets_fun)) + " point(s) passed the optimization criteria. " + "\n"
 
             return det_point_sets, det_point_sets_fun
 
@@ -910,6 +912,8 @@ class GeneralApproach:
 
         species_y = str(self.__indp_species[species_num-1])
 
+        self.__print_flag = print_lbls_flag
+
         multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis \
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
              print_lbls_flag, auto_parameters, plot_labels)
@@ -1022,6 +1026,8 @@ class GeneralApproach:
         # making the directory if it doesn't exist
         if not os.path.isdir(dir_path):
             os.mkdir(dir_path)
+
+        self.__print_flag = print_lbls_flag
 
         species_num = [str(i) for i in self.__indp_species].index(species) + 1
 
@@ -1168,6 +1174,10 @@ class GeneralApproach:
         else:
             print("Starting direct simulation ...")
             start_t = time.time()
+
+        if len(params_for_global_min) == 0:
+            print("The parameter sets provided has a length of zero, direct simulation cannot be ran.")
+            sys.exit()
 
         viable_indices, viable_out_values, conservation_vals = self.__find_viable_indices(params_for_global_min[0], itg, spec_index, change_in_relative_error)
 
@@ -1646,7 +1656,9 @@ class GeneralApproach:
         for i in range(len(self.__x_bar), len(vars_to_initialize)):
             ant_str += str(vars_to_initialize[i]) + ' = ' + str(conservation_vals[count]) + ';'
             count += 1
-        print(ant_str)
+
+        if self.__print_flag:
+            print(ant_str)
 
         return ant_str
 

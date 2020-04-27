@@ -99,7 +99,9 @@
 <li class="toctree-l1"><a class="reference internal" href="parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="direct_simulation.html">Direct Simulation for the General Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confidence_level.html">Confidence Level Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
@@ -179,7 +181,8 @@
 <li>Construct an SBML file following the guidelines provided in <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a>.</li>
 <li>Check if the conditions for the Deficiency Zero or One Theorems are satisfied using the approach outlined in <a class="reference internal" href="basic_crnt.html#my-basic-label"><span class="std std-ref">Low Deficiency Approach</span></a>.</li>
 <li>If the Deficiency Zero or One Theorems are not satisfied, then use <a class="reference internal" href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_dim_equilibrium_manifold" title="crnt4sbml.Cgraph.get_dim_equilibrium_manifold"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.Cgraph.get_dim_equilibrium_manifold()</span></code></a> to find <img class="math" src="_images/math/76f1d8ace30435987c01a00ca53a71cba1f40e6c.png" alt="\lambda"/>, the number of mass conservation relationships.</li>
-<li>If <img class="math" src="_images/math/76f1d8ace30435987c01a00ca53a71cba1f40e6c.png" alt="\lambda"/> is greater than zero one can use the details described in <a class="reference internal" href="deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a> to conduct further analysis of the network.</li>
+<li>If <img class="math" src="_images/math/76f1d8ace30435987c01a00ca53a71cba1f40e6c.png" alt="\lambda"/> is greater than zero one can use the details described in <a class="reference internal" href="deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a> to conduct further analysis of a uniterminal network.</li>
+<li>If <img class="math" src="_images/math/76f1d8ace30435987c01a00ca53a71cba1f40e6c.png" alt="\lambda"/> is greater than zero one can use the details described in <a class="reference internal" href="general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a> to conduct further analysis of any network.</li>
 <li>If <img class="math" src="_images/math/76f1d8ace30435987c01a00ca53a71cba1f40e6c.png" alt="\lambda"/> is zero and there is a boundary species present in the SBML file then one can use the details described in <a class="reference internal" href="injectivity_walkthrough.html#my-injectivity-label"><span class="std std-ref">Semi-diffusive Approach Walkthrough</span></a> to conduct further analysis of the network.</li>
 </ol>
 </div>

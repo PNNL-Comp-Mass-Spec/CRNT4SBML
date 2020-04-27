@@ -97,7 +97,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../direct_simulation.html">Direct Simulation for the General Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../confidence_level.html">Confidence Level Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../more_examples.html">Further Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example_use.html">An Example User Case Scenario</a></li>
@@ -796,6 +798,7 @@ from .bistability_finder import BistabilityFinder
             if self.__my_rank == 0:
                 end_time = MPI.Wtime()
                 elapsed = end_time - start_time
+                self.__important_info += str(len(list_det_point_sets)) + &quot; point(s) passed the optimization criteria. &quot; + &quot;\n&quot;
                 print(f&quot;Elapsed time for optimization in seconds: {elapsed}&quot;)
 
             return list_det_point_sets, list_det_point_sets_fun
@@ -814,9 +817,10 @@ from .bistability_finder import BistabilityFinder
 
             if confidence_level_flag:
                 self.__confidence_level(obtained_minimums, change_in_rel_error)
-
+                self.__important_info += str(len(det_point_sets_fun)) + &quot; point(s) passed the optimization criteria. &quot; + &quot;\n&quot;
             else:
                 self.__important_info += &quot;Smallest value achieved by objective function: &quot; + str(smallest_value) + &quot;\n&quot;
+                self.__important_info += str(len(det_point_sets_fun)) + &quot; point(s) passed the optimization criteria. &quot; + &quot;\n&quot;
 
             return det_point_sets, det_point_sets_fun</div>
 
@@ -1081,6 +1085,8 @@ from .bistability_finder import BistabilityFinder
 
         species_y = str(self.__indp_species[species_num-1])
 
+        self.__print_flag = print_lbls_flag
+
         multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis \
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
              print_lbls_flag, auto_parameters, plot_labels)
@@ -1193,6 +1199,8 @@ from .bistability_finder import BistabilityFinder
         # making the directory if it doesn&#39;t exist
         if not os.path.isdir(dir_path):
             os.mkdir(dir_path)
+
+        self.__print_flag = print_lbls_flag
 
         species_num = [str(i) for i in self.__indp_species].index(species) + 1
 
@@ -1339,6 +1347,10 @@ from .bistability_finder import BistabilityFinder
         else:
             print(&quot;Starting direct simulation ...&quot;)
             start_t = time.time()
+
+        if len(params_for_global_min) == 0:
+            print(&quot;The parameter sets provided has a length of zero, direct simulation cannot be ran.&quot;)
+            sys.exit()
 
         viable_indices, viable_out_values, conservation_vals = self.__find_viable_indices(params_for_global_min[0], itg, spec_index, change_in_relative_error)
 
@@ -1817,7 +1829,9 @@ from .bistability_finder import BistabilityFinder
         for i in range(len(self.__x_bar), len(vars_to_initialize)):
             ant_str += str(vars_to_initialize[i]) + &#39; = &#39; + str(conservation_vals[count]) + &#39;;&#39;
             count += 1
-        print(ant_str)
+
+        if self.__print_flag:
+            print(ant_str)
 
         return ant_str
 

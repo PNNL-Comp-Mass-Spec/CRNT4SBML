@@ -104,7 +104,9 @@
 <li class="toctree-l1"><a class="reference internal" href="parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="direct_simulation.html">Direct Simulation for the General Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confidence_level.html">Confidence Level Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
@@ -181,7 +183,7 @@
 <h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
 <p>To begin using CRNT4SBML, start by following the process outlined in <a class="reference internal" href="installation.html#my-installation-label"><span class="std std-ref">Installation</span></a>. Once you have
 correctly installed CRNT4SBML follow the steps below to obtain a general idea of how one can perform the mass conservation
-and semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a>.</p>
+and semi-diffusive approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a> and a general approach for mass conserving systems.</p>
 <ul class="simple">
 <li>If you are interested in running the Deficiency Zero and One theorems please consult <a class="reference internal" href="basic_crnt.html#my-basic-label"><span class="std std-ref">Low Deficiency Approach</span></a>.</li>
 <li>If one is interested in the general steps to follow in order to detect bistability, one should consult <a class="reference internal" href="detect_bistability.html#detect-bistability-label"><span class="std std-ref">Steps for Detecting Bistability</span></a>.</li>
@@ -288,7 +290,50 @@ Elements in params_for_global_min that produce multistability:
 </div>
 <div class="section" id="general-approach-example">
 <span id="quickstart-gen-app-label"></span><h2>General Approach Example<a class="headerlink" href="#general-approach-example" title="Permalink to this headline">¶</a></h2>
-<p>Under Development</p>
+<p>In order to run the general approach one needs to first create an SBML file of the reaction network. The
+SBML file representing the reaction network for this example is given by <a class="reference download internal" download="" href="_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a>.
+It is highly encouraged that the user consult <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a> when considering their own individual network
+as the format of the SBML file must follow a certain construction to be easily used by CRNT4SBML.</p>
+<p>To run the general approach with fixed reactions create the following python script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
+
+<span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C3&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s15&quot;</span>
+<span class="n">iters</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">d_iters</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="n">bnds</span> <span class="o">=</span> <span class="n">GA</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+
+<span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">fix_reactions</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_vals</span> <span class="o">=</span> <span class="n">GA</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bnds</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">iters</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">print_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                                          <span class="n">dual_annealing_iters</span><span class="o">=</span><span class="n">d_iters</span><span class="p">,</span> <span class="n">confidence_level_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                                          <span class="n">constraints</span><span class="o">=</span><span class="p">[],</span> <span class="n">parallel_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">GA</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">print_lbls_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                                                               <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">signal</span><span class="p">})</span>
+<span class="n">GA</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will provide the following output along with creating the directory “num_cont_graphs” in your current
+directory that contains multistability plots. Please note that runtimes and the number of multistability plots produced
+may vary among different operating systems. Please see <a class="reference internal" href="general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a> for a more detailed explanation of
+running the general approach and the provided output.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Starting optimization ...
+Elapsed time for optimization in seconds: 11.93618106842041
+Running continuity analysis ...
+Elapsed time for continuity analysis in seconds: 65.35613918304443
+
+It was found that 0.0 is the minimum objective function value with a confidence level of 1.0 .
+9 point(s) passed the optimization criteria
+Number of multistability plots found: 2
+Elements in params_for_global_min that produce multistability:
+[0, 7]
+</pre></div>
+</div>
 </div>
 </div>
 

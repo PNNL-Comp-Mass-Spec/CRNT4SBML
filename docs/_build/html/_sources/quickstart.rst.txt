@@ -4,7 +4,7 @@ Quick Start
 
 To begin using CRNT4SBML, start by following the process outlined in :ref:`my-installation-label`. Once you have
 correctly installed CRNT4SBML follow the steps below to obtain a general idea of how one can perform the mass conservation
-and semi-diffusive approach of :cite:`irene`.
+and semi-diffusive approach of :cite:`irene` and a general approach for mass conserving systems.
 
 - If you are interested in running the Deficiency Zero and One theorems please consult :ref:`my-basic-label`.
 - If one is interested in the general steps to follow in order to detect bistability, one should consult :ref:`detect-bistability-label`.
@@ -132,4 +132,51 @@ running the semi-diffusive approach and the provided output.
 General Approach Example
 ++++++++++++++++++++++++++++++++++++
 
-Under Development
+In order to run the general approach one needs to first create an SBML file of the reaction network. The
+SBML file representing the reaction network for this example is given by :download:`Fig1Ci.xml <../sbml_files/Fig1Ci.xml>`.
+It is highly encouraged that the user consult :ref:`my-celldesigner-label` when considering their own individual network
+as the format of the SBML file must follow a certain construction to be easily used by CRNT4SBML.
+
+To run the general approach with fixed reactions create the following python script:
+
+.. code-block:: python
+
+   import crnt4sbml
+
+   network = crnt4sbml.CRNT("/path/to/Fig1Ci.xml")
+
+   signal = "C3"
+   response = "s15"
+   iters = 10
+   d_iters = 100
+
+   GA = network.get_general_approach()
+   bnds = GA.get_optimization_bounds()
+
+   GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
+
+   params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
+                                                             dual_annealing_iters=d_iters, confidence_level_flag=True,
+                                                             constraints=[], parallel_flag=False)
+
+   multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=False,
+                                                                                  auto_parameters={'PrincipalContinuationParameter': signal})
+   GA.generate_report()
+
+This will provide the following output along with creating the directory "num\_cont\_graphs" in your current
+directory that contains multistability plots. Please note that runtimes and the number of multistability plots produced
+may vary among different operating systems. Please see :ref:`gen-app-label` for a more detailed explanation of
+running the general approach and the provided output.
+
+::
+
+    Starting optimization ...
+    Elapsed time for optimization in seconds: 11.93618106842041
+    Running continuity analysis ...
+    Elapsed time for continuity analysis in seconds: 65.35613918304443
+
+    It was found that 0.0 is the minimum objective function value with a confidence level of 1.0 .
+    9 point(s) passed the optimization criteria
+    Number of multistability plots found: 2
+    Elements in params_for_global_min that produce multistability:
+    [0, 7]

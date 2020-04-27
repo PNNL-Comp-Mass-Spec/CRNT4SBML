@@ -18,7 +18,9 @@ Welcome to CRNT4SBML's documentation!
    parallel_crnt4sbml
    numerical_opt
    numerical_cont
+   direct_simulation
    creating_eq_manifold
+   confidence_level
    generating_c_graphs
    more_examples
    example_use

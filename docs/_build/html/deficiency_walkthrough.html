@@ -99,7 +99,9 @@
 <li class="toctree-l1"><a class="reference internal" href="parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="direct_simulation.html">Direct Simulation for the General Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating_eq_manifold.html">Creating the Equilibrium Manifold</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confidence_level.html">Confidence Level Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generating_c_graphs.html">Generating Presentable C-graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="more_examples.html">Further Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
@@ -176,7 +178,7 @@
 <span id="my-deficiency-label"></span><h1>Mass Conservation Approach Walkthrough<a class="headerlink" href="#mass-conservation-approach-walkthrough" title="Permalink to this headline">¶</a></h1>
 <p>Using the SBML file constructed as in <a class="reference internal" href="celldesigner_walkthrough.html#my-celldesigner-label"><span class="std std-ref">CellDesigner Walkthrough</span></a>, we will proceed by completing a more in-depth
 explanation of running the mass conservation approach of <a class="reference internal" href="zbibliography.html#irene" id="id1">[OMYS17]</a>. Note that the mass conservation approach can
-be ran on any network that has conservation laws, even if that network does have a sink/source. One can test whether or
+be ran on any uniterminal network that has conservation laws, even if that network does have a sink/source. One can test whether or
 not there are conservation laws by seeing if the output of <a class="reference internal" href="classes/crnt4sbml.Cgraph.html#crnt4sbml.Cgraph.get_dim_equilibrium_manifold" title="crnt4sbml.Cgraph.get_dim_equilibrium_manifold"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.Cgraph.get_dim_equilibrium_manifold()</span></code></a> is
 greater than zero. This tutorial will use <a class="reference download internal" download="" href="_downloads/bcd2bc3e86abed018b753924801a6c6f/Fig1Ci.xml"><code class="xref download docutils literal notranslate"><span class="pre">Fig1Ci.xml</span></code></a>.
 The following code will import crnt4sbml and the SBML file. For a little more detail on this process consider <a class="reference internal" href="basic_crnt.html#my-basic-label"><span class="std std-ref">Low Deficiency Approach</span></a>.</p>
