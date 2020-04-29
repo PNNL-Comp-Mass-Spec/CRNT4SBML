@@ -5,25 +5,8 @@ import numpy
 import sympy
 
 
-# network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
-# signal = "C3"
-# response = "s15"
-# iters = 10
-# d_iters = 100
-#
-# GA = network.get_general_approach()
-# bnds = GA.get_optimization_bounds()
-#
-# GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
-#
-# params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
-#                                                           dual_annealing_iters=d_iters, confidence_level_flag=True,
-#                                                           constraints=[], parallel_flag=False)
-#
-# multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=False,
-#                                                                                auto_parameters={'PrincipalContinuationParameter': signal})
-# GA.generate_report()
-# sys.exit()
+
+sys.exit()
 
 # 1.
 # network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/Nuts_submodel_1.xml")  # yes

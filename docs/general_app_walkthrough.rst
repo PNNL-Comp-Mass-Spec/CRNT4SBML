@@ -25,9 +25,9 @@ If we then want to conduct the general approach, we must first initialize the ge
 
 Now that we have initialized the class, we have to tell the routine the values of the signal (or principal continuation parameter)
 and response of the bifurcation diagram, as well as whether or not we would like to force a steady state. Just
-as in :ref:`my-deficiency-label`, the signal or PCP is a conservation law. To select the PCP one needs to know which
-conservation law to choose. The following command will provide the conservation laws derived by the initialization of the
-general approach class:
+as in :ref:`my-deficiency-label`, the signal (or PCP for numerical continuation) is a conservation law. To select the
+signal one needs to know which conservation law to choose. The following command will provide the conservation laws
+derived by the initialization of the general approach class:
 
 .. code-block:: python
 
