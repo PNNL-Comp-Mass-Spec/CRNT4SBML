@@ -3,6 +3,26 @@
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.rst" beforeDir="false" afterPath="$PROJECT_DIR$/README.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.GeneralApproach.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.GeneralApproach.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/direct_simulation.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/direct_simulation.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/general_app_walkthrough.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/general_app_walkthrough.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/readme.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/readme.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/general_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/general_approach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.GeneralApproach.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.GeneralApproach.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/direct_simulation.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/direct_simulation.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/general_app_walkthrough.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/general_app_walkthrough.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.GeneralApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.GeneralApproach.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/direct_simulation.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/direct_simulation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/general_app_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/general_app_walkthrough.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/readme.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/readme.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/classes/crnt4sbml.GeneralApproach.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/classes/crnt4sbml.GeneralApproach.rst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/direct_simulation.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/direct_simulation.rst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/general_app_walkthrough.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/general_app_walkthrough.rst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/lagrangian_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/lagrangian_approach.py" afterDir="false" />

@@ -1084,7 +1084,7 @@ class GeneralApproach:
 
         return viable_indices, viable_out_values, conservation_vals
 
-    def run_direct_simulation(self, params_for_global_min=None, dir_path="./", change_in_relative_error=1e-6, parallel_flag=False, left_multiplier=0.5, right_multiplier=0.5):
+    def run_direct_simulation(self, params_for_global_min=None, dir_path="./", change_in_relative_error=1e-6, parallel_flag=False, print_flag=False, left_multiplier=0.5, right_multiplier=0.5):
 
         """
         Function for running direct simulation to conduct bistability analysis of the general approach.
@@ -1106,12 +1106,15 @@ class GeneralApproach:
             parallel_flag: bool
                 If set to True a parallel version of direct simulation is ran. If False, a serial version of the
                 routine is ran. See :ref:`parallel-gen-app-label` for further information.
+            print_flag: bool
+                If set to True information about the direct simulation routine will be printed. If False, no output
+                will be provided.
             left_multiplier: float
-                A float value that determines the percentage of the PCP that will be searched to the left of the PCP
-                value. For example, the lowerbound for the PCP range will be PCP_value - PCP_value*left_multiplier.
+                A float value that determines the percentage of the signal that will be searched to the left of the signal
+                value. For example, the lowerbound for the signal range will be signal_value - signal_value*left_multiplier.
             right_multiplier: float
-                A float value that determines the percentage of the PCP that will be searched to the right of the PCP
-                value. For example, the upperbound for the PCP range will be PCP_value + PCP_value*right_multiplier.
+                A float value that determines the percentage of the signal that will be searched to the right of the signal
+                value. For example, the upperbound for the signal range will be signal_value + signal_value*right_multiplier.
 
         Example
         ---------
@@ -1124,6 +1127,8 @@ class GeneralApproach:
                                        range(len(self.__full_system))]
 
         self.__jac_lambda_function = sympy.utilities.lambdify(lambda_inputs, self.__full_system.jacobian(self.__sympy_species))
+
+        self.__dir_sim_print_flag = print_flag
 
         spec_index = self.__sympy_species.index(sympy.Symbol(self.__response, positive=True))
 
@@ -1184,18 +1189,29 @@ class GeneralApproach:
         spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index = self.__initialize_direct_simulation(viable_indices, viable_out_values,
                                                                                                                          params_for_global_min[0], conservation_vals, itg,
                                                                                                                          change_in_relative_error, spec_index, left_multiplier,
-                                                                                                                         right_multiplier)
+                                                                                                                                 right_multiplier)
+        if self.__dir_sim_print_flag:
+            if self.__comm is None:
+                self.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
+            else:
+                if self.__my_rank == 0:
+                    self.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
 
         plot_flag = True
 
         for i in range(len(params_for_global_min)):
 
+            if self.__dir_sim_print_flag:
+                if self.__comm is None:
+                    print(f"Conducting stability analysis of element {i} of the list provided ... ")
+                else:
+                    if self.__my_rank == 0:
+                        print(f"Conducting stability analysis of element {i} of the list provided ... ")
+
             conservation_vals = [self.__cons_laws_sympy_lamb[ii](*tuple(params_for_global_min[i][self.__R:self.__R + self.__N]))
                                  for ii in range(len(self.__cons_laws_sympy_lamb))]
 
             con_law_value = conservation_vals[self.__signal_index]
-            # change = con_law_value * 0.5
-            # pcp_scan = numpy.linspace(con_law_value - change, con_law_value + change, 100)
             change_left = con_law_value * left_multiplier
             change_right = con_law_value * right_multiplier
             pcp_scan = numpy.linspace(con_law_value - change_left, con_law_value + change_right, 100)
@@ -1245,6 +1261,35 @@ class GeneralApproach:
                 end_time = MPI.Wtime()
                 elapsed = end_time - start_time
                 print(f"Elapsed time for direct simulation in seconds: {elapsed}")
+
+    def __print_initial_conditions(self, fwd_scan_vals, rvrs_scan_vals):
+
+        fwd_spec_inds = [i[0] for i in fwd_scan_vals]
+        init_vals = []
+        for i in range(self.__N):
+            if i in fwd_spec_inds:
+                init_vals.append(str(self.__sympy_species[i]) + " = " + "C" + str(fwd_spec_inds.index(i) + 1))
+            else:
+                init_vals.append(str(self.__sympy_species[i]) + " = 0.0")
+
+        print(" ")
+        print("For the forward scan the following initial condition will be used:")
+        for i in init_vals:
+            print(i)
+
+        rvrs_spec_inds = [i[0] for i in rvrs_scan_vals]
+        init_vals = []
+        for i in range(self.__N):
+            if i in rvrs_spec_inds:
+                init_vals.append(str(self.__sympy_species[i]) + " = " + "C" + str(rvrs_spec_inds.index(i) + 1))
+            else:
+                init_vals.append(str(self.__sympy_species[i]) + " = 0.0")
+
+        print(" ")
+        print("For the reverse scan the following initial condition will be used:")
+        for i in init_vals:
+            print(i)
+        print(" ")
 
     def __initialize_direct_simulation(self, viable_indices, viable_out_values, result_x, conservation_vals, itg,
                                        change_in_relative_error, spec_index, left_multiplier, right_multiplier):
@@ -1926,3 +1971,36 @@ class GeneralApproach:
         >>> GA.get_jacobian()
         """
         return self.__jac_mod_system
+
+    def get_comm(self):
+        """
+        Returns a mpi4py communicator if it has been initialized and None otherwise.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
+        >>> GA = network.get_general_approach()
+        >>> signal = "C1"
+        >>> response = "s1"
+        >>> GA.initialize_general_approach(signal=signal, response=response)
+        >>> GA.get_comm()
+        """
+        return self.__comm
+
+    def get_my_rank(self):
+        """
+        Returns the rank assigned by mpi4py if it is initialized, otherwise None will be returned.
+
+        Example
+        --------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
+        >>> GA = network.get_general_approach()
+        >>> signal = "C1"
+        >>> response = "s1"
+        >>> GA.initialize_general_approach(signal=signal, response=response)
+        >>> GA.get_my_rank()
+        """
+        return self.__my_rank
+

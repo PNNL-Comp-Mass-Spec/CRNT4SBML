@@ -102,10 +102,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Direct Simulation for the General Approach</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#failure-of-numerical-continuation">Failure of numerical continuation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#outline-of-direct-simulation-process">Outline of direct simulation process</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#finding-appropriate-initial-conditions">Finding appropriate initial conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#finding-the-appropriate-initial-conditions">Finding the appropriate initial conditions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#finding-a-steady-state-to-the-system">Finding a steady state to the system</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#conducting-forward-and-reverse-simulations">Conducting forward and reverse simulations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#varying-the-signal-of-the-ode-system">Varying the signal of the ODE system</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#constructing-the-bifurcation-diagram">Constructing the bifurcation diagram</a></li>
 </ul>
 </li>
@@ -200,30 +198,179 @@ routine. Although this is the case, direct simulation may be able to provide a b
 cannot.</p>
 <div class="section" id="failure-of-numerical-continuation">
 <h2>Failure of numerical continuation<a class="headerlink" href="#failure-of-numerical-continuation" title="Permalink to this headline">¶</a></h2>
-<p>Under Development …</p>
+<p>In the following example we consider the case where numerical continuation fails to provide the appropriate results.
+For this example, we will be using the SBML file <a class="reference download internal" download="" href="_downloads/687872c47e0571c451c754af1abd76b4/simple_biterminal.xml"><code class="xref download docutils literal notranslate"><span class="pre">simple_biterminal.xml</span></code></a>.
+We then construct the following script, where we are printing the output of the numerical continuation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/simple_biterminal.xml&quot;</span><span class="p">)</span>
+<span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C2&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s11&quot;</span>
+<span class="n">bnds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.42</span><span class="p">),</span> <span class="p">(</span><span class="mf">27.5</span><span class="p">,</span> <span class="mf">28.1</span><span class="p">),</span> <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.15</span><span class="p">),</span> <span class="p">(</span><span class="mf">48.25</span><span class="p">,</span> <span class="mf">48.4</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">),</span> <span class="p">(</span><span class="mf">17.0</span><span class="p">,</span> <span class="mf">17.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">92.4</span><span class="p">,</span> <span class="mf">92.6</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.78</span><span class="p">,</span> <span class="mf">0.79</span><span class="p">),</span> <span class="p">(</span><span class="mf">3.6</span><span class="p">,</span> <span class="mf">3.7</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.065</span><span class="p">)]</span> <span class="o">+</span> \ <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">18.0</span><span class="p">,</span> <span class="mf">18.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">27.0</span><span class="p">,</span> <span class="mf">27.1</span><span class="p">),</span> <span class="p">(</span><span class="mf">8.2</span><span class="p">,</span> <span class="mf">8.3</span><span class="p">),</span> <span class="p">(</span><span class="mf">90.0</span><span class="p">,</span> <span class="mf">90.1</span><span class="p">),</span> <span class="p">(</span><span class="mf">97.5</span><span class="p">,</span> <span class="mf">97.9</span><span class="p">),</span> <span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">30.1</span><span class="p">)]</span>
+
+<span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_vals</span> <span class="o">=</span> <span class="n">GA</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bnds</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">dual_annealing_iters</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                                                           <span class="n">confidence_level_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">parallel_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">GA</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">print_lbls_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                                                               <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">signal</span><span class="p">})</span>
+<span class="n">GA</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This provides the following output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Starting optimization ...
+Elapsed time for optimization in seconds: 2639.424936056137
+It was found that 2.1292329042333798e-16 is the minimum objective function value with a confidence level of 0.680672268907563 .
+1 point(s) passed the optimization criteria.
+
+Running continuity analysis ...
+J0: -&gt; s11; re7c*s2s10 - re8*s11;J1: -&gt; s2; -re1*s2*(C2 - s2 - s2s10 - s2s9 - 2.0*s3 - 2.0*s6) + re1r*s3 -
+re2*s2*(C2 - s2 - s2s10 - s2s9 - 2.0*s3 - 2.0*s6) + re2r*s6 + 2*re4*s6 + re5c*s2s9 + re5d*s2s9 -
+re5f*s2*(C1 - s10 - s11 - s2s10 - s2s9) + re7c*s2s10 + re7d*s2s10 - re7f*s10*s2;
+J2: -&gt; s3; re1*s2*(C2 - s2 - s2s10 - s2s9 - 2.0*s3 - 2.0*s6) - re1r*s3 - re3*s3;
+J3: -&gt; s6; re2*s2*(C2 - s2 - s2s10 - s2s9 - 2.0*s3 - 2.0*s6) - re2r*s6 - re4*s6;
+J4: -&gt; s10; re5c*s2s9 - re6*s10 + re7d*s2s10 - re7f*s10*s2 + re8*s11;
+J5: -&gt; s2s9; -re5c*s2s9 - re5d*s2s9 + re5f*s2*(C1 - s10 - s11 - s2s10 - s2s9);
+J6: -&gt; s2s10; -re7c*s2s10 - re7d*s2s10 + re7f*s10*s2;
+re1 = 2.4179937298574217;re1r = 27.963833386686552;re2 = 2.1212280827699264;re2r = 48.342142632557824;
+re3 = 0.9103403848297675;re4 = 1.8021182302742345;re5f = 17.01982705623611;re5d = 92.47396549104621;
+re5c = 0.021611755555125196;re6 = 0.23540156485799416;re7f = 0.7824887292735982;re7d = 3.692336204373193;
+re7c = 0.20574339517454907;re8 = 0.06329703678602935;s1 = 14.749224746318406;s2 = 18.117522179242442;
+s3 = 22.37760479141668;s6 = 11.304051540693258;s9 = 27.001718858136442;s10 = 8.264281271233568;
+s2s9 = 90.01696959750683;s11 = 97.69532935525308;s2s10 = 30.05600671002251;C1 = 253.03430579215245;C2 = 220.30303589731005;
+Labels from numerical continuation:
+[&#39;EP&#39;, &#39;MX&#39;]
+Labels from numerical continuation:
+[&#39;EP&#39;, &#39;MX&#39;]
+Labels from numerical continuation:
+[&#39;EP&#39;, &#39;MX&#39;]
+Labels from numerical continuation:
+[&#39;EP&#39;, &#39;MX&#39;]
+Labels from numerical continuation:
+[&#39;EP&#39;, &#39;MX&#39;]
+Labels from numerical continuation:
+[&#39;EP&#39;, &#39;MX&#39;]
+Labels from numerical continuation:
+[&#39;EP&#39;, &#39;MX&#39;]
+Labels from numerical continuation:
+[&#39;EP&#39;, &#39;MX&#39;]
+Labels from numerical continuation:
+[&#39;EP&#39;, &#39;MX&#39;]
+Labels from numerical continuation:
+[&#39;EP&#39;, &#39;MX&#39;]
+
+Elapsed time for continuity analysis in seconds: 4.751797914505005
+
+Number of multistability plots found: 0
+Elements in params_for_global_min that produce multistability:
+[]
+</pre></div>
+</div>
+<p>As we can see, the numerical continuation is unable to find limit points for the example. This is due to the Jacobian
+being ill-conditioned. In cases where the output of the numerical continuation is consistently “[‘EP’, ‘MX’]” or one of
+the points is “MX”, this often indicates that the Jacobian is ill-conditioned or always singular. If this situation is
+encountered, it is suggested that the user run the direct simulation routine.</p>
 </div>
 <div class="section" id="outline-of-direct-simulation-process">
 <h2>Outline of direct simulation process<a class="headerlink" href="#outline-of-direct-simulation-process" title="Permalink to this headline">¶</a></h2>
-<p>Under Development …</p>
-<div class="section" id="finding-appropriate-initial-conditions">
-<h3>Finding appropriate initial conditions<a class="headerlink" href="#finding-appropriate-initial-conditions" title="Permalink to this headline">¶</a></h3>
-<p>Under Development …</p>
+<p>To cover the corner case where numerical continuation is unable to complete because the Jacobian is ill-conditioned, we
+have constructed a direct simulation approach. This approach directly simulates the full ODE system for the network by
+numerically integrating the ODE system. Using these results, a bifurcation diagram is then produced. In the following
+subsections we will provide an overview of the workflow carried out by the direct simulation method.</p>
+<div class="section" id="finding-the-appropriate-initial-conditions">
+<h3>Finding the appropriate initial conditions<a class="headerlink" href="#finding-the-appropriate-initial-conditions" title="Permalink to this headline">¶</a></h3>
+<p>When numerically integrating the full system of ODEs we use the SciPy routine <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html">solve_ivp</a>.
+This routine solves an initial value problem for a system of ODEs. For this reason, we need to provide initial conditions
+that correspond to the optimization values provided. We need to do this for two cases, one where we obtain a high concentration
+of the response species and another where we obtain a lower concentration of the response species, at a steady state. To
+do this we use the first element of the optimization values provided to the routine (which correspond to an
+input vector consisting of reaction constants and species concentrations) to calculate the conservation laws for the problem.</p>
+<p>Once we have the conservation law values, we then construct construct all possible initial conditions for the ODE system.
+This is done by using the conservation laws of the problem. For our example, we have the following conservation laws:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C1 = 1.0*s10 + 1.0*s11 + 1.0*s2s10 + 1.0*s2s9 + 1.0*s9
+C2 = 1.0*s1 + 1.0*s2 + 1.0*s2s10 + 1.0*s2s9 + 2.0*s3 + 2.0*s6
+</pre></div>
+</div>
+<p>Thus, we can put the total C1 value in any of the following species: s10, s11, s2s10, s2s9, or s9, in addition to this,
+we can put the total C2 value in any of the following species: s1, s2, s2s10, s2s9, s3, or s6. For example, we can set the
+initial condition for the system by setting the initial value of s10 = C1, s1 = C2, and all other species to zero. As one
+can see, we need to test all possible combinations of these species to see the set that appropriately corresponds to the
+optimization values provided. The number of combinations tested can be reduced by removing duplicate combinations
+and repeated species.</p>
+<p>To determine the combination that we will use to conduct the bistability analysis, we first find the steady state (using the process
+outlined in the next subsection) for the corresponding initial condition. Using these steady state values, we then determine
+the conservation law values at the steady state. If the conservation law values align with the conservation law values
+calculated using the first element of the optimization values, then we consider this combination as a viable combination.
+Once we have all of the viable combinations, we then select a set of two of these combinations, where one produces a high concentration
+of the response species and the other has a lower concentration of the response species, at the steady state. To see the
+initial conditions that will be used for the bistability analysis, one can set print_flag=True in <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_direct_simulation" title="crnt4sbml.GeneralApproach.run_direct_simulation"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_direct_simulation()</span></code></a>.
+This provides the following output for the example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>For the forward scan the following initial condition will be used:
+s1 = 0.0
+s2 = C2
+s3 = 0.0
+s6 = 0.0
+s9 = 0.0
+s10 = C1
+s2s9 = 0.0
+s11 = 0.0
+s2s10 = 0.0
+
+For the reverse scan the following initial condition will be used:
+s1 = 0.0
+s2 = C2
+s3 = 0.0
+s6 = 0.0
+s9 = C1
+s10 = 0.0
+s2s9 = 0.0
+s11 = 0.0
+s2s10 = 0.0
+</pre></div>
+</div>
+<p>The process of finding these viable combinations can take a long time depending on the network provided. For this reason,
+this process can be done in parallel by setting parallel_flag=True in <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_direct_simulation" title="crnt4sbml.GeneralApproach.run_direct_simulation"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_direct_simulation()</span></code></a>. For
+more information on parallel runs refer to <a class="reference internal" href="parallel_crnt4sbml.html#parallel-crnt4sbml-label"><span class="std std-ref">Parallel CRNT4SBML</span></a>.</p>
 </div>
 <div class="section" id="finding-a-steady-state-to-the-system">
 <h3>Finding a steady state to the system<a class="headerlink" href="#finding-a-steady-state-to-the-system" title="Permalink to this headline">¶</a></h3>
-<p>Under Development …</p>
-</div>
-<div class="section" id="conducting-forward-and-reverse-simulations">
-<h3>Conducting forward and reverse simulations<a class="headerlink" href="#conducting-forward-and-reverse-simulations" title="Permalink to this headline">¶</a></h3>
-<p>Under Development …</p>
-</div>
-<div class="section" id="varying-the-signal-of-the-ode-system">
-<h3>Varying the signal of the ODE system<a class="headerlink" href="#varying-the-signal-of-the-ode-system" title="Permalink to this headline">¶</a></h3>
-<p>Under Development …</p>
+<p>In order to produce a bifurcation diagram, we need to consider the solution of the system of ODEs at a steady state. Due
+to the nature of the system of ODEs, this solution is often to complex to do analytically. For this reason, we find this
+solution by numerically integrating the system until we reach a steady state in the system. As mentioned previously, this
+is done by using the Scipy routine <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html">solve_ivp</a>.
+Specifically, we utilize the BDF method with a rtol of 1e-6 and a atol of 1e-9. To begin, we start with an
+interval of integration of 0.0 to 100.0, we then continue in increments of 100 until a steady state has been reached or
+1000 increments have been completed. A system of ODEs is considered to be at a steady state when the relative error (of
+the last and current time step of the concentration of the response species) is less than or equal to the user defined
+variable change_in_relative_error of <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_direct_simulation" title="crnt4sbml.GeneralApproach.run_direct_simulation"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_direct_simulation()</span></code></a>. It should be noted that
+a smaller value of change_in_relative_error will run faster, but may produce an ODE system that is not at a steady state.</p>
 </div>
 <div class="section" id="constructing-the-bifurcation-diagram">
 <h3>Constructing the bifurcation diagram<a class="headerlink" href="#constructing-the-bifurcation-diagram" title="Permalink to this headline">¶</a></h3>
-<p>Under Development …</p>
+<p>Once the appropriate initial conditions have been given, the direct simulation routine then attempts to construct a bifurcation
+diagram. Note that this process does not guarantee that a bifurcation diagram with bistability will be provided, rather
+it will produce a plot of the long-term behavior of the ODEs in a particular interval for the user defined signal. The
+first step in this process is defining the search radius of the signal. This search radius can be defined by the user by
+modifying the variables left_multiplier and right_multiplier of <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_direct_simulation" title="crnt4sbml.GeneralApproach.run_direct_simulation"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_direct_simulation()</span></code></a>,
+which provide a lower and upper -bound for the signal value. Specifically, when considering different values of the signal,
+the range for these different values will be in the interval [signal_value - signal_value*left_multiplier, signal_value - signal_value*right_multiplier],
+where the signal value is beginning value of the signal as provided by the input vectors produced by optimization.</p>
+<p>Using this range, the routine then splits the range into 100 evenly spaced numbers. The signal is then set equal to each of
+these numbers and the ODE system is simulated until a steady state occurs, using the initial conditions of both the forward
+and reverse scan values established in the previous subsection. Using all 200 values, the minimum and maximum value of
+the response species’ concentration is found. This process is then repeated using 60 evenly spaced numbers between the
+signal values that correspond to the minimum and maximum values of the response species’ concentration. Using the 120 values
+produced, the minimum and maximum values of the response species are found. This process is repeated for 5 iterations or
+until there are 10 or more signal values between the signal values that correspond to the minimum and maximum values of
+the response species’ concentration of the current iteration. This process effectively detects and “zooms in” on the region
+where bistability is thought to exist. Although this process can be very effective, it can take a long time to complete.
+Thus, it is suggested that this be done in parallel by setting parallel_flag=True in <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.run_direct_simulation" title="crnt4sbml.GeneralApproach.run_direct_simulation"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_direct_simulation()</span></code></a>. For
+more information on parallel runs refer to <a class="reference internal" href="parallel_crnt4sbml.html#parallel-crnt4sbml-label"><span class="std std-ref">Parallel CRNT4SBML</span></a>. For the example we have been considering, we
+obtain the following bifurcation diagram.</p>
+<a class="reference internal image-reference" href="_images/simple_biterminal_direct_sim.png"><img alt="_images/simple_biterminal_direct_sim.png" class="align-center" src="_images/simple_biterminal_direct_sim.png" style="width: 550px; height: 300px;" /></a>
 </div>
 </div>
 </div>

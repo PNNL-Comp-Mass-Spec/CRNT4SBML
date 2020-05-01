@@ -28,6 +28,14 @@ Features
 * Routine for running the mass conservation approach.
 * Routine for running the semi-diffusive approach.
 
+Citing CRNT4SBML
+-----------------
+
+If you use CRNT4SBML in your research, we would appreciate it if you use the following citation in any works you publish:
+
+    Brandon C Reyes, Irene Otero-Muras, Michael T Shuen, Alexandre M Tartakovsky, Vladislav A Petyuk,
+    `CRNT4SBML: a Python package for the detection of bistability in biochemical reaction networks <https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btaa241/5820009?searchresult=1>`_,
+    Bioinformatics.
 
 Credits
 -------

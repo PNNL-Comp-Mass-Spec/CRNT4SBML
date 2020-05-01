@@ -249,6 +249,12 @@
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_determinant_of_jacobian" title="crnt4sbml.GeneralApproach.get_determinant_of_jacobian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_determinant_of_jacobian</span></code></a>()</td>
 <td>Returns a Sympy expression of the determinant of the Jacobian, where the Jacobian is with respect to the independent species.</td>
 </tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_comm" title="crnt4sbml.GeneralApproach.get_comm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_comm</span></code></a>()</td>
+<td>Returns a mpi4py communicator if it has been initialized and None otherwise.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.get_my_rank" title="crnt4sbml.GeneralApproach.get_my_rank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_my_rank</span></code></a>()</td>
+<td>Returns the rank assigned by mpi4py if it is initialized, otherwise None will be returned.</td>
+</tr>
 <tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.run_optimization" title="crnt4sbml.GeneralApproach.run_optimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_optimization</span></code></a>([bounds,&nbsp;iterations,&nbsp;seed,&nbsp;…])</td>
 <td>Function for running the optimization problem for the general approach.</td>
 </tr>
@@ -271,6 +277,22 @@
 <a class="reference internal" href="#crnt4sbml.GeneralApproach.run_greedy_continuity_analysis" title="crnt4sbml.GeneralApproach.run_greedy_continuity_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.run_greedy_continuity_analysis()</span></code></a>.</p>
 <p class="rubric">Example</p>
 <p>See also <a class="reference internal" href="../quickstart.html#quickstart-gen-app-label"><span class="std std-ref">General Approach Example</span></a> and <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_comm">
+<code class="descname">get_comm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_comm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_comm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a mpi4py communicator if it has been initialized and None otherwise.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_comm</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -425,6 +447,22 @@ need to be provided.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="crnt4sbml.GeneralApproach.get_my_rank">
+<code class="descname">get_my_rank</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_my_rank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_my_rank" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the rank assigned by mpi4py if it is initialized, otherwise None will be returned.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_my_rank</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="crnt4sbml.GeneralApproach.get_optimization_bounds">
 <code class="descname">get_optimization_bounds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_optimization_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_optimization_bounds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of tuples that corresponds to the determined physiological bounds chosen for the problem. Each
@@ -536,7 +574,7 @@ for each special point in the plot.</li>
 
 <dl class="method">
 <dt id="crnt4sbml.GeneralApproach.run_direct_simulation">
-<code class="descname">run_direct_simulation</code><span class="sig-paren">(</span><em>params_for_global_min=None</em>, <em>dir_path='./'</em>, <em>change_in_relative_error=1e-06</em>, <em>parallel_flag=False</em>, <em>left_multiplier=0.5</em>, <em>right_multiplier=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.run_direct_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.run_direct_simulation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_direct_simulation</code><span class="sig-paren">(</span><em>params_for_global_min=None</em>, <em>dir_path='./'</em>, <em>change_in_relative_error=1e-06</em>, <em>parallel_flag=False</em>, <em>print_flag=False</em>, <em>left_multiplier=0.5</em>, <em>right_multiplier=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.run_direct_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.run_direct_simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for running direct simulation to conduct bistability analysis of the general approach.</p>
 <p>Note: This routine is more expensive than the numerical continuation routines, but can provide solutions
 when the Jacobian of the ODE system is always singular. A parallel version of this routine is available.</p>
@@ -553,10 +591,12 @@ ODE system to be considered at a steady state. Note: a smaller value will run fa
 an ODE system that is not at a steady state.</li>
 <li><strong>parallel_flag</strong> (<em>bool</em>) – If set to True a parallel version of direct simulation is ran. If False, a serial version of the
 routine is ran. See <a class="reference internal" href="../parallel_crnt4sbml.html#parallel-gen-app-label"><span class="std std-ref">Parallel General Approach</span></a> for further information.</li>
-<li><strong>left_multiplier</strong> (<em>float</em>) – A float value that determines the percentage of the PCP that will be searched to the left of the PCP
-value. For example, the lowerbound for the PCP range will be PCP_value - PCP_value*left_multiplier.</li>
-<li><strong>right_multiplier</strong> (<em>float</em>) – A float value that determines the percentage of the PCP that will be searched to the right of the PCP
-value. For example, the upperbound for the PCP range will be PCP_value + PCP_value*right_multiplier.</li>
+<li><strong>print_flag</strong> (<em>bool</em>) – If set to True information about the direct simulation routine will be printed. If False, no output
+will be provided.</li>
+<li><strong>left_multiplier</strong> (<em>float</em>) – A float value that determines the percentage of the signal that will be searched to the left of the signal
+value. For example, the lowerbound for the signal range will be signal_value - signal_value*left_multiplier.</li>
+<li><strong>right_multiplier</strong> (<em>float</em>) – A float value that determines the percentage of the signal that will be searched to the right of the signal
+value. For example, the upperbound for the signal range will be signal_value + signal_value*right_multiplier.</li>
 </ul>
 </td>
 </tr>

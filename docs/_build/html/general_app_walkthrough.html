@@ -195,7 +195,7 @@ and response of the bifurcation diagram, as well as whether or not we would like
 as in <a class="reference internal" href="deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a>, the signal (or PCP for numerical continuation) is a conservation law. To select the
 signal one needs to know which conservation law to choose. The following command will provide the conservation laws
 derived by the initialization of the general approach class:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_conservation_laws</span><span class="p">())</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">GA</span><span class="o">.</span><span class="n">get_conservation_laws</span><span class="p">())</span>
 </pre></div>
 </div>
 <p>This provides the following output:</p>
@@ -212,10 +212,12 @@ the following signal and response:</p>
 <p>Now that we have the bifurcation parameters, we should consider whether or not we would like to force a steady state in the
 ODE system formed by the network by fixing the reactions. Although forcing a steady state by fixing the reactions can provide
 faster results for some networks when running optimization, it does restrict the solutions found to a particular
-solution, rather than looking for a general solution. For this particular example, fixing the reactions leads to poor
-results. Thus, we will choose to not fix the reactions, this is done by setting the fix_reaction variable to False
-in <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.initialize_general_approach" title="crnt4sbml.GeneralApproach.initialize_general_approach"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.initialize_general_approach()</span></code></a>. Now we can initialize the rest of the general approach
-as follows:</p>
+solution, rather than looking for a general solution. If reactions are fixed, the reactions that are fixed can by found
+by using <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_fixed_reactions" title="crnt4sbml.GeneralApproach.get_fixed_reactions"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.get_fixed_reactions()</span></code></a>, where the symbolic expressions for these reactions are
+given by <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_solutions_to_fixed_reactions" title="crnt4sbml.GeneralApproach.get_solutions_to_fixed_reactions"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.get_solutions_to_fixed_reactions()</span></code></a>.</p>
+<p>For this particular example, fixing the reactions leads to poor results. Thus, we will choose to not fix the reactions,
+this is done by setting the fix_reaction variable to False in <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.initialize_general_approach" title="crnt4sbml.GeneralApproach.initialize_general_approach"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach.initialize_general_approach()</span></code></a>.
+Now we can initialize the rest of the general approach as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">fix_reactions</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 </div>

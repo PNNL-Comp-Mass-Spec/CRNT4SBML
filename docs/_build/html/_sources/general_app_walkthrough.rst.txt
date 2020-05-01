@@ -31,7 +31,7 @@ derived by the initialization of the general approach class:
 
 .. code-block:: python
 
-	print(opt.get_conservation_laws())
+	print(GA.get_conservation_laws())
 
 This provides the following output::
 
@@ -49,10 +49,13 @@ the following signal and response:
 Now that we have the bifurcation parameters, we should consider whether or not we would like to force a steady state in the
 ODE system formed by the network by fixing the reactions. Although forcing a steady state by fixing the reactions can provide
 faster results for some networks when running optimization, it does restrict the solutions found to a particular
-solution, rather than looking for a general solution. For this particular example, fixing the reactions leads to poor
-results. Thus, we will choose to not fix the reactions, this is done by setting the fix_reaction variable to False
-in :func:`crnt4sbml.GeneralApproach.initialize_general_approach`. Now we can initialize the rest of the general approach
-as follows:
+solution, rather than looking for a general solution. If reactions are fixed, the reactions that are fixed can by found
+by using :func:`crnt4sbml.GeneralApproach.get_fixed_reactions`, where the symbolic expressions for these reactions are
+given by :func:`crnt4sbml.GeneralApproach.get_solutions_to_fixed_reactions`.
+
+For this particular example, fixing the reactions leads to poor results. Thus, we will choose to not fix the reactions,
+this is done by setting the fix_reaction variable to False in :func:`crnt4sbml.GeneralApproach.initialize_general_approach`.
+Now we can initialize the rest of the general approach as follows:
 
 .. code-block:: python
 
