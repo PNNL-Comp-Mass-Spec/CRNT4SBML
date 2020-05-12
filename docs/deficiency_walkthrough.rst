@@ -21,7 +21,7 @@ mass\_conservation\_approach, which is done as follows:
 
 .. code-block:: python
 
-    opt = network.get_mass_conservation_approach()
+    approach = network.get_mass_conservation_approach()
 
 This command creates all the necessary information to construct the optimization problem to be solved. Along with this,
 the initialization will also attempt to obtain a linear form of the Equilibrium Manifold. Note that this process may take
@@ -37,7 +37,7 @@ the following command to the script:
 
 .. code-block:: python
  
-    print(opt.get_decision_vector())
+    print(approach.get_decision_vector())
 
 This provides the following output::
 
@@ -54,7 +54,7 @@ bounds for, we can use the following command:
 
 .. code-block:: python
 
-    print(opt.get_concentration_bounds_species())
+    print(approach.get_concentration_bounds_species())
 
 This provides the following output::
 
@@ -69,7 +69,7 @@ add the following code:
 
 .. code-block:: python
 
-    bnds, conc_bnds = opt.get_optimization_bounds()
+    bnds, conc_bnds = approach.get_optimization_bounds()
 
 This provides the following values::
 
@@ -117,40 +117,33 @@ value smaller than machine epsilon.
 
 .. code-block:: python
 
-    params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bnds, concentration_bounds=conc_bnds,
+    params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds=bnds, concentration_bounds=conc_bnds,
                                                                          iterations=num_itr, seed=sd, print_flag=prnt_flg,
                                                                          numpy_dtype=num_dtype, sys_min_val=sys_min)
 
 The following is the output obtained by the constructed model::
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 29.199651999999997
+    Elapsed time for feasible point method: 14.034250974655151
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 136.14538600000003
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 67.97679090499878
 
 At this point it may also be helpful to generate a report on the optimization routine that provides more information.
 To do this execute the following command:
 
 .. code-block:: python
 
-	opt.generate_report()
+	approach.generate_report()
 
 This will provide the following output::
 
-    The number of feasible points that satisfy the constraints: 99
-    Total feasible points that give F(x) = 0: 28
-    Total number of points that passed final_check: 28
+    Smallest value achieved by objective function: 0.0
+    28 point(s) passed the optimization criteria.
 
-The first line tells one how many initial points satisfy the constraints after the feasible point method is ran. Note
-that there should always be a nonzero amount provided here, if a nonzero amount is not given, new bounds should be
-considered. The second line describes how many feasible points provide an objective function value smaller than sys\_min\_val.
-The last line outputs the number of feasible points that produce an objective function value smaller than sys\_min\_val
-that also pass all of the constraints of the optimization problem. Note that it is not uncommon for the value provided
-in the last line to be smaller than the value provided in the second line. Given the optimization may take a long time
+The first line tells one how the smallest value of the objective function that was found after all points have been ran.
+The second line describes the number of feasible points that produce an objective function value smaller than sys\_min\_val
+that also pass all of the constraints of the optimization problem. Given the optimization may take a long time
 to complete, it may be important to save the parameters produced by the optimization. This can be done as follows::
 
 	numpy.save('params.npy', params_for_global_min)
@@ -169,7 +162,7 @@ command will provide the conservation laws derived by the deficiency manager:
 
 .. code-block:: python 
 
-	print(opt.get_conservation_laws())
+	print(approach.get_conservation_laws())
 
 This provides the following output::
 
@@ -204,20 +197,17 @@ Once we have set the AUTO parameters, we tell the numerical continuation routine
 obtained by the numerical continuation routine. Please refer to :ref:`my-continuation-label` for a description of this
 print out. The next value we provide is the string representation of the directory where we would like to store the
 multistability plots, if any are found (here we choose to create the stability_graphs directory in the current directory).
-The last value provided is an error\_log\_flag which tells the numerical continuation routine whether or not the log
-output provided by AUTO is suppressed.
 
 Using this input we can now run the numerical continuation routine on the parameters that pass the constraints of the
 optimization problem and produce an objective function value smaller than sys\_min\_val. This is done below.
 
 .. code-block:: python
 
-    multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species=spcs, parameters=params_for_global_min,
-                                                                             auto_parameters={'PrincipalContinuationParameter': PCP_x,
-                                                                                              'RL0': 1e2, 'RL1': 1e6, 'A0': 0.0, 'A1': 5e6,
-                                                                                              'DSMAX': 1e3},
-                                                                             print_lbls_flag=False, dir_path="./stability_graphs",
-                                                                             error_log_flag=True)
+    multistable_param_ind, plot_specifications = approach.run_continuity_analysis(species=spcs, parameters=params_for_global_min,
+                                                                                  auto_parameters={'PrincipalContinuationParameter': PCP_x,
+                                                                                                   'RL0': 1e2, 'RL1': 1e6, 'A0': 0.0, 'A1': 5e6,
+                                                                                                   'DSMAX': 1e3},
+                                                                                  print_lbls_flag=False, dir_path="./stability_graphs")
 
 In addition to putting the multistability plots found into the path dir\_path, this routine will also return the indices of
 params\_for\_global\_min that correspond to these plots named "multistable_param_ind" above. Along with these indices,
@@ -227,14 +217,14 @@ Also note that if multistability plots are produced, the plot names will have th
 PCP\_species id\_index of params\_for\_global.png. The output provided by the numerical continuation run is as follows::
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 25.02327585220337
+    Elapsed time for continuity analysis in seconds: 26.88336992263794
 
 Again, we can generate a report that will contain the numerical optimization routine output and the now added information
 provided by the numerical continuation run.
 
 .. code-block:: python
 
-    opt.generate_report()
+    approach.generate_report()
 
 This provides the following output that describes that of the 28 parameter sets that passed the constraints of the
 optimization problem, 14 of them produce multistability for the given input. In addition to this, it also tells one the
@@ -243,19 +233,17 @@ parameter may be needed, but this will increase the runtime of the numerical con
 
 ::
 
-    The number of feasible points that satisfy the constraints: 99
-    Total feasible points that give F(x) = 0: 28
-    Total number of points that passed final_check: 28
+    Smallest value achieved by objective function: 0.0
+    28 point(s) passed the optimization criteria.
     Number of multistability plots found: 14
     Elements in params_for_global_min that produce multistability:
-    [4, 11, 12, 14, 15, 16, 19, 20, 21, 22, 23, 24, 26, 27]
+    [0, 1, 5, 7, 8, 12, 13, 14, 15, 20, 23, 25, 26, 27]
 
-
-The following is a bistability plot produced by element 26 of params\_for\_global\_min. Here the solid blue line
+The following is a bistability plot produced by element 27 of params\_for\_global\_min. Here the solid blue line
 indicates stability, the dashed blue line is instability, and the red stars are the special points produced by the
 numerical continuation.
 
-.. image:: ./images_for_docs/fig_1Ci_C3_vs_s15_26.png
+.. image:: ./images_for_docs/fig_1Ci_C3_vs_s15_27.png
 
 In addition to providing this more hands on approach to the numerical continuation routine, we also provide a greedy
 version of the numerical continuation routine. With this approach the user just needs to provide the species, parameters,
@@ -266,22 +254,21 @@ time than the more hands on approach. Below is the code used to run the greedy n
 
 .. code-block:: python
 
-    multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species=spcs, parameters=params_for_global_min,
-                                                                                    auto_parameters={'PrincipalContinuationParameter': PCP_x})
+    multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species=spcs, parameters=params_for_global_min, dir_path="./stability_graphs",
+                                                                                         auto_parameters={'PrincipalContinuationParameter': PCP_x})
 
-    opt.generate_report()
+    approach.generate_report()
 
 This provides the following output::
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 143.82169270515442
+    Elapsed time for continuity analysis in seconds: 144.57969522476196
 
-    The number of feasible points that satisfy the constraints: 99
-    Total feasible points that give F(x) = 0: 28
-    Total number of points that passed final_check: 28
+    Smallest value achieved by objective function: 0.0
+    28 point(s) passed the optimization criteria.
     Number of multistability plots found: 19
     Elements in params_for_global_min that produce multistability:
-    [3, 4, 6, 7, 11, 12, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+    [0, 1, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 20, 23, 25, 26, 27]
 
 Note that some of these plots will be jagged or have missing sections in the plot. To produce better plots the hands on
 approach should be used.

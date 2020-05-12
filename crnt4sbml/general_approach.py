@@ -9,6 +9,7 @@ import time
 import math
 import os
 from .bistability_finder import BistabilityFinder
+from .bistability_analysis import BistabilityAnalysis
 
 
 class GeneralApproach:
@@ -531,7 +532,7 @@ class GeneralApproach:
                 A list defining the lower and upper bounds for each variable in the input vector. See
                 :func:`crnt4sbml.GeneralApproach.get_input_vector`.
             iterations: int
-                The number of iterations to run the feasible point method.
+                The number of iterations to run the multistart method.
             seed: int
                 Seed for the random number generator. None should be used if a random generation is desired.
             print_flag: bool
@@ -1084,7 +1085,8 @@ class GeneralApproach:
 
         return viable_indices, viable_out_values, conservation_vals
 
-    def run_direct_simulation(self, params_for_global_min=None, dir_path="./", change_in_relative_error=1e-6, parallel_flag=False, print_flag=False, left_multiplier=0.5, right_multiplier=0.5):
+    def run_direct_simulation(self, params_for_global_min=None, dir_path="./", change_in_relative_error=1e-6,
+                              parallel_flag=False, print_flag=False, left_multiplier=0.5, right_multiplier=0.5):
 
         """
         Function for running direct simulation to conduct bistability analysis of the general approach.
@@ -1131,6 +1133,19 @@ class GeneralApproach:
         self.__dir_sim_print_flag = print_flag
 
         spec_index = self.__sympy_species.index(sympy.Symbol(self.__response, positive=True))
+
+
+        print(self.__sympy_species)
+
+
+        # BistabilityAnalysis.run_direct_simulation(params_for_global_min, parallel_flag, dir_path, itg, change_in_relative_error,
+        #                                           spec_index, left_multiplier, right_multiplier, self.__comm, self.__my_rank, self.__num_cores, self.__dir_sim_print_flag,
+        #                                           self.__R, self.__N, self.__cons_laws_sympy_lamb, self.__cons_laws_sympy, self.__sympy_species, self.__signal_index,
+        #                                           self.__signal, self.__response, self.__ode_lambda_functions, self.__jac_lambda_function, None, "GeneralApproach")
+        #
+        #
+        #
+        # sys.exit()
 
         if parallel_flag is False and self.__comm is None:
 
@@ -1209,7 +1224,7 @@ class GeneralApproach:
                         print(f"Conducting stability analysis of element {i} of the list provided ... ")
 
             conservation_vals = [self.__cons_laws_sympy_lamb[ii](*tuple(params_for_global_min[i][self.__R:self.__R + self.__N]))
-                                 for ii in range(len(self.__cons_laws_sympy_lamb))]
+                                 for ii in range(len(self.__cons_laws_sympy_lamb))]                                    # TODO: make general function
 
             con_law_value = conservation_vals[self.__signal_index]
             change_left = con_law_value * left_multiplier

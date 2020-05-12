@@ -9,15 +9,7 @@ import itertools
 import warnings
 import math
 from .bistability_finder import BistabilityFinder
-
-
-# TODO: see why these imports produce
-# segmentation fault: 11
-##########################
-# import pylab as plt
-# import tellurium as te
-# from rrplugins import
-##########################
+from .bistability_analysis import BistabilityAnalysis
 
 class MassConservationApproach:
     """
@@ -32,7 +24,6 @@ class MassConservationApproach:
         crnt4sbml.CRNT.get_mass_conservation_approach()
         """
         self.__cgraph = cgraph
-
         self.get_physiological_range = get_physiological_range
 
         if not all([i <= 1 for i in self.__cgraph.get_number_of_terminal_strong_lc_per_lc()]):
@@ -1148,109 +1139,29 @@ class MassConservationApproach:
 
         species_num = self.__species.index(species) + 1
 
-        species_y = str(self.__concentration_pars[species_num-1]) 
+        species_y = str(self.__concentration_pars[species_num-1])
 
-        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_continuity_analysis(species_num, parameters,
-                                                                                                               self.__initialize_ant_string,
-                                                                                                               self.__finalize_ant_string,
-                                                                                                               species_y, dir_path,
-                                                                                                               print_lbls_flag,
-                                                                                                               auto_parameters,
-                                                                                                               plot_labels)
+        from .bistability_analysis import BistabilityAnalysis
+
+        multistable_param_ind, important_info, plot_specifications = BistabilityAnalysis.run_continuity_analysis(species_num, parameters,
+                                                                                                                 self.__initialize_ant_string,
+                                                                                                                 self.__finalize_ant_string,
+                                                                                                                 species_y, dir_path,
+                                                                                                                 print_lbls_flag,
+                                                                                                                 auto_parameters,
+                                                                                                                 plot_labels)
+
+        # multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_continuity_analysis(species_num, parameters,
+        #                                                                                                        self.__initialize_ant_string,
+        #                                                                                                        self.__finalize_ant_string,
+        #                                                                                                        species_y, dir_path,
+        #                                                                                                        print_lbls_flag,
+        #                                                                                                        auto_parameters,
+        #                                                                                                        plot_labels)
 
         self.__important_info += important_info
 
         return multistable_param_ind, plot_specifications
-
-    # def run_mpi_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-    #                                 print_lbls_flag=False, auto_parameters=None, plot_labels=None):
-    #     """
-    #     Function for running the mpi numerical continuation and bistability analysis portions of the mass conservation
-    #     approach.
-    #
-    #     Parameters
-    #     ------------
-    #         species: string
-    #             A string stating the species that is the y-axis of the bifurcation diagram.
-    #         parameters: list of numpy arrays
-    #             A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-    #             value.
-    #         dir_path: string
-    #             A string stating the path where the bifurcation diagrams should be saved.
-    #         print_lbls_flag: bool
-    #             If True the routine will print the special points found by AUTO 2000 and False will not print any
-    #             special points.
-    #         auto_parameters: dict
-    #             Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
-    #             'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
-    #             necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
-    #             parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
-    #             10000 and 'ITMX' to 100.
-    #         plot_labels: list of strings
-    #             A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-    #             is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-    #             you would like to use the default settings for some of the labels, simply provide None for that
-    #             element.
-    #     Returns
-    #     ---------
-    #         multistable_param_ind: list of integers
-    #             A list of those indices in 'parameters' that produce multistable plots.
-    #         sample_portion: list of 1D numpy arrays
-    #             A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-    #             distributed to the core.
-    #         plot_specifications: list of lists
-    #             A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-    #             Each element is a list where the first element specifies the range used for the x-axis, the second
-    #             element is the range for the y-axis, and the last element provides the x-y values and special point label
-    #             for each special point in the plot.
-    #
-    #     Example
-    #     ---------
-    #     See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
-    #     """
-    #     # setting default values for AUTO
-    #     if 'NMX' not in auto_parameters.keys():
-    #         auto_parameters['NMX'] = 10000
-    #
-    #     if 'ITMX' not in auto_parameters.keys():
-    #         auto_parameters['ITMX'] = 100
-    #
-    #     # making the directory if it doesn't exist
-    #     if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #         os.mkdir(dir_path)
-    #
-    #     species_num = self.__species.index(species) + 1
-    #
-    #     species_y = str(self.__concentration_pars[species_num-1])
-    #
-    #     if self.__comm is not None:
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #     else:
-    #
-    #         from mpi4py import MPI
-    #         self.__comm = MPI.COMM_WORLD
-    #         self.__my_rank = self.__comm.Get_rank()
-    #         self.__num_cores = self.__comm.Get_size()
-    #         self.__comm.Barrier()
-    #
-    #         if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #             os.mkdir(dir_path)
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #
-    #     multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_continuity_analysis(species_num, sample_portion,
-    #                                                                                                            self.__initialize_ant_string,
-    #                                                                                                            self.__finalize_ant_string,
-    #                                                                                                            species_y, dir_path,
-    #                                                                                                            print_lbls_flag,
-    #                                                                                                            auto_parameters,
-    #                                                                                                            plot_labels, self.__my_rank,
-    #                                                                                                                self.__comm)
-    #
-    #     self.__important_info += important_info
-    #
-    #     return multistable_param_ind, sample_portion, plot_specifications
 
     def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
@@ -1311,99 +1222,578 @@ class MassConservationApproach:
 
         species_y = str(self.__concentration_pars[species_num-1])
 
-        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis\
+        from .bistability_analysis import BistabilityAnalysis
+
+        multistable_param_ind, important_info, plot_specifications = BistabilityAnalysis.run_greedy_continuity_analysis \
             (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
              print_lbls_flag, auto_parameters, plot_labels)
+
+        # multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis\
+        #     (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
+        #      print_lbls_flag, auto_parameters, plot_labels)
 
         self.__important_info += important_info
 
         return multistable_param_ind, plot_specifications
 
-    # def run_mpi_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-    #                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
-    #     """
-    #     Function for running the mpi greedy numerical continuation and bistability analysis portions of the mass conservation
-    #     approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
-    #     parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
-    #     produce jagged or missing sections in the plots provided. To produce better plots one should use the information
-    #     provided by this routine to run :func:`crnt4sbml.MassConservationApproach.run_continuity_analysis`.
-    #
-    #     Parameters
-    #     ------------
-    #         species: string
-    #             A string stating the species that is the y-axis of the bifurcation diagram.
-    #         parameters: list of numpy arrays
-    #             A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-    #             value.
-    #         dir_path: string
-    #             A string stating the path where the bifurcation diagrams should be saved.
-    #         print_lbls_flag: bool
-    #             If True the routine will print the special points found by AUTO 2000 and False will not print any
-    #             special points.
-    #         auto_parameters: dict
-    #             Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
-    #             PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
-    #             be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
-    #         plot_labels: list of strings
-    #             A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-    #             is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-    #             you would like to use the default settings for some of the labels, simply provide None for that
-    #             element.
-    #     Returns
-    #     ---------
-    #         multistable_param_ind: list of integers
-    #             A list of those indices in 'parameters' that produce multistable plots.
-    #         sample_portion: list of 1D numpy arrays
-    #             A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-    #             distributed to the core.
-    #         plot_specifications: list of lists
-    #             A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-    #             Each element is a list where the first element specifies the range used for the x-axis, the second
-    #             element is the range for the y-axis, and the last element provides the x-y values and special point label
-    #             for each special point in the plot.
-    #
-    #     Example
-    #     ---------
-    #     See :ref:`my-deficiency-label`.
-    #     """
-    #     # setting default values for AUTO
-    #     if 'NMX' not in auto_parameters.keys():
-    #         auto_parameters['NMX'] = 10000
-    #
-    #     if 'ITMX' not in auto_parameters.keys():
-    #         auto_parameters['ITMX'] = 100
-    #
-    #     # making the directory if it doesn't exist
-    #     if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #         os.mkdir(dir_path)
-    #
-    #     species_num = self.__species.index(species) + 1
-    #
-    #     species_y = str(self.__concentration_pars[species_num-1])
-    #
-    #     if self.__comm is not None:
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #     else:
-    #
-    #         from mpi4py import MPI
-    #         self.__comm = MPI.COMM_WORLD
-    #         self.__my_rank = self.__comm.Get_rank()
-    #         self.__num_cores = self.__comm.Get_size()
-    #         self.__comm.Barrier()
-    #
-    #         if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #             os.mkdir(dir_path)
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #
-    #     multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_greedy_continuity_analysis\
-    #         (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-    #          print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
-    #
-    #     self.__important_info += important_info
-    #
-    #     return multistable_param_ind, sample_portion, plot_specifications
+    def run_direct_simulation(self, response=None, signal=None, params_for_global_min=None, dir_path="./", change_in_relative_error=1e-6,
+                              parallel_flag=False, print_flag=False, left_multiplier=0.5, right_multiplier=0.5):
+
+        """
+        Function for running direct simulation to conduct bistability analysis of the general approach.
+
+        Note: This routine is more expensive than the numerical continuation routines, but can provide solutions
+        when the Jacobian of the ODE system is always singular. A parallel version of this routine is available.
+
+        Parameters
+        ------------
+            params_for_global_min: list of numpy arrays
+                A list of numpy arrays corresponding to the input vectors that produce a small objective function
+                value.
+            dir_path: string
+                A string stating the path where the bifurcation diagrams should be saved.
+            change_in_relative_error: float
+                A float value that determines how small the relative error should be in order for the solution of the
+                ODE system to be considered at a steady state. Note: a smaller value will run faster, but may produce
+                an ODE system that is not at a steady state.
+            parallel_flag: bool
+                If set to True a parallel version of direct simulation is ran. If False, a serial version of the
+                routine is ran. See :ref:`parallel-gen-app-label` for further information.
+            print_flag: bool
+                If set to True information about the direct simulation routine will be printed. If False, no output
+                will be provided.
+            left_multiplier: float
+                A float value that determines the percentage of the signal that will be searched to the left of the signal
+                value. For example, the lowerbound for the signal range will be signal_value - signal_value*left_multiplier.
+            right_multiplier: float
+                A float value that determines the percentage of the signal that will be searched to the right of the signal
+                value. For example, the upperbound for the signal range will be signal_value + signal_value*right_multiplier.
+
+        Example
+        ---------
+        See :ref:`gen-app-label`.
+        """
+        import scipy.integrate as itg
+
+        self.__response = response
+        self.__signal = signal
+        self.__sympy_species = self.__concentration_pars
+        self.__sympy_reactions = self.__reaction_pars
+        self.__full_system = self.__cgraph.get_ode_system()
+
+        self.__cons_laws_sympy = self.__cgraph.get_b() * sympy.Matrix([self.__concentration_pars]).T
+
+        self.__cons_laws_sympy_lamb = [sympy.utilities.lambdify(self.__concentration_pars, self.__cons_laws_sympy[i])
+                                 for i in range(len(self.__cons_laws_sympy))]
+
+        conservation_constants = ['C' + str(i + 1) for i in range(len(self.__cons_laws_sympy))]
+        self.__signal_index = conservation_constants.index(self.__signal)
+
+        # params_for_global_min = [params_for_global_min[0]]
+        # sys.exit()
+
+        ########################################
+
+        lambda_inputs = self.__sympy_reactions + self.__sympy_species
+        self.__ode_lambda_functions = [sympy.utilities.lambdify(lambda_inputs, self.__full_system[i]) for i in
+                                       range(len(self.__full_system))]
+
+        self.__jac_lambda_function = sympy.utilities.lambdify(lambda_inputs, self.__full_system.jacobian(self.__sympy_species))
+
+        self.__dir_sim_print_flag = print_flag
+
+        spec_index = self.__sympy_species.index(sympy.Symbol(self.__response, positive=True))
+
+        BistabilityAnalysis.run_direct_simulation(params_for_global_min, parallel_flag, dir_path, itg,
+                                                  change_in_relative_error,
+                                                  spec_index, left_multiplier, right_multiplier, self.__comm,
+                                                  self.__my_rank, self.__num_cores, self.__dir_sim_print_flag,
+                                                  self.__R, self.__N, self.__cons_laws_sympy_lamb,
+                                                  self.__cons_laws_sympy, self.__sympy_species, self.__signal_index,
+                                                  self.__signal, self.__response, self.__ode_lambda_functions,
+                                                  self.__jac_lambda_function, self.__concentration_funs, "MassConservationApproach")
+
+
+
+
+        sys.exit()
+
+        if parallel_flag is False and self.__comm is None:
+
+            #making the directory if it doesn't exist
+            if not os.path.isdir(dir_path):
+                os.mkdir(dir_path)
+
+            print("Starting direct simulation ...")
+            start_t = time.time()
+
+        elif parallel_flag is True and self.__comm is None:
+
+                from mpi4py import MPI
+                self.__comm = MPI.COMM_WORLD
+                self.__my_rank = self.__comm.Get_rank()
+                self.__num_cores = self.__comm.Get_size()
+                self.__comm.Barrier()
+
+                if not os.path.isdir(dir_path) and self.__my_rank == 0:
+                    os.mkdir(dir_path)
+
+                self.__comm.Barrier()
+
+                start_time = MPI.Wtime()
+
+                if self.__my_rank == 0:
+                    print("Starting direct simulation ...")
+        elif self.__comm is not None:
+
+            from mpi4py import MPI
+
+            if not os.path.isdir(dir_path) and self.__my_rank == 0:
+                os.mkdir(dir_path)
+
+            self.__comm.Barrier()
+
+            params_for_global_min = self.__comm.bcast(params_for_global_min, root=0)
+
+            self.__comm.Barrier()
+
+            start_time = MPI.Wtime()
+
+            if self.__my_rank == 0:
+                print("Starting direct simulation ...")
+
+        else:
+            print("Starting direct simulation ...")
+            start_t = time.time()
+
+        if len(params_for_global_min) == 0:
+            print("The parameter sets provided has a length of zero, direct simulation cannot be ran.")
+            sys.exit()
+
+        viable_indices, viable_out_values, conservation_vals = self.__find_viable_indices(params_for_global_min[0], itg, spec_index, change_in_relative_error)
+
+        spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index = self.__initialize_direct_simulation(viable_indices, viable_out_values,
+                                                                                                                         params_for_global_min[0], conservation_vals, itg,
+                                                                                                                         change_in_relative_error, spec_index, left_multiplier,
+                                                                                                                                 right_multiplier)
+        if self.__dir_sim_print_flag:
+            if self.__comm is None:
+                self.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
+            else:
+                if self.__my_rank == 0:
+                    self.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
+
+        plot_flag = True
+
+        for i in range(len(params_for_global_min)):
+
+            if self.__dir_sim_print_flag:
+                if self.__comm is None:
+                    print(f"Conducting stability analysis of element {i} of the list provided ... ")
+                else:
+                    if self.__my_rank == 0:
+                        print(f"Conducting stability analysis of element {i} of the list provided ... ")
+
+            # conservation_vals = [self.__cons_laws_sympy_lamb[ii](*tuple(params_for_global_min[i][self.__R:self.__R + self.__N]))
+            #                      for ii in range(len(self.__cons_laws_sympy_lamb))]
+
+            # conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple(result_x[self.__R:self.__R + self.__N]))
+            #                      for i in range(len(self.__cons_laws_sympy_lamb))]                                     # TODO: line changed for mass conservation approach
+
+            conservation_vals = [self.__cons_laws_sympy_lamb[ii](*tuple([self.__concentration_funs[j](*tuple(params_for_global_min[i])) for j in range(self.__N)]))
+                                 for ii in range(len(self.__cons_laws_sympy_lamb))]
+
+            con_law_value = conservation_vals[self.__signal_index]
+            change_left = con_law_value * left_multiplier
+            change_right = con_law_value * right_multiplier
+            pcp_scan = numpy.linspace(con_law_value - change_left, con_law_value + change_right, 100)
+
+            forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(params_for_global_min[i], fwd_scan_vals,
+                                                                      rvrs_scan_vals, pcp_scan, fwd_scan_index,
+                                                                      rvrs_scan_index, spec_index, itg, change_in_relative_error)
+
+            min_val, max_val = self.__get_min_max_vals(pcp_scan, forward_scan, reverse_scan)
+
+            count = 0
+            scan_vals = pcp_scan
+            while count < 5:
+                if len([ii for ii in scan_vals if ii >= min_val and ii <= max_val]) < 10:
+
+                    second_scan = numpy.linspace(min_val, max_val, 60)
+
+                    forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(params_for_global_min[i], fwd_scan_vals,
+                                                                              rvrs_scan_vals, second_scan, fwd_scan_index,
+                                                                              rvrs_scan_index, spec_index, itg, change_in_relative_error)
+
+                    min_val, max_val = self.__get_min_max_vals(second_scan, forward_scan, reverse_scan)
+                    scan_vals = second_scan
+                    count += 1
+                else:
+                    break
+
+            if count == 0:
+                second_scan = pcp_scan
+
+            if plot_flag:
+
+                if self.__comm is None:
+                    self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, dir_path, i)
+                else:
+                    if self.__my_rank == 0:
+                        self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, dir_path, i)
+
+
+        if self.__comm is None:
+            end_t = time.time()
+            elapsed = end_t - start_t
+            print("Elapsed time for direct simulation in seconds: " + str(elapsed))
+        else:
+            self.__comm.Barrier()
+            if self.__my_rank == 0:
+                end_time = MPI.Wtime()
+                elapsed = end_time - start_time
+                print(f"Elapsed time for direct simulation in seconds: {elapsed}")
+
+    def __find_viable_indices(self, result_x, itg, spec_index, change_in_relative_error):
+
+        # conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple(result_x[self.__R:self.__R + self.__N]))
+        #                      for i in range(len(self.__cons_laws_sympy_lamb))]                                       # TODO: line changed for mass conservation approach
+
+        # conservation_vals = [self.__concentration_funs[j](*tuple(result_x)) for j in range(self.__N)]
+
+        conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple([self.__concentration_funs[j](*tuple(result_x)) for j in range(self.__N)]))
+                             for i in range(len(self.__cons_laws_sympy_lamb))]
+
+        cons_laws_spec_info = []
+        for i in self.__cons_laws_sympy:
+            spec_in_law = [ii for ii in self.__sympy_species if ii in i.atoms()]
+            spec_indices = [self.__sympy_species.index(ii) for ii in spec_in_law]
+            coeff_of_spec = [i.coeff(ii, 1) for ii in spec_in_law]
+            cons_laws_spec_info.append([coeff_of_spec, spec_indices])
+
+        temp_comb = list(itertools.product(*[i[1] for i in cons_laws_spec_info]))
+
+        all_unique_comb = [temp_comb[i] for i in range(len(temp_comb)) if len(set(temp_comb[i])) == len(temp_comb[i])]
+
+        viable_indices = []
+        viable_out_values = []
+        for i in all_unique_comb:
+            initial_species_values = [0.0 for i in range(self.__N)]
+
+            for j in range(len(conservation_vals)):
+                initial_species_values[i[j]] = conservation_vals[j]
+
+            out = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
+            steady_cons = [self.__cons_laws_sympy_lamb[i](*tuple(out)) for i in range(len(self.__cons_laws_sympy_lamb))]
+
+            if not numpy.array_equal(numpy.array(initial_species_values), out):
+
+                # accepting those indices that are smaller than a predescribed relative error
+                if all([abs(conservation_vals[ii] - steady_cons[ii])/abs(steady_cons[ii]) < change_in_relative_error for ii in range(len(conservation_vals))]):
+                    viable_out_values.append(out)
+                    viable_indices.append(i)
+            elif len(out) == 2:
+
+                # accepting those indices that are smaller than a predescribed relative error
+                if all([abs(conservation_vals[ii] - steady_cons[ii]) / abs(steady_cons[ii]) < change_in_relative_error
+                        for ii in range(len(conservation_vals))]):
+                    viable_out_values.append(out)
+                    viable_indices.append(i)
+
+        return viable_indices, viable_out_values, conservation_vals
+
+    def __print_initial_conditions(self, fwd_scan_vals, rvrs_scan_vals):
+
+        fwd_spec_inds = [i[0] for i in fwd_scan_vals]
+        init_vals = []
+        for i in range(self.__N):
+            if i in fwd_spec_inds:
+                init_vals.append(str(self.__sympy_species[i]) + " = " + "C" + str(fwd_spec_inds.index(i) + 1))
+            else:
+                init_vals.append(str(self.__sympy_species[i]) + " = 0.0")
+
+        print(" ")
+        print("For the forward scan the following initial condition will be used:")
+        for i in init_vals:
+            print(i)
+
+        rvrs_spec_inds = [i[0] for i in rvrs_scan_vals]
+        init_vals = []
+        for i in range(self.__N):
+            if i in rvrs_spec_inds:
+                init_vals.append(str(self.__sympy_species[i]) + " = " + "C" + str(rvrs_spec_inds.index(i) + 1))
+            else:
+                init_vals.append(str(self.__sympy_species[i]) + " = 0.0")
+
+        print(" ")
+        print("For the reverse scan the following initial condition will be used:")
+        for i in init_vals:
+            print(i)
+        print(" ")
+
+    def __initialize_direct_simulation(self, viable_indices, viable_out_values, result_x, conservation_vals, itg,
+                                       change_in_relative_error, spec_index, left_multiplier, right_multiplier):
+
+        combos = list(itertools.combinations([i for i in range(len(viable_out_values))], 2))
+        diff = [numpy.abs(viable_out_values[i[0]][spec_index] - viable_out_values[i[1]][spec_index]) for i in combos]
+        maxpos = diff.index(max(diff))
+        chosen_initial_combo = combos[maxpos]
+
+        stop_flag = True
+        while stop_flag:
+
+            # selecting largest difference as the right pair
+            maxpos = diff.index(max(diff))
+
+            chosen_combo = combos[maxpos]
+
+            fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind = self.__get_important_scan_vals(chosen_combo,
+                                                                                                                               spec_index,
+                                                                                                                               viable_out_values,
+                                                                                                                               viable_indices)
+
+            # determining if the forward or reverse scan is constant, if so, remove it as a viable combination
+            con_law_value = conservation_vals[self.__signal_index]
+            # change = con_law_value*0.25
+            # pcp_scan = numpy.linspace(con_law_value - change, con_law_value + change, 10)
+            change_left = con_law_value * left_multiplier
+            change_right = con_law_value * right_multiplier
+            pcp_scan = numpy.linspace(con_law_value - change_left, con_law_value + change_right, 10)
+
+            forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(result_x, fwd_scan_vals,
+                                                                      rvrs_scan_vals, pcp_scan, fwd_scan_index,
+                                                                      rvrs_scan_index, spec_index, itg,
+                                                                      change_in_relative_error)
+
+            combos, diff, stop_flag, combos_flag = self.__get_new_combo(forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff)
+
+            # if all combinations are thought to produce constant in time return the initial combo and continue
+            if combos_flag:
+                fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind = self.__get_important_scan_vals(
+                    chosen_initial_combo,
+                    spec_index,
+                    viable_out_values,
+                    viable_indices)
+                break
+
+        return spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index
+
+    def __get_important_scan_vals(self, chosen_combo, spec_index, viable_out_values, viable_indices):
+
+        # choosing the largest value at the species index as the "high concentration" option
+        if viable_out_values[chosen_combo[0]][spec_index] < viable_out_values[chosen_combo[1]][spec_index]:
+
+            fwd_scan_vals = [[viable_indices[chosen_combo[1]][j], j] for j in
+                             range(len(viable_indices[chosen_combo[1]]))]
+            fwd_ind = chosen_combo[1]
+            rvrs_scan_vals = [[viable_indices[chosen_combo[0]][j], j] for j in
+                              range(len(viable_indices[chosen_combo[0]]))]
+            rvrs_ind = chosen_combo[0]
+
+        else:
+            fwd_scan_vals = [[viable_indices[chosen_combo[0]][j], j] for j in
+                             range(len(viable_indices[chosen_combo[0]]))]
+            fwd_ind = chosen_combo[0]
+            rvrs_scan_vals = [[viable_indices[chosen_combo[1]][j], j] for j in
+                              range(len(viable_indices[chosen_combo[1]]))]
+            rvrs_ind = chosen_combo[1]
+
+        # index to change in forward scan
+        fwd_scan_index = [i[0] for i in fwd_scan_vals if i[1] == self.__signal_index][0]
+        # index to change in reverse scan
+        rvrs_scan_index = [i[0] for i in rvrs_scan_vals if i[1] == self.__signal_index][0]
+
+        return fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind
+
+    def __get_new_combo(self, forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff):
+
+        constant_index = []
+        reverse_scan = [abs(i) for i in reverse_scan]
+        forward_scan = [abs(i) for i in forward_scan]
+
+        fwd_rel_change = abs(max(forward_scan) - min(forward_scan)) / max(forward_scan)
+
+        if fwd_rel_change >= 0.98:
+            constant_index.append(fwd_ind)
+
+        rvrs_rel_change = abs(max(reverse_scan) - min(reverse_scan)) / max(reverse_scan)
+
+        if rvrs_rel_change >= 0.98:
+            constant_index.append(rvrs_ind)
+
+        #if one or both of them are deemed to be constant, then we throw out one or both from the combos.
+        #Use fwd_ind and rvrs_ind to throw out combos that were constant, then redo process with new
+        #combo being created. Continue until process with no constant combo is found. If all combos are eleminated
+        #return the initial combo.
+        if constant_index:
+            ind_to_remove = [i for i in range(len(combos)) if combos[i][0] in constant_index or combos[i][1] in constant_index]
+            combos = [combos[i] for i in range(len(combos)) if i not in ind_to_remove]
+            diff = [diff[i] for i in range(len(diff)) if i not in ind_to_remove]
+
+            if not combos:
+                return combos, diff, True, True
+
+            return combos, diff, True, False
+        else:
+            return combos, diff, False, False
+
+    def __get_min_max_vals(self, pcp_scan, forward_scan, reverse_scan):
+
+        fwd_diff = [abs(forward_scan[i] - forward_scan[i + 1]) for i in range(len(forward_scan) - 1)]
+
+        fwd_maxpos = fwd_diff.index(max(fwd_diff))
+
+        if fwd_maxpos == 0:
+            fwd_maxpos = 1
+        elif fwd_maxpos+2 == len(pcp_scan):
+            fwd_maxpos = len(pcp_scan)-2
+
+        fwd_pcp_scan = pcp_scan[fwd_maxpos - 1:fwd_maxpos + 2]
+
+        rvrs_diff = [abs(reverse_scan[i] - reverse_scan[i + 1]) for i in range(len(reverse_scan) - 1)]
+
+        rvrs_maxpos = rvrs_diff.index(max(rvrs_diff))
+
+        if rvrs_maxpos == 0:
+            rvrs_maxpos = 1
+        elif rvrs_maxpos+2 == len(pcp_scan):
+            rvrs_maxpos = len(pcp_scan)-2
+
+        rvrs_pcp_scan = pcp_scan[rvrs_maxpos - 1:rvrs_maxpos + 2]
+
+        min_val = min(list(fwd_pcp_scan) + list(rvrs_pcp_scan))
+
+        max_val = max(list(fwd_pcp_scan) + list(rvrs_pcp_scan))
+
+        return min_val, max_val
+
+    def __conduct_fwd_rvrs_scan(self, result_x, fwd_scan_vals, rvrs_scan_vals, pcp_scan, fwd_scan_index,
+                                rvrs_scan_index, spec_index, itg, change_in_relative_error):
+
+        if self.__comm is not None:
+            pcp_scan = self.__distribute_list_of_points(pcp_scan)
+
+        # conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple(result_x[self.__R:self.__R + self.__N]))
+        #                      for i in range(len(self.__cons_laws_sympy_lamb))]                                     # TODO: line changed for mass conservation approach
+
+        conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple([self.__concentration_funs[j](*tuple(result_x)) for j in range(self.__N)]))
+                             for i in range(len(self.__cons_laws_sympy_lamb))]
+
+
+
+        initial_species_values = [0.0 for i in range(self.__N)]
+
+        for i in fwd_scan_vals:
+            initial_species_values[i[0]] = conservation_vals[i[1]]
+
+        forward_scan = []
+        for i in pcp_scan:
+            initial_species_values[fwd_scan_index] = i
+            steady_state = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
+            forward_scan.append(steady_state[spec_index])
+
+        initial_species_values = [0.0 for i in range(self.__N)]
+        for i in rvrs_scan_vals:
+            initial_species_values[i[0]] = conservation_vals[i[1]]
+
+        reverse_scan = []
+        for i in pcp_scan:
+            initial_species_values[rvrs_scan_index] = i
+            steady_state = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
+            reverse_scan.append(steady_state[spec_index])
+
+        if self.__comm is not None:
+            list_forward_scan = self.__gather_list_of_values(forward_scan)
+            list_reverse_scan = self.__gather_list_of_values(reverse_scan)
+
+            list_forward_scan = self.__comm.bcast(list_forward_scan, root=0)
+            list_reverse_scan = self.__comm.bcast(list_reverse_scan, root=0)
+
+            self.__comm.Barrier()
+
+            return list_forward_scan, list_reverse_scan
+
+        else:
+            return forward_scan, reverse_scan
+
+    def __steady_state_finder(self, initial_species_values, result_x, spec_index, itg, change_in_relative_error):
+
+        def ff(t, cs, ks, ode_lambda_functions, jacobian):
+            return [i(*tuple(ks), *tuple(cs)) for i in ode_lambda_functions]
+
+        def jac_f(t, cs, ks, ode_lambda_functions, jacobian):
+            return jacobian(*tuple(ks), *tuple(cs))
+
+        len_time_interval = 100.0
+
+        with numpy.errstate(divide='ignore', invalid='ignore'):
+            out = itg.solve_ivp(ff, [0.0, len_time_interval], initial_species_values, args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function), jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True) #'RK45')  #'LSODA')
+            y0 = out.y[:, -1]
+
+        flag = True
+
+        i = 1
+        while flag:
+            tspan = [0.0 + i*len_time_interval, len_time_interval + i*len_time_interval]
+            try:
+                with numpy.errstate(divide='ignore', invalid='ignore'):
+                    out = itg.solve_ivp(ff, tspan, y0, args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function), jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True) #'RK45')  #'LSODA')
+                    y0 = out.y[:, -1]
+                i += 1
+            except Exception as e:
+                flag = False
+
+            # if there is a division by zero we exit the routine
+            try:
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    flag = abs(out.y[spec_index, -1] - out.y[spec_index, 0]) / abs(out.y[spec_index, -1]) > change_in_relative_error and i < 1000
+            except Exception as e:
+                flag = False
+
+        return out.y[:, -1]
+
+    def __plot_direct_simulation(self, pcp_scan, forward_scan, reverse_scan, path, index):
+
+        import pandas
+        from plotnine import ggplot, aes, geom_line, ylim, scale_color_distiller, facet_wrap, theme_bw, geom_path, \
+            geom_point, labs, annotate
+        from matplotlib import rc
+        rc('text', usetex=True)
+
+        out = pandas.DataFrame(columns=['dir', 'signal'] + [self.__response])
+        for i in range(len(forward_scan)):
+            out_i = pandas.DataFrame([forward_scan[i]], columns=[out.columns[2]])
+            out_i['signal'] = pcp_scan[i]
+            out_i['dir'] = 'Forward scan'
+            out = pandas.concat([out, out_i[out.columns]])
+        for i in range(len(reverse_scan)):
+            out_i = pandas.DataFrame([reverse_scan[i]], columns=[out.columns[2]])
+            out_i['signal'] = pcp_scan[i]
+            out_i['dir'] = 'Reverse scan'
+            out = pandas.concat([out, out_i[out.columns]])
+
+        g = (ggplot(out)
+             + aes(x='signal', y=self.__response, color='dir')
+             + labs(x=f"{self.__signal} total", y=f"[{self.__response}]", color="")
+             + geom_path(size=2, alpha=0.5)
+             + geom_point(color="black")
+             + theme_bw()
+             + geom_point(color="black"))
+        g.save(filename=path + f"/sim_bif_diag_{index}.png", format="png", width=6, height=4, units='in', verbose=False)
+
+    def __gather_list_of_values(self, values):
+
+        full_values = self.__comm.gather(values, root=0)
+
+        if self.__my_rank == 0:
+            list_of_values = []
+            for i in range(len(full_values)):
+                list_of_values += full_values[i]
+        else:
+            list_of_values = []
+
+        return list_of_values
 
     def __distribute_list_of_points(self, samples):
 
@@ -1583,12 +1973,12 @@ class MassConservationApproach:
     def __finalize_ant_string(self, x, ode_str):
         concentration_vals = [self.__concentration_funs[j](*tuple(x)) for j in range(self.__N)]
 
-        kinetic_vals = [x[i] for i in range(self.__R)] 
+        kinetic_vals = [x[i] for i in range(self.__R)]
 
         antstr = self.__initialize_variables_in_antimony_string(self.__cons_laws_sympy, ode_str,
                                                                 self.__cons_laws_lamb, concentration_vals, kinetic_vals,
                                                                 self.__reaction_pars)
-
+        print(antstr)                                                                                                      # TODO: add to print_flag
         return antstr
 
     def __final_constraint_check(self, x_initial, penalty_bounds, sys_min_val, equality_bounds_indices,

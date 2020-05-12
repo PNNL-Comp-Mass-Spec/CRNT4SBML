@@ -18,9 +18,9 @@ sys.path.insert(0, "..")
 import crnt4sbml
 
 # 1.
-# network = crnt4sbml.CRNT("../sbml_files/DoublePhos.xml")
-# signal = 'C2'
-# response = 's4'
+network = crnt4sbml.CRNT("../sbml_files/DoublePhos.xml")
+signal = 'C2'
+response = 's4'
 
 # 2.
 # network = crnt4sbml.CRNT("../sbml_files/Fig4C_closed.xml")
@@ -47,9 +47,9 @@ import crnt4sbml
 # network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/DoublePhos_OGlcNAc.xml")
 
 # 10.
-network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
-signal = 'C3'
-response = 's15'
+# network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
+# signal = 'C3'
+# response = 's15'
 
 # network.print_biological_reaction_types()
 #
@@ -108,12 +108,12 @@ iters = 10
 # bounds, concentration_bounds = opt.get_optimization_bounds()
 # iters = 100
 
-params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=iters, confidence_level_flag=False,
-                                                                     concentration_bounds=concentration_bounds)
+# params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds, iterations=iters, confidence_level_flag=False,
+#                                                                      concentration_bounds=concentration_bounds)
 
 #print(params_for_global_min)
-print(obj_fun_val_for_params)
-# params_for_global_min = numpy.load('params_double_phos_mpi.npy')
+# print(obj_fun_val_for_params)
+params_for_global_min = numpy.load('params_double_phos_mpi.npy')
 # opt.generate_report()
 #sys.exit()
 
@@ -121,15 +121,15 @@ print(obj_fun_val_for_params)
 # How to pick continuation parameter? In our case it is the amount of A protein, thus the conservation law 3.
 #print(opt.get_conservation_laws())
 
-# multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min,
-#                                                            auto_parameters={'PrincipalContinuationParameter': signal}, dir_path="./num_cont_graphs_serial",
-#                                                            print_lbls_flag=False)
-
-multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species=response, parameters=params_for_global_min,
-                                                           auto_parameters={'PrincipalContinuationParameter': signal,
-                                                                            'RL0': 1e2, 'RL1': 1e6, 'A0': 0.0, 'A1': 5e6,
-                                                                            'DSMAX': 1e3}, dir_path="./num_cont_graphs_serial",
+multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min,
+                                                           auto_parameters={'PrincipalContinuationParameter': signal}, dir_path="./num_cont_graphs_serial",
                                                            print_lbls_flag=False)
+
+# multistable_param_ind, plot_specifications = opt.run_continuity_analysis(species=response, parameters=params_for_global_min,
+#                                                            auto_parameters={'PrincipalContinuationParameter': signal,
+#                                                                             'RL0': 1e2, 'RL1': 1e6, 'A0': 0.0, 'A1': 5e6,
+#                                                                             'DSMAX': 1e3}, dir_path="./num_cont_graphs_serial",
+#                                                            print_lbls_flag=False)
 
 opt.generate_report()
 

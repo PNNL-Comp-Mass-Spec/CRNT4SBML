@@ -171,7 +171,7 @@ Finding a steady state to the system
 ------------------------------------------
 
 In order to produce a bifurcation diagram, we need to consider the solution of the system of ODEs at a steady state. Due
-to the nature of the system of ODEs, this solution is often to complex to do analytically. For this reason, we find this
+to the nature of the system of ODEs, this solution is often to complex to find analytically. For this reason, we find this
 solution by numerically integrating the system until we reach a steady state in the system. As mentioned previously, this
 is done by using the Scipy routine `solve_ivp <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`_.
 Specifically, we utilize the BDF method with a rtol of 1e-6 and a atol of 1e-9. To begin, we start with an
@@ -192,7 +192,7 @@ first step in this process is defining the search radius of the signal. This sea
 modifying the variables left_multiplier and right_multiplier of :func:`crnt4sbml.GeneralApproach.run_direct_simulation`,
 which provide a lower and upper -bound for the signal value. Specifically, when considering different values of the signal,
 the range for these different values will be in the interval [signal_value - signal_value*left_multiplier, signal_value - signal_value*right_multiplier],
-where the signal value is beginning value of the signal as provided by the input vectors produced by optimization.
+where the signal value is the beginning value of the signal as provided by the input vectors produced by optimization.
 
 Using this range, the routine then splits the range into 100 evenly spaced numbers. The signal is then set equal to each of
 these numbers and the ODE system is simulated until a steady state occurs, using the initial conditions of both the forward

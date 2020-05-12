@@ -402,6 +402,8 @@ class BistabilityFinder:
                         print("Decision vector produced: ")
                         print(result.x)
 
+                    # sys.exit()
+
                     if result.fun > numpy_dtype(1e-200):
                         result = scipy.optimize.minimize(objective_function_to_optimize, result.x,
                                                          args=(temp_c, penalty_bounds, sys_min_val, equality_bounds_indices,
@@ -504,7 +506,8 @@ class BistabilityFinder:
 
                 output = final_constraint_check(x_that_give_global_min[i], penalty_bounds, sys_min_val,
                                                 non_equality_bounds_indices, concentration_bounds)
-
+                # print(output)
+                # sys.exit()
                 if output[0]:
                     x_that_give_global_min2.append(output[1])
                     obj_fun_val_global_min2.append(obj_fun_val_global_min[i])
@@ -1192,78 +1195,78 @@ class BistabilityFinder:
 
         return pts, lbls, antimony_r, flag, bi_data_np
 
-    @classmethod
-    def run_safety_wrapper_v2(cls, final_ant_str, cont_direction, auto, auto_parameters):
-
-        # import antimony
-        # import roadrunner
-        # import rrplugins
-
-        arguments = [final_ant_str, cont_direction, auto_parameters]
-
-        # if os.path.exists("input_arguments.pickle"):
-        #     os.remove("input_arguments.pickle")
-        #     with open('input_arguments.pickle', 'wb') as outf:
-        #         outf.write(pickle.dumps(arguments))
-        # else:
-        #     with open('input_arguments.pickle', 'wb') as outf:
-        #         outf.write(pickle.dumps(arguments))
-
-        sys.exit()
-
-        # # making the directory auto_fort_files if is does not exist
-        if not os.path.isdir("./auto_fort_files"):
-            os.mkdir("./auto_fort_files")
-
-        print("hi")
-
-
-        roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
-        roadrunner.Logger.disableLogging()
-        roadrunner.Logger.disableConsoleLogging()
-        roadrunner.Logger.disableFileLogging()
-        rrplugins.setLogLevel('error')
-
-        ant_str = arguments[0]
-        direction = arguments[1]
-        auto = rrplugins.Plugin("tel_auto2000")
-        auto_parameters = arguments[2]
-
-        antimony_r = cls.__loada(ant_str)
-
-        auto.setProperty("SBML", antimony_r.getCurrentSBML())
-        auto.setProperty("ScanDirection", direction)
-        auto.setProperty("PreSimulation", "True")
-        auto.setProperty("PreSimulationDuration", 1.0)
-        auto.setProperty('KeepTempFiles', True)
-        auto.setProperty("TempFolder", "auto_fort_files")
-
-        # assigning values provided by the user
-        for i in auto_parameters.keys():
-            auto.setProperty(i, auto_parameters[i])
-
-        try:
-            auto.execute()
-            # indices where special points are
-            pts = auto.BifurcationPoints
-            # labeling of special points
-            lbls = auto.BifurcationLabels
-            # all data for parameters and species found by continuation
-            bi_data = auto.BifurcationData
-
-            # convertes bi_data to numpy array, where first
-            # column is the principal continuation parameter and
-            # the rest of the columns are the species
-            bi_data_np = bi_data.toNumpy
-            flag = True
-
-        except SystemExit as exeption:
-            print("hihiihi ")
-        else:
-            flag = False
-            pts = []
-            lbls = []
-            bi_data_np = numpy.zeros(2)
+    # @classmethod
+    # def run_safety_wrapper_v2(cls, final_ant_str, cont_direction, auto, auto_parameters):
+    #
+    #     # import antimony
+    #     # import roadrunner
+    #     # import rrplugins
+    #
+    #     arguments = [final_ant_str, cont_direction, auto_parameters]
+    #
+    #     # if os.path.exists("input_arguments.pickle"):
+    #     #     os.remove("input_arguments.pickle")
+    #     #     with open('input_arguments.pickle', 'wb') as outf:
+    #     #         outf.write(pickle.dumps(arguments))
+    #     # else:
+    #     #     with open('input_arguments.pickle', 'wb') as outf:
+    #     #         outf.write(pickle.dumps(arguments))
+    #
+    #     sys.exit()
+    #
+    #     # # making the directory auto_fort_files if is does not exist
+    #     if not os.path.isdir("./auto_fort_files"):
+    #         os.mkdir("./auto_fort_files")
+    #
+    #     print("hi")
+    #
+    #
+    #     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
+    #     roadrunner.Logger.disableLogging()
+    #     roadrunner.Logger.disableConsoleLogging()
+    #     roadrunner.Logger.disableFileLogging()
+    #     rrplugins.setLogLevel('error')
+    #
+    #     ant_str = arguments[0]
+    #     direction = arguments[1]
+    #     auto = rrplugins.Plugin("tel_auto2000")
+    #     auto_parameters = arguments[2]
+    #
+    #     antimony_r = cls.__loada(ant_str)
+    #
+    #     auto.setProperty("SBML", antimony_r.getCurrentSBML())
+    #     auto.setProperty("ScanDirection", direction)
+    #     auto.setProperty("PreSimulation", "True")
+    #     auto.setProperty("PreSimulationDuration", 1.0)
+    #     auto.setProperty('KeepTempFiles', True)
+    #     auto.setProperty("TempFolder", "auto_fort_files")
+    #
+    #     # assigning values provided by the user
+    #     for i in auto_parameters.keys():
+    #         auto.setProperty(i, auto_parameters[i])
+    #
+    #     try:
+    #         auto.execute()
+    #         # indices where special points are
+    #         pts = auto.BifurcationPoints
+    #         # labeling of special points
+    #         lbls = auto.BifurcationLabels
+    #         # all data for parameters and species found by continuation
+    #         bi_data = auto.BifurcationData
+    #
+    #         # convertes bi_data to numpy array, where first
+    #         # column is the principal continuation parameter and
+    #         # the rest of the columns are the species
+    #         bi_data_np = bi_data.toNumpy
+    #         flag = True
+    #
+    #     except SystemExit as exeption:
+    #         print("hihiihi ")
+    #     else:
+    #         flag = False
+    #         pts = []
+    #         lbls = []
+    #         bi_data_np = numpy.zeros(2)
 
 
         # if os.path.exists("output_arguments.pickle"):
@@ -1287,7 +1290,7 @@ class BistabilityFinder:
         #     if os.path.exists("input_arguments.pickle"):
         #         os.remove("input_arguments.pickle")
 
-        return pts, lbls, antimony_r, flag, bi_data_np
+        # return pts, lbls, antimony_r, flag, bi_data_np
 
     @classmethod
     def run_numerical_continuation(cls, q, ant_str, direction, auto, auto_parameters, core=None):

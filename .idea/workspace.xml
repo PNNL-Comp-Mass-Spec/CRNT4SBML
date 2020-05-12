@@ -3,6 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/direct_simulation.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/direct_simulation.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/direct_simulation.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/direct_simulation.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/direct_simulation.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/direct_simulation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/deficiency_walkthrough.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/deficiency_walkthrough.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images_for_docs/fig_1Ci_C3_vs_s15_26.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/quickstart.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/quickstart.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/DoublePhos.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/DoublePhos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/direct_sim.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_direct_2/simple_biterminal_direct_sim.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

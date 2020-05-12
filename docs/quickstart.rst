@@ -28,17 +28,17 @@ To run the mass conservation approach create the following python script:
 
    network = crnt4sbml.CRNT("/path/to/Fig1Ci.xml")
 
-   opt = network.get_mass_conservation_approach()
+   approach = network.get_mass_conservation_approach()
 
-   bounds, concentration_bounds = opt.get_optimization_bounds()
+   bounds, concentration_bounds = approach.get_optimization_bounds()
 
-   params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds,
-                                                                        concentration_bounds=concentration_bounds)
+   params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds=bounds,
+                                                                             concentration_bounds=concentration_bounds)
 
-   multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min,
-                                                                                   auto_parameters={'PrincipalContinuationParameter': 'C3'})
+   multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min,
+                                                                                        auto_parameters={'PrincipalContinuationParameter': 'C3'})
 
-   opt.generate_report()
+   approach.generate_report()
 
 This will provide the following output along with creating the directory "num\_cont\_graphs" in your current
 directory that contains multistability plots. Please note that runtimes and the number of multistability plots produced
@@ -48,26 +48,22 @@ running the mass conservation approach and the provided output.
 ::
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 1.9408779999999997
+    Elapsed time for creating Equilibrium Manifold: 2.0428380000000006
 
     Running feasible point method for 10 iterations ...
-    Elapsed time for feasible point method: 2.790184
+    Elapsed time for feasible point method: 1.5746338367462158
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 13.814762
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 7.010828971862793
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 22.570291996002197
+    Elapsed time for continuity analysis in seconds: 25.22320318222046
 
-    The number of feasible points that satisfy the constraints: 10
-    Total feasible points that give F(x) = 0: 4
-    Total number of points that passed final_check: 4
+    Smallest value achieved by objective function: 0.0
+    4 point(s) passed the optimization criteria.
     Number of multistability plots found: 2
     Elements in params_for_global_min that produce multistability:
-    [2, 3]
+    [0, 1]
 
 .. _`quickstart-injectivity-label`:
 
@@ -88,17 +84,16 @@ To run the semi-diffusive approach create the following python script:
 
     network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
 
-    opt = network.get_semi_diffusive_approach()
+    approach = network.get_semi_diffusive_approach()
 
-    bounds = opt.get_optimization_bounds()
+    bounds = approach.get_optimization_bounds()
 
-    params_for_global_min, obj_fun_val_for_params = opt.run_optimization(bounds=bounds)
+    params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds=bounds)
 
-    multistable_param_ind, plot_specifications = opt.run_greedy_continuity_analysis(species="s7", parameters=params_for_global_min,
-                                                                                    auto_parameters={'PrincipalContinuationParameter': 're17'})
+    multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species="s7", parameters=params_for_global_min,
+                                                                                         auto_parameters={'PrincipalContinuationParameter': 're17'})
 
-    opt.generate_report()
-
+    approach.generate_report()
 
 This will provide the following output along with creating the directory "num\_cont\_graphs" in your current
 directory that contains multistability plots. Please note that runtimes and the number of multistability plots produced
@@ -108,20 +103,16 @@ running the semi-diffusive approach and the provided output.
 ::
 
     Running feasible point method for 10 iterations ...
-    Elapsed time for feasible point method: 0.7991039999999998
+    Elapsed time for feasible point method: 0.3393716812133789
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 45.470756
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 22.361775875091553
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 67.03238201141357
+    Elapsed time for continuity analysis in seconds: 73.85193490982056
 
-    The number of feasible points that satisfy the constraints: 10
-    Total feasible points that give F(x) = 0: 9
-    Total number of points that passed final_check: 9
+    Smallest value achieved by objective function: 0.0
+    9 point(s) passed the optimization criteria.
     Number of multistability plots found: 9
     Elements in params_for_global_min that produce multistability:
     [0, 1, 2, 3, 4, 5, 6, 7, 8]
@@ -145,23 +136,17 @@ To run the general approach with fixed reactions create the following python scr
 
    network = crnt4sbml.CRNT("/path/to/Fig1Ci.xml")
 
-   signal = "C3"
-   response = "s15"
-   iters = 10
-   d_iters = 100
+   approach = network.get_general_approach()
+   bnds = approach.get_optimization_bounds()
 
-   GA = network.get_general_approach()
-   bnds = GA.get_optimization_bounds()
+   approach.initialize_general_approach(signal="C3", response="s15", fix_reactions=True)
 
-   GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
+   params_for_global_min, obj_fun_vals = approach.run_optimization(bounds=bnds, dual_annealing_iters=100)
 
-   params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
-                                                             dual_annealing_iters=d_iters, confidence_level_flag=True,
-                                                             constraints=[], parallel_flag=False)
+   multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min,
+                                                                                        auto_parameters={'PrincipalContinuationParameter': "C3"})
 
-   multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=False,
-                                                                                  auto_parameters={'PrincipalContinuationParameter': signal})
-   GA.generate_report()
+   approach.generate_report()
 
 This will provide the following output along with creating the directory "num\_cont\_graphs" in your current
 directory that contains multistability plots. Please note that runtimes and the number of multistability plots produced
@@ -170,13 +155,14 @@ running the general approach and the provided output.
 
 ::
 
-    Starting optimization ...
-    Elapsed time for optimization in seconds: 11.93618106842041
-    Running continuity analysis ...
-    Elapsed time for continuity analysis in seconds: 65.35613918304443
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 21.040880918502808
 
-    It was found that 0.0 is the minimum objective function value with a confidence level of 1.0 .
-    9 point(s) passed the optimization criteria
-    Number of multistability plots found: 2
+    Running continuity analysis ...
+    Elapsed time for continuity analysis in seconds: 41.21180701255798
+
+    Smallest value achieved by objective function: 0.0
+    9 point(s) passed the optimization criteria.
+    Number of multistability plots found: 6
     Elements in params_for_global_min that produce multistability:
-    [0, 7]
+    [1, 2, 4, 5, 7, 8]
