@@ -22,10 +22,6 @@ Requirements for Parallel Version
 - numpy==1.16.4
 - sympy==1.4
 - scipy==1.3.0
-- matplotlib==3.1.0
-- antimony==2.11.0
-- rrplugins==1.2.2
-- libroadrunner==1.5.2.1
 - mpi4py==3.0.3
 
 Creating a Virtual Environment
@@ -115,26 +111,27 @@ To run the optimization for the mass conservation approach create the following 
 .. code-block:: python
 
    import crnt4sbml
+   import numpy
 
    network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
 
-   opt = network.get_mass_conservation_approach()
+   approach = network.get_mass_conservation_approach()
 
-   bounds, concentration_bounds = opt.get_optimization_bounds()
+   bounds, concentration_bounds = approach.get_optimization_bounds()
 
-   params_for_global_min, obj_fun_val_for_params, my_rank = opt.run_mpi_optimization(bounds=bounds,
-                                                                                     concentration_bounds=concentration_bounds)
+   params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds=bounds, concentration_bounds=concentration_bounds,
+                                                                             parallel_flag=True)
 
-   if my_rank == 0:
+   if approach.get_my_rank() == 0:
        numpy.save('params.npy', params_for_global_min)
 
-   opt.generate_report()
+   approach.generate_report()
 
 You can then run the script from the console using 2 cores using the following command:
 
-    .. code-block:: console
+.. code-block:: console
 
-        $ mpiexec -np 2 python mpi_run.py
+    $ mpiexec -np 2 python mpi_run.py
 
 
 This will provide the following output along with saving the params_for_global_min to the file params.npy in the current
@@ -145,28 +142,17 @@ runtimes may vary among different operating systems.
 
     Creating Equilibrium Manifold ...
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 1.8794879999999994
-    Elapsed time for creating Equilibrium Manifold: 1.8736319999999997
+    Elapsed time for creating Equilibrium Manifold: 2.06032
+    Elapsed time for creating Equilibrium Manifold: 2.0805279999999993
 
     Running feasible point method for 10 iterations ...
-    Elapsed time for feasible point method: 0.788164
+    Elapsed time for feasible point method: 1.024346
 
-    Running the multistart optimization ...
-    Elapsed time for multistart method in seconds: 3.1570869999999998
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 3.5696950000000003
 
-    Running continuity analysis ...
-    Elapsed time for continuity analysis in seconds: 15.839016
-
-
-    The number of feasible points that satisfy the constraints by core 1: 5
-    Total feasible points that give F(x) = 0 by core 1: 2
-    Total number of points that passed final_check by core 1: 2
-
-    The number of feasible points that satisfy the constraints by core 0: 5
     Smallest value achieved by objective function: 0.0
-    Total feasible points that give F(x) = 0 by core 0: 2
-    Total number of points that passed final_check by core 0: 2
-
+    4 point(s) passed the optimization criteria.
 
 Parallel Semi-diffusive Approach
 +++++++++++++++++++++++++++++++++++++
@@ -176,26 +162,26 @@ To run the optimization for the semi-diffusive approach create the following pyt
 .. code-block:: python
 
    import crnt4sbml
+   import numpy
 
    network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
 
-   opt = network.get_semi_diffusive_approach()
+   approach = network.get_semi_diffusive_approach()
 
-   bounds = opt.get_optimization_bounds()
-   iters = 10
+   bounds = approach.get_optimization_bounds()
 
-   params_for_global_min, obj_fun_val_for_params, my_rank = opt.run_mpi_optimization(bounds=bounds, iterations=iters, confidence_level_flag=False)
+   params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds=bounds, parallel_flag=True)
 
-   if my_rank == 0:
+   if approach.get_my_rank() == 0:
        numpy.save('params.npy', params_for_global_min)
 
-   opt.generate_report()
+   approach.generate_report()
 
 You can then run the script from the console using 2 cores using the following command:
 
-    .. code-block:: console
+.. code-block:: console
 
-        $ mpiexec -np 2 python mpi_run.py
+    $ mpiexec -np 2 python mpi_run.py
 
 This will provide the following output along with saving the params_for_global_min to the file params.npy in the current
 directory. You can then load in params.npy and run a serial version of the numerical continuation. Please note that
@@ -204,20 +190,13 @@ runtimes may vary among different operating systems.
 ::
 
     Running feasible point method for 10 iterations ...
-    Elapsed time for feasible point method: 0.5645819999999999
+    Elapsed time for feasible point method: 0.38841
 
-    Running the multistart optimization ...
-    Elapsed time for multistart method in seconds: 13.225637
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 17.330986000000003
 
-    The number of feasible points that satisfy the constraints by core 1: 5
-    Total feasible points that give F(x) = 0 by core 1: 5
-    Total number of points that passed final_check by core 1: 5
-
-    The number of feasible points that satisfy the constraints by core 0: 5
     Smallest value achieved by objective function: 0.0
-    Total feasible points that give F(x) = 0 by core 0: 4
-    Total number of points that passed final_check by core 0: 4
-
+    9 point(s) passed the optimization criteria.
 
 .. _parallel-gen-app-label:
 
@@ -238,46 +217,37 @@ python script named mpi_run.py:
 
    network = crnt4sbml.CRNT("path/to/Fig1Ci.xml")
 
-   signal = "C3"
-   response = "s15"
-   iters = 10
-   d_iters = 100
+   approach = network.get_general_approach()
 
-   GA = network.get_general_approach()
+   bnds = approach.get_optimization_bounds()
 
-   bnds = GA.get_optimization_bounds()
+   approach.initialize_general_approach(signal="C3", response="s15", fix_reactions=True)
 
-   GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
+   params_for_global_min, obj_fun_vals = approach.run_optimization(bounds=bnds, dual_annealing_iters=100, confidence_level_flag=True,
+                                                                   parallel_flag=True)
 
-   cons = []
-   params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,
-                                                             dual_annealing_iters=d_iters, confidence_level_flag=True,
-                                                             constraints=cons, parallel_flag=True)
+   approach.run_direct_simulation(params_for_global_min, parallel_flag=True)
 
-   GA.generate_report()
-
-   path = './num_cont_direct'
-   GA.run_direct_simulation(params_for_global_min, path, change_in_relative_error=1e-6, parallel_flag=True)
+   approach.generate_report()
 
 You can then run the script from the console using 4 cores using the following command:
 
-    .. code-block:: console
+.. code-block:: console
 
-        $ mpiexec -np 4 python mpi_run.py
+    $ mpiexec -np 4 python mpi_run.py
 
 This will provide the following output along with saving the direct simulation plots in the directory path
-./num_cont_direct. Please note that runtimes may vary among different operating systems.
+./dir_sim_graphs. Please note that runtimes may vary among different operating systems.
 
 ::
 
-    Starting optimization ...
-    Elapsed time for optimization in seconds: 5.100053
-
-    It was found that 0.0 is the minimum objective function value with a confidence level of 1.0 .
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 10.842817
 
     Starting direct simulation ...
-    Elapsed time for direct simulation in seconds: 204.56610999999998
-
+    Elapsed time for direct simulation in seconds: 270.852905
+    It was found that 0.0 is the minimum objective function value with a confidence level of 1.0 .
+    9 point(s) passed the optimization criteria.
 
 .. _pip: https://pip.pypa.io
 

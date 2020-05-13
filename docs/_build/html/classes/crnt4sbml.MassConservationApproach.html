@@ -846,6 +846,40 @@ for each special point in the plot.</li>
 </dd></dl>
 
 <dl class="method">
+<dt id="crnt4sbml.MassConservationApproach.run_direct_simulation">
+<code class="descname">run_direct_simulation</code><span class="sig-paren">(</span><em>response=None</em>, <em>signal=None</em>, <em>params_for_global_min=None</em>, <em>dir_path='./'</em>, <em>change_in_relative_error=1e-06</em>, <em>parallel_flag=False</em>, <em>print_flag=False</em>, <em>left_multiplier=0.5</em>, <em>right_multiplier=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_direct_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_direct_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for running direct simulation to conduct bistability analysis of the general approach.</p>
+<p>Note: This routine is more expensive than the numerical continuation routines, but can provide solutions
+when the Jacobian of the ODE system is always singular. A parallel version of this routine is available.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>params_for_global_min</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays corresponding to the input vectors that produce a small objective function
+value.</li>
+<li><strong>dir_path</strong> (<em>string</em>) – A string stating the path where the bifurcation diagrams should be saved.</li>
+<li><strong>change_in_relative_error</strong> (<em>float</em>) – A float value that determines how small the relative error should be in order for the solution of the
+ODE system to be considered at a steady state. Note: a smaller value will run faster, but may produce
+an ODE system that is not at a steady state.</li>
+<li><strong>parallel_flag</strong> (<em>bool</em>) – If set to True a parallel version of direct simulation is ran. If False, a serial version of the
+routine is ran. See <a class="reference internal" href="../parallel_crnt4sbml.html#parallel-gen-app-label"><span class="std std-ref">Parallel General Approach</span></a> for further information.</li>
+<li><strong>print_flag</strong> (<em>bool</em>) – If set to True information about the direct simulation routine will be printed. If False, no output
+will be provided.</li>
+<li><strong>left_multiplier</strong> (<em>float</em>) – A float value that determines the percentage of the signal that will be searched to the left of the signal
+value. For example, the lowerbound for the signal range will be signal_value - signal_value*left_multiplier.</li>
+<li><strong>right_multiplier</strong> (<em>float</em>) – A float value that determines the percentage of the signal that will be searched to the right of the signal
+value. For example, the upperbound for the signal range will be signal_value + signal_value*right_multiplier.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>See <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a>.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis">
 <code class="descname">run_greedy_continuity_analysis</code><span class="sig-paren">(</span><em>species=None</em>, <em>parameters=None</em>, <em>dir_path='./num_cont_graphs'</em>, <em>print_lbls_flag=False</em>, <em>auto_parameters=None</em>, <em>plot_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_greedy_continuity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation

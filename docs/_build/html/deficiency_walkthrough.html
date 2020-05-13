@@ -188,7 +188,7 @@ The following code will import crnt4sbml and the SBML file. For a little more de
 </div>
 <p>If we then want to conduct the mass conservation approach of <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a>, we must first initialize the
 mass_conservation_approach, which is done as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This command creates all the necessary information to construct the optimization problem to be solved. Along with this,
@@ -202,7 +202,7 @@ Elapsed time for creating Equilibrium Manifold: 1.992364
 <p>One very important value that must be provided to the optimization problem are the bounds for the decision vector of the
 optimization problem. For this reason, it is useful to see what decision vector was constructed. To do this one can add
 the following command to the script:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_decision_vector</span><span class="p">())</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_decision_vector</span><span class="p">())</span>
 </pre></div>
 </div>
 <p>This provides the following output:</p>
@@ -216,7 +216,7 @@ element is the upper bound value of the parameter.</p>
 <p>In addition to the bounds for the decision vector, we must also supply the bounds for those species’ concentrations that
 are not defined in the decision vector. To see the order and those species’ concentration bounds that you need to provide
 bounds for, we can use the following command:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_concentration_bounds_species</span><span class="p">())</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_concentration_bounds_species</span><span class="p">())</span>
 </pre></div>
 </div>
 <p>This provides the following output:</p>
@@ -228,7 +228,7 @@ species s1, s3, s7, and s16, in that order.</p>
 <p>As creating these bounds is not initially apparent to novice users or may become cumbersome, we have created a function
 call that will automatically generate physiological bounds based on the C-graph. To use this functionality one can
 add the following code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bnds</span><span class="p">,</span> <span class="n">conc_bnds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bnds</span><span class="p">,</span> <span class="n">conc_bnds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This provides the following values:</p>
@@ -269,39 +269,32 @@ for the default values of the routine.</p>
 <p>Using these values, we run the optimization problem using the following command, which returns a list of the parameters
 (which correspond to the decision vectors) and corresponding objective function values that produce an objective function
 value smaller than machine epsilon.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bnds</span><span class="p">,</span> <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">conc_bnds</span><span class="p">,</span>
-                                                                     <span class="n">iterations</span><span class="o">=</span><span class="n">num_itr</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">sd</span><span class="p">,</span> <span class="n">print_flag</span><span class="o">=</span><span class="n">prnt_flg</span><span class="p">,</span>
-                                                                     <span class="n">numpy_dtype</span><span class="o">=</span><span class="n">num_dtype</span><span class="p">,</span> <span class="n">sys_min_val</span><span class="o">=</span><span class="n">sys_min</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bnds</span><span class="p">,</span> <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">conc_bnds</span><span class="p">,</span>
+                                                                          <span class="n">iterations</span><span class="o">=</span><span class="n">num_itr</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">sd</span><span class="p">,</span> <span class="n">print_flag</span><span class="o">=</span><span class="n">prnt_flg</span><span class="p">,</span>
+                                                                          <span class="n">numpy_dtype</span><span class="o">=</span><span class="n">num_dtype</span><span class="p">,</span> <span class="n">sys_min_val</span><span class="o">=</span><span class="n">sys_min</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The following is the output obtained by the constructed model:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 29.199651999999997
+Elapsed time for feasible point method: 14.034250974655151
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 136.14538600000003
+Running the multistart optimization method ...
+Elapsed time for multistart method: 67.97679090499878
 </pre></div>
 </div>
 <p>At this point it may also be helpful to generate a report on the optimization routine that provides more information.
 To do this execute the following command:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">approach</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This will provide the following output:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The number of feasible points that satisfy the constraints: 99
-Total feasible points that give F(x) = 0: 28
-Total number of points that passed final_check: 28
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Smallest value achieved by objective function: 0.0
+28 point(s) passed the optimization criteria.
 </pre></div>
 </div>
-<p>The first line tells one how many initial points satisfy the constraints after the feasible point method is ran. Note
-that there should always be a nonzero amount provided here, if a nonzero amount is not given, new bounds should be
-considered. The second line describes how many feasible points provide an objective function value smaller than sys_min_val.
-The last line outputs the number of feasible points that produce an objective function value smaller than sys_min_val
-that also pass all of the constraints of the optimization problem. Note that it is not uncommon for the value provided
-in the last line to be smaller than the value provided in the second line. Given the optimization may take a long time
+<p>The first line tells one how the smallest value of the objective function that was found after all points have been ran.
+The second line describes the number of feasible points that produce an objective function value smaller than sys_min_val
+that also pass all of the constraints of the optimization problem. Given the optimization may take a long time
 to complete, it may be important to save the parameters produced by the optimization. This can be done as follows:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>numpy.save(&#39;params.npy&#39;, params_for_global_min)
 </pre></div>
@@ -317,7 +310,7 @@ network. The most important parameters that must be provided by the user are the
 and the species you would like to compare it against. For more information on numerical continuation and these values
 see <a class="reference internal" href="numerical_cont.html#my-continuation-label"><span class="std std-ref">Numerical Continuation Routine</span></a>. To select the PCP one needs to know which conservation law to choose. The following
 command will provide the conservation laws derived by the deficiency manager:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">get_conservation_laws</span><span class="p">())</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">approach</span><span class="o">.</span><span class="n">get_conservation_laws</span><span class="p">())</span>
 </pre></div>
 </div>
 <p>This provides the following output:</p>
@@ -348,17 +341,14 @@ respectively. In addition to this range, the lower and upper bounds for the meas
 <p>Once we have set the AUTO parameters, we tell the numerical continuation routine whether or not to print out the labels
 obtained by the numerical continuation routine. Please refer to <a class="reference internal" href="numerical_cont.html#my-continuation-label"><span class="std std-ref">Numerical Continuation Routine</span></a> for a description of this
 print out. The next value we provide is the string representation of the directory where we would like to store the
-multistability plots, if any are found (here we choose to create the stability_graphs directory in the current directory).
-The last value provided is an error_log_flag which tells the numerical continuation routine whether or not the log
-output provided by AUTO is suppressed.</p>
+multistability plots, if any are found (here we choose to create the stability_graphs directory in the current directory).</p>
 <p>Using this input we can now run the numerical continuation routine on the parameters that pass the constraints of the
 optimization problem and produce an objective function value smaller than sys_min_val. This is done below.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">spcs</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
-                                                                         <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">PCP_x</span><span class="p">,</span>
-                                                                                          <span class="s1">&#39;RL0&#39;</span><span class="p">:</span> <span class="mf">1e2</span><span class="p">,</span> <span class="s1">&#39;RL1&#39;</span><span class="p">:</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s1">&#39;A0&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">:</span> <span class="mf">5e6</span><span class="p">,</span>
-                                                                                          <span class="s1">&#39;DSMAX&#39;</span><span class="p">:</span> <span class="mf">1e3</span><span class="p">},</span>
-                                                                         <span class="n">print_lbls_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dir_path</span><span class="o">=</span><span class="s2">&quot;./stability_graphs&quot;</span><span class="p">,</span>
-                                                                         <span class="n">error_log_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">spcs</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                                              <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">PCP_x</span><span class="p">,</span>
+                                                                                               <span class="s1">&#39;RL0&#39;</span><span class="p">:</span> <span class="mf">1e2</span><span class="p">,</span> <span class="s1">&#39;RL1&#39;</span><span class="p">:</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s1">&#39;A0&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">:</span> <span class="mf">5e6</span><span class="p">,</span>
+                                                                                               <span class="s1">&#39;DSMAX&#39;</span><span class="p">:</span> <span class="mf">1e3</span><span class="p">},</span>
+                                                                              <span class="n">print_lbls_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dir_path</span><span class="o">=</span><span class="s2">&quot;./stability_graphs&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In addition to putting the multistability plots found into the path dir_path, this routine will also return the indices of
@@ -368,52 +358,50 @@ used for the x-axis, y-axis, and the x-y values for each special point in the pl
 Also note that if multistability plots are produced, the plot names will have the following form:
 PCP_species id_index of params_for_global.png. The output provided by the numerical continuation run is as follows:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running continuity analysis ...
-Elapsed time for continuity analysis: 25.02327585220337
+Elapsed time for continuity analysis in seconds: 26.88336992263794
 </pre></div>
 </div>
 <p>Again, we can generate a report that will contain the numerical optimization routine output and the now added information
 provided by the numerical continuation run.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">approach</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This provides the following output that describes that of the 28 parameter sets that passed the constraints of the
 optimization problem, 14 of them produce multistability for the given input. In addition to this, it also tells one the
 indices in params_for_global_min that produce multistability. In practice, larger ranges for the principal continuation
 parameter may be needed, but this will increase the runtime of the numerical continuation routine.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The number of feasible points that satisfy the constraints: 99
-Total feasible points that give F(x) = 0: 28
-Total number of points that passed final_check: 28
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Smallest value achieved by objective function: 0.0
+28 point(s) passed the optimization criteria.
 Number of multistability plots found: 14
 Elements in params_for_global_min that produce multistability:
-[4, 11, 12, 14, 15, 16, 19, 20, 21, 22, 23, 24, 26, 27]
+[0, 1, 5, 7, 8, 12, 13, 14, 15, 20, 23, 25, 26, 27]
 </pre></div>
 </div>
-<p>The following is a bistability plot produced by element 26 of params_for_global_min. Here the solid blue line
+<p>The following is a bistability plot produced by element 27 of params_for_global_min. Here the solid blue line
 indicates stability, the dashed blue line is instability, and the red stars are the special points produced by the
 numerical continuation.</p>
-<img alt="_images/fig_1Ci_C3_vs_s15_26.png" src="_images/fig_1Ci_C3_vs_s15_26.png" />
+<img alt="_images/fig_1Ci_C3_vs_s15_27.png" src="_images/fig_1Ci_C3_vs_s15_27.png" />
 <p>In addition to providing this more hands on approach to the numerical continuation routine, we also provide a greedy
 version of the numerical continuation routine. With this approach the user just needs to provide the species, parameters,
 and PCP. This routine does not guarantee that all multistability plots will be found, but it does provide a good place to
 start finding multistability plots. Once the greedy routine is ran, it is usually best to return to the more hands on
 approach described above. Note that as stated by the name, this approach is computationally greedy and will take a longer
 time than the more hands on approach. Below is the code used to run the greedy numerical continuation:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">spcs</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
-                                                                                <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">PCP_x</span><span class="p">})</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">spcs</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">dir_path</span><span class="o">=</span><span class="s2">&quot;./stability_graphs&quot;</span><span class="p">,</span>
+                                                                                     <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">PCP_x</span><span class="p">})</span>
 
-<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+<span class="n">approach</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This provides the following output:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running continuity analysis ...
-Elapsed time for continuity analysis: 143.82169270515442
+Elapsed time for continuity analysis in seconds: 144.57969522476196
 
-The number of feasible points that satisfy the constraints: 99
-Total feasible points that give F(x) = 0: 28
-Total number of points that passed final_check: 28
+Smallest value achieved by objective function: 0.0
+28 point(s) passed the optimization criteria.
 Number of multistability plots found: 19
 Elements in params_for_global_min that produce multistability:
-[3, 4, 6, 7, 11, 12, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+[0, 1, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 20, 23, 25, 26, 27]
 </pre></div>
 </div>
 <p>Note that some of these plots will be jagged or have missing sections in the plot. To produce better plots the hands on

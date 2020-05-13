@@ -199,17 +199,17 @@ as the format of the SBML file must follow a certain construction to be easily u
 
 <span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 
-<span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 
-<span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+<span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
 
-<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
-                                                                     <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">concentration_bounds</span><span class="p">)</span>
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+                                                                          <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">concentration_bounds</span><span class="p">)</span>
 
-<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s15&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
-                                                                                <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;C3&#39;</span><span class="p">})</span>
+<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s15&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                                                     <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;C3&#39;</span><span class="p">})</span>
 
-<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+<span class="n">approach</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This will provide the following output along with creating the directory “num_cont_graphs” in your current
@@ -217,26 +217,22 @@ directory that contains multistability plots. Please note that runtimes and the 
 may vary among different operating systems. Please see <a class="reference internal" href="deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a> for a more detailed explanation of
 running the mass conservation approach and the provided output.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold: 1.9408779999999997
+Elapsed time for creating Equilibrium Manifold: 2.0428380000000006
 
 Running feasible point method for 10 iterations ...
-Elapsed time for feasible point method: 2.790184
+Elapsed time for feasible point method: 1.5746338367462158
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 13.814762
+Running the multistart optimization method ...
+Elapsed time for multistart method: 7.010828971862793
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 22.570291996002197
+Elapsed time for continuity analysis in seconds: 25.22320318222046
 
-The number of feasible points that satisfy the constraints: 10
-Total feasible points that give F(x) = 0: 4
-Total number of points that passed final_check: 4
+Smallest value achieved by objective function: 0.0
+4 point(s) passed the optimization criteria.
 Number of multistability plots found: 2
 Elements in params_for_global_min that produce multistability:
-[2, 3]
+[0, 1]
 </pre></div>
 </div>
 </div>
@@ -251,16 +247,16 @@ the format of the SBML file must follow a certain construction to be easily used
 
 <span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
 
-<span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
+<span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
 
-<span class="n">bounds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+<span class="n">bounds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
 
-<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
 
-<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s7&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
-                                                                                <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;re17&#39;</span><span class="p">})</span>
+<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s7&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                                                     <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s1">&#39;re17&#39;</span><span class="p">})</span>
 
-<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+<span class="n">approach</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This will provide the following output along with creating the directory “num_cont_graphs” in your current
@@ -268,20 +264,16 @@ directory that contains multistability plots. Please note that runtimes and the 
 may vary among different operating systems. Please see <a class="reference internal" href="injectivity_walkthrough.html#my-injectivity-label"><span class="std std-ref">Semi-diffusive Approach Walkthrough</span></a> for a more detailed explanation of
 running the semi-diffusive approach and the provided output.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running feasible point method for 10 iterations ...
-Elapsed time for feasible point method: 0.7991039999999998
+Elapsed time for feasible point method: 0.3393716812133789
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 45.470756
+Running the multistart optimization method ...
+Elapsed time for multistart method: 22.361775875091553
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 67.03238201141357
+Elapsed time for continuity analysis in seconds: 73.85193490982056
 
-The number of feasible points that satisfy the constraints: 10
-Total feasible points that give F(x) = 0: 9
-Total number of points that passed final_check: 9
+Smallest value achieved by objective function: 0.0
+9 point(s) passed the optimization criteria.
 Number of multistability plots found: 9
 Elements in params_for_global_min that produce multistability:
 [0, 1, 2, 3, 4, 5, 6, 7, 8]
@@ -299,39 +291,34 @@ as the format of the SBML file must follow a certain construction to be easily u
 
 <span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;/path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 
-<span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C3&quot;</span>
-<span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s15&quot;</span>
-<span class="n">iters</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">d_iters</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="n">bnds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
 
-<span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
-<span class="n">bnds</span> <span class="o">=</span> <span class="n">GA</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+<span class="n">approach</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="s2">&quot;C3&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="s2">&quot;s15&quot;</span><span class="p">,</span> <span class="n">fix_reactions</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">fix_reactions</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_vals</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bnds</span><span class="p">,</span> <span class="n">dual_annealing_iters</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_vals</span> <span class="o">=</span> <span class="n">GA</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bnds</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">iters</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">print_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                                                          <span class="n">dual_annealing_iters</span><span class="o">=</span><span class="n">d_iters</span><span class="p">,</span> <span class="n">confidence_level_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                                                          <span class="n">constraints</span><span class="o">=</span><span class="p">[],</span> <span class="n">parallel_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;s15&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span>
+                                                                                     <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="s2">&quot;C3&quot;</span><span class="p">})</span>
 
-<span class="n">multistable_param_ind</span><span class="p">,</span> <span class="n">plot_specifications</span> <span class="o">=</span> <span class="n">GA</span><span class="o">.</span><span class="n">run_greedy_continuity_analysis</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">print_lbls_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                                                                               <span class="n">auto_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PrincipalContinuationParameter&#39;</span><span class="p">:</span> <span class="n">signal</span><span class="p">})</span>
-<span class="n">GA</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+<span class="n">approach</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This will provide the following output along with creating the directory “num_cont_graphs” in your current
 directory that contains multistability plots. Please note that runtimes and the number of multistability plots produced
 may vary among different operating systems. Please see <a class="reference internal" href="general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a> for a more detailed explanation of
 running the general approach and the provided output.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Starting optimization ...
-Elapsed time for optimization in seconds: 11.93618106842041
-Running continuity analysis ...
-Elapsed time for continuity analysis in seconds: 65.35613918304443
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running the multistart optimization method ...
+Elapsed time for multistart method: 21.040880918502808
 
-It was found that 0.0 is the minimum objective function value with a confidence level of 1.0 .
-9 point(s) passed the optimization criteria
-Number of multistability plots found: 2
+Running continuity analysis ...
+Elapsed time for continuity analysis in seconds: 41.21180701255798
+
+Smallest value achieved by objective function: 0.0
+9 point(s) passed the optimization criteria.
+Number of multistability plots found: 6
 Elements in params_for_global_min that produce multistability:
-[0, 7]
+[1, 2, 4, 5, 7, 8]
 </pre></div>
 </div>
 </div>

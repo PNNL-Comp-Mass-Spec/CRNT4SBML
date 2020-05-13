@@ -118,8 +118,8 @@ value smaller than machine epsilon.
 .. code-block:: python
 
     params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds=bnds, concentration_bounds=conc_bnds,
-                                                                         iterations=num_itr, seed=sd, print_flag=prnt_flg,
-                                                                         numpy_dtype=num_dtype, sys_min_val=sys_min)
+                                                                              iterations=num_itr, seed=sd, print_flag=prnt_flg,
+                                                                              numpy_dtype=num_dtype, sys_min_val=sys_min)
 
 The following is the output obtained by the constructed model::
 

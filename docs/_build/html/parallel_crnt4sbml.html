@@ -203,10 +203,6 @@ using <a class="reference external" href="https://mpi4py.readthedocs.io/en/stabl
 <li>numpy==1.16.4</li>
 <li>sympy==1.4</li>
 <li>scipy==1.3.0</li>
-<li>matplotlib==3.1.0</li>
-<li>antimony==2.11.0</li>
-<li>rrplugins==1.2.2</li>
-<li>libroadrunner==1.5.2.1</li>
 <li>mpi4py==3.0.3</li>
 </ul>
 </div>
@@ -275,54 +271,43 @@ as follows:</p>
 <h2>Parallel Mass Conservation Approach<a class="headerlink" href="#parallel-mass-conservation-approach" title="Permalink to this headline">¶</a></h2>
 <p>To run the optimization for the mass conservation approach create the following python script named mpi_run.py:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
 
 <span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 
-<span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
+<span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_mass_conservation_approach</span><span class="p">()</span>
 
-<span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+<span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
 
-<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span><span class="p">,</span> <span class="n">my_rank</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_mpi_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
-                                                                                  <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">concentration_bounds</span><span class="p">)</span>
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">concentration_bounds</span><span class="o">=</span><span class="n">concentration_bounds</span><span class="p">,</span>
+                                                                          <span class="n">parallel_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="n">my_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_my_rank</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
     <span class="n">numpy</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;params.npy&#39;</span><span class="p">,</span> <span class="n">params_for_global_min</span><span class="p">)</span>
 
-<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+<span class="n">approach</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>You can then run the script from the console using 2 cores using the following command:</p>
-<blockquote>
-<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mpiexec -np <span class="m">2</span> python mpi_run.py
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mpiexec -np <span class="m">2</span> python mpi_run.py
 </pre></div>
 </div>
-</div></blockquote>
 <p>This will provide the following output along with saving the params_for_global_min to the file params.npy in the current
 directory. You can then load in params.npy and run a serial version of the numerical continuation. Please note that
 runtimes may vary among different operating systems.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Creating Equilibrium Manifold ...
 Creating Equilibrium Manifold ...
-Elapsed <span class="nb">time</span> <span class="k">for</span> creating Equilibrium Manifold: <span class="m">1</span>.8794879999999994
-Elapsed <span class="nb">time</span> <span class="k">for</span> creating Equilibrium Manifold: <span class="m">1</span>.8736319999999997
+Elapsed <span class="nb">time</span> <span class="k">for</span> creating Equilibrium Manifold: <span class="m">2</span>.06032
+Elapsed <span class="nb">time</span> <span class="k">for</span> creating Equilibrium Manifold: <span class="m">2</span>.0805279999999993
 
 Running feasible point method <span class="k">for</span> <span class="m">10</span> iterations ...
-Elapsed <span class="nb">time</span> <span class="k">for</span> feasible point method: <span class="m">0</span>.788164
+Elapsed <span class="nb">time</span> <span class="k">for</span> feasible point method: <span class="m">1</span>.024346
 
-Running the multistart optimization ...
-Elapsed <span class="nb">time</span> <span class="k">for</span> multistart method in seconds: <span class="m">3</span>.1570869999999998
+Running the multistart optimization method ...
+Elapsed <span class="nb">time</span> <span class="k">for</span> multistart method: <span class="m">3</span>.5696950000000003
 
-Running continuity analysis ...
-Elapsed <span class="nb">time</span> <span class="k">for</span> continuity analysis in seconds: <span class="m">15</span>.839016
-
-
-The number of feasible points that satisfy the constraints by core <span class="m">1</span>: <span class="m">5</span>
-Total feasible points that give F<span class="o">(</span>x<span class="o">)</span> <span class="o">=</span> <span class="m">0</span> by core <span class="m">1</span>: <span class="m">2</span>
-Total number of points that passed final_check by core <span class="m">1</span>: <span class="m">2</span>
-
-The number of feasible points that satisfy the constraints by core <span class="m">0</span>: <span class="m">5</span>
 Smallest value achieved by objective <span class="k">function</span>: <span class="m">0</span>.0
-Total feasible points that give F<span class="o">(</span>x<span class="o">)</span> <span class="o">=</span> <span class="m">0</span> by core <span class="m">0</span>: <span class="m">2</span>
-Total number of points that passed final_check by core <span class="m">0</span>: <span class="m">2</span>
+<span class="m">4</span> point<span class="o">(</span>s<span class="o">)</span> passed the optimization criteria.
 </pre></div>
 </div>
 </div>
@@ -330,45 +315,37 @@ Total number of points that passed final_check by core <span class="m">0</span>:
 <h2>Parallel Semi-diffusive Approach<a class="headerlink" href="#parallel-semi-diffusive-approach" title="Permalink to this headline">¶</a></h2>
 <p>To run the optimization for the semi-diffusive approach create the following python script named mpi_run.py:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
 
 <span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Cii.xml&quot;</span><span class="p">)</span>
 
-<span class="n">opt</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
+<span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_semi_diffusive_approach</span><span class="p">()</span>
 
-<span class="n">bounds</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
-<span class="n">iters</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">bounds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
 
-<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span><span class="p">,</span> <span class="n">my_rank</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run_mpi_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">iters</span><span class="p">,</span> <span class="n">confidence_level_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_val_for_params</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">parallel_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="n">my_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_my_rank</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
     <span class="n">numpy</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;params.npy&#39;</span><span class="p">,</span> <span class="n">params_for_global_min</span><span class="p">)</span>
 
-<span class="n">opt</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+<span class="n">approach</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>You can then run the script from the console using 2 cores using the following command:</p>
-<blockquote>
-<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mpiexec -np <span class="m">2</span> python mpi_run.py
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mpiexec -np <span class="m">2</span> python mpi_run.py
 </pre></div>
 </div>
-</div></blockquote>
 <p>This will provide the following output along with saving the params_for_global_min to the file params.npy in the current
 directory. You can then load in params.npy and run a serial version of the numerical continuation. Please note that
 runtimes may vary among different operating systems.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Running feasible point method <span class="k">for</span> <span class="m">10</span> iterations ...
-Elapsed <span class="nb">time</span> <span class="k">for</span> feasible point method: <span class="m">0</span>.5645819999999999
+Elapsed <span class="nb">time</span> <span class="k">for</span> feasible point method: <span class="m">0</span>.38841
 
-Running the multistart optimization ...
-Elapsed <span class="nb">time</span> <span class="k">for</span> multistart method in seconds: <span class="m">13</span>.225637
+Running the multistart optimization method ...
+Elapsed <span class="nb">time</span> <span class="k">for</span> multistart method: <span class="m">17</span>.330986000000003
 
-The number of feasible points that satisfy the constraints by core <span class="m">1</span>: <span class="m">5</span>
-Total feasible points that give F<span class="o">(</span>x<span class="o">)</span> <span class="o">=</span> <span class="m">0</span> by core <span class="m">1</span>: <span class="m">5</span>
-Total number of points that passed final_check by core <span class="m">1</span>: <span class="m">5</span>
-
-The number of feasible points that satisfy the constraints by core <span class="m">0</span>: <span class="m">5</span>
 Smallest value achieved by objective <span class="k">function</span>: <span class="m">0</span>.0
-Total feasible points that give F<span class="o">(</span>x<span class="o">)</span> <span class="o">=</span> <span class="m">0</span> by core <span class="m">0</span>: <span class="m">4</span>
-Total number of points that passed final_check by core <span class="m">0</span>: <span class="m">4</span>
+<span class="m">9</span> point<span class="o">(</span>s<span class="o">)</span> passed the optimization criteria.
 </pre></div>
 </div>
 </div>
@@ -385,43 +362,33 @@ python script named mpi_run.py:</p>
 
 <span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/Fig1Ci.xml&quot;</span><span class="p">)</span>
 
-<span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C3&quot;</span>
-<span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s15&quot;</span>
-<span class="n">iters</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">d_iters</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">approach</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
 
-<span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
+<span class="n">bnds</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
 
-<span class="n">bnds</span> <span class="o">=</span> <span class="n">GA</span><span class="o">.</span><span class="n">get_optimization_bounds</span><span class="p">()</span>
+<span class="n">approach</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="s2">&quot;C3&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="s2">&quot;s15&quot;</span><span class="p">,</span> <span class="n">fix_reactions</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">fix_reactions</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_vals</span> <span class="o">=</span> <span class="n">approach</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bnds</span><span class="p">,</span> <span class="n">dual_annealing_iters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">confidence_level_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                                                <span class="n">parallel_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="n">cons</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">obj_fun_vals</span> <span class="o">=</span> <span class="n">GA</span><span class="o">.</span><span class="n">run_optimization</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bnds</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">iters</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">print_flag</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                                                          <span class="n">dual_annealing_iters</span><span class="o">=</span><span class="n">d_iters</span><span class="p">,</span> <span class="n">confidence_level_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                                                          <span class="n">constraints</span><span class="o">=</span><span class="n">cons</span><span class="p">,</span> <span class="n">parallel_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">approach</span><span class="o">.</span><span class="n">run_direct_simulation</span><span class="p">(</span><span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">parallel_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="n">GA</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
-
-<span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;./num_cont_direct&#39;</span>
-<span class="n">GA</span><span class="o">.</span><span class="n">run_direct_simulation</span><span class="p">(</span><span class="n">params_for_global_min</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">change_in_relative_error</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">parallel_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">approach</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>You can then run the script from the console using 4 cores using the following command:</p>
-<blockquote>
-<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mpiexec -np <span class="m">4</span> python mpi_run.py
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mpiexec -np <span class="m">4</span> python mpi_run.py
 </pre></div>
 </div>
-</div></blockquote>
 <p>This will provide the following output along with saving the direct simulation plots in the directory path
-./num_cont_direct. Please note that runtimes may vary among different operating systems.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Starting optimization ...
-Elapsed <span class="nb">time</span> <span class="k">for</span> optimization in seconds: <span class="m">5</span>.100053
-
-It was found that <span class="m">0</span>.0 is the minimum objective <span class="k">function</span> value with a confidence level of <span class="m">1</span>.0 .
+./dir_sim_graphs. Please note that runtimes may vary among different operating systems.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Running the multistart optimization method ...
+Elapsed <span class="nb">time</span> <span class="k">for</span> multistart method: <span class="m">10</span>.842817
 
 Starting direct simulation ...
-Elapsed <span class="nb">time</span> <span class="k">for</span> direct simulation in seconds: <span class="m">204</span>.56610999999998
+Elapsed <span class="nb">time</span> <span class="k">for</span> direct simulation in seconds: <span class="m">270</span>.852905
+It was found that <span class="m">0</span>.0 is the minimum objective <span class="k">function</span> value with a confidence level of <span class="m">1</span>.0 .
+<span class="m">9</span> point<span class="o">(</span>s<span class="o">)</span> passed the optimization criteria.
 </pre></div>
 </div>
 </div>

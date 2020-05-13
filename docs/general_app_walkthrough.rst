@@ -20,7 +20,7 @@ If we then want to conduct the general approach, we must first initialize the ge
 
 .. code-block:: python
 
-    GA = network.get_general_approach()
+    approach = network.get_general_approach()
 
 
 Now that we have initialized the class, we have to tell the routine the values of the signal (or principal continuation parameter)
@@ -31,7 +31,7 @@ derived by the initialization of the general approach class:
 
 .. code-block:: python
 
-	print(GA.get_conservation_laws())
+	print(approach.get_conservation_laws())
 
 This provides the following output::
 
@@ -59,7 +59,7 @@ Now we can initialize the rest of the general approach as follows:
 
 .. code-block:: python
 
-    GA.initialize_general_approach(signal=signal, response=response, fix_reactions=False)
+    approach.initialize_general_approach(signal=signal, response=response, fix_reactions=False)
 
 Now that the approach has been constructed, we can begin to define the specific information needed for the optimization
 routine for the general approach. One very important value that must be provided to the optimization problem are the
@@ -68,7 +68,7 @@ To do this one can add the following command to the script:
 
 .. code-block:: python
 
-    print(print(GA.get_input_vector()))
+    print(approach.get_input_vector())
 
 This provides the following output::
 
@@ -84,14 +84,15 @@ add the following code:
 
 .. code-block:: python
 
-    bnds = GA.get_optimization_bounds()
+    bnds = approach.get_optimization_bounds()
 
 This provides the following values::
 
-    bnds = [(10000.0, 100000000.0), (1e-05, 0.001), (10000.0, 100000000.0), (1e-05, 0.001), (0.001, 1.0), (0.001, 1.0),
-            (10000.0, 100000000.0), (1e-05, 0.001), (0.001, 1.0), (0.001, 1.0), (10000.0, 100000000.0), (1e-05, 0.001),
-            (0.001, 1.0), (0.001, 1.0), (5e-13, 5e-07), (5e-13, 5e-07), (5e-13, 5e-07), (5e-13, 5e-07), (5e-13, 5e-07),
-            (5e-13, 5e-07), (5e-13, 5e-07), (5e-13, 5e-07), (5e-13, 5e-07)]
+    bnds = [(1e-08, 0.0001), (1e-05, 0.001), (1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (0.001, 1.0), (1e-08, 0.0001),
+            (1e-05, 0.001), (0.001, 1.0), (0.001, 1.0), (1e-08, 0.0001), (1e-05, 0.001), (0.001, 1.0), (0.001, 1.0),
+            (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0),
+            (0.5, 500000.0), (0.5, 500000.0), (0.5, 500000.0)]
+
 
 For more information and the correctness on these bounds please refer to :ref:`physio-bnds-label`.
 
@@ -127,7 +128,7 @@ for the default values of the routine.
 
 .. code-block:: python
 
-    iters = 15
+    d_iters = 1000
     sd = 0
     prnt_flg = False
 
@@ -137,15 +138,16 @@ value smaller than machine epsilon.
 
 .. code-block:: python
 
-    params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=sd, print_flag=prnt_flg,
-                                                              dual_annealing_iters=d_iters, confidence_level_flag=True)
+    params_for_global_min, obj_fun_vals = approach.run_optimization(bounds=bnds, iterations=iters, seed=sd, print_flag=prnt_flg,
+                                                                    dual_annealing_iters=d_iters, confidence_level_flag=True)
 
-    GA.generate_report()
+    approach.generate_report()
 
 The following is the output obtained after running the above code::
 
-    Starting optimization ...
-    Elapsed time for optimization in seconds: 2639.424936056137
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 2590.524824142456
+
     It was found that 2.1292329042333798e-16 is the minimum objective function value with a confidence level of 0.680672268907563 .
     1 point(s) passed the optimization criteria.
 
@@ -167,14 +169,14 @@ To run bistability analysis using the direct simulation approach, we run the fol
 
 .. code-block:: python
 
-    GA.run_direct_simulation(params_for_global_min, dir_path='./num_cont_graphs')
+    approach.run_direct_simulation(params_for_global_min)
 
 This routine will use the input vectors (named params_for_global_min) provided by the optimization and perform the direct
-simulation approach for bistability analysis, then puts the plots produced in the directory path ./num_cont_graphs. This
+simulation approach for bistability analysis, then puts the plots produced in the directory path ./dir_sim_graphs. This
 provides the following output for the simple_biterminal example::
 
     Starting direct simulation ...
-    Elapsed time for direct simulation in seconds: 201.63968706130981
+    Elapsed time for direct simulation in seconds: 189.25777792930603
 
 Along with this, it also produces the following bifurcation diagram.
 

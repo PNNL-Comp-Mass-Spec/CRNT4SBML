@@ -34,20 +34,21 @@ We then construct the following script, where we are printing the output of the 
            (0.01, 0.025), (0.2, 0.25), (0.78, 0.79), (3.6, 3.7), (0.15, 0.25), (0.06, 0.065)] + \ [(0.0, 100.0),
            (18.0, 18.5), (0.0, 100.0), (0.0, 100.0), (27.0, 27.1), (8.2, 8.3), (90.0, 90.1), (97.5, 97.9), (30.0, 30.1)]
 
-   GA = network.get_general_approach()
-   GA.initialize_general_approach(signal=signal, response=response)
+   approach = network.get_general_approach()
+   approach.initialize_general_approach(signal=signal, response=response)
 
-   params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=15, dual_annealing_iters=1000,
-                                                              confidence_level_flag=True, parallel_flag=False)
+   params_for_global_min, obj_fun_vals = approach.run_optimization(bounds=bnds, iterations=15, dual_annealing_iters=1000,
+                                                                   confidence_level_flag=True, parallel_flag=False)
 
-   multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=True,
-                                                                                  auto_parameters={'PrincipalContinuationParameter': signal})
-   GA.generate_report()
+   multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min, print_lbls_flag=True,
+                                                                                        auto_parameters={'PrincipalContinuationParameter': signal})
+   approach.generate_report()
 
 This provides the following output::
 
-    Starting optimization ...
-    Elapsed time for optimization in seconds: 2639.424936056137
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 2590.524824142456
+
     It was found that 2.1292329042333798e-16 is the minimum objective function value with a confidence level of 0.680672268907563 .
     1 point(s) passed the optimization criteria.
 
