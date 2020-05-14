@@ -1,55 +1,11 @@
+# Parent class to MassConservationApproach, SemiDiffusiveApproach, and GeneralApproach
 
-class BistabilityAnalysis:
 
-    def __init__(self, GA):
+class BistabilityAnalysis(object):
 
-        self.__GA = GA
+    def __parent_run_continuity_analysis(self):
 
-        print(GA)
-        print(BistabilityAnalysis.__mro__)
-        print(GA.__)
-        print(self.__GA.__sympy_species)
-
-    @classmethod
-    def run_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string, finalize_ant_string,
-                                species_y, dir_path, print_lbls_flag, auto_parameters, plot_labels):
-
-        global sys_pf
-        global os
-        global multiprocessing
-        global numpy
-        global sympy
-        global time
-        global math
-        global shutil
-        global subprocess
-        global pickle
-        global antimony
-        global roadrunner
-        global rrplugins
-        global sys
-        global plt
-
-        from sys import platform as sys_pf
-        import os
-        import multiprocessing
-        import sympy
-        import numpy
-        import time
-        import math
-        import shutil
-        import subprocess
-        import pickle
-        import antimony
-        import roadrunner
-        import rrplugins
-        import sys
-        if sys_pf == 'darwin':
-            import matplotlib
-            matplotlib.use("Agg")
-            import matplotlib.pyplot as plt
-        else:
-            import matplotlib.pyplot as plt
+        self.__parent_initialize_continuity_analysis()
 
         print("Running continuity analysis ...")
 
@@ -71,8 +27,14 @@ class BistabilityAnalysis:
                     "Note: stderr is not being caught in the traditional fashion. This may be a result of using a notebook.")
                 notebook_exists = True
 
-        init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
-        auto_parameters['PrincipalContinuationParameter'] = pcp_x
+        if self.__method == "GeneralApproach":
+            init_ant, pcp_x = self._GeneralApproach__initialize_ant_string(self.__species_num, self.__auto_parameters['PrincipalContinuationParameter'])
+        elif self.__method == "MassConservationApproach":
+            init_ant, pcp_x = self._MassConservationApproach__initialize_ant_string(self.__species_num, self.__auto_parameters['PrincipalContinuationParameter'])
+        elif self.__method == "SemiDiffusiveApproach":
+            init_ant, pcp_x = self._SemiDiffusiveApproach__initialize_ant_string(self.__species_num, self.__auto_parameters['PrincipalContinuationParameter'])
+
+        self.__auto_parameters['PrincipalContinuationParameter'] = pcp_x
         start = time.time()
         multistable_param_ind = []
         cont_direction = ["Positive", "Negative"]
@@ -84,30 +46,36 @@ class BistabilityAnalysis:
 
         plot_specifications = []
 
-        for param_ind in range(len(params_for_global_min)):
-            final_ant_str = finalize_ant_string(params_for_global_min[param_ind], init_ant)
+        for param_ind in range(len(self.__parameters)):
+
+            if self.__method == "GeneralApproach":
+                final_ant_str = self._GeneralApproach__finalize_ant_string(self.__parameters[param_ind], init_ant)
+            elif self.__method == "MassConservationApproach":
+                final_ant_str = self._MassConservationApproach__finalize_ant_string(self.__parameters[param_ind], init_ant)
+            elif self.__method == "SemiDiffusiveApproach":
+                final_ant_str = self._SemiDiffusiveApproach__finalize_ant_string(self.__parameters[param_ind], init_ant)
 
             for dir_ind in range(2):
                 if os.path.isdir("./auto_fort_files"):
                     shutil.rmtree("./auto_fort_files")
 
-                pts, lbls, antimony_r, flag, bi_data_np = cls.run_safety_wrapper(final_ant_str, cont_direction[dir_ind],
-                                                                                 auto, auto_parameters)
+                pts, lbls, antimony_r, flag, bi_data_np = self.__run_safety_wrapper(final_ant_str, cont_direction[dir_ind],
+                                                                                    auto, self.__auto_parameters)
 
-                if print_lbls_flag:
+                if self.__print_lbls_flag:
                     print("Labels from numerical continuation: ")
                     print(lbls)
 
                 if flag and lbls != ['EP', 'EP']:
-                    chnk_stable, chnk_unstable, special_points, sp_y_ind = cls.find_stable_unstable_regions(antimony_r,
-                                                                                                            species_y)
+                    chnk_stable, chnk_unstable, special_points, sp_y_ind = self.__find_stable_unstable_regions(antimony_r,
+                                                                                                               self.__species_y)
 
-                    multistable = cls.detect_multi_stability(chnk_stable, chnk_unstable, bi_data_np)
+                    multistable = self.__detect_multi_stability(chnk_stable, chnk_unstable, bi_data_np)
 
                     if multistable:
-                        plt_specs = cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np,
-                                                            sp_y_ind, pcp_x, species_y, param_ind, dir_path, cls,
-                                                            plot_labels)
+                        plt_specs = self.__plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np,
+                                                               sp_y_ind, pcp_x, self.__species_y, param_ind,
+                                                               self.__dir_path, self.__plot_labels)
                         plot_specifications.append(plt_specs)
                         multistable_param_ind.append(param_ind)
                         break
@@ -133,15 +101,176 @@ class BistabilityAnalysis:
 
         return multistable_param_ind, important_info, plot_specifications
 
-    @classmethod
-    def run_greedy_continuity_analysis(cls, species_num, params_for_global_min, initialize_ant_string,
-                                       finalize_ant_string, species_y, dir_path, print_lbls_flag, auto_parameters, plot_labels):
+    def __parent_run_greedy_continuity_analysis(self):
+
+        self.__parent_initialize_continuity_analysis()
+
+        print("Running continuity analysis ...")
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
+            roadrunner.Logger.disableLogging()
+            roadrunner.Logger.disableConsoleLogging()
+            roadrunner.Logger.disableFileLogging()
+            rrplugins.setLogLevel('error')
+            try:
+                sys.stderr.fileno()
+                stderr_fileno = sys.stderr.fileno()
+                stderr_save = os.dup(stderr_fileno)
+                stderr_pipe = os.pipe()
+                os.dup2(stderr_pipe[1], stderr_fileno)
+                os.close(stderr_pipe[1])
+                notebook_exists = False
+            except Exception as e:
+                print("Note: stderr is not being caught in the traditional fashion. This may be a result of using a notebook.")
+                notebook_exists = True
+
+        if self.__method == "GeneralApproach":
+            init_ant, pcp_x = self._GeneralApproach__initialize_ant_string(self.__species_num, self.__auto_parameters['PrincipalContinuationParameter'])
+        elif self.__method == "MassConservationApproach":
+            init_ant, pcp_x = self._MassConservationApproach__initialize_ant_string(self.__species_num, self.__auto_parameters['PrincipalContinuationParameter'])
+        elif self.__method == "SemiDiffusiveApproach":
+            init_ant, pcp_x = self._SemiDiffusiveApproach__initialize_ant_string(self.__species_num, self.__auto_parameters['PrincipalContinuationParameter'])
+
+        self.__auto_parameters['PrincipalContinuationParameter'] = pcp_x
+        self.__auto_parameters['IADS'] = 0
+        self.__auto_parameters['A1'] = 1e10
+        self.__auto_parameters['ITNW'] = 100
+        self.__auto_parameters['NTST'] = 100
+        self.__auto_parameters['NCOL'] = 100
+
+        start = time.time()
+        multistable_param_ind = []
+        cont_direction = ["Positive", "Negative"]
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            auto = rrplugins.Plugin("tel_auto2000")
+        else:
+            auto = None
+
+        plot_specifications = []
+
+        for param_ind in range(len(self.__parameters)):
+
+            if self.__method == "GeneralApproach":
+                final_ant_str = self._GeneralApproach__finalize_ant_string(self.__parameters[param_ind], init_ant)
+            elif self.__method == "MassConservationApproach":
+                final_ant_str = self._MassConservationApproach__finalize_ant_string(self.__parameters[param_ind], init_ant)
+            elif self.__method == "SemiDiffusiveApproach":
+                final_ant_str = self._SemiDiffusiveApproach__finalize_ant_string(self.__parameters[param_ind], init_ant)
+
+            pcp_ranges_mag = self.__get_pcp_ranges(final_ant_str, pcp_x)
+
+            self.__auto_parameters['RL0'] = pcp_ranges_mag[0]
+            self.__auto_parameters['RL1'] = pcp_ranges_mag[1]
+
+            ds_vals = []
+            mag = pcp_ranges_mag[2]
+            mag -= 1
+            for i in range(5):
+                ds_vals.append(float(10 ** mag))
+                mag -= 1
+
+            multistable = False
+            lbls = []
+            for ds_val in ds_vals:
+                self.__auto_parameters['DS'] = ds_val
+                for dir_ind in range(2):
+                    if os.path.isdir("./auto_fort_files"):
+                        shutil.rmtree("./auto_fort_files")
+
+                    pts, lbls, antimony_r, flag, bi_data_np = self.__run_safety_wrapper(final_ant_str,
+                                                                                        cont_direction[dir_ind], auto,
+                                                                                        self.__auto_parameters)
+
+                    if self.__print_lbls_flag:
+                        print("Labels from numerical continuation: ")
+                        print(lbls)
+
+                    if flag and lbls != ['EP', 'EP']:
+
+                        chnk_stable, chnk_unstable, special_points, sp_y_ind = self.__find_stable_unstable_regions(antimony_r, self.__species_y)
+                        multistable = self.__detect_multi_stability(chnk_stable, chnk_unstable, bi_data_np)
+
+                        if multistable:
+                            # if ds_val == 0.01 and dir_ind == 0:
+                            # running another numerical continuation with a smaller step size to try and get
+                            # better looking plots
+                            scnd_check = True
+                            if os.path.isdir("./auto_fort_files"):
+                                shutil.rmtree("./auto_fort_files")
+
+                                ind_ds_val = ds_vals.index(ds_val)
+                                ds_val = ds_vals[ind_ds_val + 1]
+
+                                self.__auto_parameters['DS'] = ds_val
+                                for dir_ind2 in range(2):
+                                    if os.path.isdir("./auto_fort_files"):
+                                        shutil.rmtree("./auto_fort_files")
+
+                                    pts2, lbls2, antimony_r, flag2, bi_data_np2 = self.__run_safety_wrapper(final_ant_str,
+                                                                                                            cont_direction[dir_ind2],
+                                                                                                            auto,
+                                                                                                            self.__auto_parameters)
+
+                                    if flag2 and lbls2 != ['EP', 'EP']:
+                                        chnk_stable2, chnk_unstable2, special_points2, sp_y_ind2 = \
+                                            self.__find_stable_unstable_regions(antimony_r, self.__species_y)
+
+                                        multistable2 = self.__detect_multi_stability(chnk_stable2, chnk_unstable2,
+                                                                                     bi_data_np2)
+
+                                        if multistable2:
+                                            plt_specs = self.__plot_pcp_vs_species(chnk_stable2, chnk_unstable2,
+                                                                                special_points2, bi_data_np2, sp_y_ind2,
+                                                                                pcp_x, self.__species_y, param_ind, self.__dir_path,
+                                                                                self.__plot_labels)
+                                            plot_specifications.append(plt_specs)
+                                            scnd_check = False
+                                            break
+
+                                if scnd_check:
+                                    plt_specs = self.__plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points,
+                                                                        bi_data_np, sp_y_ind, pcp_x, self.__species_y,
+                                                                        param_ind, self.__dir_path, self.__plot_labels)
+                                    plot_specifications.append(plt_specs)
+
+                            if param_ind not in multistable_param_ind:
+                                multistable_param_ind.append(param_ind)
+                            break
+                if multistable and 'MX' not in lbls:
+                    break
+            if self.__print_lbls_flag:
+                print("")
+
+        if os.path.isdir("./auto_fort_files"):
+            shutil.rmtree("./auto_fort_files")
+
+        if sys_pf not in ['win32', 'cygwin', 'msys']:
+            if not notebook_exists:
+                os.close(stderr_pipe[0])
+                os.dup2(stderr_save, stderr_fileno)
+                os.close(stderr_save)
+                os.close(stderr_fileno)
+
+        end = time.time()
+        print("Elapsed time for continuity analysis in seconds: " + str(end - start))
+        print("")
+
+        important_info = "Number of multistability plots found: " + str(len(multistable_param_ind)) + "\n"
+
+        important_info += "Elements in params_for_global_min that produce multistability: \n" + \
+                          str(multistable_param_ind) + "\n"
+
+        return multistable_param_ind, important_info, plot_specifications
+
+    def __parent_initialize_continuity_analysis(self):
 
         global sys_pf
         global os
         global multiprocessing
-        global sympy
         global numpy
+        global sympy
         global time
         global math
         global shutil
@@ -174,160 +303,18 @@ class BistabilityAnalysis:
         else:
             import matplotlib.pyplot as plt
 
-        print("Running continuity analysis ...")
-
-        if sys_pf not in ['win32', 'cygwin', 'msys']:
-            roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
-            roadrunner.Logger.disableLogging()
-            roadrunner.Logger.disableConsoleLogging()
-            roadrunner.Logger.disableFileLogging()
-            rrplugins.setLogLevel('error')
-            try:
-                sys.stderr.fileno()
-                stderr_fileno = sys.stderr.fileno()
-                stderr_save = os.dup(stderr_fileno)
-                stderr_pipe = os.pipe()
-                os.dup2(stderr_pipe[1], stderr_fileno)
-                os.close(stderr_pipe[1])
-                notebook_exists = False
-            except Exception as e:
-                print(
-                    "Note: stderr is not being caught in the traditional fashion. This may be a result of using a notebook.")
-                notebook_exists = True
-
-        init_ant, pcp_x = initialize_ant_string(species_num, auto_parameters['PrincipalContinuationParameter'])
-        auto_parameters['PrincipalContinuationParameter'] = pcp_x
-        auto_parameters['IADS'] = 0
-        auto_parameters['A1'] = 1e10
-        auto_parameters['ITNW'] = 100
-        auto_parameters['NTST'] = 100
-        auto_parameters['NCOL'] = 100
-
-        start = time.time()
-        multistable_param_ind = []
-        cont_direction = ["Positive", "Negative"]
-
-        if sys_pf not in ['win32', 'cygwin', 'msys']:
-            auto = rrplugins.Plugin("tel_auto2000")
-        else:
-            auto = None
-
-        plot_specifications = []
-
-        for param_ind in range(len(params_for_global_min)):
-
-            final_ant_str = finalize_ant_string(params_for_global_min[param_ind], init_ant)
-            pcp_ranges_mag = cls.get_pcp_ranges(final_ant_str, pcp_x)
-
-            auto_parameters['RL0'] = pcp_ranges_mag[0]
-            auto_parameters['RL1'] = pcp_ranges_mag[1]
-
-            ds_vals = []
-            mag = pcp_ranges_mag[2]
-            mag -= 1
-            for i in range(5):
-                ds_vals.append(float(10 ** mag))
-                mag -= 1
-
-            multistable = False
-            lbls = []
-            for ds_val in ds_vals:
-                auto_parameters['DS'] = ds_val
-                for dir_ind in range(2):
-                    if os.path.isdir("./auto_fort_files"):
-                        shutil.rmtree("./auto_fort_files")
-
-                    pts, lbls, antimony_r, flag, bi_data_np = cls.run_safety_wrapper(final_ant_str,
-                                                                                     cont_direction[dir_ind], auto,
-                                                                                     auto_parameters)
-
-                    if print_lbls_flag:
-                        print("Labels from numerical continuation: ")
-                        print(lbls)
-
-                    if flag and lbls != ['EP', 'EP']:
-                        chnk_stable, chnk_unstable, special_points, sp_y_ind = cls.find_stable_unstable_regions(
-                            antimony_r,
-                            species_y)
-                        multistable = cls.detect_multi_stability(chnk_stable, chnk_unstable, bi_data_np)
-                        # print(multistable)
-                        # print(ds_val)
-                        # print(dir_ind)
-                        if multistable:  ################################################
-                            # if ds_val == 0.01 and dir_ind == 0:
-                            # running another numerical continuation with a smaller step size to try and get
-                            # better looking plots
-                            scnd_check = True
-                            if os.path.isdir("./auto_fort_files"):
-                                shutil.rmtree("./auto_fort_files")
-
-                                ind_ds_val = ds_vals.index(ds_val)
-                                ds_val = ds_vals[ind_ds_val + 1]
-
-                                auto_parameters['DS'] = ds_val
-                                for dir_ind2 in range(2):
-                                    if os.path.isdir("./auto_fort_files"):
-                                        shutil.rmtree("./auto_fort_files")
-
-                                    pts2, lbls2, antimony_r, flag2, bi_data_np2 = cls.run_safety_wrapper(final_ant_str,
-                                                                                                         cont_direction[
-                                                                                                             dir_ind2],
-                                                                                                         auto,
-                                                                                                         auto_parameters)
-
-                                    if flag2 and lbls2 != ['EP', 'EP']:
-                                        chnk_stable2, chnk_unstable2, special_points2, sp_y_ind2 = \
-                                            cls.find_stable_unstable_regions(antimony_r, species_y)
-
-                                        multistable2 = cls.detect_multi_stability(chnk_stable2, chnk_unstable2,
-                                                                                  bi_data_np2)
-
-                                        if multistable2:
-                                            plt_specs = cls.plot_pcp_vs_species(chnk_stable2, chnk_unstable2,
-                                                                                special_points2, bi_data_np2, sp_y_ind2,
-                                                                                pcp_x, species_y, param_ind, dir_path,
-                                                                                cls, plot_labels)
-                                            plot_specifications.append(plt_specs)
-                                            scnd_check = False
-                                            break
-
-                                if scnd_check:
-                                    plt_specs = cls.plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points,
-                                                                        bi_data_np, sp_y_ind, pcp_x, species_y,
-                                                                        param_ind, dir_path, cls, plot_labels)
-                                    plot_specifications.append(plt_specs)
-
-                            if param_ind not in multistable_param_ind:
-                                multistable_param_ind.append(param_ind)
-                            break
-                if multistable and 'MX' not in lbls:
-                    break
-            if print_lbls_flag:
-                print("")
-
-        if os.path.isdir("./auto_fort_files"):
-            shutil.rmtree("./auto_fort_files")
-
-        if sys_pf not in ['win32', 'cygwin', 'msys']:
-            if not notebook_exists:
-                os.close(stderr_pipe[0])
-                os.dup2(stderr_save, stderr_fileno)
-                os.close(stderr_save)
-                os.close(stderr_fileno)
-
-        end = time.time()
-        print("Elapsed time for continuity analysis in seconds: " + str(end - start))
-        print("")
-
-        important_info = "Number of multistability plots found: " + str(len(multistable_param_ind)) + "\n"
-
-        important_info += "Elements in params_for_global_min that produce multistability: \n" + \
-                          str(multistable_param_ind) + "\n"
-
-        return multistable_param_ind, important_info, plot_specifications
+        self.__mangled_name = "self._" + self.__class__.__name__
+        self.__method = eval(self.__mangled_name + "__method")
+        self.__species_num = eval(self.__mangled_name + "__species_num")
+        self.__parameters = eval(self.__mangled_name + "__parameters")
+        self.__species_y = eval(self.__mangled_name + "__species_y")
+        self.__dir_path = eval(self.__mangled_name + "__dir_path")
+        self.__print_lbls_flag = eval(self.__mangled_name + "__print_lbls_flag")
+        self.__auto_parameters = eval(self.__mangled_name + "__auto_parameters")
+        self.__plot_labels = eval(self.__mangled_name + "__plot_labels")
 
     @staticmethod
-    def get_pcp_ranges(final_ant_str, pcp_x):
+    def __get_pcp_ranges(final_ant_str, pcp_x):
 
         splits = final_ant_str.split(';')
         initial_vars = [i for i in splits if '=' in i]
@@ -359,8 +346,7 @@ class BistabilityAnalysis:
 
         return [rl0, rl1, mag + 1]
 
-    @classmethod
-    def run_safety_wrapper(cls, final_ant_str, cont_direction, auto, auto_parameters):
+    def __run_safety_wrapper(self, final_ant_str, cont_direction, auto, auto_parameters):
 
         if sys_pf in ['win32', 'cygwin', 'msys']:
             arguments = [final_ant_str, cont_direction, auto_parameters]
@@ -406,7 +392,7 @@ class BistabilityAnalysis:
                 os.remove("bi_data_np.npy")
 
             queue = multiprocessing.Queue()
-            p = multiprocessing.Process(target=cls.run_numerical_continuation, args=(queue, final_ant_str,
+            p = multiprocessing.Process(target=self.__run_numerical_continuation, args=(queue, final_ant_str,
                                                                                      cont_direction,
                                                                                      auto, auto_parameters))
 
@@ -432,10 +418,9 @@ class BistabilityAnalysis:
 
         return pts, lbls, antimony_r, flag, bi_data_np
 
-    @classmethod
-    def run_numerical_continuation(cls, q, ant_str, direction, auto, auto_parameters, core=None):
+    def __run_numerical_continuation(self, q, ant_str, direction, auto, auto_parameters, core=None):
 
-        antimony_r = cls.__loada(ant_str)
+        antimony_r = self.__loada(ant_str)
 
         # making the directory auto_fort_files if is does not exist
         if core is None:
@@ -488,7 +473,7 @@ class BistabilityAnalysis:
         q.put([pts, lbls, ant_float_ids, flag])
 
     @staticmethod
-    def find_stable_unstable_regions(antimony_r, species_y, core=None):
+    def __find_stable_unstable_regions(antimony_r, species_y, core=None):
 
         if core is None:
             with open("./auto_fort_files/fort.7", 'r') as fobj:
@@ -541,10 +526,9 @@ class BistabilityAnalysis:
 
         return chnk_stable, chnk_unstable, special_points, sp_y_ind
 
-    @classmethod
-    def detect_multi_stability(cls, chnk_stable, chnk_unstable, bi_data_np):
+    def __detect_multi_stability(self, chnk_stable, chnk_unstable, bi_data_np):
 
-        if cls.is_list_empty(chnk_stable) or cls.is_list_empty(chnk_unstable):
+        if self.is_list_empty(chnk_stable) or self.is_list_empty(chnk_unstable):
             return False
 
         chnk_stable_pcp_ranges = []
@@ -589,15 +573,14 @@ class BistabilityAnalysis:
 
         return any([sum(i) >= 2 for i in unstable_intersections])
 
-    @classmethod
-    def is_list_empty(cls, in_list):
+    def is_list_empty(self, in_list):
         if isinstance(in_list, list):  # Is a list
-            return all(map(cls.is_list_empty, in_list))
+            return all(map(self.is_list_empty, in_list))
         return False  # Not a list
 
     @staticmethod
-    def plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np, sp_y_ind, pcp_x, species_y,
-                            param_ind, dir_path, cls, plot_labels, core=None):
+    def __plot_pcp_vs_species(chnk_stable, chnk_unstable, special_points, bi_data_np, sp_y_ind, pcp_x, species_y,
+                            param_ind, dir_path, plot_labels, core=None):
 
         # plotting stable points
         for i in range(len(chnk_stable)):
@@ -695,8 +678,7 @@ class BistabilityAnalysis:
         if code < 0:
             raise Exception('Antimony: {}'.format(antimony.getLastError()))
 
-    @classmethod
-    def __antimony_to_sbml(cls, ant):
+    def __antimony_to_sbml(self, ant):
         try:
             isfile = os.path.isfile(ant)
         except ValueError:
@@ -705,31 +687,28 @@ class BistabilityAnalysis:
             code = antimony.loadAntimonyFile(ant)
         else:
             code = antimony.loadAntimonyString(ant)
-        cls.__check_antimony_return_code(code)
+        self.__check_antimony_return_code(code)
         mid = antimony.getMainModuleName()
         return antimony.getSBMLString(mid)
 
-    @classmethod
-    def __loada(cls, ant):
+    def __loada(self, ant):
 
-        return cls.__load_antimony_model(ant)
+        return self.__load_antimony_model(ant)
 
-    @classmethod
-    def __load_antimony_model(cls, ant):
+    def __load_antimony_model(self, ant):
 
-        sbml = cls.__antimony_to_sbml(ant)
+        sbml = self.__antimony_to_sbml(ant)
         return roadrunner.RoadRunner(sbml)
 
-    @classmethod
-    def __print_initial_conditions(cls, fwd_scan_vals, rvrs_scan_vals):
+    def __print_initial_conditions(self, fwd_scan_vals, rvrs_scan_vals):
 
         fwd_spec_inds = [i[0] for i in fwd_scan_vals]
         init_vals = []
-        for i in range(cls.__N):
+        for i in range(self.__N):
             if i in fwd_spec_inds:
-                init_vals.append(str(cls.__sympy_species[i]) + " = " + "C" + str(fwd_spec_inds.index(i) + 1))
+                init_vals.append(str(self.__sympy_species[i]) + " = " + "C" + str(fwd_spec_inds.index(i) + 1))
             else:
-                init_vals.append(str(cls.__sympy_species[i]) + " = 0.0")
+                init_vals.append(str(self.__sympy_species[i]) + " = 0.0")
 
         print(" ")
         print("For the forward scan the following initial condition will be used:")
@@ -738,11 +717,11 @@ class BistabilityAnalysis:
 
         rvrs_spec_inds = [i[0] for i in rvrs_scan_vals]
         init_vals = []
-        for i in range(cls.__N):
+        for i in range(self.__N):
             if i in rvrs_spec_inds:
-                init_vals.append(str(cls.__sympy_species[i]) + " = " + "C" + str(rvrs_spec_inds.index(i) + 1))
+                init_vals.append(str(self.__sympy_species[i]) + " = " + "C" + str(rvrs_spec_inds.index(i) + 1))
             else:
-                init_vals.append(str(cls.__sympy_species[i]) + " = 0.0")
+                init_vals.append(str(self.__sympy_species[i]) + " = 0.0")
 
         print(" ")
         print("For the reverse scan the following initial condition will be used:")
@@ -750,51 +729,45 @@ class BistabilityAnalysis:
             print(i)
         print(" ")
 
-    @classmethod
-    def construct_conservation_vals(cls, params_for_global_min):
+    def __construct_conservation_vals(self, params_for_global_min):
 
-        if cls.__approach == "GeneralApproach":
+        if self.__method == "GeneralApproach":
 
-            return [cls.__cons_laws_sympy_lamb[ii](*tuple(params_for_global_min[cls.__R:cls.__R + cls.__N]))
-                    for ii in range(len(cls.__cons_laws_sympy_lamb))]
+            return [self.__cons_laws_sympy_lamb[ii](*tuple(params_for_global_min[self.__R:self.__R + self.__N]))
+                    for ii in range(len(self.__cons_laws_sympy_lamb))]
 
-        elif cls.__approach == "MassConservationApproach":
+        elif self.__method == "MassConservationApproach":
 
-            return [cls.__cons_laws_sympy_lamb[ii](*tuple([cls.__concentration_funs[j](*tuple(params_for_global_min)) for j in range(cls.__N)]))
-                                 for ii in range(len(cls.__cons_laws_sympy_lamb))]
+            return [self.__cons_laws_sympy_lamb[ii](*tuple([self.__concentration_funs[j](*tuple(params_for_global_min)) for j in range(self.__N)]))
+                                 for ii in range(len(self.__cons_laws_sympy_lamb))]
 
-    @classmethod
-    def run_direct_simulation(cls, params_for_global_min, parallel_flag, dir_path, itg, change_in_relative_error,
-                              spec_index, left_multiplier, right_multiplier, comm, my_rank, num_cores, dir_sim_print_flag,
-                              R, N, cons_laws_sympy_lamb, cons_laws_sympy, sympy_species, signal_index, signal, response,
-                              ode_lambda_functions, jac_lambda_function, concentration_funs, approach):
+    def __parent_run_direct_simulation(self):
 
-        cls.__comm = comm
-        cls.__my_rank = my_rank
-        cls.__num_cores = num_cores
-        cls.__dir_sim_print_flag = dir_sim_print_flag
-        cls.__R = R
-        cls.__N = N
-        cls.__cons_laws_sympy_lamb = cons_laws_sympy_lamb
-        cls.__signal_index = signal_index
-        cls.__cons_laws_sympy = cons_laws_sympy
-        cls.__sympy_species = sympy_species
-        cls.__ode_lambda_functions = ode_lambda_functions
-        cls.__jac_lambda_function = jac_lambda_function
-        cls.__response = response
-        cls.__signal = signal
-        cls.__concentration_funs = concentration_funs
-        cls.__approach = approach
+        self.__parent_initialize_direct_simulation()
 
-        #TODO: import global modules needed, remember to do mpi_mod
+        viable_indices, viable_out_values, conservation_vals = self.__find_viable_indices(self.__parameters[0])
+
+        fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index = self.__initialize_variables(viable_indices, viable_out_values,
+                                                                                                     self.__parameters[0],
+                                                                                                     conservation_vals)
+
+        self.__conduct_direct_simulation(fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index)
+
+    def __parent_initialize_direct_simulation(self):
+
         global itertools
         global sys
         global os
         global numpy
         global warnings
         global pandas
-        global ggplot, aes, geom_line, ylim, scale_color_distiller, facet_wrap, theme_bw, geom_path, geom_point, labs, annotate
+        global ggplot, aes, geom_line, ylim, scale_color_distiller
+        global facet_wrap, theme_bw, geom_path, geom_point, labs, annotate
+        global itg
+        global sympy
+        global time
 
+        import sympy
         import itertools
         import sys
         import os
@@ -803,106 +776,120 @@ class BistabilityAnalysis:
         import pandas
         from plotnine import ggplot, aes, geom_line, ylim, scale_color_distiller, facet_wrap, theme_bw, geom_path, \
             geom_point, labs, annotate
+        import scipy.integrate as itg
+        import time
 
-        if parallel_flag is False and cls.__comm is None:
+        self.__mangled_name = "self._" + self.__class__.__name__
+        self.__method = eval(self.__mangled_name + "__method")
+        self.__parallel_flag = eval(self.__mangled_name + "__parallel_flag")
+        self.__dir_sim_print_flag = eval(self.__mangled_name + "__dir_sim_print_flag")
+        self.__change_in_rel_error = eval(self.__mangled_name + "__change_in_relative_error")
+        self.__dir_path = eval(self.__mangled_name + "__dir_path")
+        self.__parameters = eval(self.__mangled_name + "__parameters")
+        self.__left_multiplier = eval(self.__mangled_name + "__left_multiplier")
+        self.__right_multiplier = eval(self.__mangled_name + "__right_multiplier")
+        self.__comm = eval(self.__mangled_name + "__comm")
+        self.__my_rank = eval(self.__mangled_name + "__my_rank")
+        self.__num_cores = eval(self.__mangled_name + "__num_cores")
+        self.__sympy_species = eval(self.__mangled_name + "__sympy_species")
+        self.__sympy_reactions = eval(self.__mangled_name + "__sympy_reactions")
+        self.__response = eval(self.__mangled_name + "__response")
+        self.__signal = eval(self.__mangled_name + "__signal")
+        self.__signal_index = eval(self.__mangled_name + "__signal_index")
+        self.__cons_laws_sympy = eval(self.__mangled_name + "__cons_laws_sympy")
+        self.__cons_laws_sympy_lamb = eval(self.__mangled_name + "__cons_laws_sympy_lamb")
+        self.__concentration_funs = eval(self.__mangled_name + "__concentration_funs")
+        self.__ode_lambda_functions = eval(self.__mangled_name + "__ode_lambda_functions")
+        self.__jac_lambda_function = eval(self.__mangled_name + "__jac_lambda_function")
+
+        self.__spec_index = self.__sympy_species.index(sympy.Symbol(self.__response, positive=True))
+        self.__N = len(self.__sympy_species)
+        self.__R = len(self.__sympy_reactions)
+
+        if (self.__parallel_flag is True and self.__comm is None) or self.__comm is not None:
+
+            global MPI
+            from mpi4py import MPI
+            global mpi_mod
+            from .mpi_routines import MPIRoutines as mpi_mod
+
+        if self.__parallel_flag is False and self.__comm is None:
 
             # making the directory if it doesn't exist
-            if not os.path.isdir(dir_path):
-                os.mkdir(dir_path)
+            if not os.path.isdir(self.__dir_path):
+                os.mkdir(self.__dir_path)
 
             print("Starting direct simulation ...")
-            start_t = time.time()
+            self.__start_t = time.time()
 
-        elif parallel_flag is True and cls.__comm is None:
+        elif self.__parallel_flag is True and self.__comm is None:
 
-            from mpi4py import MPI
-            global mpi_mod
-            from .mpi_routines import MPIRoutines as mpi_mod
+            self.__comm = MPI.COMM_WORLD
+            self.__my_rank = self.__comm.Get_rank()
+            self.__num_cores = self.__comm.Get_size()
+            self.__comm.Barrier()
 
-            cls.__comm = MPI.COMM_WORLD
-            cls.__my_rank = cls.__comm.Get_rank()
-            cls.__num_cores = cls.__comm.Get_size()
-            cls.__comm.Barrier()
+            if not os.path.isdir(self.__dir_path) and self.__my_rank == 0:
+                os.mkdir(self.__dir_path)
 
-            if not os.path.isdir(dir_path) and cls.__my_rank == 0:
-                os.mkdir(dir_path)
+            self.__comm.Barrier()
 
-            cls.__comm.Barrier()
+            self.__start_time = MPI.Wtime()
 
-            start_time = MPI.Wtime()
-
-            if cls.__my_rank == 0:
+            if self.__my_rank == 0:
                 print("Starting direct simulation ...")
-        elif cls.__comm is not None:
+        elif self.__comm is not None:
 
-            from mpi4py import MPI
-            global mpi_mod
-            from .mpi_routines import MPIRoutines as mpi_mod
+            if not os.path.isdir(self.__dir_path) and self.__my_rank == 0:
+                os.mkdir(self.__dir_path)
 
-            if not os.path.isdir(dir_path) and cls.__my_rank == 0:
-                os.mkdir(dir_path)
+            self.__comm.Barrier()
+            self.__parameters = self.__comm.bcast(self.__parameters, root=0)
+            self.__num_cores = self.__comm.Get_size()
+            self.__comm.Barrier()
+            self.__start_time = MPI.Wtime()
 
-            cls.__comm.Barrier()
-
-            params_for_global_min = cls.__comm.bcast(params_for_global_min, root=0)
-
-            cls.__comm.Barrier()
-
-            start_time = MPI.Wtime()
-
-            if cls.__my_rank == 0:
+            if self.__my_rank == 0:
                 print("Starting direct simulation ...")
 
         else:
             print("Starting direct simulation ...")
-            start_t = time.time()
+            self.__start_time = time.time()
 
-        if len(params_for_global_min) == 0:
+        if len(self.__parameters) == 0:
             print("The parameter sets provided has a length of zero, direct simulation cannot be ran.")
             sys.exit()
 
-        viable_indices, viable_out_values, conservation_vals = cls.__find_viable_indices(params_for_global_min[0], itg,
-                                                                                          spec_index,
-                                                                                          change_in_relative_error)
+    def __conduct_direct_simulation(self, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index):
 
-        spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index = cls.__initialize_direct_simulation(viable_indices, viable_out_values,
-                                                                                                                        params_for_global_min[0], conservation_vals, itg,
-                                                                                                                        change_in_relative_error, spec_index, left_multiplier,
-                                                                                                                        right_multiplier)
-
-        if cls.__dir_sim_print_flag:
-            if cls.__comm is None:
-                cls.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
+        if self.__dir_sim_print_flag:
+            if self.__comm is None:
+                self.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
             else:
-                if cls.__my_rank == 0:
-                    cls.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
+                if self.__my_rank == 0:
+                    self.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
 
-        plot_flag = True
+        for i in range(len(self.__parameters)):
 
-        for i in range(len(params_for_global_min)):
-
-            if cls.__dir_sim_print_flag:
-                if cls.__comm is None:
+            if self.__dir_sim_print_flag:
+                if self.__comm is None:
                     print(f"Conducting stability analysis of element {i} of the list provided ... ")
                 else:
-                    if cls.__my_rank == 0:
+                    if self.__my_rank == 0:
                         print(f"Conducting stability analysis of element {i} of the list provided ... ")
 
-            conservation_vals = cls.construct_conservation_vals(params_for_global_min[i])
-            # conservation_vals = [cls.__cons_laws_sympy_lamb[ii](*tuple(params_for_global_min[i][cls.__R:cls.__R + cls.__N]))
-            #     for ii in range(len(cls.__cons_laws_sympy_lamb))]  # TODO: make general function
+            conservation_vals = self.__construct_conservation_vals(self.__parameters[i])
 
-            con_law_value = conservation_vals[cls.__signal_index]
-            change_left = con_law_value * left_multiplier
-            change_right = con_law_value * right_multiplier
+            con_law_value = conservation_vals[self.__signal_index]
+            change_left = con_law_value * self.__left_multiplier
+            change_right = con_law_value * self.__right_multiplier
             pcp_scan = numpy.linspace(con_law_value - change_left, con_law_value + change_right, 100)
 
-            forward_scan, reverse_scan = cls.__conduct_fwd_rvrs_scan(params_for_global_min[i], fwd_scan_vals,
+            forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(self.__parameters[i], fwd_scan_vals,
                                                                      rvrs_scan_vals, pcp_scan, fwd_scan_index,
-                                                                     rvrs_scan_index, spec_index, itg,
-                                                                     change_in_relative_error)
+                                                                     rvrs_scan_index)
 
-            min_val, max_val = cls.__get_min_max_vals(pcp_scan, forward_scan, reverse_scan)
+            min_val, max_val = self.__get_min_max_vals(pcp_scan, forward_scan, reverse_scan)
 
             count = 0
             scan_vals = pcp_scan
@@ -911,12 +898,11 @@ class BistabilityAnalysis:
 
                     second_scan = numpy.linspace(min_val, max_val, 60)
 
-                    forward_scan, reverse_scan = cls.__conduct_fwd_rvrs_scan(params_for_global_min[i], fwd_scan_vals,
+                    forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(self.__parameters[i], fwd_scan_vals,
                                                                               rvrs_scan_vals, second_scan, fwd_scan_index,
-                                                                              rvrs_scan_index, spec_index, itg,
-                                                                              change_in_relative_error)
+                                                                              rvrs_scan_index)
 
-                    min_val, max_val = cls.__get_min_max_vals(second_scan, forward_scan, reverse_scan)
+                    min_val, max_val = self.__get_min_max_vals(second_scan, forward_scan, reverse_scan)
                     scan_vals = second_scan
                     count += 1
                 else:
@@ -925,36 +911,31 @@ class BistabilityAnalysis:
             if count == 0:
                 second_scan = pcp_scan
 
-            if plot_flag:
+            if self.__comm is None:
+                self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, self.__dir_path, i)
+            else:
+                if self.__my_rank == 0:
+                    self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, self.__dir_path, i)
 
-                if cls.__comm is None:
-                    cls.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, dir_path, i)
-                else:
-                    if cls.__my_rank == 0:
-                        cls.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, dir_path, i)
-
-        if cls.__comm is None:
-            end_t = time.time()
-            elapsed = end_t - start_t
+        if self.__comm is None:
+            self.__end_t = time.time()
+            elapsed = self.__end_t - self.__start_t
             print("Elapsed time for direct simulation in seconds: " + str(elapsed))
         else:
-            cls.__comm.Barrier()
-            if cls.__my_rank == 0:
-                end_time = MPI.Wtime()
-                elapsed = end_time - start_time
+            self.__comm.Barrier()
+            if self.__my_rank == 0:
+                self.__end_time = MPI.Wtime()
+                elapsed = self.__end_time - self.__start_time
                 print(f"Elapsed time for direct simulation in seconds: {elapsed}")
 
-    @classmethod
-    def __find_viable_indices(cls, result_x, itg, spec_index, change_in_relative_error):
+    def __find_viable_indices(self, result_x):
 
-        conservation_vals = cls.construct_conservation_vals(result_x)
-        # conservation_vals = [cls.__cons_laws_sympy_lamb[i](*tuple(result_x[cls.__R:cls.__R + cls.__N]))
-        #                      for i in range(len(cls.__cons_laws_sympy_lamb))]                                    # TODO: make general function
+        conservation_vals = self.__construct_conservation_vals(result_x)
 
         cons_laws_spec_info = []
-        for i in cls.__cons_laws_sympy:
-            spec_in_law = [ii for ii in cls.__sympy_species if ii in i.atoms()]
-            spec_indices = [cls.__sympy_species.index(ii) for ii in spec_in_law]
+        for i in self.__cons_laws_sympy:
+            spec_in_law = [ii for ii in self.__sympy_species if ii in i.atoms()]
+            spec_indices = [self.__sympy_species.index(ii) for ii in spec_in_law]
             coeff_of_spec = [i.coeff(ii, 1) for ii in spec_in_law]
             cons_laws_spec_info.append([coeff_of_spec, spec_indices])
 
@@ -965,36 +946,34 @@ class BistabilityAnalysis:
         viable_indices = []
         viable_out_values = []
         for i in all_unique_comb:
-            initial_species_values = [0.0 for i in range(cls.__N)]
+            initial_species_values = [0.0 for i in range(self.__N)]
 
             for j in range(len(conservation_vals)):
                 initial_species_values[i[j]] = conservation_vals[j]
 
-            out = cls.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
-            steady_cons = [cls.__cons_laws_sympy_lamb[i](*tuple(out)) for i in range(len(cls.__cons_laws_sympy_lamb))]
+            out = self.__steady_state_finder(initial_species_values, result_x)
+            steady_cons = [self.__cons_laws_sympy_lamb[i](*tuple(out)) for i in range(len(self.__cons_laws_sympy_lamb))]
 
             if not numpy.array_equal(numpy.array(initial_species_values), out):
 
                 # accepting those indices that are smaller than a predescribed relative error
-                if all([abs(conservation_vals[ii] - steady_cons[ii])/abs(steady_cons[ii]) < change_in_relative_error for ii in range(len(conservation_vals))]):
+                if all([abs(conservation_vals[ii] - steady_cons[ii])/abs(steady_cons[ii]) < self.__change_in_rel_error for ii in range(len(conservation_vals))]):
                     viable_out_values.append(out)
                     viable_indices.append(i)
             elif len(out) == 2:
 
                 # accepting those indices that are smaller than a predescribed relative error
-                if all([abs(conservation_vals[ii] - steady_cons[ii]) / abs(steady_cons[ii]) < change_in_relative_error
+                if all([abs(conservation_vals[ii] - steady_cons[ii]) / abs(steady_cons[ii]) < self.__change_in_rel_error
                         for ii in range(len(conservation_vals))]):
                     viable_out_values.append(out)
                     viable_indices.append(i)
 
         return viable_indices, viable_out_values, conservation_vals
 
-    @classmethod
-    def __initialize_direct_simulation(cls, viable_indices, viable_out_values, result_x, conservation_vals, itg,
-                                       change_in_relative_error, spec_index, left_multiplier, right_multiplier):
+    def __initialize_variables(self, viable_indices, viable_out_values, result_x, conservation_vals):
 
         combos = list(itertools.combinations([i for i in range(len(viable_out_values))], 2))
-        diff = [numpy.abs(viable_out_values[i[0]][spec_index] - viable_out_values[i[1]][spec_index]) for i in combos]
+        diff = [numpy.abs(viable_out_values[i[0]][self.__spec_index] - viable_out_values[i[1]][self.__spec_index]) for i in combos]
         maxpos = diff.index(max(diff))
         chosen_initial_combo = combos[maxpos]
 
@@ -1006,42 +985,36 @@ class BistabilityAnalysis:
 
             chosen_combo = combos[maxpos]
 
-            fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind = cls.__get_important_scan_vals(chosen_combo,
-                                                                                                                              spec_index,
-                                                                                                                              viable_out_values,
-                                                                                                                              viable_indices)
+            fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind = self.__get_important_scan_vals(chosen_combo,
+                                                                                                                               viable_out_values,
+                                                                                                                               viable_indices)
 
             # determining if the forward or reverse scan is constant, if so, remove it as a viable combination
-            con_law_value = conservation_vals[cls.__signal_index]
-            # change = con_law_value*0.25
-            # pcp_scan = numpy.linspace(con_law_value - change, con_law_value + change, 10)
-            change_left = con_law_value * left_multiplier
-            change_right = con_law_value * right_multiplier
+            con_law_value = conservation_vals[self.__signal_index]
+            change_left = con_law_value * self.__left_multiplier
+            change_right = con_law_value * self.__right_multiplier
             pcp_scan = numpy.linspace(con_law_value - change_left, con_law_value + change_right, 10)
 
-            forward_scan, reverse_scan = cls.__conduct_fwd_rvrs_scan(result_x, fwd_scan_vals,
-                                                                     rvrs_scan_vals, pcp_scan, fwd_scan_index,
-                                                                     rvrs_scan_index, spec_index, itg,
-                                                                     change_in_relative_error)
+            forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(result_x, fwd_scan_vals,
+                                                                      rvrs_scan_vals, pcp_scan, fwd_scan_index,
+                                                                      rvrs_scan_index)
 
-            combos, diff, stop_flag, combos_flag = cls.__get_new_combo(forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff)
+            combos, diff, stop_flag, combos_flag = self.__get_new_combo(forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff)
 
             # if all combinations are thought to produce constant in time return the initial combo and continue
             if combos_flag:
-                fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind = cls.__get_important_scan_vals(
+                fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind = self.__get_important_scan_vals(
                     chosen_initial_combo,
-                    spec_index,
                     viable_out_values,
                     viable_indices)
                 break
 
-        return spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index
+        return fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index
 
-    @classmethod
-    def __get_important_scan_vals(cls, chosen_combo, spec_index, viable_out_values, viable_indices):
+    def __get_important_scan_vals(self, chosen_combo, viable_out_values, viable_indices):
 
         # choosing the largest value at the species index as the "high concentration" option
-        if viable_out_values[chosen_combo[0]][spec_index] < viable_out_values[chosen_combo[1]][spec_index]:
+        if viable_out_values[chosen_combo[0]][self.__spec_index] < viable_out_values[chosen_combo[1]][self.__spec_index]:
 
             fwd_scan_vals = [[viable_indices[chosen_combo[1]][j], j] for j in
                              range(len(viable_indices[chosen_combo[1]]))]
@@ -1059,14 +1032,13 @@ class BistabilityAnalysis:
             rvrs_ind = chosen_combo[1]
 
         # index to change in forward scan
-        fwd_scan_index = [i[0] for i in fwd_scan_vals if i[1] == cls.__signal_index][0]
+        fwd_scan_index = [i[0] for i in fwd_scan_vals if i[1] == self.__signal_index][0]
         # index to change in reverse scan
-        rvrs_scan_index = [i[0] for i in rvrs_scan_vals if i[1] == cls.__signal_index][0]
+        rvrs_scan_index = [i[0] for i in rvrs_scan_vals if i[1] == self.__signal_index][0]
 
         return fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind
 
-    @classmethod
-    def __get_new_combo(cls, forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff):
+    def __get_new_combo(self, forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff):
 
         constant_index = []
         reverse_scan = [abs(i) for i in reverse_scan]
@@ -1098,8 +1070,7 @@ class BistabilityAnalysis:
         else:
             return combos, diff, False, False
 
-    @classmethod
-    def __get_min_max_vals(cls, pcp_scan, forward_scan, reverse_scan):
+    def __get_min_max_vals(self, pcp_scan, forward_scan, reverse_scan):
 
         fwd_diff = [abs(forward_scan[i] - forward_scan[i + 1]) for i in range(len(forward_scan) - 1)]
 
@@ -1129,18 +1100,15 @@ class BistabilityAnalysis:
 
         return min_val, max_val
 
-    @classmethod
-    def __conduct_fwd_rvrs_scan(cls, result_x, fwd_scan_vals, rvrs_scan_vals, pcp_scan, fwd_scan_index,
-                                rvrs_scan_index, spec_index, itg, change_in_relative_error):
+    def __conduct_fwd_rvrs_scan(self, result_x, fwd_scan_vals, rvrs_scan_vals, pcp_scan, fwd_scan_index,
+                                rvrs_scan_index):
 
-        if cls.__comm is not None:
-            pcp_scan = mpi_mod.distribute_list_of_points(pcp_scan, cls.__my_rank, cls.__num_cores, cls.__comm)
+        if self.__comm is not None:
+            pcp_scan = mpi_mod.distribute_list_of_points(pcp_scan, self.__my_rank, self.__num_cores, self.__comm)
 
-        conservation_vals = cls.construct_conservation_vals(result_x)
-        # conservation_vals = [cls.__cons_laws_sympy_lamb[i](*tuple(result_x[cls.__R:cls.__R + cls.__N]))
-        #                      for i in range(len(cls.__cons_laws_sympy_lamb))]                                    # TODO: make general function
+        conservation_vals = self.__construct_conservation_vals(result_x)
 
-        initial_species_values = [0.0 for i in range(cls.__N)]
+        initial_species_values = [0.0 for i in range(self.__N)]
 
         for i in fwd_scan_vals:
             initial_species_values[i[0]] = conservation_vals[i[1]]
@@ -1148,35 +1116,34 @@ class BistabilityAnalysis:
         forward_scan = []
         for i in pcp_scan:
             initial_species_values[fwd_scan_index] = i
-            steady_state = cls.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
-            forward_scan.append(steady_state[spec_index])
+            steady_state = self.__steady_state_finder(initial_species_values, result_x)
+            forward_scan.append(steady_state[self.__spec_index])
 
-        initial_species_values = [0.0 for i in range(cls.__N)]
+        initial_species_values = [0.0 for i in range(self.__N)]
         for i in rvrs_scan_vals:
             initial_species_values[i[0]] = conservation_vals[i[1]]
 
         reverse_scan = []
         for i in pcp_scan:
             initial_species_values[rvrs_scan_index] = i
-            steady_state = cls.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
-            reverse_scan.append(steady_state[spec_index])
+            steady_state = self.__steady_state_finder(initial_species_values, result_x)
+            reverse_scan.append(steady_state[self.__spec_index])
 
-        if cls.__comm is not None:
-            list_forward_scan = mpi_mod.gather_list_of_values(forward_scan, cls.__comm, cls.__my_rank)
-            list_reverse_scan = mpi_mod.gather_list_of_values(reverse_scan, cls.__comm, cls.__my_rank)
+        if self.__comm is not None:
+            list_forward_scan = mpi_mod.gather_list_of_values(forward_scan, self.__comm, self.__my_rank)
+            list_reverse_scan = mpi_mod.gather_list_of_values(reverse_scan, self.__comm, self.__my_rank)
 
-            list_forward_scan = cls.__comm.bcast(list_forward_scan, root=0)
-            list_reverse_scan = cls.__comm.bcast(list_reverse_scan, root=0)
+            list_forward_scan = self.__comm.bcast(list_forward_scan, root=0)
+            list_reverse_scan = self.__comm.bcast(list_reverse_scan, root=0)
 
-            cls.__comm.Barrier()
+            self.__comm.Barrier()
 
             return list_forward_scan, list_reverse_scan
 
         else:
             return forward_scan, reverse_scan
 
-    @classmethod
-    def __steady_state_finder(cls, initial_species_values, result_x, spec_index, itg, change_in_relative_error):
+    def __steady_state_finder(self, initial_species_values, result_x):
 
         def ff(t, cs, ks, ode_lambda_functions, jacobian):
             return [i(*tuple(ks), *tuple(cs)) for i in ode_lambda_functions]
@@ -1187,7 +1154,9 @@ class BistabilityAnalysis:
         len_time_interval = 100.0
 
         with numpy.errstate(divide='ignore', invalid='ignore'):
-            out = itg.solve_ivp(ff, [0.0, len_time_interval], initial_species_values, args=(result_x[0:cls.__R], cls.__ode_lambda_functions, cls.__jac_lambda_function), jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True) #'RK45')  #'LSODA')
+            out = itg.solve_ivp(ff, [0.0, len_time_interval], initial_species_values,
+                                args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function),
+                                jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True)
             y0 = out.y[:, -1]
 
         flag = True
@@ -1197,7 +1166,9 @@ class BistabilityAnalysis:
             tspan = [0.0 + i*len_time_interval, len_time_interval + i*len_time_interval]
             try:
                 with numpy.errstate(divide='ignore', invalid='ignore'):
-                    out = itg.solve_ivp(ff, tspan, y0, args=(result_x[0:cls.__R], cls.__ode_lambda_functions, cls.__jac_lambda_function), jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True) #'RK45')  #'LSODA')
+                    out = itg.solve_ivp(ff, tspan, y0, args=(result_x[0:self.__R], self.__ode_lambda_functions,
+                                                             self.__jac_lambda_function), jac=jac_f, method='BDF',
+                                        rtol=1e-6, atol=1e-9, vectorized=True)
                     y0 = out.y[:, -1]
                 i += 1
             except Exception as e:
@@ -1207,16 +1178,16 @@ class BistabilityAnalysis:
             try:
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    flag = abs(out.y[spec_index, -1] - out.y[spec_index, 0]) / abs(out.y[spec_index, -1]) > change_in_relative_error and i < 1000
+                    flag = abs(out.y[self.__spec_index, -1] - out.y[self.__spec_index, 0]) / \
+                           abs(out.y[self.__spec_index, -1]) > self.__change_in_rel_error and i < 1000
             except Exception as e:
                 flag = False
 
         return out.y[:, -1]
 
-    @classmethod
-    def __plot_direct_simulation(cls, pcp_scan, forward_scan, reverse_scan, path, index):
+    def __plot_direct_simulation(self, pcp_scan, forward_scan, reverse_scan, path, index):
 
-        out = pandas.DataFrame(columns=['dir', 'signal'] + [cls.__response])
+        out = pandas.DataFrame(columns=['dir', 'signal'] + [self.__response])
         for i in range(len(forward_scan)):
             out_i = pandas.DataFrame([forward_scan[i]], columns=[out.columns[2]])
             out_i['signal'] = pcp_scan[i]
@@ -1229,8 +1200,8 @@ class BistabilityAnalysis:
             out = pandas.concat([out, out_i[out.columns]])
 
         g = (ggplot(out)
-             + aes(x='signal', y=cls.__response, color='dir')
-             + labs(x=f"{cls.__signal} total", y=f"[{cls.__response}]", color="")
+             + aes(x='signal', y=self.__response, color='dir')
+             + labs(x=f"{self.__signal} total", y=f"[{self.__response}]", color="")
              + geom_path(size=2, alpha=0.5)
              + geom_point(color="black")
              + theme_bw()

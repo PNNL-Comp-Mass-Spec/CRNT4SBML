@@ -1,4 +1,4 @@
-
+# CRNT class
 import re
 import os
 import warnings
@@ -11,6 +11,7 @@ from .mass_conservation_approach import MassConservationApproach
 from .semi_diffusive_approach import SemiDiffusiveApproach
 from .advanced_deficiency_approach import AdvancedDeficiencyApproach
 from .general_approach import GeneralApproach
+
 
 class CRNT:
     """
@@ -375,9 +376,9 @@ class CRNT:
             One should not run the optimization-based methods.
             """
             print(re.sub(r"^\s+", "", message, flags=re.MULTILINE))
-            return GeneralApproach(self.__cgraph)
+            return GeneralApproach(self.__cgraph, self.get_physiological_range)
         else:
-            return GeneralApproach(self.__cgraph)
+            return GeneralApproach(self.__cgraph, self.get_physiological_range)
 
     def get_advanced_deficiency_approach(self):
         """

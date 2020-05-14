@@ -1,14 +1,17 @@
-
+# semi-diffusive approach for uniterminal graphs 
+# Subclass of BistabilityFinder and BistabilityAnalysis
 import os
 import numpy
 import sympy
 import sympy.utilities.lambdify
+import scipy.optimize
 import sys
 import numpy.linalg
 from .bistability_finder import BistabilityFinder
+from .bistability_analysis import BistabilityAnalysis
 
 
-class SemiDiffusiveApproach:
+class SemiDiffusiveApproach(BistabilityFinder, BistabilityAnalysis):
     """
     Class for constructing variables and methods needed for the semi-diffusive approach.
     """
@@ -42,6 +45,7 @@ class SemiDiffusiveApproach:
         self.__my_rank = None
         self.__comm = None
         self.__num_cores = None
+        self.__method = "SemiDiffusiveApproach"
 
         self.__var_nothing_index = [self.__g.nodes[n]['label'] for n in self.__g_nodes if
                                     self.__g.nodes[n]['species_bc']]
@@ -70,26 +74,9 @@ class SemiDiffusiveApproach:
         self.__create_decision_vector()
         self.__create_lambda_equality_poly_fun()
 
-    def get_optimization_bounds(self):
-        """
-        Returns a list of tuples defining the upper and lower bounds for the decision vector variables based on
-        physiological ranges.
-        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided example.
-
-        Examples
-        ---------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
-        >>> approach = network.get_semi_diffusive_approach()
-        >>> bounds = approach.get_optimization_bounds()
-        >>> print(bounds)
-            [(0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55)]
-        """
-
-        return [self.get_physiological_range("flux")]*len(self.get_decision_vector())
-
     def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
-                         numpy_dtype=numpy.float64, confidence_level_flag=False, change_in_rel_error=1e-2):
+                         numpy_dtype=numpy.float64, confidence_level_flag=False, change_in_rel_error=1e-2,
+                         parallel_flag=False):
         """
         Function for running the optimization problem for the semi-diffusive approach. Note that there are no bounds
         enforced on species' concentrations as they are automatically restricted to be greater than zero by the theory.
@@ -116,6 +103,9 @@ class SemiDiffusiveApproach:
             change_in_rel_error: float
                 The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
                 of :math:`\widetilde{f}`.
+            parallel_flag: bool
+                If set to True a parallel version of the optimization routine is ran. If False, a serial version of the
+                optimization routine is ran. See :ref:`parallel-gen-app-label`.
         Returns
         --------
         params_for_global_min: list of numpy arrays
@@ -127,97 +117,83 @@ class SemiDiffusiveApproach:
         ---------
         See :ref:`quickstart-injectivity-label` and :ref:`my-injectivity-label`.
         """
-        temp_p = numpy.zeros(self.__N, numpy_dtype)
-        self.__numpy_dtype = numpy_dtype
 
-        # testing to see if there are any equalities in bounds
-        equality_bounds_indices = []
-        for i in range(len(bounds)):
-            if not isinstance(bounds[i], tuple):
-                equality_bounds_indices.append(i)
-        
-        # recasting user provided input to numpy_dtype
-        for i in range(len(bounds)):
-            bounds[i] = self.__numpy_dtype(bounds[i])
-        sys_min_val = self.__numpy_dtype(sys_min_val)
+        self.__initialize_optimization_variables(bounds, iterations, sys_min_val, seed, print_flag, numpy_dtype,
+                                                 confidence_level_flag, change_in_rel_error, parallel_flag)
 
-        if equality_bounds_indices:
-            print("Equalities in bounds is not allowed for injectivity approach!")
-            sys.exit()
+        params_for_global_min, obj_fun_val_for_params, self.__important_info = self._BistabilityFinder__parent_run_optimization()
 
-        params_for_global_min, obj_fun_val_for_params, self.__important_info = BistabilityFinder.run_optimization(
-            bounds, iterations, sys_min_val, temp_p, self.__penalty_objective_func, self.__feasible_point_check,
-            self.__objective_function_to_optimize, self.__final_constraint_check, seed, equality_bounds_indices,
-            print_flag, numpy_dtype, [], confidence_level_flag, change_in_rel_error)
+        self.__my_rank = self._BistabilityFinder__my_rank
+        self.__comm = self._BistabilityFinder__comm
 
         return params_for_global_min, obj_fun_val_for_params
 
-    def run_mpi_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
-                             numpy_dtype=numpy.float64, confidence_level_flag=False, change_in_rel_error=1e-2):
-        """
-        Function for running an mpi version of the optimization problem for the semi-diffusive approach. Note that there
-        are no bounds enforced on species' concentrations as they are automatically restricted to be greater than
-        zero by the theory.
+    def __initialize_optimization_variables(self, bounds, iterations, sys_min_val, seed, print_flag, numpy_dtype,
+                                            confidence_level_flag, change_in_rel_error, parallel_flag):
 
-        Parameters
-        -----------
-            bounds: list of tuples
-                A list defining the lower and upper bounds for each variable in the decision vector. Here the reactions
-                are allowed to be set to a single value.
-            iterations: int
-                The number of iterations to run the feasible point method.
-            sys_min_val: float
-                The value that should be considered zero for the optimization problem.
-            seed: int
-                Seed for the random number generator. None should be used if a random generation is desired.
-            print_flag: bool
-                Should be set to True if the user wants the objective function values found in the optimization problem
-                and False otherwise.
-            numpy_dtype:
-                The numpy data type used within the optimization routine. All variables in the optimization routine will
-                be converted to this data type.
-            confidence_level_flag: bool
-                If True a confidence level for the objective function will be given.
-            change_in_rel_error: float
-                The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
-                of :math:`\widetilde{f}`.
-        Returns
-        --------
-        params_for_global_min: list of numpy arrays
-            A list of numpy arrays that correspond to the decision vectors of the problem.
-        obj_fun_val_for_params: list of floats
-            A list of objective function values produced by the corresponding decision vectors in params_for_global_min.
-        my_rank: integer
-            An integer corresponding to the rank assigned to the core within the routine.
-
-        Examples
-        ---------
-        See :ref:`parallel-crnt4sbml-label`.
-        """
-        temp_p = numpy.zeros(self.__N, numpy_dtype)
+        self.__bounds = bounds
+        self.__iterations = iterations
+        self.__seed = seed
+        self.__print_flag = print_flag
+        self.__confidence_level_flag = confidence_level_flag
+        self.__change_in_rel_error = change_in_rel_error
+        self.__parallel_flag = parallel_flag
         self.__numpy_dtype = numpy_dtype
+        self.__sys_min_val = self.__numpy_dtype(sys_min_val)
+        self.__x_full = None
+        self.__non_equality_bounds_indices = None
+        self.__MassConservationApproach__true_bounds = None
+        self.__true_bounds = None
+
+        self.__temp_p = numpy.zeros(self.__N, numpy_dtype)
 
         # testing to see if there are any equalities in bounds
-        equality_bounds_indices = []
+        self.__equality_bounds_indices = []
         for i in range(len(bounds)):
             if not isinstance(bounds[i], tuple):
-                equality_bounds_indices.append(i)
+                self.__equality_bounds_indices.append(i)
 
         # recasting user provided input to numpy_dtype
-        for i in range(len(bounds)):
-            bounds[i] = self.__numpy_dtype(bounds[i])
-        sys_min_val = self.__numpy_dtype(sys_min_val)
+        for i in range(len(self.__bounds)):
+            self.__bounds[i] = self.__numpy_dtype(self.__bounds[i])
 
-        if equality_bounds_indices:
+        if self.__equality_bounds_indices:
             print("Equalities in bounds is not allowed for injectivity approach!")
             sys.exit()
 
-        params_for_global_min, obj_fun_val_for_params, self.__important_info, self.__my_rank, self.__comm, self.__num_cores = BistabilityFinder.run_mpi_optimization(
-            bounds, iterations, sys_min_val, temp_p, self.__penalty_objective_func, self.__feasible_point_check,
-            self.__objective_function_to_optimize, self.__final_constraint_check, seed, equality_bounds_indices,
-            print_flag, numpy_dtype, [], confidence_level_flag, change_in_rel_error)
+    def __run_global_optimization_routine(self, initial_x):
 
-        return params_for_global_min, obj_fun_val_for_params, self.__my_rank
+        result = scipy.optimize.basinhopping(self.__objective_function_to_optimize, initial_x,
+                                             minimizer_kwargs={'method': 'Nelder-Mead', 'tol': 1e-16},
+                                             niter=2, seed=self.__seed)
+
+        return result
+
+    def __run_local_optimization_routine(self, initial_x):
+
+        result = scipy.optimize.minimize(self.__objective_function_to_optimize, initial_x, method='Nelder-Mead', tol=1e-16)
+
+        return result
+
+
+    def __run_local_optimization_routine_penalty_1(self, initial_x):
+
+        result = scipy.optimize.minimize(self.__penalty_objective_func, initial_x, method='SLSQP', tol=1e-16, bounds=self.__true_bounds)
+
+        return result
+
+    def __run_local_optimization_routine_penalty_2(self, initial_x):
+
+        result = scipy.optimize.minimize(self.__penalty_objective_func, initial_x, method='Nelder-Mead', tol=1e-16)
+
+        return result
+
+    def __create_final_points(self, x_that_give_global_min):
+
+        output = self.__final_constraint_check(x_that_give_global_min)
+
+        if output[0]:
+            return numpy.array(output[1][:])
 
     def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                 print_lbls_flag=False, auto_parameters=None, plot_labels=None):
@@ -262,120 +238,13 @@ class SemiDiffusiveApproach:
         ---------
         See :ref:`quickstart-injectivity-label` and :ref:`my-injectivity-label`.
         """
-        # setting defaults for AUTO
-        if 'NMX' not in auto_parameters.keys():
-            auto_parameters['NMX'] = 10000
-            
-        if 'ITMX' not in auto_parameters.keys():
-            auto_parameters['ITMX'] = 100
+        self.__initialize_continuity_analysis(species, parameters, dir_path, print_lbls_flag, auto_parameters, plot_labels)
 
-        # making the directory if it doesn't exist
-        if not os.path.isdir(dir_path):
-            os.mkdir(dir_path)
-
-        species_num = self.__species.index(species) + 1
-        species_y = str(self.__species[species_num-1])
-
-        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_continuity_analysis(species_num, parameters,
-                                                                                                               self.__initialize_ant_string,
-                                                                                                               self.__finalize_ant_string,
-                                                                                                               species_y, dir_path,
-                                                                                                               print_lbls_flag,
-                                                                                                               auto_parameters,
-                                                                                                               plot_labels)
+        multistable_param_ind, important_info, plot_specifications = self._BistabilityAnalysis__parent_run_continuity_analysis()
 
         self.__important_info += important_info
 
         return multistable_param_ind, plot_specifications
-
-    # def run_mpi_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-    #                                 print_lbls_flag=False, auto_parameters=None, plot_labels=None):
-    #     """
-    #     Function for running the mpi numerical continuation and bistability analysis portions of the semi-diffusive
-    #     approach.
-    #
-    #     Parameters
-    #     ------------
-    #         species: string
-    #             A string stating the species that is the y-axis of the bifurcation diagram.
-    #         parameters: list of numpy arrays
-    #             A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-    #             value.
-    #         dir_path: string
-    #             A string stating the path where the bifurcation diagrams should be saved.
-    #         print_lbls_flag: bool
-    #             If True the routine will print the special points found by AUTO 2000 and False will not print any
-    #             special points.
-    #         auto_parameters: dict
-    #             Dictionary defining the parameters for the AUTO 2000 run. Please note that one should **not** set
-    #             'SBML' or 'ScanDirection' in these parameters as these are automatically assigned. It is absolutely
-    #             necessary to set PrincipalContinuationParameter in this dictionary. For more information on these
-    #             parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`. 'NMX' will default to
-    #             10000 and 'ITMX' to 100.
-    #         plot_labels: list of strings
-    #             A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-    #             is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-    #             you would like to use the default settings for some of the labels, simply provide None for that
-    #             element.
-    #     Returns
-    #     ---------
-    #         multistable_param_ind: list of integers
-    #             A list of those indices in 'parameters' that produce multistable plots.
-    #         sample_portion: list of 1D numpy arrays
-    #             A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-    #             distributed to the core.
-    #         plot_specifications: list of lists
-    #             A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-    #             Each element is a list where the first element specifies the range used for the x-axis, the second
-    #             element is the range for the y-axis, and the last element provides the x-y values and special point label
-    #             for each special point in the plot.
-    #
-    #     Example
-    #     ---------
-    #     See :ref:`quickstart-injectivity-label` and :ref:`my-injectivity-label`.
-    #     """
-    #     # setting defaults for AUTO
-    #     if 'NMX' not in auto_parameters.keys():
-    #         auto_parameters['NMX'] = 10000
-    #
-    #     if 'ITMX' not in auto_parameters.keys():
-    #         auto_parameters['ITMX'] = 100
-    #
-    #     # making the directory if it doesn't exist
-    #     if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #         os.mkdir(dir_path)
-    #
-    #     species_num = self.__species.index(species) + 1
-    #     species_y = str(self.__species[species_num - 1])
-    #
-    #     if self.__comm is not None:
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #     else:
-    #
-    #         from mpi4py import MPI
-    #         self.__comm = MPI.COMM_WORLD
-    #         self.__my_rank = self.__comm.Get_rank()
-    #         self.__num_cores = self.__comm.Get_size()
-    #         self.__comm.Barrier()
-    #
-    #         if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #             os.mkdir(dir_path)
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #
-    #     multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_continuity_analysis(
-    #         species_num, sample_portion,
-    #         self.__initialize_ant_string,
-    #         self.__finalize_ant_string,
-    #         species_y, dir_path,
-    #         print_lbls_flag,
-    #         auto_parameters,
-    #         plot_labels, self.__my_rank, self.__comm)
-    #
-    #     self.__important_info += important_info
-    #
-    #     return multistable_param_ind, sample_portion, plot_specifications
 
     def run_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
@@ -421,149 +290,50 @@ class SemiDiffusiveApproach:
         ---------
         See :ref:`my-injectivity-label`.
         """
-        # setting defaults for AUTO
-        if 'NMX' not in auto_parameters.keys():
-            auto_parameters['NMX'] = 10000
+        self.__initialize_continuity_analysis(species, parameters, dir_path, print_lbls_flag, auto_parameters, plot_labels)
 
-        if 'ITMX' not in auto_parameters.keys():
-            auto_parameters['ITMX'] = 100
-
-        # making the directory if it doesn't exist
-        if not os.path.isdir(dir_path):
-            os.mkdir(dir_path)
-
-        species_num = self.__species.index(species) + 1
-        species_y = str(self.__species[species_num - 1])
-
-        multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis\
-            (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters, plot_labels)
+        multistable_param_ind, important_info, plot_specifications = self._BistabilityAnalysis__parent_run_greedy_continuity_analysis()
 
         self.__important_info += important_info
 
         return multistable_param_ind, plot_specifications
 
-    # def run_mpi_greedy_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
-    #                                        print_lbls_flag=False, auto_parameters=None, plot_labels=None):
-    #     """
-    #     Function for running the mpi greedy numerical continuation and bistability analysis portions of the semi-diffusive
-    #     approach. This routine uses the initial value of the principal continuation parameter to construct AUTO
-    #     parameters and then tests varying fixed step sizes for the continuation problem. Note that this routine may
-    #     produce jagged or missing sections in the plots provided. To produce better plots one should use the information
-    #     provided by this routine to run :func:`crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis`.
-    #
-    #     Parameters
-    #     ------------
-    #         species: string
-    #             A string stating the species that is the y-axis of the bifurcation diagram.
-    #         parameters: list of numpy arrays
-    #             A list of numpy arrays corresponding to the decision vectors that produce a small objective function
-    #             value.
-    #         dir_path: string
-    #             A string stating the path where the bifurcation diagrams should be saved.
-    #         print_lbls_flag: bool
-    #             If True the routine will print the special points found by AUTO 2000 and False will not print any
-    #             special points.
-    #         auto_parameters: dict
-    #             Dictionary defining the parameters for the AUTO 2000 run. Please note that only the
-    #             PrincipalContinuationParameter in this dictionary should be defined, no other AUTO parameters should
-    #             be set. For more information on these parameters refer to :download:`AUTO parameters <../auto2000_input.pdf>`.
-    #         plot_labels: list of strings
-    #             A list of strings defining the labels for the x-axis, y-axis, and title. Where the first element
-    #             is the label for x-axis, second is the y-axis label, and the last element is the title label. If
-    #             you would like to use the default settings for some of the labels, simply provide None for that
-    #             element.
-    #     Returns
-    #     ---------
-    #         multistable_param_ind: list of integers
-    #             A list of those indices in 'parameters' that produce multistable plots.
-    #         sample_portion: list of 1D numpy arrays
-    #             A list of 1D numpy arrays corresponding to those values in the input variable parameters that was
-    #             distributed to the core.
-    #         plot_specifications: list of lists
-    #             A list whose elements correspond to the plot specifications of each element in multistable_param_ind.
-    #             Each element is a list where the first element specifies the range used for the x-axis, the second
-    #             element is the range for the y-axis, and the last element provides the x-y values and special point label
-    #             for each special point in the plot.
-    #
-    #     Example
-    #     ---------
-    #     See :ref:`my-injectivity-label`.
-    #     """
-    #     # setting defaults for AUTO
-    #     if 'NMX' not in auto_parameters.keys():
-    #         auto_parameters['NMX'] = 10000
-    #
-    #     if 'ITMX' not in auto_parameters.keys():
-    #         auto_parameters['ITMX'] = 100
-    #
-    #     # making the directory if it doesn't exist
-    #     if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #         os.mkdir(dir_path)
-    #
-    #     species_num = self.__species.index(species) + 1
-    #     species_y = str(self.__species[species_num - 1])
-    #
-    #     if self.__comm is not None:
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #     else:
-    #
-    #         from mpi4py import MPI
-    #         self.__comm = MPI.COMM_WORLD
-    #         self.__my_rank = self.__comm.Get_rank()
-    #         self.__num_cores = self.__comm.Get_size()
-    #         self.__comm.Barrier()
-    #
-    #         if not os.path.isdir(dir_path) and self.__my_rank == 0:
-    #             os.mkdir(dir_path)
-    #         sample_portion = self.__distribute_list_of_points(parameters)
-    #         self.__comm.Barrier()
-    #
-    #     multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_mpi_greedy_continuity_analysis\
-    #         (species_num, sample_portion, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-    #          print_lbls_flag, auto_parameters, plot_labels, self.__my_rank, self.__comm)
-    #
-    #     self.__important_info += important_info
-    #
-    #     return multistable_param_ind, sample_portion, plot_specifications
+    def __initialize_continuity_analysis(self, species, parameters, dir_path, print_lbls_flag, auto_parameters, plot_labels):
 
-    def __distribute_list_of_points(self, samples):
+        self.__parameters = parameters
+        self.__dir_path = dir_path
+        self.__print_lbls_flag = print_lbls_flag
+        self.__auto_parameters = auto_parameters
+        self.__plot_labels = plot_labels
 
-        if self.__my_rank == 0:
+        if self.__comm is not None:
 
-            # number of tasks per core
-            tasks = len(samples) // self.__num_cores  # // calculates the floor
+            if self.__my_rank == 0:
+                print("")
+                print("A parallel version of numerical continuation is not available.")
+                print("Please rerun your script without mpiexec.")
+                print(
+                    "For your convenience, the provided parameters have been saved in the current directory under the name params.npy.")
+                numpy.save('./params.npy', parameters)
 
-            # remainder
-            r = len(samples) - self.__num_cores * tasks
+            sys.exit()
 
-            # array that holds how many tasks each core has
-            tasks_core = numpy.zeros(self.__num_cores, dtype=numpy.int64)
-            tasks_core.fill(tasks)
+        # setting default values for AUTO
+        if 'NMX' not in self.__auto_parameters.keys():
+            self.__auto_parameters['NMX'] = 10000
 
-            # distributing in the remainder
-            ii = 0
-            while r > 0:
-                tasks_core[ii] += 1
-                r -= 1
-                ii += 1
+        if 'ITMX' not in self.__auto_parameters.keys():
+            self.__auto_parameters['ITMX'] = 100
 
-            sample_portion = samples[0:tasks_core[0]]
+        # making the directory if it doesn't exist
+        if not os.path.isdir(self.__dir_path):
+            os.mkdir(self.__dir_path)
 
-            if self.__num_cores > 1:
-                for i in range(1, self.__num_cores):
-                    start = sum(tasks_core[0:i])
-                    end = start + tasks_core[i]
-                    self.__comm.send(samples[start:end], dest=i, tag=i * 11)
-
-        else:
-            if self.__num_cores > 1:
-                sample_portion = self.__comm.recv(source=0, tag=self.__my_rank * 11)
-
-        return sample_portion
+        self.__species_num = self.__species.index(species) + 1
+        self.__species_y = str(self.__species[self.__species_num - 1])
 
     def __initialize_ant_string(self, species_num, pcp_x_reaction):
+
         self.__create_reaction_rates_vector()
 
         self.__inflow_vector = sympy.zeros(self.__N, 1)
@@ -577,22 +347,22 @@ class SemiDiffusiveApproach:
             self.__inflow_vector[i] = self.__p_symbols[count]
             count += 1
 
-        self.__ode = self.__inflow_vector + self.__S_to*self.__reaction_rates_vector
+        self.__ode = self.__inflow_vector + self.__S_to * self.__reaction_rates_vector
+        ode_str = 'var species ' + str(self.__species[species_num - 1])
 
-        ode_str = 'var species ' + str(self.__species[species_num-1])
         for i in range(self.__N):
-            if self.__species[i] != self.__species[species_num-1]:
+            if self.__species[i] != self.__species[species_num - 1]:
                 ode_str += ',' + str(self.__species[i])
-        ode_str += '; ' 
+        ode_str += '; '
 
         for i in range(self.__N):
-            ode_str += 'J' + str(i) + ': -> ' + str(self.__species[i]) + '; ' + str(self.__ode[i]) + '; ' 
+            ode_str += 'J' + str(i) + ': -> ' + str(self.__species[i]) + '; ' + str(self.__ode[i]) + '; '
 
         # replacing any powers with ^ instead of **
         ode_str = ode_str.replace('**', '^')
 
         self.__S_to_numpy = numpy.array(self.__S_to).astype(numpy.float64)
-        
+
         # finding the PCP in terms of P_symbols rather than reaction
         edges_indices = self.__edges_true_outflow + edges_inflow
         edge_labels = [self.__g.edges[list(self.__g_edges)[i]]['label'] for i in edges_indices]
@@ -603,7 +373,7 @@ class SemiDiffusiveApproach:
 
     def __create_reaction_rates_vector(self):
         source_species = [self.__g.nodes[list(self.__g_nodes)[i]]['species'] for i in self.__sources_true_outflow]
-        
+
         source_stoichiometries = [self.__g.nodes[list(self.__g_nodes)[i]]['stoichiometries']
                                   for i in self.__sources_true_outflow]
 
@@ -611,12 +381,12 @@ class SemiDiffusiveApproach:
 
         self.__reaction_rates_vector = sympy.zeros(len(self.__p_symbols), 1)
         for i in range(len(self.__p_symbols)):
-            temp_list = [sympy.Symbol(source_species[i][j])**source_stoichiometries[i][j]
+            temp_list = [sympy.Symbol(source_species[i][j]) ** source_stoichiometries[i][j]
                          for j in range(len(source_species[i]))]
             temp_val = 1
             for j in range(len(source_species[i])):
                 temp_val *= temp_list[j]
-            self.__reaction_rates_vector[i] = self.__p_symbols[i]*temp_val
+            self.__reaction_rates_vector[i] = self.__p_symbols[i] * temp_val
 
     def __finalize_ant_string(self, x, ode_str):
         p = -self.__S_to_numpy.dot(x)
@@ -625,10 +395,10 @@ class SemiDiffusiveApproach:
             ode_str += str(self.__p_symbols[i]) + ' = ' + str(x[i]) + ';'
         temp = [p[i] for i in self.__key_species_indices]
         count = 0
-        
+
         for i in range(len(x), len(self.__p_symbols)):
             ode_str += str(self.__p_symbols[i]) + ' = ' + str(temp[count]) + ';'
-            count += 1 
+            count += 1
 
         lam_ode = []
         temp_sym = self.__p_symbols[:]
@@ -640,29 +410,32 @@ class SemiDiffusiveApproach:
         for i in range(self.__N):
             ode_str += str(self.__species[i]) + ' = ' + str(1.0) + ';'
 
+        if self.__print_lbls_flag:
+            print(ode_str)
+
         return ode_str
 
-    def __penalty_objective_func(self, x_initial, temp_p, penalty_bounds, equality_bounds_indices, x,
-                                 non_equality_bounds_indices, concentration_bounds):
-        equality_constraints = numpy.zeros(len(self.__mus_solved_for), dtype=self.__numpy_dtype)
-        for i in range(len(self.__mus_solved_for)):
-            equality_constraints[i] = self.__lambda_equality_poly_fun[i](*tuple(x_initial))
-            
-        x = numpy.zeros(len(self.__mu_vec), dtype=self.__numpy_dtype)
-        count = 0 
-        for j in self.__mus_solved_for_indices:
-            x[j] = equality_constraints[count]
-            count += 1 
+    def __penalty_objective_func(self, x_initial):
 
-        count = 0 
+        self.__equality_constraints = numpy.zeros(len(self.__mus_solved_for), dtype=self.__numpy_dtype)
+        for i in range(len(self.__mus_solved_for)):
+            self.__equality_constraints[i] = self.__lambda_equality_poly_fun[i](*tuple(x_initial))
+
+        x = numpy.zeros(len(self.__mu_vec), dtype=self.__numpy_dtype)
+        count = 0
+        for j in self.__mus_solved_for_indices:
+            x[j] = self.__equality_constraints[count]
+            count += 1
+
+        count = 0
         for j in self.__decision_vector_indices:
             x[j] = x_initial[count]
-            count += 1 
+            count += 1
 
         temp = numpy.zeros(len(self.__key_species_indices), dtype=self.__numpy_dtype)
         count = 0
         for i in self.__key_species_indices:
-            temp[count] = numpy.maximum(self.__numpy_dtype(0.0), -self.__lambda_poly_func[i](*tuple(x)))**2
+            temp[count] = numpy.maximum(self.__numpy_dtype(0.0), - self.__lambda_poly_func[i](*tuple(x))) ** 2
             count += 1
 
         sum1 = numpy.sum(temp)
@@ -670,30 +443,28 @@ class SemiDiffusiveApproach:
         temp = numpy.zeros(len(self.__non_key_species_indices), dtype=self.__numpy_dtype)
         count = 0
         for j in self.__mus_solved_for_indices:
-            temp[count] = numpy.maximum(self.__numpy_dtype(0.0), -x[j])**2
+            temp[count] = numpy.maximum(self.__numpy_dtype(0.0), - x[j]) ** 2
             count += 1
 
         sum2 = numpy.sum(temp)
 
         sum0 = self.__numpy_dtype(0.0)
-        for j in non_equality_bounds_indices:
+        for j in self.__non_equality_bounds_indices:
+            sum0 += numpy.maximum(self.__numpy_dtype(0.0), self.__bounds[j][0] - x_initial[j]) ** 2
 
-            sum0 += numpy.maximum(self.__numpy_dtype(0.0), penalty_bounds[j][0]-x_initial[j])**2
+            sum0 += numpy.maximum(self.__numpy_dtype(0.0), x_initial[j] - self.__bounds[j][1]) ** 2
 
-            sum0 += numpy.maximum(self.__numpy_dtype(0.0), x_initial[j] - penalty_bounds[j][1])**2
+        sumval = sum1 + sum2 + sum0
 
-        sumval = sum1+sum2 + sum0
+        return sumval
 
-        return sumval 
-
-    def __feasible_point_check(self, x_initial, result_fun, sys_min_val, equality_bounds_indices,
-                               non_equality_bounds_indices, penalty_bounds, concentration_bounds):
+    def __feasible_point_check(self, x_initial, result_fun):
         finite_chk = numpy.isfinite(x_initial)
         if numpy.all(finite_chk):
-            
+
             test = []
-            for j in non_equality_bounds_indices:
-                test.append(x_initial[j] >= penalty_bounds[j][0] and x_initial[j] <= penalty_bounds[j][1])
+            for j in self.__non_equality_bounds_indices:
+                test.append(x_initial[j] >= self.__bounds[j][0] and x_initial[j] <= self.__bounds[j][1])
             boundry_chk = numpy.all(test)
 
             equality_constraints = numpy.zeros(len(self.__mus_solved_for), dtype=self.__numpy_dtype)
@@ -711,26 +482,25 @@ class SemiDiffusiveApproach:
             count = 0
             for j in self.__decision_vector_indices:
                 x[j] = x_initial[count]
-                count += 1    
+                count += 1
 
-            for i in self.__key_species_indices:  
+            for i in self.__key_species_indices:
                 all_constraints.append(self.__lambda_poly_func[i](*tuple(x)))
 
             constraints_chk = all([i > self.__numpy_dtype(0.0) for i in all_constraints])
 
             # putting the feasible points in x_candidates
-            if (abs(result_fun) <= self.__numpy_dtype(1e-200)) and boundry_chk and constraints_chk: 
+            if (abs(result_fun) <= self.__numpy_dtype(1e-200)) and boundry_chk and constraints_chk:
                 return [True, x_initial]
             else:
                 return [False, x_initial]
         else:
             return [False, x_initial]
 
-    def __objective_function_to_optimize(self, x_initial, temp_c, penalty_bounds, sys_min_val, equality_bounds_indices,
-                                         x, non_equality_bounds_indices, concentration_bounds):
+    def __objective_function_to_optimize(self, x_initial):
         test = []
-        for j in non_equality_bounds_indices:
-            test.append(x_initial[j] >= penalty_bounds[j][0] and x_initial[j] <= penalty_bounds[j][1])
+        for j in self.__non_equality_bounds_indices:
+            test.append(x_initial[j] >= self.__bounds[j][0] and x_initial[j] <= self.__bounds[j][1])
         boundry_chk = numpy.all(test)
 
         if boundry_chk:
@@ -764,13 +534,12 @@ class SemiDiffusiveApproach:
         else:
             return numpy.PINF
 
-    def __final_constraint_check(self, x_initial, penalty_bounds, sys_min_val, equality_bounds_indices,
-                                 concentration_bounds):
-        non_equality_bounds_indices = [i for i in range(len(penalty_bounds)) if i not in equality_bounds_indices]
+    def __final_constraint_check(self, x_initial):
+        non_equality_bounds_indices = [i for i in range(len(self.__bounds)) if i not in self.__equality_bounds_indices]
 
         test = []
         for j in non_equality_bounds_indices:
-            test.append(x_initial[j] >= penalty_bounds[j][0] and x_initial[j] <= penalty_bounds[j][1])
+            test.append(x_initial[j] >= self.__bounds[j][0] and x_initial[j] <= self.__bounds[j][1])
         boundry_chk = numpy.all(test)
 
         equality_constraints = numpy.zeros(len(self.__mus_solved_for), dtype=self.__numpy_dtype)
@@ -823,29 +592,29 @@ class SemiDiffusiveApproach:
 
         self.__S_to = sympy.zeros(self.__N, len(self.__edges_true_outflow))
 
-        for i in range(len(self.__edges_true_outflow)): 
+        for i in range(len(self.__edges_true_outflow)):
             self.__S_to[:, i] = self.__cgraph.get_s()[:, self.__edges_true_outflow[i]]
 
     def __create_symbolic_jacobian_matrix(self):
-        self.__mu_vec = [sympy.symbols('v_' + str(i+1)) for i in self.__edges_true_outflow]
+        self.__mu_vec = [sympy.symbols('v_' + str(i + 1)) for i in self.__edges_true_outflow]
 
         diag_mu = sympy.diag(*self.__mu_vec)
 
-        self.__symbolic_J = self.__S_to*diag_mu*self.__Y_r.T
+        self.__symbolic_J = self.__S_to * diag_mu * self.__Y_r.T
 
     def __create_lambda_jacobian_matrix(self):
         self.__lambda_J = sympy.utilities.lambdify(self.__mu_vec, self.__symbolic_J, 'numpy')
 
     def __create_symbolic_objective_function(self):
-        self.__symbolic_objective_fun = (self.__symbolic_J.det(method='lu'))**2
+        self.__symbolic_objective_fun = (self.__symbolic_J.det(method='lu')) ** 2
 
     def __create_lambda_objective_function(self):
         self.__lambda_objective_fun = sympy.utilities.lambdify(self.__mu_vec, self.__symbolic_objective_fun, 'numpy')
 
     def __create_symbolic_polynomial_function(self):
         mu_sym_mat = sympy.Matrix([[mu] for mu in self.__mu_vec])
-        self.__symbolic_poly_func = -self.__S_to*mu_sym_mat
-        
+        self.__symbolic_poly_func = -self.__S_to * mu_sym_mat
+
     def __create_lambda_polynomial_function(self):
         self.__lambda_poly_func = []
         for i in range(self.__N):
@@ -894,11 +663,10 @@ class SemiDiffusiveApproach:
             for j in atoms_of_p_non_key[i]:
                 if j in available_mus:
                     if not any([j in atoms_of_p_non_key[ii] for ii in range(len(atoms_of_p_non_key)) if i != ii]):
-                    
                         self.__mus_solved_for.append(j)
                         available_mus.remove(j)
                         break
-                    
+
         self.__symbolic_equality_poly_fun = []
         count = 0
         for i in self.__non_key_species_indices:
@@ -919,6 +687,24 @@ class SemiDiffusiveApproach:
 
         self.__decision_vector_reaction_labels = [true_outflow_reaction_labels[i]
                                                   for i in self.__decision_vector_indices]
+
+    def get_optimization_bounds(self):
+        """
+        Returns a list of tuples defining the upper and lower bounds for the decision vector variables based on
+        physiological ranges.
+        :download:`Fig1Cii.xml <../../sbml_files/Fig1Cii.xml>` for the provided example.
+
+        Examples
+        ---------
+        >>> import crnt4sbml
+        >>> network = crnt4sbml.CRNT("path/to/Fig1Cii.xml")
+        >>> approach = network.get_semi_diffusive_approach()
+        >>> bounds = approach.get_optimization_bounds()
+        >>> print(bounds)
+            [(0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55), (0, 55)]
+        """
+
+        return [self.get_physiological_range("flux")] * len(self.get_decision_vector())
 
     # getters
     def get_y_r_matrix(self):
@@ -979,7 +765,7 @@ class SemiDiffusiveApproach:
             ⎢                                                              ⎥
             ⎣0   0   0   0   1   -1  0   0   -1  0   0   0   0   0   0   -1⎦
         """
-        return self.__S_to    
+        return self.__S_to
 
     def get_symbolic_objective_fun(self):
         """
@@ -1172,9 +958,8 @@ class SemiDiffusiveApproach:
         --------
         See :ref:`quickstart-injectivity-label` and :ref:`my-injectivity-label`.
         """
-        #print(self.__important_info)
 
-        if self.__comm == None:
+        if self.__comm is None:
             print(self.__important_info)
         else:
 
@@ -1182,9 +967,19 @@ class SemiDiffusiveApproach:
             self.__comm.Barrier()
 
             if self.__my_rank == 0:
-
-                print("")
-
                 for i in range(1, len(all_important_info)):
-                    print(all_important_info[i])
+                    if all_important_info[i] != "":
+                        print(all_important_info[i])
                 print(self.__important_info)
+
+    def get_comm(self):
+        """
+        Returns a mpi4py communicator if it has been initialized and None otherwise.
+        """
+        return self.__comm
+
+    def get_my_rank(self):
+        """
+        Returns the rank assigned by mpi4py if it is initialized, otherwise None will be returned.
+        """
+        return self.__my_rank

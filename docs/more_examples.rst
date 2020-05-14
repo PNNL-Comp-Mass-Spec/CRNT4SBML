@@ -180,8 +180,7 @@ following output::
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 3.3888680000000004
-
+    Elapsed time for creating Equilibrium Manifold: 3.3645559999999994
     Decision Vector:
     [re1, re1r, re2, re3, re4, re5, re6, re7, re8, s3, s2, s4]
 
@@ -189,23 +188,20 @@ following output::
     [s1, s6, s5, s9, s13, s16]
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 73.528814
+    Elapsed time for feasible point method: 42.63995385169983
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 168.933448
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 109.29019284248352
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 13.4028639793396
+    Elapsed time for continuity analysis in seconds: 16.06424617767334
 
-    The number of feasible points that satisfy the constraints: 84
-    Total feasible points that give F(x) = 0: 15
-    Total number of points that passed final_check: 15
+    Smallest value achieved by objective function: 0.0
+    15 point(s) passed the optimization criteria.
     Number of multistability plots found: 2
     Elements in params_for_global_min that produce multistability:
-    [5, 12]
+    [0, 12]
+
 
 Gene regulatory network with two mutually repressing genes from :cite:`irene2014`
 -----------------------------------------------------------------------------------
@@ -247,8 +243,7 @@ output::
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 1.8994939999999998
-
+    Elapsed time for creating Equilibrium Manifold: 1.772672
     Decision Vector:
     [re1, re2, re3, re3r, re4, re4r, re5, re5r, re6, re7, s2, s4]
 
@@ -256,23 +251,19 @@ output::
     [s1, s3, s5, s6, s7]
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 44.086146
+    Elapsed time for feasible point method: 25.66311025619507
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 191.402404
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 119.89791989326477
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 88.94969439506531
+    Elapsed time for continuity analysis in seconds: 100.14113593101501
 
-    The number of feasible points that satisfy the constraints: 96
-    Total feasible points that give F(x) = 0: 93
-    Total number of points that passed final_check: 93
+    Smallest value achieved by objective function: 0.0
+    93 point(s) passed the optimization criteria.
     Number of multistability plots found: 21
     Elements in params_for_global_min that produce multistability:
-    [13, 14, 25, 27, 29, 30, 32, 39, 46, 48, 49, 53, 58, 64, 66, 73, 75, 78, 82, 88, 90]
+    [1, 3, 9, 11, 15, 21, 24, 27, 32, 35, 40, 45, 56, 62, 70, 79, 80, 83, 84, 85, 88]
 
 Enzymatic reaction with inhibition by substrate from :cite:`irene2009`
 ------------------------------------------------------------------------
@@ -313,8 +304,7 @@ output::
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold:  0.6182639999999999
-
+    Elapsed time for creating Equilibrium Manifold: 0.715592
     Decision Vector:
     [re1, re1r, re2, re3, re3r, re4, re4r, re5, re5r, s2]
 
@@ -322,23 +312,19 @@ output::
     [s1, s4, s3, s5]
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 29.386688000000003
+    Elapsed time for feasible point method: 15.607332229614258
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 129.787948
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 66.42637610435486
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 64.49447703361511
+    Elapsed time for continuity analysis in seconds: 72.26282095909119
 
-    The number of feasible points that satisfy the constraints: 100
-    Total feasible points that give F(x) = 0: 84
-    Total number of points that passed final_check: 84
+    Smallest value achieved by objective function: 0.0
+    84 point(s) passed the optimization criteria.
     Number of multistability plots found: 48
     Elements in params_for_global_min that produce multistability:
-    [1, 7, 12, 14, 16, 17, 19, 20, 21, 22, 23, 25, 26, 29, 31, 34, 35, 38, 39, 40, 41, 43, 45, 46, 47, 49, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 66, 68, 70, 71, 72, 73, 74, 77, 79, 80, 81, 82]
+    [3, 4, 5, 8, 9, 10, 11, 12, 13, 17, 18, 19, 21, 22, 23, 27, 30, 31, 34, 35, 36, 37, 38, 39, 41, 42, 47, 48, 50, 51, 54, 55, 56, 57, 59, 60, 61, 64, 65, 66, 68, 69, 72, 73, 74, 75, 77, 83]
 
 Enzymatic reaction with simple substrate cycle from :cite:`HERVAGAULT1987439`
 ------------------------------------------------------------------------------
@@ -378,7 +364,7 @@ the following output::
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.8931420000000001
+    Elapsed time for creating Equilibrium Manifold: 0.7393859999999997
     Decision Vector:
     [re1, re1r, re2, re3, re3r, re4, re4r, re5, s2, s6, s7]
 
@@ -386,24 +372,19 @@ the following output::
     [s1, s3, s4, s5]
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 27.225825999999998
+    Elapsed time for feasible point method: 13.359651803970337
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 202.929372
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 103.19853806495667
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 82.84032797813416
+    Elapsed time for continuity analysis in seconds: 90.50077891349792
 
-    The number of feasible points that satisfy the constraints: 100
-    Total feasible points that give F(x) = 0: 96
-    Total number of points that passed final_check: 96
+    Smallest value achieved by objective function: 0.0
+    96 point(s) passed the optimization criteria.
     Number of multistability plots found: 14
     Elements in params_for_global_min that produce multistability:
-    [0, 1, 2, 4, 9, 23, 35, 39, 62, 68, 70, 78, 87, 92]
-
+    [1, 22, 25, 33, 37, 42, 51, 53, 57, 58, 59, 64, 74, 87]
 
 G1/S transition in the cell cycle of Saccharomyces cerevisiae from :cite:`Conradi2007`
 ----------------------------------------------------------------------------------------
@@ -453,8 +434,7 @@ script we obtain the following output::
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 239.75805
-
+    Elapsed time for creating Equilibrium Manifold: 260.415536
     Decision Vector:
     [re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, re7, re7r, re8, re9, re9r, re10, re11, re11r, re12, s4, s12]
 
@@ -462,23 +442,19 @@ script we obtain the following output::
     [s1, s3, s5, s8, s11, s13, s16]
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 119.43188000000004
+    Elapsed time for feasible point method: 73.16450190544128
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 1571.9969740000001
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 800.0220079421997
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 16.601070642471313
+    Elapsed time for continuity analysis in seconds: 15.878800868988037
 
-    The number of feasible points that satisfy the constraints: 100
-    Total feasible points that give F(x) = 0: 13
-    Total number of points that passed final_check: 13
+    Smallest value achieved by objective function: 0.0
+    13 point(s) passed the optimization criteria.
     Number of multistability plots found: 11
     Elements in params_for_global_min that produce multistability:
-    [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12]
+    [0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12]
 
 ..
     Figure 6A of :cite:`irene`
@@ -598,7 +574,7 @@ After running this script we obtain the following output::
     The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
     The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 4.5310760000000005
+    Elapsed time for creating Equilibrium Manifold: 5.184272
     Decision Vector:
     [re1f, re1d, re1c, re2f, re2d, re2c, re3f, re3d, re3c, re4f, re4d, re4c, s2, s3, s3s4]
 
@@ -606,28 +582,21 @@ After running this script we obtain the following output::
     [s1, s5, s2s1, s3s5, s4, s2s5]
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 34.138042
+    Elapsed time for feasible point method: 18.401470184326172
 
-    Running the multistart optimization ...
-    Elapsed time for multistart method in seconds: 194.28234200000003
-
-    The number of feasible points that satisfy the constraints: 100
-    Smallest value achieved by objective function: 0.0
-    Total feasible points that give F(x) = 0: 97
-    Total number of points that passed final_check: 97
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 95.46931576728821
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis in seconds: 374.46599984169006
+    Elapsed time for continuity analysis in seconds: 372.1889531612396
 
-    The number of feasible points that satisfy the constraints: 100
     Smallest value achieved by objective function: 0.0
-    Total feasible points that give F(x) = 0: 97
-    Total number of points that passed final_check: 97
+    97 point(s) passed the optimization criteria.
     Number of multistability plots found: 89
     Elements in params_for_global_min that produce multistability:
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
-     34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 64,
-     65, 66, 67, 69, 70, 71, 72, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 87, 88, 90, 91, 92, 93, 94, 95, 96]
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+     32, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+     61, 62, 64, 65, 66, 67, 69, 70, 71, 72, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 87, 88, 90, 91, 92, 93, 94, 95, 96]
 
 Double insulin binding
 -------------------------
@@ -651,6 +620,7 @@ After running this script we obtain the following output::
     Number of reactions: 11
     Network deficiency: 2
 
+
     Reaction graph of the form
     reaction -- reaction label:
     s1+s2 -> s3  --  re1
@@ -665,12 +635,10 @@ After running this script we obtain the following output::
     s10 -> s4+s9  --  re6
     s9 -> s5  --  re7
 
-    The network does not satisfy Deficiency Zero Theorem.
-    The network does not satisfy Deficiency One Theorem.
-
+    The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+    The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
     Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold:  2.150657999999999
-
+    Elapsed time for creating Equilibrium Manifold: 2.2847300000000006
     Decision Vector:
     [re1, re1r, re2, re2r, re3, re3r, re4, re5, re5r, re6, re7, s2, s5, s10]
 
@@ -678,24 +646,19 @@ After running this script we obtain the following output::
     [s1, s3, s4, s6, s9]
 
     Running feasible point method for 100 iterations ...
-    Elapsed time for feasible point method: 30.984338
+    Elapsed time for feasible point method: 25.920205116271973
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 2.3317319454459066e-31
-
-    Elapsed time for multistart method: 116.50619499999999
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 94.97992706298828
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 102.63304
+    Elapsed time for continuity analysis in seconds: 652.6215398311615
 
-    The number of feasible points that satisfy the constraints: 96
-    Total feasible points that give F(x) = 0: 67
-    Total number of points that passed final_check: 67
-    Number of multistability plots found: 1
+    Smallest value achieved by objective function: 2.3317319454459066e-31
+    67 point(s) passed the optimization criteria.
+    Number of multistability plots found: 2
     Elements in params_for_global_min that produce multistability:
-    [17]
-
+    [8, 38]
 
 p85-p110-PTEN
 ---------------

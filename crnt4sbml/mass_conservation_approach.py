@@ -1,8 +1,11 @@
+# mass conservation approach for uniterminal graphs
+# Subclass of BistabilityFinder and BistabilityAnalysis
 import os
 import numpy
 import sympy
 import sympy.utilities.lambdify
-import sys 
+import scipy.optimize
+import sys
 import time
 import numpy.linalg
 import itertools
@@ -11,10 +14,12 @@ import math
 from .bistability_finder import BistabilityFinder
 from .bistability_analysis import BistabilityAnalysis
 
-class MassConservationApproach:
+
+class MassConservationApproach(BistabilityFinder, BistabilityAnalysis):
     """
     Class for constructing variables and methods needed for the mass conservation approach.
     """
+
     def __init__(self, cgraph, get_physiological_range):
         """
         Initialization of the MassConservationApproach class.
@@ -38,7 +43,7 @@ class MassConservationApproach:
         # declare key fields
         self.__deficiency_pars = None
         self.__concentration_pars = None
-        self.__reaction_pars = None 
+        self.__reaction_pars = None
         self.__W = None  # matrix
         self.__W_nullspace = None
         self.__H = None  # vector
@@ -46,9 +51,9 @@ class MassConservationApproach:
         self.__symbolic_objective_fun = None
         self.__concentration_vals = None
         self.__decision_vector_x = None
-        self.__concentration_funs = None 
+        self.__concentration_funs = None
         self.__objective_fun_params = None
-        self.__lambda_objective_fun = None 
+        self.__lambda_objective_fun = None
         self.__important_info = ""
         self.__numpy_dtype = None
         self.__independent_odes = None
@@ -56,6 +61,7 @@ class MassConservationApproach:
         self.__comm = None
         self.__my_rank = None
         self.__num_cores = None
+        self.__method = "MassConservationApproach"
 
         # vars used frequently
         self.__N = len(self.__cgraph.get_species())
@@ -95,7 +101,7 @@ class MassConservationApproach:
 
     def __create_reaction_pars(self):
         self.__reaction_pars = [sympy.Symbol(self.__reactions[i], positive=True) for i in range(self.__R)]
-        
+
     def __create_w_matrix(self):
         # concatenating Y and Lambda_T columnwise
         # to create [Y,Lambda_T]^T
@@ -144,7 +150,7 @@ class MassConservationApproach:
         # building the different possible independent variable sets
         indp_vars = []
         for i in comb:
-            indp_vars.append(list(i)+self.__deficiency_pars)
+            indp_vars.append(list(i) + self.__deficiency_pars)
 
         self.__indices_explored = []
         self.__counts_n_indices = []
@@ -154,7 +160,8 @@ class MassConservationApproach:
         indicies_to_skip = []
         while flag:
 
-            reordered_indices, chosen_index = self.__create_fixed_free_pars_and_reordered_ind(temp_vec, indicies_to_skip,
+            reordered_indices, chosen_index = self.__create_fixed_free_pars_and_reordered_ind(temp_vec,
+                                                                                              indicies_to_skip,
                                                                                               indp_vars)
 
             for i in range(self.__M):
@@ -177,9 +184,10 @@ class MassConservationApproach:
 
             nn = len(self.__concentration_pars)
             rr = self.__M - self.__ell - self.__delta
-            if len(indicies_to_skip) == math.factorial(nn) / (math.factorial(rr) * math.factorial(nn-rr)):
+            if len(indicies_to_skip) == math.factorial(nn) / (math.factorial(rr) * math.factorial(nn - rr)):
                 flag = False
-                raise Exception("An analytic solution for the concentrations could not be found. The mass conservation approach connot be used.")
+                raise Exception(
+                    "An analytic solution for the concentrations could not be found. The mass conservation approach connot be used.")
 
         end = time.process_time()
         print("Elapsed time for creating Equilibrium Manifold: " + str(end - start))
@@ -243,7 +251,7 @@ class MassConservationApproach:
 
         for x in variables:
             for y in variables:
-                try: 
+                try:
                     if not sympy.Eq(sympy.diff(expr, x, y), 0):
                         return False
                 except TypeError:
@@ -276,7 +284,7 @@ class MassConservationApproach:
     def __create_symbolic_objective_fun(self):
         # computing the simplified version of the objective
         # function defined as: det(G(c, \alpha, k))^2
-        self.__symbolic_objective_fun = (self.__G.det(method='lu'))**2
+        self.__symbolic_objective_fun = (self.__G.det(method='lu')) ** 2
 
     def __create_concentration_values(self):
 
@@ -309,7 +317,8 @@ class MassConservationApproach:
                         else:
                             temp.append(j)
                     solution_list.append(temp)
-                self.__concentration_vals = self.__pick_solution_set(solution_list)    ########### TODO: do same for if statement make flag True if negative
+                self.__concentration_vals = self.__pick_solution_set(
+                    solution_list)  ########### TODO: do same for if statement make flag True if negative
 
             for i in self.__concentration_vals:
 
@@ -362,7 +371,7 @@ class MassConservationApproach:
             print("Solution chosen produces all negative concentrations!")
             sys.exit()
 
-        return choice 
+        return choice
 
     def __create_decision_vector_x(self):
         # if it is a proper/over-dimensioned network let
@@ -391,7 +400,7 @@ class MassConservationApproach:
 
     def __create_g_matrix_lambda_fun(self):
         self.__lambda_G_matrix = sympy.utilities.lambdify(self.__objective_fun_params, self.__G)
-        
+
     def __create_dch_matrix_lambda_fun(self):
         self.__lambda_DCH_matrix = sympy.utilities.lambdify(self.__objective_fun_params, self.__DCH)
 
@@ -789,8 +798,8 @@ class MassConservationApproach:
         rhs = self.__cgraph.get_b() * sympy.Matrix([self.__concentration_pars]).T
         laws = ""
         for i in range(rhs.shape[0]):
-            laws += 'C' + str(i+1) + ' = ' + str(rhs[i]) + '\n'
-        
+            laws += 'C' + str(i + 1) + ' = ' + str(rhs[i]) + '\n'
+
         return laws
 
     def get_concentration_solutions(self):
@@ -818,7 +827,7 @@ class MassConservationApproach:
         """
         sols = ""
         for i in range(self.__N):
-            sols += self.__species[i] + ' = ' + str(self.__concentration_vals[i]) + '\n'            
+            sols += self.__species[i] + ' = ' + str(self.__concentration_vals[i]) + '\n'
 
         return sols
 
@@ -908,12 +917,14 @@ class MassConservationApproach:
                 dec_vec_var_def.append(reaction_type)
 
                 if reaction_type is None:
-                    output_statement = "The reaction type of reaction " + self.__cgraph.get_graph().edges[reaction]['label'] \
-                                       + " could not be identified as it does not fit any biological criteria " +\
+                    output_statement = "The reaction type of reaction " + self.__cgraph.get_graph().edges[reaction][
+                        'label'] \
+                                       + " could not be identified as it does not fit any biological criteria " + \
                                        "established. \n" + "You must enter bounds manually for this reaction! \n"
                     print(output_statement)
 
-        concentration_bounds = [self.get_physiological_range("concentration")]*len(self.get_concentration_bounds_species())
+        concentration_bounds = [self.get_physiological_range("concentration")] * len(
+            self.get_concentration_bounds_species())
 
         bounds = [self.get_physiological_range(i) for i in dec_vec_var_def]
 
@@ -921,7 +932,7 @@ class MassConservationApproach:
 
     def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
                          numpy_dtype=numpy.float64, concentration_bounds=None, confidence_level_flag=False,
-                         change_in_rel_error=1e-2):
+                         change_in_rel_error=1e-2, parallel_flag=False):
         """
         Function for running the optimization problem for the mass conservation approach.
 
@@ -951,6 +962,9 @@ class MassConservationApproach:
             change_in_rel_error: float
                 The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
                 of :math:`\widetilde{f}`.
+            parallel_flag: bool
+                If set to True a parallel version of the optimization routine is ran. If False, a serial version of the
+                optimization routine is ran. See :ref:`parallel-gen-app-label`.
         Returns
         --------
         params_for_global_min: list of numpy arrays
@@ -962,126 +976,98 @@ class MassConservationApproach:
         ---------
         See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
         """
-        self.__numpy_dtype = numpy_dtype
-        temp_c = numpy.zeros(self.__N, dtype=self.__numpy_dtype)
 
-        # testing to see if there are any equalities in bounds
-        equality_bounds_indices = []
-        for i in range(len(bounds)):
-            if not isinstance(bounds[i], tuple):
-                equality_bounds_indices.append(i)
+        self.__initialize_optimization_variables(bounds, iterations, sys_min_val, seed, print_flag, numpy_dtype,
+                                                 concentration_bounds, confidence_level_flag, change_in_rel_error,
+                                                 parallel_flag)
 
-        # recasting user provided input to numpy_dtype
-        for i in range(len(bounds)):
-            bounds[i] = self.__numpy_dtype(bounds[i])
-            
-        for i in range(len(concentration_bounds)):
-            concentration_bounds[i] = self.__numpy_dtype(concentration_bounds[i])
+        params_for_global_min, obj_fun_val_for_params, self.__important_info = self._BistabilityFinder__parent_run_optimization()
 
-        if len(concentration_bounds) != len(self.__concentration_bounds_species):
-            print("Concentration bounds is the incorrect length!")
-            sys.exit()
-
-        full_concentration_bounds = []
-        for i in range(self.__N):
-            if self.__concentration_pars[i] in self.__decision_vector_x:
-                indx = self.__decision_vector_x.index(self.__concentration_pars[i])
-                full_concentration_bounds.append(bounds[indx])
-            else:
-                indx = self.__concentration_bounds_species.index(self.__concentration_pars[i])
-                full_concentration_bounds.append(concentration_bounds[indx])
-
-        sys_min_val = self.__numpy_dtype(sys_min_val)
-
-        params_for_global_min, obj_fun_val_for_params, self.__important_info = BistabilityFinder.run_optimization(
-            bounds, iterations, sys_min_val, temp_c, self.__penalty_objective_func, self.__feasible_point_check,
-            self.__objective_function_to_optimize, self.__final_constraint_check, seed, equality_bounds_indices,
-            print_flag, numpy_dtype, full_concentration_bounds, confidence_level_flag, change_in_rel_error)
+        self.__my_rank = self._BistabilityFinder__my_rank
+        self.__comm = self._BistabilityFinder__comm
 
         return params_for_global_min, obj_fun_val_for_params
 
-    def run_mpi_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
-                             numpy_dtype=numpy.float64, concentration_bounds=None, confidence_level_flag=False,
-                             change_in_rel_error=1e-2):
-        """
-        Function for running an mpi version of the optimization problem for the mass conservation approach.
+    def __initialize_optimization_variables(self, bounds, iterations, sys_min_val, seed, print_flag, numpy_dtype,
+                                            concentration_bounds, confidence_level_flag, change_in_rel_error,
+                                            parallel_flag):
 
-        Parameters
-        -----------
-            bounds: list of tuples
-                A list defining the lower and upper bounds for each variable in the decision vector. Here the reactions
-                are allowed to be set to a single value.
-            iterations: int
-                The number of iterations to run the feasible point method.
-            sys_min_val: float
-                The value that should be considered zero for the optimization problem.
-            seed: int
-                Seed for the random number generator. None should be used if a random generation is desired.
-            print_flag: bool
-                Should be set to True if the user wants the objective function values found in the optimization problem
-                and False otherwise.
-            numpy_dtype:
-                The numpy data type used within the optimization routine. All variables in the optimization routine will
-                be converted to this data type.
-            concentration_bounds: list of tuples
-                A list defining the lower and upper bounds for those species' concentrations not in the decision vector.
-                The user is not allowed to set the species' concentration to a single value. See also:
-                :func:`crnt4sbml.MassConservationApproach.get_concentration_bounds_species`.
-            confidence_level_flag: bool
-                If True a confidence level for the objective function will be given.
-            change_in_rel_error: float
-                The maximum relative error that should be allowed to consider :math:`f_k` in the neighborhood
-                of :math:`\widetilde{f}`.
-        Returns
-        --------
-        params_for_global_min: list of numpy arrays
-            A list of numpy arrays that correspond to the decision vectors of the problem.
-        obj_fun_val_for_params: list of floats
-            A list of objective function values produced by the corresponding decision vectors in params_for_global_min.
-        my_rank: integer
-            An integer corresponding to the rank assigned to the core within the routine.
-
-        Examples
-        ---------
-        See :ref:`parallel-crnt4sbml-label`.
-        """
+        self.__bounds = bounds
+        self.__iterations = iterations
+        self.__seed = seed
+        self.__print_flag = print_flag
+        self.__concentration_bounds = concentration_bounds
+        self.__confidence_level_flag = confidence_level_flag
+        self.__change_in_rel_error = change_in_rel_error
+        self.__parallel_flag = parallel_flag
         self.__numpy_dtype = numpy_dtype
-        temp_c = numpy.zeros(self.__N, dtype=self.__numpy_dtype)
+        self.__sys_min_val = self.__numpy_dtype(sys_min_val)
+        self.__x_full = None
+        self.__non_equality_bounds_indices = None
+        self.__MassConservationApproach__true_bounds = None
+        self.__true_bounds = None
+
+        self.__temp_c = numpy.zeros(self.__N, dtype=self.__numpy_dtype)
 
         # testing to see if there are any equalities in bounds
-        equality_bounds_indices = []
-        for i in range(len(bounds)):
-            if not isinstance(bounds[i], tuple):
-                equality_bounds_indices.append(i)
+        self.__equality_bounds_indices = []
+        for i in range(len(self.__bounds)):
+            if not isinstance(self.__bounds[i], tuple):
+                self.__equality_bounds_indices.append(i)
 
         # recasting user provided input to numpy_dtype
-        for i in range(len(bounds)):
-            bounds[i] = self.__numpy_dtype(bounds[i])
+        for i in range(len(self.__bounds)):
+            self.__bounds[i] = self.__numpy_dtype(self.__bounds[i])
 
-        for i in range(len(concentration_bounds)):
-            concentration_bounds[i] = self.__numpy_dtype(concentration_bounds[i])
+        for i in range(len(self.__concentration_bounds)):
+            self.__concentration_bounds[i] = self.__numpy_dtype(self.__concentration_bounds[i])
 
-        if len(concentration_bounds) != len(self.__concentration_bounds_species):
+        if len(self.__concentration_bounds) != len(self.__concentration_bounds_species):
             print("Concentration bounds is the incorrect length!")
             sys.exit()
 
-        full_concentration_bounds = []
+        self.__full_concentration_bounds = []
         for i in range(self.__N):
             if self.__concentration_pars[i] in self.__decision_vector_x:
                 indx = self.__decision_vector_x.index(self.__concentration_pars[i])
-                full_concentration_bounds.append(bounds[indx])
+                self.__full_concentration_bounds.append(self.__bounds[indx])
             else:
                 indx = self.__concentration_bounds_species.index(self.__concentration_pars[i])
-                full_concentration_bounds.append(concentration_bounds[indx])
+                self.__full_concentration_bounds.append(self.__concentration_bounds[indx])
 
-        sys_min_val = self.__numpy_dtype(sys_min_val)
+    def __run_global_optimization_routine(self, initial_x):
 
-        params_for_global_min, obj_fun_val_for_params, self.__important_info, self.__my_rank, self.__comm, self.__num_cores = BistabilityFinder.run_mpi_optimization(
-            bounds, iterations, sys_min_val, temp_c, self.__penalty_objective_func, self.__feasible_point_check,
-            self.__objective_function_to_optimize, self.__final_constraint_check, seed, equality_bounds_indices,
-            print_flag, numpy_dtype, full_concentration_bounds, confidence_level_flag, change_in_rel_error)
+        result = scipy.optimize.basinhopping(self.__objective_function_to_optimize, initial_x,
+                                             minimizer_kwargs={'method': 'Nelder-Mead', 'tol': 1e-16},
+                                             niter=2, seed=self.__seed)
 
-        return params_for_global_min, obj_fun_val_for_params, self.__my_rank
+        return result
+
+    def __run_local_optimization_routine(self, initial_x):
+
+        result = scipy.optimize.minimize(self.__objective_function_to_optimize, initial_x, method='Nelder-Mead', tol=1e-16)
+
+        return result
+
+
+    def __run_local_optimization_routine_penalty_1(self, initial_x):
+
+        result = scipy.optimize.minimize(self.__penalty_objective_func, initial_x, method='SLSQP', tol=1e-16, bounds=self.__true_bounds)
+
+        return result
+
+    def __run_local_optimization_routine_penalty_2(self, initial_x):
+
+        result = scipy.optimize.minimize(self.__penalty_objective_func, initial_x, method='Nelder-Mead', tol=1e-16)
+
+        return result
+
+    def __create_final_points(self, x_that_give_global_min):
+
+        output = self.__final_constraint_check(x_that_give_global_min)
+
+        if output[0]:
+            return numpy.array(list(output[1][:]))
 
     def run_continuity_analysis(self, species=None, parameters=None, dir_path="./num_cont_graphs",
                                 print_lbls_flag=False, auto_parameters=None, plot_labels=None):
@@ -1126,38 +1112,9 @@ class MassConservationApproach:
         ---------
         See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
         """
-        # setting default values for AUTO
-        if 'NMX' not in auto_parameters.keys():
-            auto_parameters['NMX'] = 10000
+        self.__initialize_continuity_analysis(species, parameters, dir_path, print_lbls_flag, auto_parameters, plot_labels)
 
-        if 'ITMX' not in auto_parameters.keys():
-            auto_parameters['ITMX'] = 100
-
-        # making the directory if it doesn't exist
-        if not os.path.isdir(dir_path):
-            os.mkdir(dir_path)
-
-        species_num = self.__species.index(species) + 1
-
-        species_y = str(self.__concentration_pars[species_num-1])
-
-        from .bistability_analysis import BistabilityAnalysis
-
-        multistable_param_ind, important_info, plot_specifications = BistabilityAnalysis.run_continuity_analysis(species_num, parameters,
-                                                                                                                 self.__initialize_ant_string,
-                                                                                                                 self.__finalize_ant_string,
-                                                                                                                 species_y, dir_path,
-                                                                                                                 print_lbls_flag,
-                                                                                                                 auto_parameters,
-                                                                                                                 plot_labels)
-
-        # multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_continuity_analysis(species_num, parameters,
-        #                                                                                                        self.__initialize_ant_string,
-        #                                                                                                        self.__finalize_ant_string,
-        #                                                                                                        species_y, dir_path,
-        #                                                                                                        print_lbls_flag,
-        #                                                                                                        auto_parameters,
-        #                                                                                                        plot_labels)
+        multistable_param_ind, important_info, plot_specifications = self._BistabilityAnalysis__parent_run_continuity_analysis()
 
         self.__important_info += important_info
 
@@ -1207,36 +1164,50 @@ class MassConservationApproach:
         ---------
         See :ref:`my-deficiency-label`.
         """
-        # setting default values for AUTO
-        if 'NMX' not in auto_parameters.keys():
-            auto_parameters['NMX'] = 10000
+        self.__initialize_continuity_analysis(species, parameters, dir_path, print_lbls_flag, auto_parameters, plot_labels)
 
-        if 'ITMX' not in auto_parameters.keys():
-            auto_parameters['ITMX'] = 100
-
-        # making the directory if it doesn't exist
-        if not os.path.isdir(dir_path):
-            os.mkdir(dir_path)
-
-        species_num = self.__species.index(species) + 1
-
-        species_y = str(self.__concentration_pars[species_num-1])
-
-        from .bistability_analysis import BistabilityAnalysis
-
-        multistable_param_ind, important_info, plot_specifications = BistabilityAnalysis.run_greedy_continuity_analysis \
-            (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-             print_lbls_flag, auto_parameters, plot_labels)
-
-        # multistable_param_ind, important_info, plot_specifications = BistabilityFinder.run_greedy_continuity_analysis\
-        #     (species_num, parameters, self.__initialize_ant_string, self.__finalize_ant_string, species_y, dir_path,
-        #      print_lbls_flag, auto_parameters, plot_labels)
+        multistable_param_ind, important_info, plot_specifications = self._BistabilityAnalysis__parent_run_greedy_continuity_analysis()
 
         self.__important_info += important_info
 
         return multistable_param_ind, plot_specifications
 
-    def run_direct_simulation(self, response=None, signal=None, params_for_global_min=None, dir_path="./", change_in_relative_error=1e-6,
+    def __initialize_continuity_analysis(self, species, parameters, dir_path, print_lbls_flag, auto_parameters, plot_labels):
+
+        self.__parameters = parameters
+        self.__dir_path = dir_path
+        self.__print_lbls_flag = print_lbls_flag
+        self.__auto_parameters = auto_parameters
+        self.__plot_labels = plot_labels
+
+        if self.__comm is not None:
+
+            if self.__my_rank == 0:
+                print("")
+                print("A parallel version of numerical continuation is not available.")
+                print("Please rerun your script without mpiexec.")
+                print(
+                    "For your convenience, the provided parameters have been saved in the current directory under the name params.npy.")
+                numpy.save('./params.npy', parameters)
+
+            sys.exit()
+
+        # setting default values for AUTO
+        if 'NMX' not in self.__auto_parameters.keys():
+            self.__auto_parameters['NMX'] = 10000
+
+        if 'ITMX' not in self.__auto_parameters.keys():
+            self.__auto_parameters['ITMX'] = 100
+
+        # making the directory if it doesn't exist
+        if not os.path.isdir(self.__dir_path):
+            os.mkdir(self.__dir_path)
+
+        self.__species_num = self.__species.index(species) + 1
+        self.__species_y = str(self.__concentration_pars[self.__species_num - 1])
+
+    def run_direct_simulation(self, response=None, signal=None, params_for_global_min=None, dir_path="./",
+                              change_in_relative_error=1e-6,
                               parallel_flag=False, print_flag=False, left_multiplier=0.5, right_multiplier=0.5):
 
         """
@@ -1273,587 +1244,45 @@ class MassConservationApproach:
         ---------
         See :ref:`gen-app-label`.
         """
-        import scipy.integrate as itg
+        self.__initialize_direct_simulation(response, signal, params_for_global_min, dir_path, change_in_relative_error, parallel_flag,
+                                            print_flag, left_multiplier, right_multiplier)
+
+        self._BistabilityAnalysis__parent_run_direct_simulation()
+
+        self.__my_rank = self._BistabilityAnalysis__my_rank
+        self.__comm = self._BistabilityAnalysis__comm
+
+    def __initialize_direct_simulation(self, response, signal, params_for_global_min, dir_path,
+                                       change_in_relative_error, parallel_flag, print_flag, left_multiplier,
+                                       right_multiplier):
+
+        self.__parameters = params_for_global_min
+        self.__dir_path = dir_path
+        self.__change_in_relative_error = change_in_relative_error
+        self.__parallel_flag = parallel_flag
+        self.__dir_sim_print_flag = print_flag
+        self.__left_multiplier = left_multiplier
+        self.__right_multiplier = right_multiplier
 
         self.__response = response
         self.__signal = signal
         self.__sympy_species = self.__concentration_pars
         self.__sympy_reactions = self.__reaction_pars
-        self.__full_system = self.__cgraph.get_ode_system()
 
         self.__cons_laws_sympy = self.__cgraph.get_b() * sympy.Matrix([self.__concentration_pars]).T
 
         self.__cons_laws_sympy_lamb = [sympy.utilities.lambdify(self.__concentration_pars, self.__cons_laws_sympy[i])
-                                 for i in range(len(self.__cons_laws_sympy))]
+                                       for i in range(len(self.__cons_laws_sympy))]
 
         conservation_constants = ['C' + str(i + 1) for i in range(len(self.__cons_laws_sympy))]
         self.__signal_index = conservation_constants.index(self.__signal)
 
-        # params_for_global_min = [params_for_global_min[0]]
-        # sys.exit()
-
-        ########################################
-
         lambda_inputs = self.__sympy_reactions + self.__sympy_species
-        self.__ode_lambda_functions = [sympy.utilities.lambdify(lambda_inputs, self.__full_system[i]) for i in
-                                       range(len(self.__full_system))]
-
-        self.__jac_lambda_function = sympy.utilities.lambdify(lambda_inputs, self.__full_system.jacobian(self.__sympy_species))
-
-        self.__dir_sim_print_flag = print_flag
-
-        spec_index = self.__sympy_species.index(sympy.Symbol(self.__response, positive=True))
-
-        BistabilityAnalysis.run_direct_simulation(params_for_global_min, parallel_flag, dir_path, itg,
-                                                  change_in_relative_error,
-                                                  spec_index, left_multiplier, right_multiplier, self.__comm,
-                                                  self.__my_rank, self.__num_cores, self.__dir_sim_print_flag,
-                                                  self.__R, self.__N, self.__cons_laws_sympy_lamb,
-                                                  self.__cons_laws_sympy, self.__sympy_species, self.__signal_index,
-                                                  self.__signal, self.__response, self.__ode_lambda_functions,
-                                                  self.__jac_lambda_function, self.__concentration_funs, "MassConservationApproach")
-
-
-
-
-        sys.exit()
-
-        if parallel_flag is False and self.__comm is None:
-
-            #making the directory if it doesn't exist
-            if not os.path.isdir(dir_path):
-                os.mkdir(dir_path)
-
-            print("Starting direct simulation ...")
-            start_t = time.time()
-
-        elif parallel_flag is True and self.__comm is None:
-
-                from mpi4py import MPI
-                self.__comm = MPI.COMM_WORLD
-                self.__my_rank = self.__comm.Get_rank()
-                self.__num_cores = self.__comm.Get_size()
-                self.__comm.Barrier()
-
-                if not os.path.isdir(dir_path) and self.__my_rank == 0:
-                    os.mkdir(dir_path)
-
-                self.__comm.Barrier()
-
-                start_time = MPI.Wtime()
-
-                if self.__my_rank == 0:
-                    print("Starting direct simulation ...")
-        elif self.__comm is not None:
-
-            from mpi4py import MPI
-
-            if not os.path.isdir(dir_path) and self.__my_rank == 0:
-                os.mkdir(dir_path)
-
-            self.__comm.Barrier()
-
-            params_for_global_min = self.__comm.bcast(params_for_global_min, root=0)
-
-            self.__comm.Barrier()
-
-            start_time = MPI.Wtime()
-
-            if self.__my_rank == 0:
-                print("Starting direct simulation ...")
-
-        else:
-            print("Starting direct simulation ...")
-            start_t = time.time()
-
-        if len(params_for_global_min) == 0:
-            print("The parameter sets provided has a length of zero, direct simulation cannot be ran.")
-            sys.exit()
-
-        viable_indices, viable_out_values, conservation_vals = self.__find_viable_indices(params_for_global_min[0], itg, spec_index, change_in_relative_error)
-
-        spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index = self.__initialize_direct_simulation(viable_indices, viable_out_values,
-                                                                                                                         params_for_global_min[0], conservation_vals, itg,
-                                                                                                                         change_in_relative_error, spec_index, left_multiplier,
-                                                                                                                                 right_multiplier)
-        if self.__dir_sim_print_flag:
-            if self.__comm is None:
-                self.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
-            else:
-                if self.__my_rank == 0:
-                    self.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
-
-        plot_flag = True
-
-        for i in range(len(params_for_global_min)):
-
-            if self.__dir_sim_print_flag:
-                if self.__comm is None:
-                    print(f"Conducting stability analysis of element {i} of the list provided ... ")
-                else:
-                    if self.__my_rank == 0:
-                        print(f"Conducting stability analysis of element {i} of the list provided ... ")
-
-            # conservation_vals = [self.__cons_laws_sympy_lamb[ii](*tuple(params_for_global_min[i][self.__R:self.__R + self.__N]))
-            #                      for ii in range(len(self.__cons_laws_sympy_lamb))]
-
-            # conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple(result_x[self.__R:self.__R + self.__N]))
-            #                      for i in range(len(self.__cons_laws_sympy_lamb))]                                     # TODO: line changed for mass conservation approach
-
-            conservation_vals = [self.__cons_laws_sympy_lamb[ii](*tuple([self.__concentration_funs[j](*tuple(params_for_global_min[i])) for j in range(self.__N)]))
-                                 for ii in range(len(self.__cons_laws_sympy_lamb))]
-
-            con_law_value = conservation_vals[self.__signal_index]
-            change_left = con_law_value * left_multiplier
-            change_right = con_law_value * right_multiplier
-            pcp_scan = numpy.linspace(con_law_value - change_left, con_law_value + change_right, 100)
-
-            forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(params_for_global_min[i], fwd_scan_vals,
-                                                                      rvrs_scan_vals, pcp_scan, fwd_scan_index,
-                                                                      rvrs_scan_index, spec_index, itg, change_in_relative_error)
-
-            min_val, max_val = self.__get_min_max_vals(pcp_scan, forward_scan, reverse_scan)
-
-            count = 0
-            scan_vals = pcp_scan
-            while count < 5:
-                if len([ii for ii in scan_vals if ii >= min_val and ii <= max_val]) < 10:
-
-                    second_scan = numpy.linspace(min_val, max_val, 60)
-
-                    forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(params_for_global_min[i], fwd_scan_vals,
-                                                                              rvrs_scan_vals, second_scan, fwd_scan_index,
-                                                                              rvrs_scan_index, spec_index, itg, change_in_relative_error)
-
-                    min_val, max_val = self.__get_min_max_vals(second_scan, forward_scan, reverse_scan)
-                    scan_vals = second_scan
-                    count += 1
-                else:
-                    break
-
-            if count == 0:
-                second_scan = pcp_scan
-
-            if plot_flag:
-
-                if self.__comm is None:
-                    self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, dir_path, i)
-                else:
-                    if self.__my_rank == 0:
-                        self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, dir_path, i)
-
-
-        if self.__comm is None:
-            end_t = time.time()
-            elapsed = end_t - start_t
-            print("Elapsed time for direct simulation in seconds: " + str(elapsed))
-        else:
-            self.__comm.Barrier()
-            if self.__my_rank == 0:
-                end_time = MPI.Wtime()
-                elapsed = end_time - start_time
-                print(f"Elapsed time for direct simulation in seconds: {elapsed}")
-
-    def __find_viable_indices(self, result_x, itg, spec_index, change_in_relative_error):
-
-        # conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple(result_x[self.__R:self.__R + self.__N]))
-        #                      for i in range(len(self.__cons_laws_sympy_lamb))]                                       # TODO: line changed for mass conservation approach
-
-        # conservation_vals = [self.__concentration_funs[j](*tuple(result_x)) for j in range(self.__N)]
-
-        conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple([self.__concentration_funs[j](*tuple(result_x)) for j in range(self.__N)]))
-                             for i in range(len(self.__cons_laws_sympy_lamb))]
-
-        cons_laws_spec_info = []
-        for i in self.__cons_laws_sympy:
-            spec_in_law = [ii for ii in self.__sympy_species if ii in i.atoms()]
-            spec_indices = [self.__sympy_species.index(ii) for ii in spec_in_law]
-            coeff_of_spec = [i.coeff(ii, 1) for ii in spec_in_law]
-            cons_laws_spec_info.append([coeff_of_spec, spec_indices])
-
-        temp_comb = list(itertools.product(*[i[1] for i in cons_laws_spec_info]))
-
-        all_unique_comb = [temp_comb[i] for i in range(len(temp_comb)) if len(set(temp_comb[i])) == len(temp_comb[i])]
-
-        viable_indices = []
-        viable_out_values = []
-        for i in all_unique_comb:
-            initial_species_values = [0.0 for i in range(self.__N)]
-
-            for j in range(len(conservation_vals)):
-                initial_species_values[i[j]] = conservation_vals[j]
-
-            out = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
-            steady_cons = [self.__cons_laws_sympy_lamb[i](*tuple(out)) for i in range(len(self.__cons_laws_sympy_lamb))]
-
-            if not numpy.array_equal(numpy.array(initial_species_values), out):
-
-                # accepting those indices that are smaller than a predescribed relative error
-                if all([abs(conservation_vals[ii] - steady_cons[ii])/abs(steady_cons[ii]) < change_in_relative_error for ii in range(len(conservation_vals))]):
-                    viable_out_values.append(out)
-                    viable_indices.append(i)
-            elif len(out) == 2:
-
-                # accepting those indices that are smaller than a predescribed relative error
-                if all([abs(conservation_vals[ii] - steady_cons[ii]) / abs(steady_cons[ii]) < change_in_relative_error
-                        for ii in range(len(conservation_vals))]):
-                    viable_out_values.append(out)
-                    viable_indices.append(i)
-
-        return viable_indices, viable_out_values, conservation_vals
-
-    def __print_initial_conditions(self, fwd_scan_vals, rvrs_scan_vals):
-
-        fwd_spec_inds = [i[0] for i in fwd_scan_vals]
-        init_vals = []
-        for i in range(self.__N):
-            if i in fwd_spec_inds:
-                init_vals.append(str(self.__sympy_species[i]) + " = " + "C" + str(fwd_spec_inds.index(i) + 1))
-            else:
-                init_vals.append(str(self.__sympy_species[i]) + " = 0.0")
-
-        print(" ")
-        print("For the forward scan the following initial condition will be used:")
-        for i in init_vals:
-            print(i)
-
-        rvrs_spec_inds = [i[0] for i in rvrs_scan_vals]
-        init_vals = []
-        for i in range(self.__N):
-            if i in rvrs_spec_inds:
-                init_vals.append(str(self.__sympy_species[i]) + " = " + "C" + str(rvrs_spec_inds.index(i) + 1))
-            else:
-                init_vals.append(str(self.__sympy_species[i]) + " = 0.0")
-
-        print(" ")
-        print("For the reverse scan the following initial condition will be used:")
-        for i in init_vals:
-            print(i)
-        print(" ")
-
-    def __initialize_direct_simulation(self, viable_indices, viable_out_values, result_x, conservation_vals, itg,
-                                       change_in_relative_error, spec_index, left_multiplier, right_multiplier):
-
-        combos = list(itertools.combinations([i for i in range(len(viable_out_values))], 2))
-        diff = [numpy.abs(viable_out_values[i[0]][spec_index] - viable_out_values[i[1]][spec_index]) for i in combos]
-        maxpos = diff.index(max(diff))
-        chosen_initial_combo = combos[maxpos]
-
-        stop_flag = True
-        while stop_flag:
-
-            # selecting largest difference as the right pair
-            maxpos = diff.index(max(diff))
-
-            chosen_combo = combos[maxpos]
-
-            fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind = self.__get_important_scan_vals(chosen_combo,
-                                                                                                                               spec_index,
-                                                                                                                               viable_out_values,
-                                                                                                                               viable_indices)
-
-            # determining if the forward or reverse scan is constant, if so, remove it as a viable combination
-            con_law_value = conservation_vals[self.__signal_index]
-            # change = con_law_value*0.25
-            # pcp_scan = numpy.linspace(con_law_value - change, con_law_value + change, 10)
-            change_left = con_law_value * left_multiplier
-            change_right = con_law_value * right_multiplier
-            pcp_scan = numpy.linspace(con_law_value - change_left, con_law_value + change_right, 10)
-
-            forward_scan, reverse_scan = self.__conduct_fwd_rvrs_scan(result_x, fwd_scan_vals,
-                                                                      rvrs_scan_vals, pcp_scan, fwd_scan_index,
-                                                                      rvrs_scan_index, spec_index, itg,
-                                                                      change_in_relative_error)
-
-            combos, diff, stop_flag, combos_flag = self.__get_new_combo(forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff)
-
-            # if all combinations are thought to produce constant in time return the initial combo and continue
-            if combos_flag:
-                fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind = self.__get_important_scan_vals(
-                    chosen_initial_combo,
-                    spec_index,
-                    viable_out_values,
-                    viable_indices)
-                break
-
-        return spec_index, fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index
-
-    def __get_important_scan_vals(self, chosen_combo, spec_index, viable_out_values, viable_indices):
-
-        # choosing the largest value at the species index as the "high concentration" option
-        if viable_out_values[chosen_combo[0]][spec_index] < viable_out_values[chosen_combo[1]][spec_index]:
-
-            fwd_scan_vals = [[viable_indices[chosen_combo[1]][j], j] for j in
-                             range(len(viable_indices[chosen_combo[1]]))]
-            fwd_ind = chosen_combo[1]
-            rvrs_scan_vals = [[viable_indices[chosen_combo[0]][j], j] for j in
-                              range(len(viable_indices[chosen_combo[0]]))]
-            rvrs_ind = chosen_combo[0]
-
-        else:
-            fwd_scan_vals = [[viable_indices[chosen_combo[0]][j], j] for j in
-                             range(len(viable_indices[chosen_combo[0]]))]
-            fwd_ind = chosen_combo[0]
-            rvrs_scan_vals = [[viable_indices[chosen_combo[1]][j], j] for j in
-                              range(len(viable_indices[chosen_combo[1]]))]
-            rvrs_ind = chosen_combo[1]
-
-        # index to change in forward scan
-        fwd_scan_index = [i[0] for i in fwd_scan_vals if i[1] == self.__signal_index][0]
-        # index to change in reverse scan
-        rvrs_scan_index = [i[0] for i in rvrs_scan_vals if i[1] == self.__signal_index][0]
-
-        return fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index, fwd_ind, rvrs_ind
-
-    def __get_new_combo(self, forward_scan, reverse_scan, fwd_ind, rvrs_ind, combos, diff):
-
-        constant_index = []
-        reverse_scan = [abs(i) for i in reverse_scan]
-        forward_scan = [abs(i) for i in forward_scan]
-
-        fwd_rel_change = abs(max(forward_scan) - min(forward_scan)) / max(forward_scan)
-
-        if fwd_rel_change >= 0.98:
-            constant_index.append(fwd_ind)
-
-        rvrs_rel_change = abs(max(reverse_scan) - min(reverse_scan)) / max(reverse_scan)
-
-        if rvrs_rel_change >= 0.98:
-            constant_index.append(rvrs_ind)
-
-        #if one or both of them are deemed to be constant, then we throw out one or both from the combos.
-        #Use fwd_ind and rvrs_ind to throw out combos that were constant, then redo process with new
-        #combo being created. Continue until process with no constant combo is found. If all combos are eleminated
-        #return the initial combo.
-        if constant_index:
-            ind_to_remove = [i for i in range(len(combos)) if combos[i][0] in constant_index or combos[i][1] in constant_index]
-            combos = [combos[i] for i in range(len(combos)) if i not in ind_to_remove]
-            diff = [diff[i] for i in range(len(diff)) if i not in ind_to_remove]
-
-            if not combos:
-                return combos, diff, True, True
-
-            return combos, diff, True, False
-        else:
-            return combos, diff, False, False
-
-    def __get_min_max_vals(self, pcp_scan, forward_scan, reverse_scan):
-
-        fwd_diff = [abs(forward_scan[i] - forward_scan[i + 1]) for i in range(len(forward_scan) - 1)]
-
-        fwd_maxpos = fwd_diff.index(max(fwd_diff))
-
-        if fwd_maxpos == 0:
-            fwd_maxpos = 1
-        elif fwd_maxpos+2 == len(pcp_scan):
-            fwd_maxpos = len(pcp_scan)-2
-
-        fwd_pcp_scan = pcp_scan[fwd_maxpos - 1:fwd_maxpos + 2]
-
-        rvrs_diff = [abs(reverse_scan[i] - reverse_scan[i + 1]) for i in range(len(reverse_scan) - 1)]
-
-        rvrs_maxpos = rvrs_diff.index(max(rvrs_diff))
-
-        if rvrs_maxpos == 0:
-            rvrs_maxpos = 1
-        elif rvrs_maxpos+2 == len(pcp_scan):
-            rvrs_maxpos = len(pcp_scan)-2
-
-        rvrs_pcp_scan = pcp_scan[rvrs_maxpos - 1:rvrs_maxpos + 2]
-
-        min_val = min(list(fwd_pcp_scan) + list(rvrs_pcp_scan))
-
-        max_val = max(list(fwd_pcp_scan) + list(rvrs_pcp_scan))
-
-        return min_val, max_val
-
-    def __conduct_fwd_rvrs_scan(self, result_x, fwd_scan_vals, rvrs_scan_vals, pcp_scan, fwd_scan_index,
-                                rvrs_scan_index, spec_index, itg, change_in_relative_error):
-
-        if self.__comm is not None:
-            pcp_scan = self.__distribute_list_of_points(pcp_scan)
-
-        # conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple(result_x[self.__R:self.__R + self.__N]))
-        #                      for i in range(len(self.__cons_laws_sympy_lamb))]                                     # TODO: line changed for mass conservation approach
-
-        conservation_vals = [self.__cons_laws_sympy_lamb[i](*tuple([self.__concentration_funs[j](*tuple(result_x)) for j in range(self.__N)]))
-                             for i in range(len(self.__cons_laws_sympy_lamb))]
-
-
-
-        initial_species_values = [0.0 for i in range(self.__N)]
-
-        for i in fwd_scan_vals:
-            initial_species_values[i[0]] = conservation_vals[i[1]]
-
-        forward_scan = []
-        for i in pcp_scan:
-            initial_species_values[fwd_scan_index] = i
-            steady_state = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
-            forward_scan.append(steady_state[spec_index])
-
-        initial_species_values = [0.0 for i in range(self.__N)]
-        for i in rvrs_scan_vals:
-            initial_species_values[i[0]] = conservation_vals[i[1]]
-
-        reverse_scan = []
-        for i in pcp_scan:
-            initial_species_values[rvrs_scan_index] = i
-            steady_state = self.__steady_state_finder(initial_species_values, result_x, spec_index, itg, change_in_relative_error)
-            reverse_scan.append(steady_state[spec_index])
-
-        if self.__comm is not None:
-            list_forward_scan = self.__gather_list_of_values(forward_scan)
-            list_reverse_scan = self.__gather_list_of_values(reverse_scan)
-
-            list_forward_scan = self.__comm.bcast(list_forward_scan, root=0)
-            list_reverse_scan = self.__comm.bcast(list_reverse_scan, root=0)
-
-            self.__comm.Barrier()
-
-            return list_forward_scan, list_reverse_scan
-
-        else:
-            return forward_scan, reverse_scan
-
-    def __steady_state_finder(self, initial_species_values, result_x, spec_index, itg, change_in_relative_error):
-
-        def ff(t, cs, ks, ode_lambda_functions, jacobian):
-            return [i(*tuple(ks), *tuple(cs)) for i in ode_lambda_functions]
-
-        def jac_f(t, cs, ks, ode_lambda_functions, jacobian):
-            return jacobian(*tuple(ks), *tuple(cs))
-
-        len_time_interval = 100.0
-
-        with numpy.errstate(divide='ignore', invalid='ignore'):
-            out = itg.solve_ivp(ff, [0.0, len_time_interval], initial_species_values, args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function), jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True) #'RK45')  #'LSODA')
-            y0 = out.y[:, -1]
-
-        flag = True
-
-        i = 1
-        while flag:
-            tspan = [0.0 + i*len_time_interval, len_time_interval + i*len_time_interval]
-            try:
-                with numpy.errstate(divide='ignore', invalid='ignore'):
-                    out = itg.solve_ivp(ff, tspan, y0, args=(result_x[0:self.__R], self.__ode_lambda_functions, self.__jac_lambda_function), jac=jac_f, method='BDF', rtol=1e-6, atol=1e-9, vectorized=True) #'RK45')  #'LSODA')
-                    y0 = out.y[:, -1]
-                i += 1
-            except Exception as e:
-                flag = False
-
-            # if there is a division by zero we exit the routine
-            try:
-                with warnings.catch_warnings():
-                    warnings.simplefilter("ignore")
-                    flag = abs(out.y[spec_index, -1] - out.y[spec_index, 0]) / abs(out.y[spec_index, -1]) > change_in_relative_error and i < 1000
-            except Exception as e:
-                flag = False
-
-        return out.y[:, -1]
-
-    def __plot_direct_simulation(self, pcp_scan, forward_scan, reverse_scan, path, index):
-
-        import pandas
-        from plotnine import ggplot, aes, geom_line, ylim, scale_color_distiller, facet_wrap, theme_bw, geom_path, \
-            geom_point, labs, annotate
-        from matplotlib import rc
-        rc('text', usetex=True)
-
-        out = pandas.DataFrame(columns=['dir', 'signal'] + [self.__response])
-        for i in range(len(forward_scan)):
-            out_i = pandas.DataFrame([forward_scan[i]], columns=[out.columns[2]])
-            out_i['signal'] = pcp_scan[i]
-            out_i['dir'] = 'Forward scan'
-            out = pandas.concat([out, out_i[out.columns]])
-        for i in range(len(reverse_scan)):
-            out_i = pandas.DataFrame([reverse_scan[i]], columns=[out.columns[2]])
-            out_i['signal'] = pcp_scan[i]
-            out_i['dir'] = 'Reverse scan'
-            out = pandas.concat([out, out_i[out.columns]])
-
-        g = (ggplot(out)
-             + aes(x='signal', y=self.__response, color='dir')
-             + labs(x=f"{self.__signal} total", y=f"[{self.__response}]", color="")
-             + geom_path(size=2, alpha=0.5)
-             + geom_point(color="black")
-             + theme_bw()
-             + geom_point(color="black"))
-        g.save(filename=path + f"/sim_bif_diag_{index}.png", format="png", width=6, height=4, units='in', verbose=False)
-
-    def __gather_list_of_values(self, values):
-
-        full_values = self.__comm.gather(values, root=0)
-
-        if self.__my_rank == 0:
-            list_of_values = []
-            for i in range(len(full_values)):
-                list_of_values += full_values[i]
-        else:
-            list_of_values = []
-
-        return list_of_values
-
-    def __distribute_list_of_points(self, samples):
-
-        if self.__my_rank == 0:
-
-            # number of tasks per core
-            tasks = len(samples) // self.__num_cores  # // calculates the floor
-
-            # remainder
-            r = len(samples) - self.__num_cores * tasks
-
-            # array that holds how many tasks each core has
-            tasks_core = numpy.zeros(self.__num_cores, dtype=numpy.int64)
-            tasks_core.fill(tasks)
-
-            # distributing in the remainder
-            ii = 0
-            while r > 0:
-                tasks_core[ii] += 1
-                r -= 1
-                ii += 1
-
-            sample_portion = samples[0:tasks_core[0]]
-
-            if self.__num_cores > 1:
-                for i in range(1, self.__num_cores):
-                    start = sum(tasks_core[0:i])
-                    end = start + tasks_core[i]
-                    self.__comm.send(samples[start:end], dest=i, tag=i * 11)
-
-        else:
-            if self.__num_cores > 1:
-                sample_portion = self.__comm.recv(source=0, tag=self.__my_rank * 11)
-
-        return sample_portion
-
-    def generate_report(self):
-        """
-        Prints out helpful details constructed by :func:`crnt4sbml.MassConservationApproach.run_optimization` and
-        :func:`crnt4sbml.MassConservationApproach.run_continuity_analysis`.
-
-        Example
-        --------
-        See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
-        """
-
-        if self.__comm == None:
-            print(self.__important_info)
-        else:
-
-            all_important_info = self.__comm.gather(self.__important_info, root=0)
-            self.__comm.Barrier()
-
-            if self.__my_rank == 0:
-
-                print("")
-
-                for i in range(1, len(all_important_info)):
-                    print(all_important_info[i])
-                print(self.__important_info)
+        self.__ode_lambda_functions = [sympy.utilities.lambdify(lambda_inputs, self.__cgraph.get_ode_system()[i]) for i in
+                                       range(len(self.__cgraph.get_ode_system()))]
+
+        self.__jac_lambda_function = sympy.utilities.lambdify(lambda_inputs,
+                                                              self.__cgraph.get_ode_system().jacobian(self.__sympy_species))
 
     def __initialize_ant_string(self, species_num, pcp_x):
         y = self.__cgraph.get_y()
@@ -1862,7 +1291,7 @@ class MassConservationApproach:
         psi = self.__cgraph.get_psi()
 
         # forming ya matrix
-        ya = y*a
+        ya = y * a
 
         # finding how many rows are indep in ya
         _, vals = ya.T.rref()
@@ -1875,7 +1304,7 @@ class MassConservationApproach:
 
         bt_nonzero_ind = []
         for i in range(bt_rows):
-            bt_nonzero_ind.append([j for j in range(bt_cols) if bt[i, j] != 0 and j != species_num-1])
+            bt_nonzero_ind.append([j for j in range(bt_cols) if bt[i, j] != 0 and j != species_num - 1])
 
         chosen_indp_indices, chosen_dep_indices = self.__get_indp_dep_species_indices(bt_nonzero_ind, num_dep_eqns,
                                                                                       num_indp_eqns, ya)
@@ -1901,7 +1330,7 @@ class MassConservationApproach:
             del possible_dep_species[index]
 
         # get corresponding possible dependent species
-        possible_indp_species = [] 
+        possible_indp_species = []
         species_ind = [i for i in range(len(self.__concentration_pars))]
 
         for i in possible_dep_species:
@@ -1913,7 +1342,7 @@ class MassConservationApproach:
         for i in range(len(possible_indp_species)):
             _, vals = ya[possible_indp_species[i], :].T.rref()
 
-            if len(vals) == num_indp_eqns: 
+            if len(vals) == num_indp_eqns:
                 chosen_indp_indices = possible_indp_species[i]
                 chosen_dep_indices = possible_dep_species[i]
                 break
@@ -1931,17 +1360,17 @@ class MassConservationApproach:
         indp_odes_temp = ya[chosen_indp_indices, :] * psi
 
         # creating conservation laws string
-        self.__cons_laws_sympy = bt*sympy.Matrix([self.__concentration_pars]).T
+        self.__cons_laws_sympy = bt * sympy.Matrix([self.__concentration_pars]).T
 
         # Lambda function of conservation laws
         self.__cons_laws_lamb = [sympy.utilities.lambdify(self.__concentration_pars, self.__cons_laws_sympy[i])
                                  for i in range(len(self.__cons_laws_sympy))]
 
-        cons_laws_sympy_eq = [sympy.Eq(sympy.Symbol('C' + str(i+1), real=True), self.__cons_laws_sympy[i])
+        cons_laws_sympy_eq = [sympy.Eq(sympy.Symbol('C' + str(i + 1), real=True), self.__cons_laws_sympy[i])
                               for i in range(len(self.__cons_laws_sympy))]
 
         dep_conc_in_laws = self.__dependent_species_concentrations(self.__cons_laws_sympy, dep_spec_conc)
-        
+
         replacements = self.__find_dep_concentration_replacements(dep_conc_in_laws, self.__cons_laws_sympy,
                                                                   dep_spec_conc, cons_laws_sympy_eq)
 
@@ -1950,11 +1379,11 @@ class MassConservationApproach:
     def __create_ode_str(self, replacements, ind_spec_conc_temp, indp_odes_temp, species_num):
         # rearrange ind_spec_conc and indp_odes to make species of
         # interest be the first ODE
-        indx_species_num = ind_spec_conc_temp.index(self.__concentration_pars[species_num-1])
+        indx_species_num = ind_spec_conc_temp.index(self.__concentration_pars[species_num - 1])
 
         self.__ind_spec_conc = [ind_spec_conc_temp[indx_species_num]]
         for i in ind_spec_conc_temp:
-            if i != self.__concentration_pars[species_num-1]:
+            if i != self.__concentration_pars[species_num - 1]:
                 self.__ind_spec_conc.append(i)
 
         indp_odes = sympy.zeros(indp_odes_temp.shape[0], indp_odes_temp.shape[1])
@@ -1969,7 +1398,7 @@ class MassConservationApproach:
         ode_str = self.__building_ode_str(replacements, self.__ind_spec_conc, indp_odes)
 
         return ode_str
-        
+
     def __finalize_ant_string(self, x, ode_str):
         concentration_vals = [self.__concentration_funs[j](*tuple(x)) for j in range(self.__N)]
 
@@ -1978,33 +1407,34 @@ class MassConservationApproach:
         antstr = self.__initialize_variables_in_antimony_string(self.__cons_laws_sympy, ode_str,
                                                                 self.__cons_laws_lamb, concentration_vals, kinetic_vals,
                                                                 self.__reaction_pars)
-        print(antstr)                                                                                                      # TODO: add to print_flag
+
+        if self.__print_lbls_flag:
+            print(antstr)
         return antstr
 
-    def __final_constraint_check(self, x_initial, penalty_bounds, sys_min_val, equality_bounds_indices,
-                                 concentration_bounds):
-        non_equality_bounds_indices = [i for i in range(len(penalty_bounds)) if i not in equality_bounds_indices]
+    def __final_constraint_check(self, x_initial):
+        self.__non_equality_bounds_indices = [i for i in range(len(self.__bounds)) if i not in self.__equality_bounds_indices]
 
-        x = numpy.zeros(len(penalty_bounds), dtype=self.__numpy_dtype)
-        for j in equality_bounds_indices:              
-            x[j] = penalty_bounds[j]              
-        count = 0                                      
-        for j in non_equality_bounds_indices:          
-            x[j] = x_initial[count]                
-            count += 1 
+        self.__x_full = numpy.zeros(len(self.__bounds), dtype=self.__numpy_dtype)
+        for j in self.__equality_bounds_indices:
+            self.__x_full[j] = self.__bounds[j]
+        count = 0
+        for j in self.__non_equality_bounds_indices:
+            self.__x_full[j] = x_initial[count]
+            count += 1
 
         # concentration > 0 check
-        con = numpy.asarray([self.__concentration_funs[j](*tuple(x)) for j in range(self.__N)],
+        con = numpy.asarray([self.__concentration_funs[j](*tuple(self.__x_full)) for j in range(self.__N)],
                             dtype=self.__numpy_dtype)
         con_temp = []
         for i in range(self.__N):
-            con_temp.append(con[i] >= concentration_bounds[i][0] and con[i] <= concentration_bounds[i][1])
+            con_temp.append(con[i] >= self.__full_concentration_bounds[i][0] and con[i] <= self.__full_concentration_bounds[i][1])
         concs_chk = numpy.all(con_temp)
 
         # boundary check
         test = []
-        for j in non_equality_bounds_indices: 
-            test.append(x[j] >= penalty_bounds[j][0] and x[j] <= penalty_bounds[j][1])
+        for j in self.__non_equality_bounds_indices:
+            test.append(self.__x_full[j] >= self.__bounds[j][0] and self.__x_full[j] <= self.__bounds[j][1])
         boundry_chk = numpy.all(test)
 
         # rank(G) = N + delta - 1 check
@@ -2023,58 +1453,57 @@ class MassConservationApproach:
         # rank_DCH_chk = rank_DCH == min(self.__N,self.__M - self.__ell)
 
         if concs_chk and boundry_chk:  # and rank_G_chk and rank_DCH_chk:
-            
-            return [True, x]
+
+            return [True, self.__x_full]
         else:
-            
+
             return [False, []]
 
     def __concentration_violation_fun(self, g, len_g):
         temp = numpy.zeros(len_g, dtype=self.__numpy_dtype)
         for i in range(len_g):
-            temp[i] = numpy.maximum(self.__numpy_dtype(0.0), -g[i])**2
+            temp[i] = numpy.maximum(self.__numpy_dtype(0.0), -g[i]) ** 2
         return temp
 
     def __x_violation_fun(self, x, b, len_x):
         temp = numpy.zeros(len_x, dtype=self.__numpy_dtype)
         for i in range(len_x):
-            temp[i] = numpy.maximum(self.__numpy_dtype(0.0), self.__numpy_dtype(b)-x[i])**2
+            temp[i] = numpy.maximum(self.__numpy_dtype(0.0), self.__numpy_dtype(b) - x[i]) ** 2
         return temp
 
-    def __penalty_objective_func(self, x_initial, temp_c, penalty_bounds, equality_bounds_indices, x,
-                                 non_equality_bounds_indices, concentration_bounds):
+    def __penalty_objective_func(self, x_initial):
 
-        for j in equality_bounds_indices:
-            x[j] = penalty_bounds[j]
-        count = 0 
-        for j in non_equality_bounds_indices:
-            x[j] = x_initial[count]
-            count += 1 
+        for j in self.__equality_bounds_indices:
+            self.__x_full[j] = self.__bounds[j]
+        count = 0
+        for j in self.__non_equality_bounds_indices:
+            self.__x_full[j] = x_initial[count]
+            count += 1
 
         # evaluating the concentrations first
         for i in range(self.__N):
-            temp_val = self.__concentration_funs[i](*tuple(x))
+            temp_val = self.__concentration_funs[i](*tuple(self.__x_full))
 
-            if numpy.iscomplex(temp_val): 
-                temp_c = numpy.array([numpy.Inf for i in range(self.__N)], dtype=self.__numpy_dtype)
+            if numpy.iscomplex(temp_val):
+                self.__temp_c = numpy.array([numpy.Inf for i in range(self.__N)], dtype=self.__numpy_dtype)
                 break
             else:
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore", numpy.ComplexWarning)
-                    temp_c[i] = temp_val 
+                    self.__temp_c[i] = temp_val
 
-        if numpy.all(numpy.isfinite(temp_c)):
+        if numpy.all(numpy.isfinite(self.__temp_c)):
 
             # obtaining the sum of the violation functions squared
             sumval = self.__numpy_dtype(0.0)
             for j in range(self.__N):
-                sumval += numpy.maximum(self.__numpy_dtype(0.0), concentration_bounds[j][0]-temp_c[j])**2
-                sumval += numpy.maximum(self.__numpy_dtype(0.0), temp_c[j] - concentration_bounds[j][1])**2
+                sumval += numpy.maximum(self.__numpy_dtype(0.0), self.__full_concentration_bounds[j][0] - self.__temp_c[j])**2
+                sumval += numpy.maximum(self.__numpy_dtype(0.0), self.__temp_c[j] - self.__full_concentration_bounds[j][1])**2
 
             sum0 = self.__numpy_dtype(0.0)
-            for j in non_equality_bounds_indices: 
-                sum0 += numpy.maximum(self.__numpy_dtype(0.0), penalty_bounds[j][0]-x[j])**2
-                sum0 += numpy.maximum(self.__numpy_dtype(0.0), x[j] - penalty_bounds[j][1])**2
+            for j in self.__non_equality_bounds_indices:
+                sum0 += numpy.maximum(self.__numpy_dtype(0.0), self.__bounds[j][0] - self.__x_full[j]) ** 2
+                sum0 += numpy.maximum(self.__numpy_dtype(0.0), self.__x_full[j] - self.__bounds[j][1]) ** 2
             sumval += sum0
 
             # obtaining the violation function values for
@@ -2083,19 +1512,18 @@ class MassConservationApproach:
             # temp = self.__x_violation_fun(xx,self.__numpy_dtype(0.0),self.__R + (self.__d_len - (self.__R +
             # self.__alpha_end_ind)))
             # sumval += numpy.sum(temp)
-            return sumval 
+            return sumval
 
         else:
             return numpy.PINF
 
-    def __feasible_point_check(self, x, result_fun, sys_min_val, equality_bounds_indices, non_equality_bounds_indices,
-                               penalty_bounds, concentration_bounds):
-        result_x = numpy.zeros(len(penalty_bounds), dtype=self.__numpy_dtype)
+    def __feasible_point_check(self, x, result_fun):
+        result_x = numpy.zeros(len(self.__bounds), dtype=self.__numpy_dtype)
 
-        for j in equality_bounds_indices:
-            result_x[j] = penalty_bounds[j]
+        for j in self.__equality_bounds_indices:
+            result_x[j] = self.__bounds[j]
         count = 0
-        for j in non_equality_bounds_indices:
+        for j in self.__non_equality_bounds_indices:
             result_x[j] = x[count]
             count += 1
 
@@ -2104,59 +1532,59 @@ class MassConservationApproach:
                             dtype=self.__numpy_dtype)
         con_temp = []
         for i in range(self.__N):
-            con_temp.append(con[i] >= concentration_bounds[i][0] and con[i] <= concentration_bounds[i][1])
+            con_temp.append(con[i] >= self.__full_concentration_bounds[i][0] and con[i] <= self.__full_concentration_bounds[i][1])
         concs_chk = numpy.all(con_temp)
 
         finite_chk = numpy.isfinite(con)
         if concs_chk and numpy.all(finite_chk):
 
             # putting the feasible points in x_candidates
-            if abs(result_fun) <= sys_min_val and numpy.all(con > self.__numpy_dtype(0)):
+            if abs(result_fun) <= self.__sys_min_val and numpy.all(con > self.__numpy_dtype(0)):
                 return True
             else:
                 return False
         else:
-            return False 
-                
-    def __objective_function_to_optimize(self, x_initial, temp_c, penalty_bounds, sys_min_val, equality_bounds_indices,
-                                         x, non_equality_bounds_indices, concentration_bounds):
-        for j in equality_bounds_indices:
-            x[j] = penalty_bounds[j]
+            return False
+
+    def __objective_function_to_optimize(self, x_initial):
+
+        for j in self.__equality_bounds_indices:
+            self.__x_full[j] = self.__bounds[j]
         count = 0
-        for j in non_equality_bounds_indices:
-            x[j] = x_initial[count]
+        for j in self.__non_equality_bounds_indices:
+            self.__x_full[j] = x_initial[count]
             count += 1
 
         test = []
-        for j in non_equality_bounds_indices:
-            test.append(x[j] >= penalty_bounds[j][0] and x[j] <= penalty_bounds[j][1])
+        for j in self.__non_equality_bounds_indices:
+            test.append(self.__x_full[j] >= self.__bounds[j][0] and self.__x_full[j] <= self.__bounds[j][1])
         boundry_chk = numpy.all(test)
 
         if boundry_chk:
             # calculating the concentration values
             for i in range(self.__N):
-                temp_val = self.__concentration_funs[i](*tuple(x))
+                temp_val = self.__concentration_funs[i](*tuple(self.__x_full))
                 if numpy.iscomplex(temp_val):
-                    temp_c = numpy.array([numpy.Inf for i in range(self.__N)], dtype=self.__numpy_dtype)
+                    self.__temp_c = numpy.array([numpy.Inf for i in range(self.__N)], dtype=self.__numpy_dtype)
                     break
                 else:
-                    with warnings.catch_warnings(): 
+                    with warnings.catch_warnings():
                         warnings.simplefilter("ignore", numpy.ComplexWarning)
-                        temp_c[i] = temp_val 
+                        self.__temp_c[i] = temp_val
 
-            finite_chk = numpy.isfinite(temp_c)
+            finite_chk = numpy.isfinite(self.__temp_c)
             con_temp = []
             for i in range(self.__N):
-                con_temp.append(temp_c[i] >= concentration_bounds[i][0] and temp_c[i] <= concentration_bounds[i][1])
+                con_temp.append(self.__temp_c[i] >= self.__full_concentration_bounds[i][0] and self.__temp_c[i] <= self.__full_concentration_bounds[i][1])
             concs_chk = numpy.all(con_temp)
-        # making sure our concentrations are finite
-            if concs_chk and numpy.all(finite_chk): 
+            # making sure our concentrations are finite
+            if concs_chk and numpy.all(finite_chk):
                 temp = numpy.zeros(self.__N, dtype=self.__numpy_dtype)
                 for i in range(self.__N):
-                    temp[i] = numpy.maximum(self.__numpy_dtype(0.0), -temp_c[i])
+                    temp[i] = numpy.maximum(self.__numpy_dtype(0.0), - self.__temp_c[i])
                 sumval = numpy.sum(temp)
 
-                xx = numpy.concatenate((x[0:self.__R], temp_c), axis=None)
+                xx = numpy.concatenate((self.__x_full[0:self.__R], self.__temp_c), axis=None)
                 return self.__lambda_objective_fun(*tuple(xx)) + sumval
             else:
                 return numpy.PINF
@@ -2191,7 +1619,7 @@ class MassConservationApproach:
                     cons_laws_sympy = [cons_laws_sympy[j].subs(dep_conc_in_laws[i][0], temp[0])
                                        for j in range(len(cons_laws_sympy))]
 
-                    cons_laws_sympy_eq = [sympy.Eq(sympy.Symbol('C' + str(i+1), real=True), cons_laws_sympy[i])
+                    cons_laws_sympy_eq = [sympy.Eq(sympy.Symbol('C' + str(i + 1), real=True), cons_laws_sympy[i])
                                           for i in range(len(cons_laws_sympy))]
 
                     replacements.append([dep_conc_in_laws[i][0], '(' + str(temp[0]) + ')'])
@@ -2201,7 +1629,7 @@ class MassConservationApproach:
             if self.__is_list_empty(dep_conc_in_laws):
                 flag = False
 
-        return replacements    
+        return replacements
 
     def __building_ode_str(self, replacements, ind_spec_conc, indp_odes):
         indp_odes_str = []
@@ -2226,7 +1654,7 @@ class MassConservationApproach:
         return ode_str
 
     def __building_ant_str(self, ode_str, kinetic_con, lhs_cons_laws, var_vals):
-        vars_to_initialize = kinetic_con+lhs_cons_laws + [str(self.__concentration_pars[i]) for i in range(self.__N)]
+        vars_to_initialize = kinetic_con + lhs_cons_laws + [str(self.__concentration_pars[i]) for i in range(self.__N)]
 
         ant_str = ode_str
 
@@ -2239,7 +1667,7 @@ class MassConservationApproach:
                                                   kinetic_vals, kinetic_con):
 
         # string representation of variables on lhs of mass cons laws
-        lhs_cons_laws = ['C'+str(i+1) for i in range(len(cons_laws_sympy))]
+        lhs_cons_laws = ['C' + str(i + 1) for i in range(len(cons_laws_sympy))]
 
         conservation_law_vals = [cons_laws_lamb[i](*tuple(concentration_vals)) for i in range(len(cons_laws_lamb))]
 
@@ -2249,3 +1677,38 @@ class MassConservationApproach:
         ant_str = self.__building_ant_str(ode_str, kinetic_con, lhs_cons_laws, var_vals)
 
         return ant_str
+
+    def generate_report(self):
+        """
+        Prints out helpful details constructed by :func:`crnt4sbml.MassConservationApproach.run_optimization` and
+        :func:`crnt4sbml.MassConservationApproach.run_continuity_analysis`.
+
+        Example
+        --------
+        See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
+        """
+
+        if self.__comm is None:
+            print(self.__important_info)
+        else:
+
+            all_important_info = self.__comm.gather(self.__important_info, root=0)
+            self.__comm.Barrier()
+
+            if self.__my_rank == 0:
+                for i in range(1, len(all_important_info)):
+                    if all_important_info[i] != "":
+                        print(all_important_info[i])
+                print(self.__important_info)
+
+    def get_comm(self):
+        """
+        Returns a mpi4py communicator if it has been initialized and None otherwise.
+        """
+        return self.__comm
+
+    def get_my_rank(self):
+        """
+        Returns the rank assigned by mpi4py if it is initialized, otherwise None will be returned.
+        """
+        return self.__my_rank
