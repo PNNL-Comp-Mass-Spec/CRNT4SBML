@@ -188,11 +188,11 @@
 <h1>crnt4sbml.GeneralApproach<a class="headerlink" href="#crnt4sbml-generalapproach" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="crnt4sbml.GeneralApproach">
-<em class="property">class </em><code class="descclassname">crnt4sbml.</code><code class="descname">GeneralApproach</code><span class="sig-paren">(</span><em>cgraph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">crnt4sbml.</code><code class="descname">GeneralApproach</code><span class="sig-paren">(</span><em>cgraph</em>, <em>get_physiological_range</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for constructing a more general approach to bistability detection for systems with mass action kinetics.</p>
 <dl class="method">
 <dt id="crnt4sbml.GeneralApproach.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>cgraph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>cgraph</em>, <em>get_physiological_range</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialization of GeneralApproach class.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
@@ -207,7 +207,7 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.__init__" title="crnt4sbml.GeneralApproach.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cgraph)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.__init__" title="crnt4sbml.GeneralApproach.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cgraph,&nbsp;get_physiological_range)</td>
 <td>Initialization of GeneralApproach class.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.GeneralApproach.initialize_general_approach" title="crnt4sbml.GeneralApproach.initialize_general_approach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_general_approach</span></code></a>([signal,&nbsp;…])</td>
@@ -574,7 +574,7 @@ for each special point in the plot.</li>
 
 <dl class="method">
 <dt id="crnt4sbml.GeneralApproach.run_direct_simulation">
-<code class="descname">run_direct_simulation</code><span class="sig-paren">(</span><em>params_for_global_min=None</em>, <em>dir_path='./'</em>, <em>change_in_relative_error=1e-06</em>, <em>parallel_flag=False</em>, <em>print_flag=False</em>, <em>left_multiplier=0.5</em>, <em>right_multiplier=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.run_direct_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.run_direct_simulation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_direct_simulation</code><span class="sig-paren">(</span><em>params_for_global_min=None</em>, <em>dir_path='./dir_sim_graphs'</em>, <em>change_in_relative_error=1e-06</em>, <em>parallel_flag=False</em>, <em>print_flag=False</em>, <em>left_multiplier=0.5</em>, <em>right_multiplier=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.run_direct_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.run_direct_simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for running direct simulation to conduct bistability analysis of the general approach.</p>
 <p>Note: This routine is more expensive than the numerical continuation routines, but can provide solutions
 when the Jacobian of the ODE system is always singular. A parallel version of this routine is available.</p>

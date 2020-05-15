@@ -1112,9 +1112,20 @@ class MassConservationApproach(BistabilityFinder, BistabilityAnalysis):
         ---------
         See :ref:`quickstart-deficiency-label` and :ref:`my-deficiency-label`.
         """
-        self.__initialize_continuity_analysis(species, parameters, dir_path, print_lbls_flag, auto_parameters, plot_labels)
-
-        multistable_param_ind, important_info, plot_specifications = self._BistabilityAnalysis__parent_run_continuity_analysis()
+        if self.__comm is not None:
+            if self.__my_rank == 0:
+                self.__initialize_continuity_analysis(species, parameters, dir_path, print_lbls_flag, auto_parameters,
+                                                      plot_labels)
+                multistable_param_ind, important_info, plot_specifications = self._BistabilityAnalysis__parent_run_continuity_analysis()
+            else:
+                important_info = ''
+                multistable_param_ind = []
+                plot_specifications = []
+            self.__comm.Barrier()
+        else:
+            self.__initialize_continuity_analysis(species, parameters, dir_path, print_lbls_flag, auto_parameters,
+                                                  plot_labels)
+            multistable_param_ind, important_info, plot_specifications = self._BistabilityAnalysis__parent_run_continuity_analysis()
 
         self.__important_info += important_info
 
@@ -1164,9 +1175,20 @@ class MassConservationApproach(BistabilityFinder, BistabilityAnalysis):
         ---------
         See :ref:`my-deficiency-label`.
         """
-        self.__initialize_continuity_analysis(species, parameters, dir_path, print_lbls_flag, auto_parameters, plot_labels)
-
-        multistable_param_ind, important_info, plot_specifications = self._BistabilityAnalysis__parent_run_greedy_continuity_analysis()
+        if self.__comm is not None:
+            if self.__my_rank == 0:
+                self.__initialize_continuity_analysis(species, parameters, dir_path, print_lbls_flag, auto_parameters,
+                                                      plot_labels)
+                multistable_param_ind, important_info, plot_specifications = self._BistabilityAnalysis__parent_run_greedy_continuity_analysis()
+            else:
+                important_info = ''
+                multistable_param_ind = []
+                plot_specifications = []
+            self.__comm.Barrier()
+        else:
+            self.__initialize_continuity_analysis(species, parameters, dir_path, print_lbls_flag, auto_parameters,
+                                                  plot_labels)
+            multistable_param_ind, important_info, plot_specifications = self._BistabilityAnalysis__parent_run_greedy_continuity_analysis()
 
         self.__important_info += important_info
 
@@ -1182,15 +1204,11 @@ class MassConservationApproach(BistabilityFinder, BistabilityAnalysis):
 
         if self.__comm is not None:
 
-            if self.__my_rank == 0:
-                print("")
-                print("A parallel version of numerical continuation is not available.")
-                print("Please rerun your script without mpiexec.")
-                print(
-                    "For your convenience, the provided parameters have been saved in the current directory under the name params.npy.")
-                numpy.save('./params.npy', parameters)
-
-            sys.exit()
+            print("")
+            print("A parallel version of numerical continuation is not available.")
+            print("Numerical continuation will be ran using only one core.")
+            print("For your convenience, the provided parameters have been saved in the current directory under the name params.npy.")
+            numpy.save('./params.npy', parameters)
 
         # setting default values for AUTO
         if 'NMX' not in self.__auto_parameters.keys():

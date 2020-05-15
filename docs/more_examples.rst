@@ -4,10 +4,10 @@
 Further Examples
 =================
 
-In this section we present multiple examples for the mass conservation and semi-diffusive approaches. In addition to this,
-we provide some examples satisfying the deficiency theorems. Before each example we depict the CellDesigner layout and
-C-graph generated using the instructions in :ref:`presentable_graph_label`. Those nodes that represent zero complexes
-are colored red while regular nodes are green.
+In this section we present multiple examples for the mass conservation, semi-diffusive, and general approaches. In
+addition to this, we provide some examples satisfying the deficiency theorems. Before each example we depict the
+CellDesigner layout and C-graph generated using the instructions in :ref:`presentable_graph_label`. Those nodes that
+represent zero complexes are colored red while regular nodes are green.
 
 .. contents::
 
@@ -674,13 +674,30 @@ p85-p110-PTEN
    :height: 300px
 
 To run this example download the SBML :download:`file <../sbml_files/p85-p110-PTEN.xml>` and script
-:download:`run\_p85-p110-PTEN <../example_scripts/run_p85-p110-PTEN.py>`. After running this script we obtain the
-following output::
+:download:`run\_p85-p110-PTEN <../example_scripts/run_p85-p110-PTEN.py>`. After running this script using four cores,
+we obtain the following output (for more information on running this script in parallel see :ref:`parallel-crnt4sbml-label`)::
+
+    Creating Equilibrium Manifold ...
+    Creating Equilibrium Manifold ...
+    Creating Equilibrium Manifold ...
+    Creating Equilibrium Manifold ...
+    Elapsed time for creating Equilibrium Manifold: 107.71943200000001
+    Elapsed time for creating Equilibrium Manifold: 108.786772
+    Elapsed time for creating Equilibrium Manifold: 108.861678
+    Elapsed time for creating Equilibrium Manifold: 109.171994
+
+    Running feasible point method for 5000 iterations ...
+    Elapsed time for feasible point method: 2519.281478
+
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 403.41574900000023
+
 
     Number of species: 13
     Number of complexes: 17
     Number of reactions: 17
     Network deficiency: 2
+
 
     Reaction graph of the form
     reaction -- reaction label:
@@ -702,11 +719,8 @@ following output::
     s45 -> s9+s37  --  re14r
     s45 -> s9+s14  --  re15
 
-    The network does not satisfy Deficiency Zero Theorem.
-    The network does not satisfy Deficiency One Theorem.
-
-    Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 81.86547
+    The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+    The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Decision Vector:
     [re1, re1r, re2, re2r, re3, re3r, re9, re9r, re10, re10r, re11, re12, re12r, re13, re14, re14r, re15, s3, s8, s9, s14, s37]
@@ -714,28 +728,17 @@ following output::
     Species for concentration bounds:
     [s23, s5, s24, s4, s16, s36, s41, s45]
 
-    Running feasible point method for 5000 iterations ...
-    Elapsed time for feasible point method: 14616.332184
-
-    Running the multistart optimization ...
+    A parallel version of numerical continuation is not available.
+    Numerical continuation will be ran using only one core.
+    For your convenience, the provided parameters have been saved in the current directory under the name params.npy.
+    Running continuity analysis ...
+    Elapsed time for continuity analysis in seconds: 5766.086745023727
 
     Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 2294.7480879999985
-
-    The number of feasible points that satisfy the constraints: 477
-    Total feasible points that give F(x) = 0: 429
-    Total number of points that passed final_check: 429
-
-    Running continuity analysis ...
-    Elapsed time for continuity analysis: 5423.693162918091
-
-    The number of feasible points that satisfy the constraints: 477
-    Total feasible points that give F(x) = 0: 429
-    Total number of points that passed final_check: 429
+    429 point(s) passed the optimization criteria.
     Number of multistability plots found: 5
     Elements in params_for_global_min that produce multistability:
-    [45, 64, 250, 410, 426]
+    [171, 191, 213, 272, 296]
 
 Closed version of Figure 4B from :cite:`irene`
 ------------------------------------------------
@@ -751,13 +754,30 @@ Closed version of Figure 4B from :cite:`irene`
     :height: 150px
 
 To run this example download the SBML :download:`file <../sbml_files/Fig4B_closed.xml>` and script
-:download:`run\_Fig4B\_closed <../example_scripts/run_Fig4B_closed.py>`. After running this
-script we obtain the following output::
+:download:`run\_Fig4B\_closed <../example_scripts/run_Fig4B_closed.py>`. After running this script using four cores,
+we obtain the following output (for more information on running this script in parallel see :ref:`parallel-crnt4sbml-label`)::
+
+    Creating Equilibrium Manifold ...
+    Creating Equilibrium Manifold ...
+    Creating Equilibrium Manifold ...
+    Creating Equilibrium Manifold ...
+    Elapsed time for creating Equilibrium Manifold: 1.2114520000000004
+    Elapsed time for creating Equilibrium Manifold: 1.2372060000000005
+    Elapsed time for creating Equilibrium Manifold: 1.229298
+    Elapsed time for creating Equilibrium Manifold: 1.2412400000000003
+
+    Running feasible point method for 10000 iterations ...
+    Elapsed time for feasible point method: 518.759626
+
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 2561.635341
+
 
     Number of species: 6
     Number of complexes: 7
     Number of reactions: 8
     Network deficiency: 1
+
 
     Reaction graph of the form
     reaction -- reaction label:
@@ -770,33 +790,16 @@ script we obtain the following output::
     s6 -> s1+s5  --  re4
     s1+s5 -> s6  --  re4r
 
-    The network does not satisfy Deficiency Zero Theorem.
-    The network does not satisfy Deficiency One Theorem.
-
-    Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.09931699999999966
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 0.6209340000000001
+    The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+    The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Decision Vector:
-    [re1, re1r, re2, re2r, re3, re3r, re4, re4r, s3, s4, s5]
+    [re1, re1r, re2, re2r, re3, re3r, re4, re4r, s3, s5, s2]
 
     Species for concentration bounds:
-    [s1, s2, s6]
-
-    Running feasible point method for 10000 iterations ...
-    Elapsed time for feasible point method: 121.99213200000001
-
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 3.0653012943157734e-09
-
-    Elapsed time for multistart method: 10424.801325999999
-
-    The number of feasible points that satisfy the constraints: 9996
-    Total feasible points that give F(x) = 0: 0
-    Total number of points that passed final_check: 0
+    [s1, s4, s6]
+    Smallest value achieved by objective function: 2.454796889817468e-10
+    0 point(s) passed the optimization criteria.
 
 Closed version of Figure 4C from :cite:`irene`
 ------------------------------------------------
@@ -812,13 +815,30 @@ Closed version of Figure 4C from :cite:`irene`
     :height: 150px
 
 To run this example download the SBML :download:`file <../sbml_files/Fig4C_closed.xml>` and script
-:download:`run\_Fig4C\_closed <../example_scripts/run_Fig4C_closed.py>`. After running this script we obtain the
-following output::
+:download:`run\_Fig4C\_closed <../example_scripts/run_Fig4C_closed.py>`. After running this script using four cores,
+we obtain the following output (for more information on running this script in parallel see :ref:`parallel-crnt4sbml-label`)::
+
+    Creating Equilibrium Manifold ...
+    Creating Equilibrium Manifold ...
+    Creating Equilibrium Manifold ...
+    Creating Equilibrium Manifold ...
+    Elapsed time for creating Equilibrium Manifold: 0.9796280000000004
+    Elapsed time for creating Equilibrium Manifold: 0.9905299999999997
+    Elapsed time for creating Equilibrium Manifold: 0.997398
+    Elapsed time for creating Equilibrium Manifold: 0.9981960000000001
+
+    Running feasible point method for 10000 iterations ...
+    Elapsed time for feasible point method: 236.957728
+
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 2115.088291
+
 
     Number of species: 5
     Number of complexes: 7
     Number of reactions: 8
     Network deficiency: 1
+
 
     Reaction graph of the form
     reaction -- reaction label:
@@ -831,33 +851,16 @@ following output::
     s5 -> s1+s4  --  re5
     s1+s4 -> s5  --  re5r
 
-    The network does not satisfy Deficiency Zero Theorem.
-    The network does not satisfy Deficiency One Theorem.
-
-    Creating Equilibrium Manifold ...
-    Elapsed time for creating Equilibrium Manifold: 0.08830100000000041
-
-    Solving for species' concentrations ...
-    Elapsed time for finding species' concentrations: 0.5211290000000002
+    The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+    The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Decision Vector:
-    [re1, re1r, re2, re2r, re3, re3r, re5, re5r, s3, s4]
+    [re1, re1r, re2, re2r, re3, re3r, re5, re5r, s2, s4]
 
     Species for concentration bounds:
-    [s1, s2, s5]
-
-    Running feasible point method for 10000 iterations ...
-    Elapsed time for feasible point method: 699.610803
-
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 2.2272143587977585e-10
-
-    Elapsed time for multistart method: 7437.484507
-
-    The number of feasible points that satisfy the constraints: 9961
-    Total feasible points that give F(x) = 0: 0
-    Total number of points that passed final_check: 0
+    [s3, s1, s5]
+    Smallest value achieved by objective function: 1.2913762450176939e-09
+    0 point(s) passed the optimization criteria.
 
 Semi-diffusive Approach
 ++++++++++++++++++++++++++++++
@@ -936,23 +939,19 @@ following output::
     ['s19']
 
     Running feasible point method for 50 iterations ...
-    Elapsed time for feasible point method: 34.668702
+    Elapsed time for feasible point method: 14.352675676345825
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 705.400516
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 352.3979892730713
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 43.185590982437134
+    Elapsed time for continuity analysis in seconds: 42.74703788757324
 
-    The number of feasible points that satisfy the constraints: 50
-    Total feasible points that give F(x) = 0: 22
-    Total number of points that passed final_check: 22
+    Smallest value achieved by objective function: 0.0
+    22 point(s) passed the optimization criteria.
     Number of multistability plots found: 4
     Elements in params_for_global_min that produce multistability:
-    [0, 3, 13, 20]
+    [0, 1, 3, 16]
 
 Open version of Figure 5A from :cite:`irene`
 ----------------------------------------------
@@ -1020,24 +1019,19 @@ following output::
     ['s19']
 
     Running feasible point method for 500 iterations ...
-    Elapsed time for feasible point method: 80.86045800000001
+    Elapsed time for feasible point method: 40.84808683395386
 
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 0.0
-
-    Elapsed time for multistart method: 1181.564838
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 597.4433598518372
 
     Running continuity analysis ...
-    Elapsed time for continuity analysis: 1708.7098100185394
+    Elapsed time for continuity analysis in seconds: 1777.679843902588
 
-    The number of feasible points that satisfy the constraints: 500
-    Total feasible points that give F(x) = 0: 288
-    Total number of points that passed final_check: 108
+    Smallest value achieved by objective function: 0.0
+    108 point(s) passed the optimization criteria.
     Number of multistability plots found: 1
     Elements in params_for_global_min that produce multistability:
-    [9]
-
+    [85]
 
 Figure 4B from :cite:`irene`
 ------------------------------
@@ -1053,13 +1047,21 @@ Figure 4B from :cite:`irene`
     :height: 350px
 
 To run this example download the SBML :download:`file <../sbml_files/Fig4B_open.xml>` and script
-:download:`run\_Fig4B\_open <../example_scripts/run_Fig4B_open.py>`. After running this script we obtain the
-following output::
+:download:`run\_Fig4B\_open <../example_scripts/run_Fig4B_open.py>`. After running this script using four cores,
+we obtain the following output (for more information on running this script in parallel see :ref:`parallel-crnt4sbml-label`)::
+
+    Running feasible point method for 10000 iterations ...
+    Elapsed time for feasible point method: 73.587205
+
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 3675.938109
+
 
     Number of species: 6
     Number of complexes: 11
     Number of reactions: 17
     Network deficiency: 4
+
 
     Reaction graph of the form
     reaction -- reaction label:
@@ -1081,8 +1083,8 @@ following output::
     s5 -> s7  --  re9
     s6 -> s7  --  re10
 
-    The network does not satisfy Deficiency Zero Theorem.
-    The network does not satisfy Deficiency One Theorem.
+    The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+    The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Decision vector for optimization:
     [v_2, v_4, v_5, v_6, v_7, v_8, v_9, v_11, v_13, v_15, v_16]
@@ -1091,26 +1093,15 @@ following output::
     ['re1r', 're2r', 're3', 're3r', 're4', 're4r', 're5', 're6', 're7', 're8', 're9']
 
     Key species:
-    ['s1', 's2', 's3']
+    ['s1', 's3', 's2']
 
     Non key species:
     ['s4', 's5', 's6']
 
     Boundary species:
     ['s7']
-
-    Running feasible point method for 10000 iterations ...
-    Elapsed time for feasible point method: 268.53081000000003
-
-    Running the multistart optimization ...
-
-    Smallest value achieved by objective function: 2.304503779693441e-10
-
-    Elapsed time for multistart method: 8503.097677999998
-
-    The number of feasible points that satisfy the constraints: 10000
-    Total feasible points that give F(x) = 0: 0
-    Total number of points that passed final_check: 0
+    Smallest value achieved by objective function: 2.3045037796933692e-10
+    0 point(s) passed the optimization criteria.
 
 Figure 4C from :cite:`irene`
 ------------------------------
@@ -1126,13 +1117,21 @@ Figure 4C from :cite:`irene`
     :height: 320px
 
 To run this example download the SBML :download:`file <../sbml_files/Fig4C_open.xml>` and script
-:download:`run\_Fig4C\_open <../example_scripts/run_Fig4C_open.py>`. After running this script we obtain the
-following output::
+:download:`run\_Fig4C\_open <../example_scripts/run_Fig4C_open.py>`. After running this script using four cores,
+we obtain the following output (for more information on running this script in parallel see :ref:`parallel-crnt4sbml-label`)::
+
+    Running feasible point method for 10000 iterations ...
+    Elapsed time for feasible point method: 57.548688
+
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 1432.020307
+
 
     Number of species: 5
     Number of complexes: 8
     Number of reactions: 15
     Network deficiency: 2
+
 
     Reaction graph of the form
     reaction -- reaction label:
@@ -1152,8 +1151,8 @@ following output::
     s3 -> s6  --  re9
     s4 -> s6  --  re10
 
-    The network does not satisfy Deficiency Zero Theorem.
-    The network does not satisfy Deficiency One Theorem.
+    The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+    The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
     Decision vector for optimization:
     [v_2, v_4, v_5, v_6, v_7, v_8, v_9, v_11, v_14, v_15]
@@ -1169,16 +1168,59 @@ following output::
 
     Boundary species:
     ['s6']
+    Smallest value achieved by objective function: 4.5692676949897973e-10
+    0 point(s) passed the optimization criteria.
 
-    Running feasible point method for 10000 iterations ...
-    Elapsed time for feasible point method: 215.59860999999998
+General Approach
+++++++++++++++++++++++++++++++
 
-    Running the multistart optimization ...
+Song model of :cite:`song_paper`
+---------------------------------
 
-    Smallest value achieved by objective function: 4.5692676949898025e-10
+.. image:: ./images_for_docs/song_model_celldesigner.png
+   :width: 500px
+   :align: center
+   :height: 420px
 
-    Elapsed time for multistart method: 4489.723483
+.. image:: ./images_for_docs/song_model_c_graph.png
+   :width: 500px
+   :align: center
+   :height: 320px
 
-    The number of feasible points that satisfy the constraints: 10000
-    Total feasible points that give F(x) = 0: 0
-    Total number of points that passed final_check: 0
+To run this example download the SBML :download:`file <../sbml_files/Song.xml>` and script
+:download:`run\_song\_model <../example_scripts/run_song_model.py>`. After running this script we obtain the
+following output::
+
+    Number of species: 6
+    Number of complexes: 10
+    Number of reactions: 11
+    Network deficiency: 3
+
+
+    Reaction graph of the form
+    reaction -- reaction label:
+    s1+s3 -> s5  --  re4
+    s5 -> s1+s3  --  re4r
+    s5 -> s2+s3  --  re5
+    s1+s4 -> s8  --  re6
+    s8 -> s1+s4  --  re6r
+    s8 -> s2+s4  --  re7
+    s3 -> s4  --  re8
+    s4 -> s3  --  re8r
+    s5 -> s8  --  re9
+    s8 -> s5  --  re9r
+    s2 -> s1  --  re10
+
+    [re4, re4r, re5, re6, re6r, re7, re8, re8r, re9, re9r, re10, s1, s3, s5, s2, s4, s8]
+
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 1228.3208582401276
+
+    Running continuity analysis ...
+    Elapsed time for continuity analysis in seconds: 28.140807151794434
+
+    Smallest value achieved by objective function: 0.0
+    5 point(s) passed the optimization criteria.
+    Number of multistability plots found: 2
+    Elements in params_for_global_min that produce multistability:
+    [1, 4]

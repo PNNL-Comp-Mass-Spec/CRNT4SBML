@@ -252,16 +252,19 @@
 <tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds" title="crnt4sbml.SemiDiffusiveApproach.get_optimization_bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimization_bounds</span></code></a>()</td>
 <td>Returns a list of tuples defining the upper and lower bounds for the decision vector variables based on physiological ranges.</td>
 </tr>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.get_my_rank" title="crnt4sbml.SemiDiffusiveApproach.get_my_rank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_my_rank</span></code></a>()</td>
+<td>Returns the rank assigned by mpi4py if it is initialized, otherwise None will be returned.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.get_comm" title="crnt4sbml.SemiDiffusiveApproach.get_comm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_comm</span></code></a>()</td>
+<td>Returns a mpi4py communicator if it has been initialized and None otherwise.</td>
+</tr>
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_optimization" title="crnt4sbml.SemiDiffusiveApproach.run_optimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_optimization</span></code></a>([bounds,&nbsp;iterations,&nbsp;…])</td>
 <td>Function for running the optimization problem for the semi-diffusive approach.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_mpi_optimization" title="crnt4sbml.SemiDiffusiveApproach.run_mpi_optimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_mpi_optimization</span></code></a>([bounds,&nbsp;iterations,&nbsp;…])</td>
-<td>Function for running an mpi version of the optimization problem for the semi-diffusive approach.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis" title="crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis" title="crnt4sbml.SemiDiffusiveApproach.run_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
 <td>Function for running the numerical continuation and bistability analysis portions of the semi-diffusive approach.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis" title="crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_greedy_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis" title="crnt4sbml.SemiDiffusiveApproach.run_greedy_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_greedy_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
 <td>Function for running the greedy numerical continuation and bistability analysis portions of the semi-diffusive approach.</td>
 </tr>
 </tbody>
@@ -289,6 +292,12 @@ example.</p>
 <span class="go">    [&#39;s21&#39;]</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.SemiDiffusiveApproach.get_comm">
+<code class="descname">get_comm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach.get_comm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach.get_comm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a mpi4py communicator if it has been initialized and None otherwise.</p>
 </dd></dl>
 
 <dl class="method">
@@ -371,6 +380,12 @@ example.</p>
 <span class="go">    [v_1, v_2, v_3, v_4, v_5, v_6, v_7, v_8, v_9, v_11, v_13, v_15, v_16, v_17, v_18, v_19]</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="crnt4sbml.SemiDiffusiveApproach.get_my_rank">
+<code class="descname">get_my_rank</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach.get_my_rank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach.get_my_rank" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the rank assigned by mpi4py if it is initialized, otherwise None will be returned.</p>
 </dd></dl>
 
 <dl class="method">
@@ -619,48 +634,8 @@ for each special point in the plot.</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="crnt4sbml.SemiDiffusiveApproach.run_mpi_optimization">
-<code class="descname">run_mpi_optimization</code><span class="sig-paren">(</span><em>bounds=None</em>, <em>iterations=10</em>, <em>sys_min_val=2.220446049250313e-16</em>, <em>seed=0</em>, <em>print_flag=False</em>, <em>numpy_dtype=&lt;class 'numpy.float64'&gt;</em>, <em>confidence_level_flag=False</em>, <em>change_in_rel_error=0.01</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach.run_mpi_optimization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach.run_mpi_optimization" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function for running an mpi version of the optimization problem for the semi-diffusive approach. Note that there
-are no bounds enforced on species’ concentrations as they are automatically restricted to be greater than
-zero by the theory.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>bounds</strong> (<em>list of tuples</em>) – A list defining the lower and upper bounds for each variable in the decision vector. Here the reactions
-are allowed to be set to a single value.</li>
-<li><strong>iterations</strong> (<em>int</em>) – The number of iterations to run the feasible point method.</li>
-<li><strong>sys_min_val</strong> (<em>float</em>) – The value that should be considered zero for the optimization problem.</li>
-<li><strong>seed</strong> (<em>int</em>) – Seed for the random number generator. None should be used if a random generation is desired.</li>
-<li><strong>print_flag</strong> (<em>bool</em>) – Should be set to True if the user wants the objective function values found in the optimization problem
-and False otherwise.</li>
-<li><strong>numpy_dtype</strong> – The numpy data type used within the optimization routine. All variables in the optimization routine will
-be converted to this data type.</li>
-<li><strong>confidence_level_flag</strong> (<em>bool</em>) – If True a confidence level for the objective function will be given.</li>
-<li><strong>change_in_rel_error</strong> (<em>float</em>) – The maximum relative error that should be allowed to consider <img class="math" src="../_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> in the neighborhood
-of <img class="math" src="../_images/math/e57da723a78793be0af414e375cc2eff8c6dac64.png" alt="\widetilde{f}"/>.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><strong>params_for_global_min</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays that correspond to the decision vectors of the problem.</li>
-<li><strong>obj_fun_val_for_params</strong> (<em>list of floats</em>) – A list of objective function values produced by the corresponding decision vectors in params_for_global_min.</li>
-<li><strong>my_rank</strong> (<em>integer</em>) – An integer corresponding to the rank assigned to the core within the routine.</li>
-</ul>
-</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<p>See <a class="reference internal" href="../parallel_crnt4sbml.html#parallel-crnt4sbml-label"><span class="std std-ref">Parallel CRNT4SBML</span></a>.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="crnt4sbml.SemiDiffusiveApproach.run_optimization">
-<code class="descname">run_optimization</code><span class="sig-paren">(</span><em>bounds=None</em>, <em>iterations=10</em>, <em>sys_min_val=2.220446049250313e-16</em>, <em>seed=0</em>, <em>print_flag=False</em>, <em>numpy_dtype=&lt;class 'numpy.float64'&gt;</em>, <em>confidence_level_flag=False</em>, <em>change_in_rel_error=0.01</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach.run_optimization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach.run_optimization" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_optimization</code><span class="sig-paren">(</span><em>bounds=None</em>, <em>iterations=10</em>, <em>sys_min_val=2.220446049250313e-16</em>, <em>seed=0</em>, <em>print_flag=False</em>, <em>numpy_dtype=&lt;class 'numpy.float64'&gt;</em>, <em>confidence_level_flag=False</em>, <em>change_in_rel_error=0.01</em>, <em>parallel_flag=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/semi_diffusive_approach.html#SemiDiffusiveApproach.run_optimization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.SemiDiffusiveApproach.run_optimization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for running the optimization problem for the semi-diffusive approach. Note that there are no bounds
 enforced on species’ concentrations as they are automatically restricted to be greater than zero by the theory.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -680,6 +655,8 @@ be converted to this data type.</li>
 <li><strong>confidence_level_flag</strong> (<em>bool</em>) – If True a confidence level for the objective function will be given.</li>
 <li><strong>change_in_rel_error</strong> (<em>float</em>) – The maximum relative error that should be allowed to consider <img class="math" src="../_images/math/a16a7dbef0ea0c165402420027a0a88e26de4536.png" alt="f_k"/> in the neighborhood
 of <img class="math" src="../_images/math/e57da723a78793be0af414e375cc2eff8c6dac64.png" alt="\widetilde{f}"/>.</li>
+<li><strong>parallel_flag</strong> (<em>bool</em>) – If set to True a parallel version of the optimization routine is ran. If False, a serial version of the
+optimization routine is ran. See <a class="reference internal" href="../parallel_crnt4sbml.html#parallel-gen-app-label"><span class="std std-ref">Parallel General Approach</span></a>.</li>
 </ul>
 </td>
 </tr>

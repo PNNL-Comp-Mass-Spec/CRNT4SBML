@@ -1,5 +1,3 @@
-import sys
-sys.path.insert(0, "..")
 import crnt4sbml
 
 network = crnt4sbml.CRNT("../sbml_files/p85-p110-PTEN.xml")
@@ -31,7 +29,7 @@ if approach.get_my_rank() == 0:
     print("Species for concentration bounds:")
     print(approach.get_concentration_bounds_species())
 
-    multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species="s37", parameters=params_for_global_min,
-                                                                                         auto_parameters={'PrincipalContinuationParameter': "C4"})
+multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species="s37", parameters=params_for_global_min,
+                                                                                     auto_parameters={'PrincipalContinuationParameter': "C4"})
 
-    approach.generate_report()
+approach.generate_report()

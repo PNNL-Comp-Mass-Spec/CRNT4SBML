@@ -130,6 +130,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#figure-4c-from-irene">Figure 4C from <code class="docutils literal notranslate"><span class="pre">[irene]</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#general-approach">General Approach</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#song-model-of-song-paper">Song model of <code class="docutils literal notranslate"><span class="pre">[song_paper]</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="example_use.html">An Example User Case Scenario</a></li>
@@ -203,39 +207,43 @@
            <div itemprop="articleBody">
             
   <div class="section" id="further-examples">
-<span id="further-examples-label"></span><h1><a class="toc-backref" href="#id16">Further Examples</a><a class="headerlink" href="#further-examples" title="Permalink to this headline">¶</a></h1>
-<p>In this section we present multiple examples for the mass conservation and semi-diffusive approaches. In addition to this,
-we provide some examples satisfying the deficiency theorems. Before each example we depict the CellDesigner layout and
-C-graph generated using the instructions in <a class="reference internal" href="generating_c_graphs.html#presentable-graph-label"><span class="std std-ref">Generating Presentable C-graphs</span></a>. Those nodes that represent zero complexes
-are colored red while regular nodes are green.</p>
+<span id="further-examples-label"></span><h1><a class="toc-backref" href="#id17">Further Examples</a><a class="headerlink" href="#further-examples" title="Permalink to this headline">¶</a></h1>
+<p>In this section we present multiple examples for the mass conservation, semi-diffusive, and general approaches. In
+addition to this, we provide some examples satisfying the deficiency theorems. Before each example we depict the
+CellDesigner layout and C-graph generated using the instructions in <a class="reference internal" href="generating_c_graphs.html#presentable-graph-label"><span class="std std-ref">Generating Presentable C-graphs</span></a>. Those nodes that
+represent zero complexes are colored red while regular nodes are green.</p>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#further-examples" id="id16">Further Examples</a><ul>
-<li><a class="reference internal" href="#low-deficiency-approach" id="id17">Low Deficiency Approach</a><ul>
-<li><a class="reference internal" href="#network-3-13-of-fein-lecture" id="id18">Network 3.13 of <a class="reference internal" href="zbibliography.html#fein-lecture" id="id1">[Fei79]</a></a></li>
-<li><a class="reference internal" href="#figure-1aii-of-irene" id="id19">Figure 1Aii of <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a></a></li>
-<li><a class="reference internal" href="#example-3-d-3-of-fein-lecture" id="id20">Example 3.D.3 of <a class="reference internal" href="zbibliography.html#fein-lecture" id="id3">[Fei79]</a></a></li>
+<li><a class="reference internal" href="#further-examples" id="id17">Further Examples</a><ul>
+<li><a class="reference internal" href="#low-deficiency-approach" id="id18">Low Deficiency Approach</a><ul>
+<li><a class="reference internal" href="#network-3-13-of-fein-lecture" id="id19">Network 3.13 of <a class="reference internal" href="zbibliography.html#fein-lecture" id="id1">[Fei79]</a></a></li>
+<li><a class="reference internal" href="#figure-1aii-of-irene" id="id20">Figure 1Aii of <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a></a></li>
+<li><a class="reference internal" href="#example-3-d-3-of-fein-lecture" id="id21">Example 3.D.3 of <a class="reference internal" href="zbibliography.html#fein-lecture" id="id3">[Fei79]</a></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#mass-conservation-approach" id="id21">Mass Conservation Approach</a><ul>
-<li><a class="reference internal" href="#closed-graph-of-figure-5a-of-irene" id="id22">Closed graph of Figure 5A of <a class="reference internal" href="zbibliography.html#irene" id="id4">[OMYS17]</a></a></li>
-<li><a class="reference internal" href="#gene-regulatory-network-with-two-mutually-repressing-genes-from-irene2014" id="id23">Gene regulatory network with two mutually repressing genes from <a class="reference internal" href="zbibliography.html#irene2014" id="id5">[OMYS14]</a></a></li>
-<li><a class="reference internal" href="#enzymatic-reaction-with-inhibition-by-substrate-from-irene2009" id="id24">Enzymatic reaction with inhibition by substrate from <a class="reference internal" href="zbibliography.html#irene2009" id="id6">[OMBA09]</a></a></li>
-<li><a class="reference internal" href="#enzymatic-reaction-with-simple-substrate-cycle-from-hervagault1987439" id="id25">Enzymatic reaction with simple substrate cycle from <a class="reference internal" href="zbibliography.html#hervagault1987439" id="id7">[HC87]</a></a></li>
-<li><a class="reference internal" href="#g1-s-transition-in-the-cell-cycle-of-saccharomyces-cerevisiae-from-conradi2007" id="id26">G1/S transition in the cell cycle of Saccharomyces cerevisiae from <a class="reference internal" href="zbibliography.html#conradi2007" id="id8">[CFRS07]</a></a></li>
-<li><a class="reference internal" href="#double-phosphorylation-in-signal-transduction-of-double-phos" id="id27">Double phosphorylation in signal transduction of <a class="reference internal" href="zbibliography.html#double-phos" id="id9">[OGM+06]</a></a></li>
-<li><a class="reference internal" href="#double-insulin-binding" id="id28">Double insulin binding</a></li>
-<li><a class="reference internal" href="#p85-p110-pten" id="id29">p85-p110-PTEN</a></li>
-<li><a class="reference internal" href="#closed-version-of-figure-4b-from-irene" id="id30">Closed version of Figure 4B from <a class="reference internal" href="zbibliography.html#irene" id="id10">[OMYS17]</a></a></li>
-<li><a class="reference internal" href="#closed-version-of-figure-4c-from-irene" id="id31">Closed version of Figure 4C from <a class="reference internal" href="zbibliography.html#irene" id="id11">[OMYS17]</a></a></li>
+<li><a class="reference internal" href="#mass-conservation-approach" id="id22">Mass Conservation Approach</a><ul>
+<li><a class="reference internal" href="#closed-graph-of-figure-5a-of-irene" id="id23">Closed graph of Figure 5A of <a class="reference internal" href="zbibliography.html#irene" id="id4">[OMYS17]</a></a></li>
+<li><a class="reference internal" href="#gene-regulatory-network-with-two-mutually-repressing-genes-from-irene2014" id="id24">Gene regulatory network with two mutually repressing genes from <a class="reference internal" href="zbibliography.html#irene2014" id="id5">[OMYS14]</a></a></li>
+<li><a class="reference internal" href="#enzymatic-reaction-with-inhibition-by-substrate-from-irene2009" id="id25">Enzymatic reaction with inhibition by substrate from <a class="reference internal" href="zbibliography.html#irene2009" id="id6">[OMBA09]</a></a></li>
+<li><a class="reference internal" href="#enzymatic-reaction-with-simple-substrate-cycle-from-hervagault1987439" id="id26">Enzymatic reaction with simple substrate cycle from <a class="reference internal" href="zbibliography.html#hervagault1987439" id="id7">[HC87]</a></a></li>
+<li><a class="reference internal" href="#g1-s-transition-in-the-cell-cycle-of-saccharomyces-cerevisiae-from-conradi2007" id="id27">G1/S transition in the cell cycle of Saccharomyces cerevisiae from <a class="reference internal" href="zbibliography.html#conradi2007" id="id8">[CFRS07]</a></a></li>
+<li><a class="reference internal" href="#double-phosphorylation-in-signal-transduction-of-double-phos" id="id28">Double phosphorylation in signal transduction of <a class="reference internal" href="zbibliography.html#double-phos" id="id9">[OGM+06]</a></a></li>
+<li><a class="reference internal" href="#double-insulin-binding" id="id29">Double insulin binding</a></li>
+<li><a class="reference internal" href="#p85-p110-pten" id="id30">p85-p110-PTEN</a></li>
+<li><a class="reference internal" href="#closed-version-of-figure-4b-from-irene" id="id31">Closed version of Figure 4B from <a class="reference internal" href="zbibliography.html#irene" id="id10">[OMYS17]</a></a></li>
+<li><a class="reference internal" href="#closed-version-of-figure-4c-from-irene" id="id32">Closed version of Figure 4C from <a class="reference internal" href="zbibliography.html#irene" id="id11">[OMYS17]</a></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#semi-diffusive-approach" id="id32">Semi-diffusive Approach</a><ul>
-<li><a class="reference internal" href="#figure-5b-of-irene" id="id33">Figure 5B of <a class="reference internal" href="zbibliography.html#irene" id="id12">[OMYS17]</a></a></li>
-<li><a class="reference internal" href="#open-version-of-figure-5a-from-irene" id="id34">Open version of Figure 5A from <a class="reference internal" href="zbibliography.html#irene" id="id13">[OMYS17]</a></a></li>
-<li><a class="reference internal" href="#figure-4b-from-irene" id="id35">Figure 4B from <a class="reference internal" href="zbibliography.html#irene" id="id14">[OMYS17]</a></a></li>
-<li><a class="reference internal" href="#figure-4c-from-irene" id="id36">Figure 4C from <a class="reference internal" href="zbibliography.html#irene" id="id15">[OMYS17]</a></a></li>
+<li><a class="reference internal" href="#semi-diffusive-approach" id="id33">Semi-diffusive Approach</a><ul>
+<li><a class="reference internal" href="#figure-5b-of-irene" id="id34">Figure 5B of <a class="reference internal" href="zbibliography.html#irene" id="id12">[OMYS17]</a></a></li>
+<li><a class="reference internal" href="#open-version-of-figure-5a-from-irene" id="id35">Open version of Figure 5A from <a class="reference internal" href="zbibliography.html#irene" id="id13">[OMYS17]</a></a></li>
+<li><a class="reference internal" href="#figure-4b-from-irene" id="id36">Figure 4B from <a class="reference internal" href="zbibliography.html#irene" id="id14">[OMYS17]</a></a></li>
+<li><a class="reference internal" href="#figure-4c-from-irene" id="id37">Figure 4C from <a class="reference internal" href="zbibliography.html#irene" id="id15">[OMYS17]</a></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#general-approach" id="id38">General Approach</a><ul>
+<li><a class="reference internal" href="#song-model-of-song-paper" id="id39">Song model of <a class="reference internal" href="zbibliography.html#song-paper" id="id16">[FSW+16]</a></a></li>
 </ul>
 </li>
 </ul>
@@ -243,9 +251,9 @@ are colored red while regular nodes are green.</p>
 </ul>
 </div>
 <div class="section" id="low-deficiency-approach">
-<h2><a class="toc-backref" href="#id17">Low Deficiency Approach</a><a class="headerlink" href="#low-deficiency-approach" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id18">Low Deficiency Approach</a><a class="headerlink" href="#low-deficiency-approach" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="network-3-13-of-fein-lecture">
-<h3><a class="toc-backref" href="#id18">Network 3.13 of <a class="reference internal" href="zbibliography.html#fein-lecture" id="id1">[Fei79]</a></a><a class="headerlink" href="#network-3-13-of-fein-lecture" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id19">Network 3.13 of <a class="reference internal" href="zbibliography.html#fein-lecture" id="id1">[Fei79]</a></a><a class="headerlink" href="#network-3-13-of-fein-lecture" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/feinberg_ex3_13_cd.png"><img alt="_images/feinberg_ex3_13_cd.png" class="align-center" src="_images/feinberg_ex3_13_cd.png" style="width: 220px; height: 150px;" /></a>
 <a class="reference internal image-reference" href="_images/feinberg_ex3_13_c_graph.png"><img alt="_images/feinberg_ex3_13_c_graph.png" class="align-center" src="_images/feinberg_ex3_13_c_graph.png" style="width: 350px; height: 120px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/694465e7cca645ddbc5c56389be72cbc/feinberg_ex3_13.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -277,7 +285,7 @@ One should not run the optimization-based methods.
 </div>
 </div>
 <div class="section" id="figure-1aii-of-irene">
-<h3><a class="toc-backref" href="#id19">Figure 1Aii of <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a></a><a class="headerlink" href="#figure-1aii-of-irene" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id20">Figure 1Aii of <a class="reference internal" href="zbibliography.html#irene" id="id2">[OMYS17]</a></a><a class="headerlink" href="#figure-1aii-of-irene" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/Fig_1Aii_cd.png"><img alt="_images/Fig_1Aii_cd.png" class="align-center" src="_images/Fig_1Aii_cd.png" style="width: 380px; height: 200px;" /></a>
 <a class="reference internal image-reference" href="_images/fig1Aii_c_graph.png"><img alt="_images/fig1Aii_c_graph.png" class="align-center" src="_images/fig1Aii_c_graph.png" style="width: 350px; height: 120px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/21533018187e27430a556f7b3cf8d945/Fig_1Aii.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -310,7 +318,7 @@ One should not run the optimization-based methods.
 </div>
 </div>
 <div class="section" id="example-3-d-3-of-fein-lecture">
-<h3><a class="toc-backref" href="#id20">Example 3.D.3 of <a class="reference internal" href="zbibliography.html#fein-lecture" id="id3">[Fei79]</a></a><a class="headerlink" href="#example-3-d-3-of-fein-lecture" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id21">Example 3.D.3 of <a class="reference internal" href="zbibliography.html#fein-lecture" id="id3">[Fei79]</a></a><a class="headerlink" href="#example-3-d-3-of-fein-lecture" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/feinberg_ex_3_D_3_cd.png"><img alt="_images/feinberg_ex_3_D_3_cd.png" class="align-center" src="_images/feinberg_ex_3_D_3_cd.png" style="width: 350px; height: 150px;" /></a>
 <a class="reference internal image-reference" href="_images/feinberg_ex_3_D_3_c_graph.png"><img alt="_images/feinberg_ex_3_D_3_c_graph.png" class="align-center" src="_images/feinberg_ex_3_D_3_c_graph.png" style="width: 350px; height: 150px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/fa51e1b680be8af2c1f744dd7b3b9f22/feinberg_ex_3_D_3.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -346,9 +354,9 @@ One should not run the optimization-based methods.
 </div>
 </div>
 <div class="section" id="mass-conservation-approach">
-<h2><a class="toc-backref" href="#id21">Mass Conservation Approach</a><a class="headerlink" href="#mass-conservation-approach" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id22">Mass Conservation Approach</a><a class="headerlink" href="#mass-conservation-approach" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="closed-graph-of-figure-5a-of-irene">
-<h3><a class="toc-backref" href="#id22">Closed graph of Figure 5A of <a class="reference internal" href="zbibliography.html#irene" id="id4">[OMYS17]</a></a><a class="headerlink" href="#closed-graph-of-figure-5a-of-irene" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id23">Closed graph of Figure 5A of <a class="reference internal" href="zbibliography.html#irene" id="id4">[OMYS17]</a></a><a class="headerlink" href="#closed-graph-of-figure-5a-of-irene" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/closed_fig5A_cd.png"><img alt="_images/closed_fig5A_cd.png" class="align-center" src="_images/closed_fig5A_cd.png" style="width: 550px; height: 330px;" /></a>
 <a class="reference internal image-reference" href="_images/closed_fig5A_c_graph.png"><img alt="_images/closed_fig5A_c_graph.png" class="align-center" src="_images/closed_fig5A_c_graph.png" style="width: 400px; height: 300px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/c74d46c703a7e0a0b48515b223a70702/closed_fig5A.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -376,8 +384,7 @@ The network does not satisfy the Deficiency Zero Theorem, multistability cannot 
 The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold: 3.3888680000000004
-
+Elapsed time for creating Equilibrium Manifold: 3.3645559999999994
 Decision Vector:
 [re1, re1r, re2, re3, re4, re5, re6, re7, re8, s3, s2, s4]
 
@@ -385,28 +392,24 @@ Species for concentration bounds:
 [s1, s6, s5, s9, s13, s16]
 
 Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 73.528814
+Elapsed time for feasible point method: 42.63995385169983
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 168.933448
+Running the multistart optimization method ...
+Elapsed time for multistart method: 109.29019284248352
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 13.4028639793396
+Elapsed time for continuity analysis in seconds: 16.06424617767334
 
-The number of feasible points that satisfy the constraints: 84
-Total feasible points that give F(x) = 0: 15
-Total number of points that passed final_check: 15
+Smallest value achieved by objective function: 0.0
+15 point(s) passed the optimization criteria.
 Number of multistability plots found: 2
 Elements in params_for_global_min that produce multistability:
-[5, 12]
+[0, 12]
 </pre></div>
 </div>
 </div>
 <div class="section" id="gene-regulatory-network-with-two-mutually-repressing-genes-from-irene2014">
-<h3><a class="toc-backref" href="#id23">Gene regulatory network with two mutually repressing genes from <a class="reference internal" href="zbibliography.html#irene2014" id="id5">[OMYS14]</a></a><a class="headerlink" href="#gene-regulatory-network-with-two-mutually-repressing-genes-from-irene2014" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id24">Gene regulatory network with two mutually repressing genes from <a class="reference internal" href="zbibliography.html#irene2014" id="id5">[OMYS14]</a></a><a class="headerlink" href="#gene-regulatory-network-with-two-mutually-repressing-genes-from-irene2014" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/irene2014_cd.png"><img alt="_images/irene2014_cd.png" class="align-center" src="_images/irene2014_cd.png" style="width: 500px; height: 280px;" /></a>
 <a class="reference internal image-reference" href="_images/irene2014_c_graph.png"><img alt="_images/irene2014_c_graph.png" class="align-center" src="_images/irene2014_c_graph.png" style="width: 450px; height: 250px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/55736f7119fed8bd0ca6ebaf7d4b96eb/irene2014.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -435,8 +438,7 @@ The network does not satisfy the Deficiency Zero Theorem, multistability cannot 
 The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold: 1.8994939999999998
-
+Elapsed time for creating Equilibrium Manifold: 1.772672
 Decision Vector:
 [re1, re2, re3, re3r, re4, re4r, re5, re5r, re6, re7, s2, s4]
 
@@ -444,28 +446,24 @@ Species for concentration bounds:
 [s1, s3, s5, s6, s7]
 
 Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 44.086146
+Elapsed time for feasible point method: 25.66311025619507
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 191.402404
+Running the multistart optimization method ...
+Elapsed time for multistart method: 119.89791989326477
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 88.94969439506531
+Elapsed time for continuity analysis in seconds: 100.14113593101501
 
-The number of feasible points that satisfy the constraints: 96
-Total feasible points that give F(x) = 0: 93
-Total number of points that passed final_check: 93
+Smallest value achieved by objective function: 0.0
+93 point(s) passed the optimization criteria.
 Number of multistability plots found: 21
 Elements in params_for_global_min that produce multistability:
-[13, 14, 25, 27, 29, 30, 32, 39, 46, 48, 49, 53, 58, 64, 66, 73, 75, 78, 82, 88, 90]
+[1, 3, 9, 11, 15, 21, 24, 27, 32, 35, 40, 45, 56, 62, 70, 79, 80, 83, 84, 85, 88]
 </pre></div>
 </div>
 </div>
 <div class="section" id="enzymatic-reaction-with-inhibition-by-substrate-from-irene2009">
-<h3><a class="toc-backref" href="#id24">Enzymatic reaction with inhibition by substrate from <a class="reference internal" href="zbibliography.html#irene2009" id="id6">[OMBA09]</a></a><a class="headerlink" href="#enzymatic-reaction-with-inhibition-by-substrate-from-irene2009" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id25">Enzymatic reaction with inhibition by substrate from <a class="reference internal" href="zbibliography.html#irene2009" id="id6">[OMBA09]</a></a><a class="headerlink" href="#enzymatic-reaction-with-inhibition-by-substrate-from-irene2009" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/irene2009_cd.png"><img alt="_images/irene2009_cd.png" class="align-center" src="_images/irene2009_cd.png" style="width: 350px; height: 220px;" /></a>
 <a class="reference internal image-reference" href="_images/irene2009_c_graph.png"><img alt="_images/irene2009_c_graph.png" class="align-center" src="_images/irene2009_c_graph.png" style="width: 400px; height: 200px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/4b477301c154761c7fbc97fe7d262937/irene2009.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -493,8 +491,7 @@ The network does not satisfy the Deficiency Zero Theorem, multistability cannot 
 The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold:  0.6182639999999999
-
+Elapsed time for creating Equilibrium Manifold: 0.715592
 Decision Vector:
 [re1, re1r, re2, re3, re3r, re4, re4r, re5, re5r, s2]
 
@@ -502,28 +499,24 @@ Species for concentration bounds:
 [s1, s4, s3, s5]
 
 Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 29.386688000000003
+Elapsed time for feasible point method: 15.607332229614258
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 129.787948
+Running the multistart optimization method ...
+Elapsed time for multistart method: 66.42637610435486
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 64.49447703361511
+Elapsed time for continuity analysis in seconds: 72.26282095909119
 
-The number of feasible points that satisfy the constraints: 100
-Total feasible points that give F(x) = 0: 84
-Total number of points that passed final_check: 84
+Smallest value achieved by objective function: 0.0
+84 point(s) passed the optimization criteria.
 Number of multistability plots found: 48
 Elements in params_for_global_min that produce multistability:
-[1, 7, 12, 14, 16, 17, 19, 20, 21, 22, 23, 25, 26, 29, 31, 34, 35, 38, 39, 40, 41, 43, 45, 46, 47, 49, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 66, 68, 70, 71, 72, 73, 74, 77, 79, 80, 81, 82]
+[3, 4, 5, 8, 9, 10, 11, 12, 13, 17, 18, 19, 21, 22, 23, 27, 30, 31, 34, 35, 36, 37, 38, 39, 41, 42, 47, 48, 50, 51, 54, 55, 56, 57, 59, 60, 61, 64, 65, 66, 68, 69, 72, 73, 74, 75, 77, 83]
 </pre></div>
 </div>
 </div>
 <div class="section" id="enzymatic-reaction-with-simple-substrate-cycle-from-hervagault1987439">
-<h3><a class="toc-backref" href="#id25">Enzymatic reaction with simple substrate cycle from <a class="reference internal" href="zbibliography.html#hervagault1987439" id="id7">[HC87]</a></a><a class="headerlink" href="#enzymatic-reaction-with-simple-substrate-cycle-from-hervagault1987439" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id26">Enzymatic reaction with simple substrate cycle from <a class="reference internal" href="zbibliography.html#hervagault1987439" id="id7">[HC87]</a></a><a class="headerlink" href="#enzymatic-reaction-with-simple-substrate-cycle-from-hervagault1987439" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/hervagault_canu_cd.png"><img alt="_images/hervagault_canu_cd.png" class="align-center" src="_images/hervagault_canu_cd.png" style="width: 300px; height: 200px;" /></a>
 <a class="reference internal image-reference" href="_images/hervagault_canu_c_graph.png"><img alt="_images/hervagault_canu_c_graph.png" class="align-center" src="_images/hervagault_canu_c_graph.png" style="width: 400px; height: 200px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/a113015dec8f693c6f8b4c246ca75fbd/hervagault_canu.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -550,7 +543,7 @@ The network does not satisfy the Deficiency Zero Theorem, multistability cannot 
 The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold: 0.8931420000000001
+Elapsed time for creating Equilibrium Manifold: 0.7393859999999997
 Decision Vector:
 [re1, re1r, re2, re3, re3r, re4, re4r, re5, s2, s6, s7]
 
@@ -558,28 +551,24 @@ Species for concentration bounds:
 [s1, s3, s4, s5]
 
 Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 27.225825999999998
+Elapsed time for feasible point method: 13.359651803970337
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 202.929372
+Running the multistart optimization method ...
+Elapsed time for multistart method: 103.19853806495667
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 82.84032797813416
+Elapsed time for continuity analysis in seconds: 90.50077891349792
 
-The number of feasible points that satisfy the constraints: 100
-Total feasible points that give F(x) = 0: 96
-Total number of points that passed final_check: 96
+Smallest value achieved by objective function: 0.0
+96 point(s) passed the optimization criteria.
 Number of multistability plots found: 14
 Elements in params_for_global_min that produce multistability:
-[0, 1, 2, 4, 9, 23, 35, 39, 62, 68, 70, 78, 87, 92]
+[1, 22, 25, 33, 37, 42, 51, 53, 57, 58, 59, 64, 74, 87]
 </pre></div>
 </div>
 </div>
 <div class="section" id="g1-s-transition-in-the-cell-cycle-of-saccharomyces-cerevisiae-from-conradi2007">
-<h3><a class="toc-backref" href="#id26">G1/S transition in the cell cycle of Saccharomyces cerevisiae from <a class="reference internal" href="zbibliography.html#conradi2007" id="id8">[CFRS07]</a></a><a class="headerlink" href="#g1-s-transition-in-the-cell-cycle-of-saccharomyces-cerevisiae-from-conradi2007" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id27">G1/S transition in the cell cycle of Saccharomyces cerevisiae from <a class="reference internal" href="zbibliography.html#conradi2007" id="id8">[CFRS07]</a></a><a class="headerlink" href="#g1-s-transition-in-the-cell-cycle-of-saccharomyces-cerevisiae-from-conradi2007" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/conradi2007_cd.png"><img alt="_images/conradi2007_cd.png" class="align-center" src="_images/conradi2007_cd.png" style="width: 480px; height: 400px;" /></a>
 <a class="reference internal image-reference" href="_images/conradi2007_c_graph.png"><img alt="_images/conradi2007_c_graph.png" class="align-center" src="_images/conradi2007_c_graph.png" style="width: 550px; height: 300px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/20677993d9fc576ba14905a387b77b80/conradi2007.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -616,8 +605,7 @@ The network does not satisfy the Deficiency Zero Theorem, multistability cannot 
 The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold: 239.75805
-
+Elapsed time for creating Equilibrium Manifold: 260.415536
 Decision Vector:
 [re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, re7, re7r, re8, re9, re9r, re10, re11, re11r, re12, s4, s12]
 
@@ -625,28 +613,24 @@ Species for concentration bounds:
 [s1, s3, s5, s8, s11, s13, s16]
 
 Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 119.43188000000004
+Elapsed time for feasible point method: 73.16450190544128
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 1571.9969740000001
+Running the multistart optimization method ...
+Elapsed time for multistart method: 800.0220079421997
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 16.601070642471313
+Elapsed time for continuity analysis in seconds: 15.878800868988037
 
-The number of feasible points that satisfy the constraints: 100
-Total feasible points that give F(x) = 0: 13
-Total number of points that passed final_check: 13
+Smallest value achieved by objective function: 0.0
+13 point(s) passed the optimization criteria.
 Number of multistability plots found: 11
 Elements in params_for_global_min that produce multistability:
-[1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12]
+[0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12]
 </pre></div>
 </div>
 </div>
 <div class="section" id="double-phosphorylation-in-signal-transduction-of-double-phos">
-<h3><a class="toc-backref" href="#id27">Double phosphorylation in signal transduction of <a class="reference internal" href="zbibliography.html#double-phos" id="id9">[OGM+06]</a></a><a class="headerlink" href="#double-phosphorylation-in-signal-transduction-of-double-phos" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id28">Double phosphorylation in signal transduction of <a class="reference internal" href="zbibliography.html#double-phos" id="id9">[OGM+06]</a></a><a class="headerlink" href="#double-phosphorylation-in-signal-transduction-of-double-phos" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/double_phos_cd.png"><img alt="_images/double_phos_cd.png" class="align-center" src="_images/double_phos_cd.png" style="width: 380px; height: 300px;" /></a>
 <a class="reference internal image-reference" href="_images/double_phos_c_graph.png"><img alt="_images/double_phos_c_graph.png" class="align-center" src="_images/double_phos_c_graph.png" style="width: 600px; height: 160px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/e78d25e9db40d6f4d843b2ac9b6fb153/DoublePhos.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -676,7 +660,7 @@ s3s4 -&gt; s5+s3  --  re4c
 The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
 The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold: 4.5310760000000005
+Elapsed time for creating Equilibrium Manifold: 5.184272
 Decision Vector:
 [re1f, re1d, re1c, re2f, re2d, re2c, re3f, re3d, re3c, re4f, re4d, re4c, s2, s3, s3s4]
 
@@ -684,33 +668,26 @@ Species for concentration bounds:
 [s1, s5, s2s1, s3s5, s4, s2s5]
 
 Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 34.138042
+Elapsed time for feasible point method: 18.401470184326172
 
-Running the multistart optimization ...
-Elapsed time for multistart method in seconds: 194.28234200000003
-
-The number of feasible points that satisfy the constraints: 100
-Smallest value achieved by objective function: 0.0
-Total feasible points that give F(x) = 0: 97
-Total number of points that passed final_check: 97
+Running the multistart optimization method ...
+Elapsed time for multistart method: 95.46931576728821
 
 Running continuity analysis ...
-Elapsed time for continuity analysis in seconds: 374.46599984169006
+Elapsed time for continuity analysis in seconds: 372.1889531612396
 
-The number of feasible points that satisfy the constraints: 100
 Smallest value achieved by objective function: 0.0
-Total feasible points that give F(x) = 0: 97
-Total number of points that passed final_check: 97
+97 point(s) passed the optimization criteria.
 Number of multistability plots found: 89
 Elements in params_for_global_min that produce multistability:
-[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
- 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 64,
- 65, 66, 67, 69, 70, 71, 72, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 87, 88, 90, 91, 92, 93, 94, 95, 96]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+ 32, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+ 61, 62, 64, 65, 66, 67, 69, 70, 71, 72, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 87, 88, 90, 91, 92, 93, 94, 95, 96]
 </pre></div>
 </div>
 </div>
 <div class="section" id="double-insulin-binding">
-<h3><a class="toc-backref" href="#id28">Double insulin binding</a><a class="headerlink" href="#double-insulin-binding" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id29">Double insulin binding</a><a class="headerlink" href="#double-insulin-binding" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/double_insulin_binding_cd.png"><img alt="_images/double_insulin_binding_cd.png" class="align-center" src="_images/double_insulin_binding_cd.png" style="width: 380px; height: 300px;" /></a>
 <a class="reference internal image-reference" href="_images/double_insulin_binding_c_graph.png"><img alt="_images/double_insulin_binding_c_graph.png" class="align-center" src="_images/double_insulin_binding_c_graph.png" style="width: 500px; height: 250px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/247d6ac7cbbbcbcb6f84264717b32635/double_insulin_binding.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -720,6 +697,7 @@ After running this script we obtain the following output:</p>
 Number of complexes: 12
 Number of reactions: 11
 Network deficiency: 2
+
 
 Reaction graph of the form
 reaction -- reaction label:
@@ -735,12 +713,10 @@ s10 -&gt; s4+s5  --  re5r
 s10 -&gt; s4+s9  --  re6
 s9 -&gt; s5  --  re7
 
-The network does not satisfy Deficiency Zero Theorem.
-The network does not satisfy Deficiency One Theorem.
-
+The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold:  2.150657999999999
-
+Elapsed time for creating Equilibrium Manifold: 2.2847300000000006
 Decision Vector:
 [re1, re1r, re2, re2r, re3, re3r, re4, re5, re5r, re6, re7, s2, s5, s10]
 
@@ -748,37 +724,50 @@ Species for concentration bounds:
 [s1, s3, s4, s6, s9]
 
 Running feasible point method for 100 iterations ...
-Elapsed time for feasible point method: 30.984338
+Elapsed time for feasible point method: 25.920205116271973
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 2.3317319454459066e-31
-
-Elapsed time for multistart method: 116.50619499999999
+Running the multistart optimization method ...
+Elapsed time for multistart method: 94.97992706298828
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 102.63304
+Elapsed time for continuity analysis in seconds: 652.6215398311615
 
-The number of feasible points that satisfy the constraints: 96
-Total feasible points that give F(x) = 0: 67
-Total number of points that passed final_check: 67
-Number of multistability plots found: 1
+Smallest value achieved by objective function: 2.3317319454459066e-31
+67 point(s) passed the optimization criteria.
+Number of multistability plots found: 2
 Elements in params_for_global_min that produce multistability:
-[17]
+[8, 38]
 </pre></div>
 </div>
 </div>
 <div class="section" id="p85-p110-pten">
-<h3><a class="toc-backref" href="#id29">p85-p110-PTEN</a><a class="headerlink" href="#p85-p110-pten" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id30">p85-p110-PTEN</a><a class="headerlink" href="#p85-p110-pten" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/p85-p110-PTEN_cd.png"><img alt="_images/p85-p110-PTEN_cd.png" class="align-center" src="_images/p85-p110-PTEN_cd.png" style="width: 500px; height: 420px;" /></a>
 <a class="reference internal image-reference" href="_images/p85-p110-PTEN_c_graph.png"><img alt="_images/p85-p110-PTEN_c_graph.png" class="align-center" src="_images/p85-p110-PTEN_c_graph.png" style="width: 500px; height: 300px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/86f133cd91774faee6724410b7c3e5f2/p85-p110-PTEN.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
-<a class="reference download internal" download="" href="_downloads/37d2b9adbe4b846caa32d54ff025d5b8/run_p85-p110-PTEN.py"><code class="xref download docutils literal notranslate"><span class="pre">run_p85-p110-PTEN</span></code></a>. After running this script we obtain the
-following output:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Number of species: 13
+<a class="reference download internal" download="" href="_downloads/37d2b9adbe4b846caa32d54ff025d5b8/run_p85-p110-PTEN.py"><code class="xref download docutils literal notranslate"><span class="pre">run_p85-p110-PTEN</span></code></a>. After running this script using four cores,
+we obtain the following output (for more information on running this script in parallel see <a class="reference internal" href="parallel_crnt4sbml.html#parallel-crnt4sbml-label"><span class="std std-ref">Parallel CRNT4SBML</span></a>):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Creating Equilibrium Manifold ...
+Creating Equilibrium Manifold ...
+Creating Equilibrium Manifold ...
+Creating Equilibrium Manifold ...
+Elapsed time for creating Equilibrium Manifold: 107.71943200000001
+Elapsed time for creating Equilibrium Manifold: 108.786772
+Elapsed time for creating Equilibrium Manifold: 108.861678
+Elapsed time for creating Equilibrium Manifold: 109.171994
+
+Running feasible point method for 5000 iterations ...
+Elapsed time for feasible point method: 2519.281478
+
+Running the multistart optimization method ...
+Elapsed time for multistart method: 403.41574900000023
+
+
+Number of species: 13
 Number of complexes: 17
 Number of reactions: 17
 Network deficiency: 2
+
 
 Reaction graph of the form
 reaction -- reaction label:
@@ -800,11 +789,8 @@ s9+s37 -&gt; s45  --  re14
 s45 -&gt; s9+s37  --  re14r
 s45 -&gt; s9+s14  --  re15
 
-The network does not satisfy Deficiency Zero Theorem.
-The network does not satisfy Deficiency One Theorem.
-
-Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold: 81.86547
+The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Decision Vector:
 [re1, re1r, re2, re2r, re3, re3r, re9, re9r, re10, re10r, re11, re12, re12r, re13, re14, re14r, re15, s3, s8, s9, s14, s37]
@@ -812,42 +798,48 @@ Decision Vector:
 Species for concentration bounds:
 [s23, s5, s24, s4, s16, s36, s41, s45]
 
-Running feasible point method for 5000 iterations ...
-Elapsed time for feasible point method: 14616.332184
-
-Running the multistart optimization ...
+A parallel version of numerical continuation is not available.
+Numerical continuation will be ran using only one core.
+For your convenience, the provided parameters have been saved in the current directory under the name params.npy.
+Running continuity analysis ...
+Elapsed time for continuity analysis in seconds: 5766.086745023727
 
 Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 2294.7480879999985
-
-The number of feasible points that satisfy the constraints: 477
-Total feasible points that give F(x) = 0: 429
-Total number of points that passed final_check: 429
-
-Running continuity analysis ...
-Elapsed time for continuity analysis: 5423.693162918091
-
-The number of feasible points that satisfy the constraints: 477
-Total feasible points that give F(x) = 0: 429
-Total number of points that passed final_check: 429
+429 point(s) passed the optimization criteria.
 Number of multistability plots found: 5
 Elements in params_for_global_min that produce multistability:
-[45, 64, 250, 410, 426]
+[171, 191, 213, 272, 296]
 </pre></div>
 </div>
 </div>
 <div class="section" id="closed-version-of-figure-4b-from-irene">
-<h3><a class="toc-backref" href="#id30">Closed version of Figure 4B from <a class="reference internal" href="zbibliography.html#irene" id="id10">[OMYS17]</a></a><a class="headerlink" href="#closed-version-of-figure-4b-from-irene" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id31">Closed version of Figure 4B from <a class="reference internal" href="zbibliography.html#irene" id="id10">[OMYS17]</a></a><a class="headerlink" href="#closed-version-of-figure-4b-from-irene" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/Fig4B_closed_cd.png"><img alt="_images/Fig4B_closed_cd.png" class="align-center" src="_images/Fig4B_closed_cd.png" style="width: 300px; height: 200px;" /></a>
 <a class="reference internal image-reference" href="_images/Fig4B_closed_c_graph.png"><img alt="_images/Fig4B_closed_c_graph.png" class="align-center" src="_images/Fig4B_closed_c_graph.png" style="width: 350px; height: 150px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/3b67c354c0875a980aae2007c276eeba/Fig4B_closed.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
-<a class="reference download internal" download="" href="_downloads/eec65462c0e9342c6c2139cddefabd20/run_Fig4B_closed.py"><code class="xref download docutils literal notranslate"><span class="pre">run_Fig4B_closed</span></code></a>. After running this
-script we obtain the following output:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Number of species: 6
+<a class="reference download internal" download="" href="_downloads/eec65462c0e9342c6c2139cddefabd20/run_Fig4B_closed.py"><code class="xref download docutils literal notranslate"><span class="pre">run_Fig4B_closed</span></code></a>. After running this script using four cores,
+we obtain the following output (for more information on running this script in parallel see <a class="reference internal" href="parallel_crnt4sbml.html#parallel-crnt4sbml-label"><span class="std std-ref">Parallel CRNT4SBML</span></a>):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Creating Equilibrium Manifold ...
+Creating Equilibrium Manifold ...
+Creating Equilibrium Manifold ...
+Creating Equilibrium Manifold ...
+Elapsed time for creating Equilibrium Manifold: 1.2114520000000004
+Elapsed time for creating Equilibrium Manifold: 1.2372060000000005
+Elapsed time for creating Equilibrium Manifold: 1.229298
+Elapsed time for creating Equilibrium Manifold: 1.2412400000000003
+
+Running feasible point method for 10000 iterations ...
+Elapsed time for feasible point method: 518.759626
+
+Running the multistart optimization method ...
+Elapsed time for multistart method: 2561.635341
+
+
+Number of species: 6
 Number of complexes: 7
 Number of reactions: 8
 Network deficiency: 1
+
 
 Reaction graph of the form
 reaction -- reaction label:
@@ -860,47 +852,47 @@ s6 -&gt; s2+s4  --  re3r
 s6 -&gt; s1+s5  --  re4
 s1+s5 -&gt; s6  --  re4r
 
-The network does not satisfy Deficiency Zero Theorem.
-The network does not satisfy Deficiency One Theorem.
-
-Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold: 0.09931699999999966
-
-Solving for species&#39; concentrations ...
-Elapsed time for finding species&#39; concentrations: 0.6209340000000001
+The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Decision Vector:
-[re1, re1r, re2, re2r, re3, re3r, re4, re4r, s3, s4, s5]
+[re1, re1r, re2, re2r, re3, re3r, re4, re4r, s3, s5, s2]
 
 Species for concentration bounds:
-[s1, s2, s6]
-
-Running feasible point method for 10000 iterations ...
-Elapsed time for feasible point method: 121.99213200000001
-
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 3.0653012943157734e-09
-
-Elapsed time for multistart method: 10424.801325999999
-
-The number of feasible points that satisfy the constraints: 9996
-Total feasible points that give F(x) = 0: 0
-Total number of points that passed final_check: 0
+[s1, s4, s6]
+Smallest value achieved by objective function: 2.454796889817468e-10
+0 point(s) passed the optimization criteria.
 </pre></div>
 </div>
 </div>
 <div class="section" id="closed-version-of-figure-4c-from-irene">
-<h3><a class="toc-backref" href="#id31">Closed version of Figure 4C from <a class="reference internal" href="zbibliography.html#irene" id="id11">[OMYS17]</a></a><a class="headerlink" href="#closed-version-of-figure-4c-from-irene" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id32">Closed version of Figure 4C from <a class="reference internal" href="zbibliography.html#irene" id="id11">[OMYS17]</a></a><a class="headerlink" href="#closed-version-of-figure-4c-from-irene" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/Fig4C_closed_cd.png"><img alt="_images/Fig4C_closed_cd.png" class="align-center" src="_images/Fig4C_closed_cd.png" style="width: 250px; height: 200px;" /></a>
 <a class="reference internal image-reference" href="_images/Fig4C_closed_c_graph.png"><img alt="_images/Fig4C_closed_c_graph.png" class="align-center" src="_images/Fig4C_closed_c_graph.png" style="width: 350px; height: 150px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/e8baeb08c8737a71b62a6894395b54df/Fig4C_closed.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
-<a class="reference download internal" download="" href="_downloads/969993f065498df7989bd3c451573773/run_Fig4C_closed.py"><code class="xref download docutils literal notranslate"><span class="pre">run_Fig4C_closed</span></code></a>. After running this script we obtain the
-following output:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Number of species: 5
+<a class="reference download internal" download="" href="_downloads/969993f065498df7989bd3c451573773/run_Fig4C_closed.py"><code class="xref download docutils literal notranslate"><span class="pre">run_Fig4C_closed</span></code></a>. After running this script using four cores,
+we obtain the following output (for more information on running this script in parallel see <a class="reference internal" href="parallel_crnt4sbml.html#parallel-crnt4sbml-label"><span class="std std-ref">Parallel CRNT4SBML</span></a>):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Creating Equilibrium Manifold ...
+Creating Equilibrium Manifold ...
+Creating Equilibrium Manifold ...
+Creating Equilibrium Manifold ...
+Elapsed time for creating Equilibrium Manifold: 0.9796280000000004
+Elapsed time for creating Equilibrium Manifold: 0.9905299999999997
+Elapsed time for creating Equilibrium Manifold: 0.997398
+Elapsed time for creating Equilibrium Manifold: 0.9981960000000001
+
+Running feasible point method for 10000 iterations ...
+Elapsed time for feasible point method: 236.957728
+
+Running the multistart optimization method ...
+Elapsed time for multistart method: 2115.088291
+
+
+Number of species: 5
 Number of complexes: 7
 Number of reactions: 8
 Network deficiency: 1
+
 
 Reaction graph of the form
 reaction -- reaction label:
@@ -913,41 +905,24 @@ s5 -&gt; s2+s3  --  re3r
 s5 -&gt; s1+s4  --  re5
 s1+s4 -&gt; s5  --  re5r
 
-The network does not satisfy Deficiency Zero Theorem.
-The network does not satisfy Deficiency One Theorem.
-
-Creating Equilibrium Manifold ...
-Elapsed time for creating Equilibrium Manifold: 0.08830100000000041
-
-Solving for species&#39; concentrations ...
-Elapsed time for finding species&#39; concentrations: 0.5211290000000002
+The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Decision Vector:
-[re1, re1r, re2, re2r, re3, re3r, re5, re5r, s3, s4]
+[re1, re1r, re2, re2r, re3, re3r, re5, re5r, s2, s4]
 
 Species for concentration bounds:
-[s1, s2, s5]
-
-Running feasible point method for 10000 iterations ...
-Elapsed time for feasible point method: 699.610803
-
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 2.2272143587977585e-10
-
-Elapsed time for multistart method: 7437.484507
-
-The number of feasible points that satisfy the constraints: 9961
-Total feasible points that give F(x) = 0: 0
-Total number of points that passed final_check: 0
+[s3, s1, s5]
+Smallest value achieved by objective function: 1.2913762450176939e-09
+0 point(s) passed the optimization criteria.
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="semi-diffusive-approach">
-<h2><a class="toc-backref" href="#id32">Semi-diffusive Approach</a><a class="headerlink" href="#semi-diffusive-approach" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id33">Semi-diffusive Approach</a><a class="headerlink" href="#semi-diffusive-approach" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="figure-5b-of-irene">
-<h3><a class="toc-backref" href="#id33">Figure 5B of <a class="reference internal" href="zbibliography.html#irene" id="id12">[OMYS17]</a></a><a class="headerlink" href="#figure-5b-of-irene" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id34">Figure 5B of <a class="reference internal" href="zbibliography.html#irene" id="id12">[OMYS17]</a></a><a class="headerlink" href="#figure-5b-of-irene" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/open_fig5B_cd.png"><img alt="_images/open_fig5B_cd.png" class="align-center" src="_images/open_fig5B_cd.png" style="width: 700px; height: 420px;" /></a>
 <a class="reference internal image-reference" href="_images/open_fig5B_c_graph.png"><img alt="_images/open_fig5B_c_graph.png" class="align-center" src="_images/open_fig5B_c_graph.png" style="width: 600px; height: 400px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/7e86dc3d716ebd25bb328695b6889b07/open_fig5B.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -1010,28 +985,24 @@ Boundary species:
 [&#39;s19&#39;]
 
 Running feasible point method for 50 iterations ...
-Elapsed time for feasible point method: 34.668702
+Elapsed time for feasible point method: 14.352675676345825
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 705.400516
+Running the multistart optimization method ...
+Elapsed time for multistart method: 352.3979892730713
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 43.185590982437134
+Elapsed time for continuity analysis in seconds: 42.74703788757324
 
-The number of feasible points that satisfy the constraints: 50
-Total feasible points that give F(x) = 0: 22
-Total number of points that passed final_check: 22
+Smallest value achieved by objective function: 0.0
+22 point(s) passed the optimization criteria.
 Number of multistability plots found: 4
 Elements in params_for_global_min that produce multistability:
-[0, 3, 13, 20]
+[0, 1, 3, 16]
 </pre></div>
 </div>
 </div>
 <div class="section" id="open-version-of-figure-5a-from-irene">
-<h3><a class="toc-backref" href="#id34">Open version of Figure 5A from <a class="reference internal" href="zbibliography.html#irene" id="id13">[OMYS17]</a></a><a class="headerlink" href="#open-version-of-figure-5a-from-irene" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id35">Open version of Figure 5A from <a class="reference internal" href="zbibliography.html#irene" id="id13">[OMYS17]</a></a><a class="headerlink" href="#open-version-of-figure-5a-from-irene" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/open_fig5A_cd.png"><img alt="_images/open_fig5A_cd.png" class="align-center" src="_images/open_fig5A_cd.png" style="width: 550px; height: 390px;" /></a>
 <a class="reference internal image-reference" href="_images/open_fig5A_c_graph.png"><img alt="_images/open_fig5A_c_graph.png" class="align-center" src="_images/open_fig5A_c_graph.png" style="width: 600px; height: 350px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/a17a354b57ba8a247fe0c3f2fa529dae/open_fig5A.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
@@ -1086,37 +1057,41 @@ Boundary species:
 [&#39;s19&#39;]
 
 Running feasible point method for 500 iterations ...
-Elapsed time for feasible point method: 80.86045800000001
+Elapsed time for feasible point method: 40.84808683395386
 
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 0.0
-
-Elapsed time for multistart method: 1181.564838
+Running the multistart optimization method ...
+Elapsed time for multistart method: 597.4433598518372
 
 Running continuity analysis ...
-Elapsed time for continuity analysis: 1708.7098100185394
+Elapsed time for continuity analysis in seconds: 1777.679843902588
 
-The number of feasible points that satisfy the constraints: 500
-Total feasible points that give F(x) = 0: 288
-Total number of points that passed final_check: 108
+Smallest value achieved by objective function: 0.0
+108 point(s) passed the optimization criteria.
 Number of multistability plots found: 1
 Elements in params_for_global_min that produce multistability:
-[9]
+[85]
 </pre></div>
 </div>
 </div>
 <div class="section" id="figure-4b-from-irene">
-<h3><a class="toc-backref" href="#id35">Figure 4B from <a class="reference internal" href="zbibliography.html#irene" id="id14">[OMYS17]</a></a><a class="headerlink" href="#figure-4b-from-irene" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id36">Figure 4B from <a class="reference internal" href="zbibliography.html#irene" id="id14">[OMYS17]</a></a><a class="headerlink" href="#figure-4b-from-irene" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/Fig4B_open_cd.png"><img alt="_images/Fig4B_open_cd.png" class="align-center" src="_images/Fig4B_open_cd.png" style="width: 300px; height: 250px;" /></a>
 <a class="reference internal image-reference" href="_images/Fig4B_open_c_graph.png"><img alt="_images/Fig4B_open_c_graph.png" class="align-center" src="_images/Fig4B_open_c_graph.png" style="width: 340px; height: 350px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/9d0302e8cfac1a59f38b6ee9bcff63ad/Fig4B_open.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
-<a class="reference download internal" download="" href="_downloads/244574346a956870cdf5cfddb267cd18/run_Fig4B_open.py"><code class="xref download docutils literal notranslate"><span class="pre">run_Fig4B_open</span></code></a>. After running this script we obtain the
-following output:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Number of species: 6
+<a class="reference download internal" download="" href="_downloads/244574346a956870cdf5cfddb267cd18/run_Fig4B_open.py"><code class="xref download docutils literal notranslate"><span class="pre">run_Fig4B_open</span></code></a>. After running this script using four cores,
+we obtain the following output (for more information on running this script in parallel see <a class="reference internal" href="parallel_crnt4sbml.html#parallel-crnt4sbml-label"><span class="std std-ref">Parallel CRNT4SBML</span></a>):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running feasible point method for 10000 iterations ...
+Elapsed time for feasible point method: 73.587205
+
+Running the multistart optimization method ...
+Elapsed time for multistart method: 3675.938109
+
+
+Number of species: 6
 Number of complexes: 11
 Number of reactions: 17
 Network deficiency: 4
+
 
 Reaction graph of the form
 reaction -- reaction label:
@@ -1138,8 +1113,8 @@ s4 -&gt; s7  --  re8
 s5 -&gt; s7  --  re9
 s6 -&gt; s7  --  re10
 
-The network does not satisfy Deficiency Zero Theorem.
-The network does not satisfy Deficiency One Theorem.
+The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Decision vector for optimization:
 [v_2, v_4, v_5, v_6, v_7, v_8, v_9, v_11, v_13, v_15, v_16]
@@ -1148,40 +1123,37 @@ Reaction labels for decision vector:
 [&#39;re1r&#39;, &#39;re2r&#39;, &#39;re3&#39;, &#39;re3r&#39;, &#39;re4&#39;, &#39;re4r&#39;, &#39;re5&#39;, &#39;re6&#39;, &#39;re7&#39;, &#39;re8&#39;, &#39;re9&#39;]
 
 Key species:
-[&#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;]
+[&#39;s1&#39;, &#39;s3&#39;, &#39;s2&#39;]
 
 Non key species:
 [&#39;s4&#39;, &#39;s5&#39;, &#39;s6&#39;]
 
 Boundary species:
 [&#39;s7&#39;]
-
-Running feasible point method for 10000 iterations ...
-Elapsed time for feasible point method: 268.53081000000003
-
-Running the multistart optimization ...
-
-Smallest value achieved by objective function: 2.304503779693441e-10
-
-Elapsed time for multistart method: 8503.097677999998
-
-The number of feasible points that satisfy the constraints: 10000
-Total feasible points that give F(x) = 0: 0
-Total number of points that passed final_check: 0
+Smallest value achieved by objective function: 2.3045037796933692e-10
+0 point(s) passed the optimization criteria.
 </pre></div>
 </div>
 </div>
 <div class="section" id="figure-4c-from-irene">
-<h3><a class="toc-backref" href="#id36">Figure 4C from <a class="reference internal" href="zbibliography.html#irene" id="id15">[OMYS17]</a></a><a class="headerlink" href="#figure-4c-from-irene" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id37">Figure 4C from <a class="reference internal" href="zbibliography.html#irene" id="id15">[OMYS17]</a></a><a class="headerlink" href="#figure-4c-from-irene" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/Fig4C_open_cd.png"><img alt="_images/Fig4C_open_cd.png" class="align-center" src="_images/Fig4C_open_cd.png" style="width: 350px; height: 300px;" /></a>
 <a class="reference internal image-reference" href="_images/Fig4C_open_c_graph.png"><img alt="_images/Fig4C_open_c_graph.png" class="align-center" src="_images/Fig4C_open_c_graph.png" style="width: 380px; height: 320px;" /></a>
 <p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/1cf3ae749567fc84f0ce43959e22b94a/Fig4C_open.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
-<a class="reference download internal" download="" href="_downloads/bd597a6c1d08ba281861bc9bb3bea424/run_Fig4C_open.py"><code class="xref download docutils literal notranslate"><span class="pre">run_Fig4C_open</span></code></a>. After running this script we obtain the
-following output:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Number of species: 5
+<a class="reference download internal" download="" href="_downloads/bd597a6c1d08ba281861bc9bb3bea424/run_Fig4C_open.py"><code class="xref download docutils literal notranslate"><span class="pre">run_Fig4C_open</span></code></a>. After running this script using four cores,
+we obtain the following output (for more information on running this script in parallel see <a class="reference internal" href="parallel_crnt4sbml.html#parallel-crnt4sbml-label"><span class="std std-ref">Parallel CRNT4SBML</span></a>):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Running feasible point method for 10000 iterations ...
+Elapsed time for feasible point method: 57.548688
+
+Running the multistart optimization method ...
+Elapsed time for multistart method: 1432.020307
+
+
+Number of species: 5
 Number of complexes: 8
 Number of reactions: 15
 Network deficiency: 2
+
 
 Reaction graph of the form
 reaction -- reaction label:
@@ -1201,8 +1173,8 @@ s5 -&gt; s6  --  re8
 s3 -&gt; s6  --  re9
 s4 -&gt; s6  --  re10
 
-The network does not satisfy Deficiency Zero Theorem.
-The network does not satisfy Deficiency One Theorem.
+The network does not satisfy the Deficiency Zero Theorem, multistability cannot be excluded.
+The network does not satisfy the Deficiency One Theorem, multistability cannot be excluded.
 
 Decision vector for optimization:
 [v_2, v_4, v_5, v_6, v_7, v_8, v_9, v_11, v_14, v_15]
@@ -1218,19 +1190,54 @@ Non key species:
 
 Boundary species:
 [&#39;s6&#39;]
+Smallest value achieved by objective function: 4.5692676949897973e-10
+0 point(s) passed the optimization criteria.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="general-approach">
+<h2><a class="toc-backref" href="#id38">General Approach</a><a class="headerlink" href="#general-approach" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="song-model-of-song-paper">
+<h3><a class="toc-backref" href="#id39">Song model of <a class="reference internal" href="zbibliography.html#song-paper" id="id16">[FSW+16]</a></a><a class="headerlink" href="#song-model-of-song-paper" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/song_model_celldesigner.png"><img alt="_images/song_model_celldesigner.png" class="align-center" src="_images/song_model_celldesigner.png" style="width: 500px; height: 420px;" /></a>
+<a class="reference internal image-reference" href="_images/song_model_c_graph.png"><img alt="_images/song_model_c_graph.png" class="align-center" src="_images/song_model_c_graph.png" style="width: 500px; height: 320px;" /></a>
+<p>To run this example download the SBML <a class="reference download internal" download="" href="_downloads/1eb426c5eb0d7a69c6a8d7288ded3c03/Song.xml"><code class="xref download docutils literal notranslate"><span class="pre">file</span></code></a> and script
+<a class="reference download internal" download="" href="_downloads/50a5d3eeaea79754ca80076228034401/run_song_model.py"><code class="xref download docutils literal notranslate"><span class="pre">run_song_model</span></code></a>. After running this script we obtain the
+following output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Number of species: 6
+Number of complexes: 10
+Number of reactions: 11
+Network deficiency: 3
 
-Running feasible point method for 10000 iterations ...
-Elapsed time for feasible point method: 215.59860999999998
 
-Running the multistart optimization ...
+Reaction graph of the form
+reaction -- reaction label:
+s1+s3 -&gt; s5  --  re4
+s5 -&gt; s1+s3  --  re4r
+s5 -&gt; s2+s3  --  re5
+s1+s4 -&gt; s8  --  re6
+s8 -&gt; s1+s4  --  re6r
+s8 -&gt; s2+s4  --  re7
+s3 -&gt; s4  --  re8
+s4 -&gt; s3  --  re8r
+s5 -&gt; s8  --  re9
+s8 -&gt; s5  --  re9r
+s2 -&gt; s1  --  re10
 
-Smallest value achieved by objective function: 4.5692676949898025e-10
+[re4, re4r, re5, re6, re6r, re7, re8, re8r, re9, re9r, re10, s1, s3, s5, s2, s4, s8]
 
-Elapsed time for multistart method: 4489.723483
+Running the multistart optimization method ...
+Elapsed time for multistart method: 1228.3208582401276
 
-The number of feasible points that satisfy the constraints: 10000
-Total feasible points that give F(x) = 0: 0
-Total number of points that passed final_check: 0
+Running continuity analysis ...
+Elapsed time for continuity analysis in seconds: 28.140807151794434
+
+Smallest value achieved by objective function: 0.0
+5 point(s) passed the optimization criteria.
+Number of multistability plots found: 2
+Elements in params_for_global_min that produce multistability:
+[1, 4]
 </pre></div>
 </div>
 </div>

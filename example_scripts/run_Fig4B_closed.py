@@ -1,5 +1,3 @@
-import sys
-sys.path.insert(0, "..")
 import crnt4sbml
 
 network = crnt4sbml.CRNT("../sbml_files/Fig4B_closed.xml")
@@ -31,4 +29,4 @@ if approach.get_my_rank() == 0:
     print("Species for concentration bounds:")
     print(approach.get_concentration_bounds_species())
 
-    approach.generate_report()
+approach.generate_report()

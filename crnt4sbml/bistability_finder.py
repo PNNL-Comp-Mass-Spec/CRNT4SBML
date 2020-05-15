@@ -330,8 +330,9 @@ class BistabilityFinder(object):
                             elif self.__method == "SemiDiffusiveApproach":
                                 out = self._SemiDiffusiveApproach__create_final_points(result1.x)
 
-                            det_point_sets.append(out)
-                            det_point_sets_fun.append(result1.fun)
+                            if out is not None:
+                                det_point_sets.append(out)
+                                det_point_sets_fun.append(result1.fun)
 
                     else:
                         if smallest_value > result.fun:
@@ -344,8 +345,9 @@ class BistabilityFinder(object):
                         elif self.__method == "SemiDiffusiveApproach":
                             out = self._SemiDiffusiveApproach__create_final_points(result.x)
 
-                        det_point_sets.append(out)
-                        det_point_sets_fun.append(result.fun)
+                        if out is not None:
+                            det_point_sets.append(out)
+                            det_point_sets_fun.append(result.fun)
                         if self.__confidence_level_flag:
                             obtained_minimums[i] = result.fun
 
@@ -429,14 +431,25 @@ class BistabilityFinder(object):
             # checking number of elements of feasible_point_sets for each core to see if we need to redistribute them
             redistribute_flag = len(x_candidates) == len(samples)
             val = self.__comm.allreduce(redistribute_flag, op=MPI.LAND)
-            if not val:
-                array_of_feasibles = mpi_mod.gather_numpy_array_of_values(x_candidates, self.__comm, self.__my_rank)
-                x_candidates = mpi_mod.distribute_points(array_of_feasibles, self.__my_rank, self.__num_cores, self.__comm)
 
+            if not val:
+                len_total = self.__comm.allreduce(len(x_candidates), op=MPI.SUM)
+                if len_total > 0:
+                    array_of_feasibles = mpi_mod.gather_numpy_array_of_values(x_candidates, self.__comm, self.__my_rank)
+                    x_candidates = mpi_mod.distribute_points(array_of_feasibles, self.__my_rank, self.__num_cores,
+                                                             self.__comm)
+                else:
+                    if self.__my_rank == 0:
+                        print("No feasible points were found, please rerun the optimization routine with more iterations.")
+                    sys.exit()
             self.__comm.Barrier()
         else:
             self.__end_time = time.time()
             print("Elapsed time for feasible point method: " + str(self.__end_time - self.__start_time))
+
+            if len(x_candidates) == 0:
+                print("No feasible points were found, please rerun optimization with more iterations.")
+                sys.exit()
 
         return x_candidates
 

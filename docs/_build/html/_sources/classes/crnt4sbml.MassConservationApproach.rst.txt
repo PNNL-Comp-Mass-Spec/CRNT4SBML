@@ -34,8 +34,9 @@ crnt4sbml.MassConservationApproach
       ~MassConservationApproach.get_independent_odes
       ~MassConservationApproach.get_independent_species
       ~MassConservationApproach.get_optimization_bounds
+      ~MassConservationApproach.get_my_rank
+      ~MassConservationApproach.get_comm
       ~MassConservationApproach.run_optimization
-      ~MassConservationApproach.run_mpi_optimization
       ~MassConservationApproach.run_continuity_analysis
       ~MassConservationApproach.run_greedy_continuity_analysis
    
