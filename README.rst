@@ -13,7 +13,7 @@ CRNT4SBML
         :target: https://crnt4sbml.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-CRNT4SBML is an easily installable Python based package available on Mac and Windows. CRNT4SBML is concentrated on
+CRNT4SBML is an easily installable Python based package available on MacOS and Windows. CRNT4SBML is concentrated on
 providing a simple workflow for the testing of core CRNT methods directed at detecting bistability in cell signaling
 pathways endowed with mass action kinetics.
 

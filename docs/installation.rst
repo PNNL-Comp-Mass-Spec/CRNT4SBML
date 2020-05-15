@@ -56,27 +56,36 @@ One can now see a directory called "crnt4sbml\_env" is created in the directory 
 
 We can now activate this environment as follows:
 
-On Mac:
+On MacOS:
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ source /path/to/python_environments/crnt4sbml_env/bin/activate
+        $ source /path/to/python_environments/crnt4sbml_env/bin/activate
 
 On Windows:
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ path\to\crnt4sbml_env\Scripts\activate
+        $ path\to\crnt4sbml_env\Scripts\activate
 
 Note, in case you are using PowerShell, make sure its policy is updated by executing command as administrator
 ``Set-ExecutionPolicy RemoteSigned``. On the command line one should now see "(crnt4sbml_env)" on the left side of the
 command line, which indicates that one is now working in the virtual environment.
 
+Stable Release
+---------------
+
 Once the environment is activated, one can now install CRNT4SBML as follows:
 
-.. code-block:: console
+On MacOS:
+    .. code-block:: console
 
-    $ pip install crnt4sbml
+        $ pip install crnt4sbml[MacOS]
+
+On Windows:
+    .. code-block:: console
+
+        $ pip install crnt4sbml[Windows]
 
 note that this will install crnt4sbml in the virtual environment crnt4sbml_env. One can only use crnt4sbml within this
 environment. If one wants to stop using the virtual environment, the following command can be used:
@@ -88,36 +97,37 @@ environment. If one wants to stop using the virtual environment, the following c
 "(base)" should show up on the left of the command line. One can then use the environment by using the "source" command
 above.
 
-Stable release
---------------
+Working Version
+----------------
 
-crnt4sbml can be obtained through a standard `pip`_ install as follows:
+The current working version of crnt4sbml can be downloaded from the `Github repo`_.
 
-.. code-block:: console
+Once the environment is activated, one can now install CRNT4SBML as follows:
 
-    $ pip install crnt4sbml
+On MacOS:
+    .. code-block:: console
 
-This will always install the most recent stable release. Note that crnt4sbml has only been tested with Python version
-3.7.
+        $ pip install git+https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML.git#egg=crnt4sbml[MacOS]
 
-.. _pip: https://pip.pypa.io
+On Windows:
+    .. code-block:: console
 
-From sources
-------------
+        $ pip install git+https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML.git#egg=crnt4sbml[Windows]
 
-The sources for crnt4sbml can be downloaded from the `Github repo`_.
+On Linux:
+    .. code-block:: console
 
-You can also clone the public repository:
+        $ pip install git+https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML.git#egg=crnt4sbml[Linux]
 
-.. code-block:: console
-
-    $ git clone https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML.git
-
-Once you have a copy of the source, you can install it with:
+note that this will install crnt4sbml in the virtual environment crnt4sbml_env. One can only use crnt4sbml within this
+environment. If one wants to stop using the virtual environment, the following command can be used:
 
 .. code-block:: console
 
-    $ python setup.py install
+    $ deactivate
 
+"(base)" should show up on the left of the command line. One can then use the environment by using the "source" command
+above.
 
 .. _Github repo: https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML
+.. _pip: https://pip.pypa.io

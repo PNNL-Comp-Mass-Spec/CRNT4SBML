@@ -35,7 +35,7 @@ setup(
                       'numpy==1.16.4',
                       'sympy==1.4',
                       'scipy==1.4.1',
-                      'matplotlib==3.1.0',
+                      'matplotlib==3.1.1',
                       'plotnine==0.6.0'],
     extras_require={"Windows": ['antimony==2.11.0', 'libroadrunner==1.5.2.1', 'rrplugins==1.2.2', 'mpi4py==3.0.3'],
                     "MacOS": ['antimony==2.11.0', 'libroadrunner==1.5.2.1', 'rrplugins==1.2.2', 'mpi4py==3.0.3'],
