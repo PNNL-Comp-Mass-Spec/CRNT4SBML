@@ -812,6 +812,7 @@ class BistabilityAnalysis(object):
             from mpi4py import MPI
             global mpi_mod
             from .mpi_routines import MPIRoutines as mpi_mod
+            self.__parameters = self.__comm.bcast(self.__parameters, root=0)
 
         if self.__parallel_flag is False and self.__comm is None:
 
@@ -827,6 +828,7 @@ class BistabilityAnalysis(object):
             self.__comm = MPI.COMM_WORLD
             self.__my_rank = self.__comm.Get_rank()
             self.__num_cores = self.__comm.Get_size()
+            self.__parameters = self.__comm.bcast(self.__parameters, root=0)
             self.__comm.Barrier()
 
             if not os.path.isdir(self.__dir_path) and self.__my_rank == 0:

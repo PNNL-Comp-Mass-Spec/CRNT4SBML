@@ -1195,32 +1195,12 @@ class GeneralApproach(BistabilityFinder, BistabilityAnalysis):
     def get_comm(self):
         """
         Returns a mpi4py communicator if it has been initialized and None otherwise.
-
-        Example
-        --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
-        >>> GA.get_comm()
         """
         return self.__comm
 
     def get_my_rank(self):
         """
         Returns the rank assigned by mpi4py if it is initialized, otherwise None will be returned.
-
-        Example
-        --------
-        >>> import crnt4sbml
-        >>> network = crnt4sbml.CRNT("path/to/sbml_file.xml")
-        >>> GA = network.get_general_approach()
-        >>> signal = "C1"
-        >>> response = "s1"
-        >>> GA.initialize_general_approach(signal=signal, response=response)
-        >>> GA.get_my_rank()
         """
         return self.__my_rank
 

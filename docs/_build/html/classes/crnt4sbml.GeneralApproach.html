@@ -283,16 +283,6 @@
 <dt id="crnt4sbml.GeneralApproach.get_comm">
 <code class="descname">get_comm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_comm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_comm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a mpi4py communicator if it has been initialized and None otherwise.</p>
-<p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_comm</span><span class="p">()</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="method">
@@ -450,16 +440,6 @@ need to be provided.</p>
 <dt id="crnt4sbml.GeneralApproach.get_my_rank">
 <code class="descname">get_my_rank</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/general_approach.html#GeneralApproach.get_my_rank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.GeneralApproach.get_my_rank" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the rank assigned by mpi4py if it is initialized, otherwise None will be returned.</p>
-<p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">crnt4sbml</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">crnt4sbml</span><span class="o">.</span><span class="n">CRNT</span><span class="p">(</span><span class="s2">&quot;path/to/sbml_file.xml&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_general_approach</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="s2">&quot;C1&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;s1&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">initialize_general_approach</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">GA</span><span class="o">.</span><span class="n">get_my_rank</span><span class="p">()</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="method">

@@ -285,6 +285,9 @@
 <tr class="row-even"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis" title="crnt4sbml.MassConservationApproach.run_greedy_continuity_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_greedy_continuity_analysis</span></code></a>([species,&nbsp;…])</td>
 <td>Function for running the greedy numerical continuation and bistability analysis portions of the mass conservation approach.</td>
 </tr>
+<tr class="row-odd"><td><a class="reference internal" href="#crnt4sbml.MassConservationApproach.run_direct_simulation" title="crnt4sbml.MassConservationApproach.run_direct_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_direct_simulation</span></code></a>([response,&nbsp;signal,&nbsp;…])</td>
+<td>Function for running direct simulation to conduct bistability analysis of the mass conservation approach.</td>
+</tr>
 </tbody>
 </table>
 <dl class="method">
@@ -862,8 +865,8 @@ for each special point in the plot.</li>
 
 <dl class="method">
 <dt id="crnt4sbml.MassConservationApproach.run_direct_simulation">
-<code class="descname">run_direct_simulation</code><span class="sig-paren">(</span><em>response=None</em>, <em>signal=None</em>, <em>params_for_global_min=None</em>, <em>dir_path='./'</em>, <em>change_in_relative_error=1e-06</em>, <em>parallel_flag=False</em>, <em>print_flag=False</em>, <em>left_multiplier=0.5</em>, <em>right_multiplier=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_direct_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_direct_simulation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function for running direct simulation to conduct bistability analysis of the general approach.</p>
+<code class="descname">run_direct_simulation</code><span class="sig-paren">(</span><em>response=None</em>, <em>signal=None</em>, <em>params_for_global_min=None</em>, <em>dir_path='./dir_sim_graphs'</em>, <em>change_in_relative_error=1e-06</em>, <em>parallel_flag=False</em>, <em>print_flag=False</em>, <em>left_multiplier=0.5</em>, <em>right_multiplier=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crnt4sbml/mass_conservation_approach.html#MassConservationApproach.run_direct_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crnt4sbml.MassConservationApproach.run_direct_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for running direct simulation to conduct bistability analysis of the mass conservation approach.</p>
 <p>Note: This routine is more expensive than the numerical continuation routines, but can provide solutions
 when the Jacobian of the ODE system is always singular. A parallel version of this routine is available.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -871,6 +874,8 @@ when the Jacobian of the ODE system is always singular. A parallel version of th
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> (<em>string</em>) – A string stating the response species of the bifurcation analysis.</li>
+<li><strong>signal</strong> (<em>string</em>) – A string stating the signal of the bifurcation analysis. Can be any of the of the conservation laws.</li>
 <li><strong>params_for_global_min</strong> (<em>list of numpy arrays</em>) – A list of numpy arrays corresponding to the input vectors that produce a small objective function
 value.</li>
 <li><strong>dir_path</strong> (<em>string</em>) – A string stating the path where the bifurcation diagrams should be saved.</li>
@@ -891,7 +896,7 @@ value. For example, the upperbound for the signal range will be signal_value + s
 </tbody>
 </table>
 <p class="rubric">Example</p>
-<p>See <a class="reference internal" href="../general_app_walkthrough.html#gen-app-label"><span class="std std-ref">General Approach Walkthrough</span></a>.</p>
+<p>See <a class="reference internal" href="../deficiency_walkthrough.html#my-deficiency-label"><span class="std std-ref">Mass Conservation Approach Walkthrough</span></a>.</p>
 </dd></dl>
 
 <dl class="method">

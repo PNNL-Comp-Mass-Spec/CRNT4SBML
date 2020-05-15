@@ -1397,18 +1397,22 @@ from .bistability_analysis import BistabilityAnalysis
         self.__species_num = self.__species.index(species) + 1
         self.__species_y = str(self.__concentration_pars[self.__species_num - 1])
 
-<div class="viewcode-block" id="MassConservationApproach.run_direct_simulation"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_direct_simulation">[docs]</a>    def run_direct_simulation(self, response=None, signal=None, params_for_global_min=None, dir_path=&quot;./&quot;,
-                              change_in_relative_error=1e-6,
-                              parallel_flag=False, print_flag=False, left_multiplier=0.5, right_multiplier=0.5):
+<div class="viewcode-block" id="MassConservationApproach.run_direct_simulation"><a class="viewcode-back" href="../../classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach.run_direct_simulation">[docs]</a>    def run_direct_simulation(self, response=None, signal=None, params_for_global_min=None, dir_path=&quot;./dir_sim_graphs&quot;,
+                              change_in_relative_error=1e-6, parallel_flag=False, print_flag=False,
+                              left_multiplier=0.5, right_multiplier=0.5):
 
         &quot;&quot;&quot;
-        Function for running direct simulation to conduct bistability analysis of the general approach.
+        Function for running direct simulation to conduct bistability analysis of the mass conservation approach.
 
         Note: This routine is more expensive than the numerical continuation routines, but can provide solutions
         when the Jacobian of the ODE system is always singular. A parallel version of this routine is available.
 
         Parameters
         ------------
+            response: string
+                A string stating the response species of the bifurcation analysis.
+            signal: string
+                A string stating the signal of the bifurcation analysis. Can be any of the of the conservation laws.
             params_for_global_min: list of numpy arrays
                 A list of numpy arrays corresponding to the input vectors that produce a small objective function
                 value.
@@ -1433,7 +1437,7 @@ from .bistability_analysis import BistabilityAnalysis
 
         Example
         ---------
-        See :ref:`gen-app-label`.
+        See :ref:`my-deficiency-label`.
         &quot;&quot;&quot;
         self.__initialize_direct_simulation(response, signal, params_for_global_min, dir_path, change_in_relative_error, parallel_flag,
                                             print_flag, left_multiplier, right_multiplier)

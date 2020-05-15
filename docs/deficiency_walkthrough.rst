@@ -273,4 +273,58 @@ This provides the following output::
 Note that some of these plots will be jagged or have missing sections in the plot. To produce better plots the hands on
 approach should be used.
 
+Although numerical continuation can be used by most examples, in some cases, the input vectors
+found by the optimization method yield an ODE system that has a singular or ill-conditioned Jacobian. For this reason,
+the numerical continuation method will be unsuccessful. To provide an alternative method to numerical continuation, we
+have constructed a routine that performs direct simulation in order to construct the bifurcation diagram. See
+section :ref:`direct-simulation-label` for further information on the method.
+
+To run bistability analysis using the direct simulation approach, we run the following routine:
+
+.. code-block:: python
+
+    import crnt4sbml
+
+    network = crnt4sbml.CRNT("/path/to/Fig1Ci.xml")
+
+    approach = network.get_mass_conservation_approach()
+
+    bounds, concentration_bounds = approach.get_optimization_bounds()
+
+    params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds=bounds, concentration_bounds=concentration_bounds)
+
+    approach.run_direct_simulation(response="s15", signal="C3", params_for_global_min=params_for_global_min)
+
+    approach.generate_report()
+
+This routine will use the input vectors (named params_for_global_min) provided by the optimization and perform the direct
+simulation approach for bistability analysis, then puts the plots produced in the directory path ./dir_sim_graphs. This
+provides the following output for the simple_biterminal example::
+
+    Creating Equilibrium Manifold ...
+    Elapsed time for creating Equilibrium Manifold: 2.384094
+
+    Running feasible point method for 10 iterations ...
+    Elapsed time for feasible point method: 1.722398281097412
+
+    Running the multistart optimization method ...
+    Elapsed time for multistart method: 8.421388149261475
+
+    Starting direct simulation ...
+    Elapsed time for direct simulation in seconds: 919.151850938797
+    Smallest value achieved by objective function: 0.0
+    4 point(s) passed the optimization criteria.
+
+Along with this, it also produces the following bifurcation diagram.
+
+.. image:: ./images_for_docs/fig1Ci_dir_sim.png
+   :width: 550px
+   :align: center
+   :height: 300px
+
+Similar to the optimization for the mass conservation approach, we can see that direct simulation can take a long time
+to complete. For this reason, we have a parallel version of the direct simulation approach and optimization. The
+parallel version can be ran by setting parallel_flag=True and then running with mpiexec. For further details on running
+in parallel see section :ref:`parallel-crnt4sbml-label`.
+
 For more examples of running the mass conservation approach please see :ref:`further-examples-label`.

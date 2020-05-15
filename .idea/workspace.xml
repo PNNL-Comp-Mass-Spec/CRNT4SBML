@@ -3,64 +3,31 @@
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/bistability_finder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/bistability_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/bistability_analysis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/semi_diffusive_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/semi_diffusive_approach.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.GeneralApproach.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.GeneralApproach.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.MassConservationApproach.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.MassConservationApproach.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.SemiDiffusiveApproach.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/classes/crnt4sbml.SemiDiffusiveApproach.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/deficiency_walkthrough.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/deficiency_walkthrough.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/more_examples.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/more_examples.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/reference.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/reference.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/zbibliography.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/zbibliography.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/244574346a956870cdf5cfddb267cd18/run_Fig4B_open.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/244574346a956870cdf5cfddb267cd18/run_Fig4B_open.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/2d3ebdc4d4c7c39a0d381a4dde5cede8/run_feinberg_ex_3_D_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/2d3ebdc4d4c7c39a0d381a4dde5cede8/run_feinberg_ex_3_D_3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/37d2b9adbe4b846caa32d54ff025d5b8/run_p85-p110-PTEN.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/37d2b9adbe4b846caa32d54ff025d5b8/run_p85-p110-PTEN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/3f19c0198a065459b3e417e4dca666ee/run_open_fig5B.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/3f19c0198a065459b3e417e4dca666ee/run_open_fig5B.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/6140d06308182ba9be5b7963deb29539/run_irene2009.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/6140d06308182ba9be5b7963deb29539/run_irene2009.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/6237ee3bfcb71768613272987dd84293/run_open_fig5A.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/6237ee3bfcb71768613272987dd84293/run_open_fig5A.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/969993f065498df7989bd3c451573773/run_Fig4C_closed.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/969993f065498df7989bd3c451573773/run_Fig4C_closed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/9c586ac30f56fda166a155f967e692b2/run_irene2014.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/9c586ac30f56fda166a155f967e692b2/run_irene2014.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/b77977f35999276f850c498637aa0dd1/run_double_insulin_binding.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/b77977f35999276f850c498637aa0dd1/run_double_insulin_binding.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/bd597a6c1d08ba281861bc9bb3bea424/run_Fig4C_open.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/bd597a6c1d08ba281861bc9bb3bea424/run_Fig4C_open.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/c4a6bea90cf259d8f6f4002f40fecd3f/run_closed_fig5A.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/c4a6bea90cf259d8f6f4002f40fecd3f/run_closed_fig5A.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/c74be5b66a624f1a405553c25f6cdd81/run_hervagault_canu.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/c74be5b66a624f1a405553c25f6cdd81/run_hervagault_canu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/ce0f1b2882956c03c91dc68052c5a446/run_double_phos.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/ce0f1b2882956c03c91dc68052c5a446/run_double_phos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/d19062b60d68b9bb404fadfbeca5fc23/run_fig1Aii.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/d19062b60d68b9bb404fadfbeca5fc23/run_fig1Aii.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/ebb4ae1d8c7340a34d08130796787a2e/run_feinberg_ex3_13.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/ebb4ae1d8c7340a34d08130796787a2e/run_feinberg_ex3_13.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_downloads/eec65462c0e9342c6c2139cddefabd20/run_Fig4B_closed.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_downloads/eec65462c0e9342c6c2139cddefabd20/run_Fig4B_closed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/crnt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/crnt.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/general_app_walkthrough.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/general_app_walkthrough.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/general_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/general_approach.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/mass_conservation_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/mass_conservation_approach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/semi_diffusive_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/semi_diffusive_approach.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.MassConservationApproach.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.MassConservationApproach.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.SemiDiffusiveApproach.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/classes/crnt4sbml.SemiDiffusiveApproach.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/more_examples.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/more_examples.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/deficiency_walkthrough.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/deficiency_walkthrough.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/general_app_walkthrough.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/general_app_walkthrough.rst.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.GeneralApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.GeneralApproach.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.MassConservationApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.MassConservationApproach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.SemiDiffusiveApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.SemiDiffusiveApproach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/confidence_level.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/confidence_level.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/more_examples.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/more_examples.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/reference.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/reference.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/deficiency_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/deficiency_walkthrough.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/general_app_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/general_app_walkthrough.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/classes/crnt4sbml.MassConservationApproach.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/classes/crnt4sbml.MassConservationApproach.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/classes/crnt4sbml.SemiDiffusiveApproach.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/classes/crnt4sbml.SemiDiffusiveApproach.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/more_examples.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/more_examples.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/mybib.bib" beforeDir="false" afterPath="$PROJECT_DIR$/docs/mybib.bib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/important_variables.dill" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/params.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_Fig4B_closed.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_Fig4B_closed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_Fig4B_open.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_Fig4B_open.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_Fig4C_closed.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_Fig4C_closed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_Fig4C_open.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_Fig4C_open.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_open_fig5A.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_open_fig5A.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_open_fig5B.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_open_fig5B.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_p85-p110-PTEN.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_p85-p110-PTEN.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/deficiency_walkthrough.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/deficiency_walkthrough.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/general_app_walkthrough.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/general_app_walkthrough.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/mpi_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/mpi_run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/num_cont_graphs/C1_vs_s2_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/num_cont_graphs/C1_vs_s2_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

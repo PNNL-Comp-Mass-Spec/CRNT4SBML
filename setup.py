@@ -3,7 +3,7 @@
 
 """The setup script."""
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -36,9 +36,10 @@ setup(
                       'sympy==1.4',
                       'scipy==1.4.1',
                       'matplotlib==3.1.0',
-                      'antimony==2.11.0',
-                      'libroadrunner==1.5.2.1',
-                      'rrplugins==1.2.2'],
+                      'plotnine==0.6.0'],
+    extras_require={"Windows": ['antimony==2.11.0', 'libroadrunner==1.5.2.1', 'rrplugins==1.2.2', 'mpi4py==3.0.3'],
+                    "MacOS": ['antimony==2.11.0', 'libroadrunner==1.5.2.1', 'rrplugins==1.2.2', 'mpi4py==3.0.3'],
+                    "Linux": ['mpi4py==3.0.3']},
     license="Apache Software License 2.0",
     long_description=readme + '\n\n' + history,
     include_package_data=True,

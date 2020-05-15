@@ -1368,32 +1368,12 @@ from .bistability_analysis import BistabilityAnalysis
 <div class="viewcode-block" id="GeneralApproach.get_comm"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_comm">[docs]</a>    def get_comm(self):
         &quot;&quot;&quot;
         Returns a mpi4py communicator if it has been initialized and None otherwise.
-
-        Example
-        --------
-        &gt;&gt;&gt; import crnt4sbml
-        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
-        &gt;&gt;&gt; GA = network.get_general_approach()
-        &gt;&gt;&gt; signal = &quot;C1&quot;
-        &gt;&gt;&gt; response = &quot;s1&quot;
-        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
-        &gt;&gt;&gt; GA.get_comm()
         &quot;&quot;&quot;
         return self.__comm</div>
 
 <div class="viewcode-block" id="GeneralApproach.get_my_rank"><a class="viewcode-back" href="../../classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach.get_my_rank">[docs]</a>    def get_my_rank(self):
         &quot;&quot;&quot;
         Returns the rank assigned by mpi4py if it is initialized, otherwise None will be returned.
-
-        Example
-        --------
-        &gt;&gt;&gt; import crnt4sbml
-        &gt;&gt;&gt; network = crnt4sbml.CRNT(&quot;path/to/sbml_file.xml&quot;)
-        &gt;&gt;&gt; GA = network.get_general_approach()
-        &gt;&gt;&gt; signal = &quot;C1&quot;
-        &gt;&gt;&gt; response = &quot;s1&quot;
-        &gt;&gt;&gt; GA.initialize_general_approach(signal=signal, response=response)
-        &gt;&gt;&gt; GA.get_my_rank()
         &quot;&quot;&quot;
         return self.__my_rank</div></div>
 

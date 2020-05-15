@@ -189,3 +189,5 @@ Similar to the optimization for the general approach, we can see that direct sim
 to complete. For this reason, we have a parallel version of the direct simulation approach. An example of a parallel
 direct simulation run for the general approach can be found in subsection :ref:`parallel-gen-app-label` of
 section :ref:`parallel-crnt4sbml-label`.
+
+For more examples of running the general approach please see :ref:`further-examples-label`.
