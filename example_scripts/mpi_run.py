@@ -6,8 +6,8 @@ approach = network.get_mass_conservation_approach()
 
 bounds, concentration_bounds = approach.get_optimization_bounds()
 
-params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds=bounds, concentration_bounds=concentration_bounds)
+params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds=bounds, concentration_bounds=concentration_bounds, parallel_flag=True)
 
-approach.run_direct_simulation(response="s15", signal="C3", params_for_global_min=params_for_global_min)
+approach.run_direct_simulation(response="s15", signal="C3", params_for_global_min=params_for_global_min, parallel_flag=True)
 
 approach.generate_report()

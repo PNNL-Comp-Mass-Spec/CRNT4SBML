@@ -3,18 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.rst" beforeDir="false" afterPath="$PROJECT_DIR$/README.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/installation.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/installation.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/readme.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/readme.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/installation.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/installation.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/installation.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/installation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/readme.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/readme.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/installation.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/installation.rst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/mpi_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/mpi_run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
