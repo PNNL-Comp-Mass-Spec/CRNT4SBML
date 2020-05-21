@@ -13,16 +13,24 @@ using `mpi4py <https://mpi4py.readthedocs.io/en/stable/>`_.
 Installing the proper packages
 +++++++++++++++++++++++++++++++++
 
-Requirements for Parallel Version
------------------------------------
+Base Requirements for Parallel Version
+-----------------------------------------
 
 - Python 3.7 (64-bit)
 - networkx==2.3
 - python-libsbml==5.18.0
 - numpy==1.16.4
 - sympy==1.4
-- scipy==1.3.0
+- scipy==1.4.1
+- matplotlib==3.1.1
+- plotnine==0.6.0
 - mpi4py==3.0.3
+
+MacOS and Windows
+++++++++++++++++++++
+- antimony==2.11.0
+- rrplugins==1.2.2
+- libroadrunner==1.5.2.1
 
 Creating a Virtual Environment
 --------------------------------
@@ -31,7 +39,7 @@ The preferred way to use the parallel version of CRNT4SBML is through a virtual 
 outlined in :ref:`my-installation-label` to create a virtual environment with the name mpi_crnt4sbml. Once this is done,
 we can now activate this environment as follows:
 
-On Mac:
+On MacOS and Linux:
 
 .. code-block:: console
 
@@ -47,21 +55,12 @@ Note, in case you are using PowerShell, make sure its policy is updated by execu
 ``Set-ExecutionPolicy RemoteSigned``. On the command line one should now see "(mpi_crnt4sbml)" on the left side of the
 command line, which indicates that one is now working in the virtual environment.
 
-Once the environment is activated, one can now install CRNT4SBML as follows:
-
-.. code-block:: console
-
-    $ pip install crnt4sbml
-
-note that this will install crnt4sbml in the virtual environment mpi_crnt4sbml. One can only use crnt4sbml within this
-environment.
-
 One now needs to install mpi4py. Given mpi4py uses mpicc under the covers, we first need to install an MPI compiler
-onto our system. This is done differently on MacOS and Windows.
+onto our system. This is done differently on MacOS, Linux, and Windows.
 
-On Mac:
+On MacOS:
 
-    The simplest way to install mpicc on mac is to use homebrew. To begin, first install
+    The simplest way to install mpicc on MacOS is to use homebrew. To begin, first install
     `homebrew <https://docs.brew.sh/Installation>`_. Then, we need to install open-mpi. This is done in the terminal
     as follows:
 
@@ -83,6 +82,15 @@ On Mac:
 
         $ pip install mpi4py
 
+On Linux:
+
+    The simplest way to install an MPI compiler on Linux is to install open-mpi. This is done in the terminal as
+    follows (note that one may need to use sudo):
+
+    .. code-block:: console
+
+        $ apt-get install -y libopenmpi-dev
+
 On Windows:
 
     The simplest way to install a proper MPI compiler on Windows is to use Microsoft MPI. If not already installed,
@@ -95,13 +103,25 @@ On Windows:
     should be set to MSMPI_BIN and the Value should be ``C:\Program Files\Microsoft MPI\Bin``. This can be done
     following the instructions `here <https://www.computerhope.com/issues/ch000549.htm>`_.
 
-    We are now ready to install mpi4py. With the virtual environment mpi_crnt4sbml activated, mpi4py can be installed
-    as follows:
+Once the environment is activated, one can now install a parallel CRNT4SBML as follows:
 
+On MacOS:
     .. code-block:: console
 
-        $ pip install mpi4py
+        $ pip install crnt4sbml[MPIMacOS]
 
+On Windows:
+    .. code-block:: console
+
+        $ pip install crnt4sbml[MPIWindows]
+
+On Linux (numerical continuation is unavailable for Linux):
+    .. code-block:: console
+
+        $ pip install crnt4sbml[MPILinux]
+
+note that this will install crnt4sbml in the virtual environment mpi_crnt4sbml. One can only use crnt4sbml within this
+environment.
 
 Parallel Mass Conservation Approach
 +++++++++++++++++++++++++++++++++++++

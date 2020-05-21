@@ -6,16 +6,20 @@
 Installation
 ============
 
-Requirements
---------------------------------
+Base requirements
+-------------------
 
 - Python 3.7 (64-bit)
 - networkx==2.3
 - python-libsbml==5.18.0
 - numpy==1.16.4
 - sympy==1.4
-- scipy==1.3.0
+- scipy==1.4.1
 - matplotlib==3.1.1
+- plotnine==0.6.0
+
+MacOS and Windows
+++++++++++++++++++++
 - antimony==2.11.0
 - rrplugins==1.2.2
 - libroadrunner==1.5.2.1
@@ -87,6 +91,11 @@ On Windows:
 
         $ pip install crnt4sbml[Windows]
 
+On Linux (numerical continuation is unavailable for Linux):
+    .. code-block:: console
+
+        $ pip install crnt4sbml[Linux]
+
 note that this will install crnt4sbml in the virtual environment crnt4sbml_env. One can only use crnt4sbml within this
 environment. If one wants to stop using the virtual environment, the following command can be used:
 
@@ -114,7 +123,7 @@ On Windows:
 
         $ pip install git+https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML.git#egg=crnt4sbml[Windows]
 
-On Linux:
+On Linux (numerical continuation is unavailable for Linux):
     .. code-block:: console
 
         $ pip install git+https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML.git#egg=crnt4sbml[Linux]

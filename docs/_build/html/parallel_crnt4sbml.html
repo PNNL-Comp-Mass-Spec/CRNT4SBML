@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Numerical Optimization Routine" href="numerical_opt.html" />
-    <link rel="prev" title="General Approach Walkthrough" href="general_app_walkthrough.html" /> 
+    <link rel="next" title="Docker and CRNT4SBML" href="docker_docs.html" />
+    <link rel="prev" title="Quick Start" href="quickstart.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,15 +90,12 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detect_bistability.html">Steps for Detecting Bistability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physiological_bounds.html">Creating Physiological Bounds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
-<li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
-<li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
-<li class="toctree-l1"><a class="reference internal" href="general_app_walkthrough.html">General Approach Walkthrough</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Parallel CRNT4SBML</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installing-the-proper-packages">Installing the proper packages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#requirements-for-parallel-version">Requirements for Parallel Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#base-requirements-for-parallel-version">Base Requirements for Parallel Version</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#macos-and-windows">MacOS and Windows</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-virtual-environment">Creating a Virtual Environment</a></li>
 </ul>
 </li>
@@ -110,6 +107,13 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="docker_docs.html">Docker and CRNT4SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physiological_bounds.html">Creating Physiological Bounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deficiency_walkthrough.html">Mass Conservation Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injectivity_walkthrough.html">Semi-diffusive Approach Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="general_app_walkthrough.html">General Approach Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_opt.html">Numerical Optimization Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numerical_cont.html">Numerical Continuation Routine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="direct_simulation.html">Direct Simulation for the General Approach</a></li>
@@ -194,24 +198,34 @@ the user experience, we have developed parallel versions of the optimization rou
 using <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/">mpi4py</a>.</p>
 <div class="section" id="installing-the-proper-packages">
 <h2>Installing the proper packages<a class="headerlink" href="#installing-the-proper-packages" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="requirements-for-parallel-version">
-<h3>Requirements for Parallel Version<a class="headerlink" href="#requirements-for-parallel-version" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="base-requirements-for-parallel-version">
+<h3>Base Requirements for Parallel Version<a class="headerlink" href="#base-requirements-for-parallel-version" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Python 3.7 (64-bit)</li>
 <li>networkx==2.3</li>
 <li>python-libsbml==5.18.0</li>
 <li>numpy==1.16.4</li>
 <li>sympy==1.4</li>
-<li>scipy==1.3.0</li>
+<li>scipy==1.4.1</li>
+<li>matplotlib==3.1.1</li>
+<li>plotnine==0.6.0</li>
 <li>mpi4py==3.0.3</li>
 </ul>
 </div>
+</div>
+<div class="section" id="macos-and-windows">
+<h2>MacOS and Windows<a class="headerlink" href="#macos-and-windows" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>antimony==2.11.0</li>
+<li>rrplugins==1.2.2</li>
+<li>libroadrunner==1.5.2.1</li>
+</ul>
 <div class="section" id="creating-a-virtual-environment">
 <h3>Creating a Virtual Environment<a class="headerlink" href="#creating-a-virtual-environment" title="Permalink to this headline">¶</a></h3>
 <p>The preferred way to use the parallel version of CRNT4SBML is through a virtual environment. First follow the steps
 outlined in <a class="reference internal" href="installation.html#my-installation-label"><span class="std std-ref">Installation</span></a> to create a virtual environment with the name mpi_crnt4sbml. Once this is done,
 we can now activate this environment as follows:</p>
-<p>On Mac:</p>
+<p>On MacOS and Linux:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> /path/to/python_environments/mpi_crnt4sbml/bin/activate
 </pre></div>
 </div>
@@ -222,17 +236,11 @@ we can now activate this environment as follows:</p>
 <p>Note, in case you are using PowerShell, make sure its policy is updated by executing command as administrator
 <code class="docutils literal notranslate"><span class="pre">Set-ExecutionPolicy</span> <span class="pre">RemoteSigned</span></code>. On the command line one should now see “(mpi_crnt4sbml)” on the left side of the
 command line, which indicates that one is now working in the virtual environment.</p>
-<p>Once the environment is activated, one can now install CRNT4SBML as follows:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install crnt4sbml
-</pre></div>
-</div>
-<p>note that this will install crnt4sbml in the virtual environment mpi_crnt4sbml. One can only use crnt4sbml within this
-environment.</p>
 <p>One now needs to install mpi4py. Given mpi4py uses mpicc under the covers, we first need to install an MPI compiler
-onto our system. This is done differently on MacOS and Windows.</p>
-<p>On Mac:</p>
+onto our system. This is done differently on MacOS, Linux, and Windows.</p>
+<p>On MacOS:</p>
 <blockquote>
-<div><p>The simplest way to install mpicc on mac is to use homebrew. To begin, first install
+<div><p>The simplest way to install mpicc on MacOS is to use homebrew. To begin, first install
 <a class="reference external" href="https://docs.brew.sh/Installation">homebrew</a>. Then, we need to install open-mpi. This is done in the terminal
 as follows:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> brew install open-mpi
@@ -249,6 +257,14 @@ install mpi4py. With the virtual environment mpi_crnt4sbml activated, mpi4py can
 </pre></div>
 </div>
 </div></blockquote>
+<p>On Linux:</p>
+<blockquote>
+<div><p>The simplest way to install an MPI compiler on Linux is to install open-mpi. This is done in the terminal as
+follows (note that one may need to use sudo):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> apt-get install -y libopenmpi-dev
+</pre></div>
+</div>
+</div></blockquote>
 <p>On Windows:</p>
 <blockquote>
 <div><p>The simplest way to install a proper MPI compiler on Windows is to use Microsoft MPI. If not already installed,
@@ -259,12 +275,27 @@ that is compatible with mpi4py.</p>
 <p>Note that for some users, one will also need to set the MSMPI path under User Variables. By default the Variable
 should be set to MSMPI_BIN and the Value should be <code class="docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files\Microsoft</span> <span class="pre">MPI\Bin</span></code>. This can be done
 following the instructions <a class="reference external" href="https://www.computerhope.com/issues/ch000549.htm">here</a>.</p>
-<p>We are now ready to install mpi4py. With the virtual environment mpi_crnt4sbml activated, mpi4py can be installed
-as follows:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install mpi4py
+</div></blockquote>
+<p>Once the environment is activated, one can now install a parallel CRNT4SBML as follows:</p>
+<dl class="docutils">
+<dt>On MacOS:</dt>
+<dd><div class="first last highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install crnt4sbml<span class="o">[</span>MPIMacOS<span class="o">]</span>
 </pre></div>
 </div>
-</div></blockquote>
+</dd>
+<dt>On Windows:</dt>
+<dd><div class="first last highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install crnt4sbml<span class="o">[</span>MPIWindows<span class="o">]</span>
+</pre></div>
+</div>
+</dd>
+<dt>On Linux (numerical continuation is unavailable for Linux):</dt>
+<dd><div class="first last highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install crnt4sbml<span class="o">[</span>MPILinux<span class="o">]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>note that this will install crnt4sbml in the virtual environment mpi_crnt4sbml. One can only use crnt4sbml within this
+environment.</p>
 </div>
 </div>
 <div class="section" id="parallel-mass-conservation-approach">
@@ -403,10 +434,10 @@ It was found that <span class="m">0</span>.0 is the minimum objective <span clas
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="numerical_opt.html" class="btn btn-neutral float-right" title="Numerical Optimization Routine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="docker_docs.html" class="btn btn-neutral float-right" title="Docker and CRNT4SBML" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="general_app_walkthrough.html" class="btn btn-neutral float-left" title="General Approach Walkthrough" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quick Start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

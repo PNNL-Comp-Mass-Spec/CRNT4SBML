@@ -9,13 +9,14 @@ Welcome to CRNT4SBML's documentation!
    installation
    detect_bistability
    quickstart
+   parallel_crnt4sbml
+   docker_docs
    physiological_bounds
    celldesigner_walkthrough
    basic_crnt
    deficiency_walkthrough
    injectivity_walkthrough
    general_app_walkthrough
-   parallel_crnt4sbml
    numerical_opt
    numerical_cont
    direct_simulation

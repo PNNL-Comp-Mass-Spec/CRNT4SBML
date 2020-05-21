@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>History &mdash; CRNT4SBML 0.0.11 documentation</title>
+  <title>Docker and CRNT4SBML &mdash; CRNT4SBML 0.0.11 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Bibliography" href="zbibliography.html" />
-    <link rel="prev" title="Credits" href="authors.html" /> 
+    <link rel="next" title="Creating Physiological Bounds" href="physiological_bounds.html" />
+    <link rel="prev" title="Parallel CRNT4SBML" href="parallel_crnt4sbml.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -91,7 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="detect_bistability.html">Steps for Detecting Bistability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parallel_crnt4sbml.html">Parallel CRNT4SBML</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker_docs.html">Docker and CRNT4SBML</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Docker and CRNT4SBML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physiological_bounds.html">Creating Physiological Bounds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="celldesigner_walkthrough.html">CellDesigner Walkthrough</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basic_crnt.html">Low Deficiency Approach</a></li>
@@ -109,20 +109,7 @@
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">0.0.1 (08-22-2019)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">0.0.2 (08-23-2019)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">0.0.3 (08-26-2019)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">0.0.4 (09-5-2019)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">0.0.5 (09-16-2019)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">0.0.6 (09-23-2019)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">0.0.7 (10-11-2019)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">0.0.8 (10-23-2019)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">0.0.9 (11-6-2019)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">0.0.10 (11-6-2019)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">0.0.11 (4-23-2020)</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zbibliography.html">Bibliography</a></li>
 </ul>
 
@@ -169,13 +156,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>History</li>
+      <li>Docker and CRNT4SBML</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/history.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/docker_docs.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -188,75 +175,46 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="history">
-<h1>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>0.0.1 (08-22-2019)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>First release on PyPI.</li>
-</ul>
+  <div class="section" id="docker-and-crnt4sbml">
+<span id="docker-docs-label"></span><h1>Docker and CRNT4SBML<a class="headerlink" href="#docker-and-crnt4sbml" title="Permalink to this headline">¶</a></h1>
+<p>To further the accessibility of CRNT4SBML, we have created a Dockerfile for CRNT4SBML. This allows one to use the full
+Linux version of CRNT4SBML. <a class="reference external" href="https://www.docker.com/why-docker">Docker</a> is a software platform that uses OS-level
+virtualization to deliver software in packages called containers. Although there are many reasons to use Docker, our main
+use case will be to provide our users with a simple install of CRNT4SBML. To begin, first install Docker and then download
+<a class="reference download internal" download="" href="_downloads/7f98ceb19a79e49d5053fc56414657ae/Dockerfile"><code class="xref download docutils literal notranslate"><span class="pre">Dockerfile</span></code></a> into the directory of your choice.</p>
+<p>Once you are in the directory where Dockerfile exists, one can create an image of CRNT4SBML named “crnt4sbml_image” by
+completing the following in a terminal:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> docker build -t crnt4sbml_image .
+</pre></div>
 </div>
-<div class="section" id="id2">
-<h2>0.0.2 (08-23-2019)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Addition of Cytoscape functionality.</li>
-</ul>
+<p>Using this image, we can then create a basic container named “crnt4sbml_container” using the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> docker create --name crnt4sbml_container -t -i crnt4sbml_image /bin/bash
+</pre></div>
 </div>
-<div class="section" id="id3">
-<h2>0.0.3 (08-26-2019)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Improvements to the plots produced by the continuity analysis.</li>
-</ul>
+<p>Alternatively, if one would like to mount the folders “sbml_files” and “example_scripts” of the host machine to the
+container upon creation one can do the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> docker create --name crnt4sbml_container --mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/path/to/sbml_files,target<span class="o">=</span>/home/crnt4sbml-user/sbml_files --mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/host/path/to/example_scripts,target<span class="o">=</span>/home/crnt4sbml-user/example_scripts -t -i crnt4sbml_image /bin/bash
+</pre></div>
 </div>
-<div class="section" id="id4">
-<h2>0.0.4 (09-5-2019)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Addition of safety precautions for numerical continuation.</li>
-</ul>
+<p>This will allow the user to easily access and add both sbml files and python scripts between Docker and the host machine.
+To launch the container do the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> docker start -i crnt4sbml_container
+</pre></div>
 </div>
-<div class="section" id="id5">
-<h2>0.0.5 (09-16-2019)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Addition of routines to parse catalysis in SBML.</li>
-<li>Addition of routines to automatically generate physiological bounds.</li>
-</ul>
+<p>Now that we are in the container, we can run any of the Python scripts for CRNT4SBML that are available for Linux
+(in particular <a class="reference internal" href="classes/crnt4sbml.GeneralApproach.html#crnt4sbml.GeneralApproach" title="crnt4sbml.GeneralApproach"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.GeneralApproach()</span></code></a> and <a class="reference internal" href="classes/crnt4sbml.MassConservationApproach.html#crnt4sbml.MassConservationApproach" title="crnt4sbml.MassConservationApproach"><code class="xref py py-func docutils literal notranslate"><span class="pre">crnt4sbml.MassConservationApproach()</span></code></a> without numerical
+continuation).</p>
+<p>Useful commands:</p>
+<blockquote>
+<div><p>Show all containers:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> docker ps -a
+</pre></div>
 </div>
-<div class="section" id="id6">
-<h2>0.0.6 (09-23-2019)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Updating safety wrapper to smoothly work on Windows and Mac.</li>
-</ul>
+<p>Show all images:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> docker images -a
+</pre></div>
 </div>
-<div class="section" id="id7">
-<h2>0.0.7 (10-11-2019)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Adding output to continuity routine to make post-processing simpler.</li>
-</ul>
-</div>
-<div class="section" id="id8">
-<h2>0.0.8 (10-23-2019)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Adding functionality to allow use of Jupyter notebooks.</li>
-</ul>
-</div>
-<div class="section" id="id9">
-<h2>0.0.9 (11-6-2019)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Improving stability when creating the equilibrium manifold in the mass conservation approach.</li>
-</ul>
-</div>
-<div class="section" id="id10">
-<h2>0.0.10 (11-6-2019)<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Adding routine for an exhaustive equilibrium manifold creation in the mass conservation approach.</li>
-</ul>
-</div>
-<div class="section" id="id11">
-<h2>0.0.11 (4-23-2020)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Adding a general approach for mass conserving systems.</li>
-</ul>
-</div>
+</div></blockquote>
 </div>
 
 
@@ -267,10 +225,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="zbibliography.html" class="btn btn-neutral float-right" title="Bibliography" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="physiological_bounds.html" class="btn btn-neutral float-right" title="Creating Physiological Bounds" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="authors.html" class="btn btn-neutral float-left" title="Credits" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="parallel_crnt4sbml.html" class="btn btn-neutral float-left" title="Parallel CRNT4SBML" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
