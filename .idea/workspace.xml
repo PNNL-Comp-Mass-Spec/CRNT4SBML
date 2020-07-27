@@ -3,60 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/installation.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/installation.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/parallel_crnt4sbml.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/parallel_crnt4sbml.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/c_graph.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/c_graph.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/crnt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/crnt.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/general_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/general_approach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/low_deficiency_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/low_deficiency_approach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/mass_conservation_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/mass_conservation_approach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/semi_diffusive_approach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/crnt4sbml/semi_diffusive_approach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/index.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/index.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/installation.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/installation.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/parallel_crnt4sbml.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/parallel_crnt4sbml.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/authors.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/authors.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/basic_crnt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/basic_crnt.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/celldesigner_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/celldesigner_walkthrough.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.CRNT.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.CRNT.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.Cgraph.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.Cgraph.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.GeneralApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.GeneralApproach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.LowDeficiencyApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.LowDeficiencyApproach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.MassConservationApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.MassConservationApproach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.SemiDiffusiveApproach.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/classes/crnt4sbml.SemiDiffusiveApproach.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/confidence_level.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/confidence_level.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/contributing.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/contributing.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/creating_eq_manifold.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/creating_eq_manifold.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/deficiency_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/deficiency_walkthrough.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/detect_bistability.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/detect_bistability.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/direct_simulation.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/direct_simulation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/example_use.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/example_use.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/general_app_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/general_app_walkthrough.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/generating_c_graphs.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/generating_c_graphs.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/history.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/history.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/injectivity_walkthrough.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/injectivity_walkthrough.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/installation.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/installation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/more_examples.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/more_examples.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/numerical_cont.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/numerical_cont.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/numerical_opt.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/numerical_opt.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/parallel_crnt4sbml.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/parallel_crnt4sbml.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/physiological_bounds.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/physiological_bounds.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/quickstart.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/quickstart.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/readme.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/readme.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/reference.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/reference.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/zbibliography.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/installation.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/installation.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/parallel_crnt4sbml.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/parallel_crnt4sbml.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HISTORY.rst" beforeDir="false" afterPath="$PROJECT_DIR$/HISTORY.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/bistability_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/bistability_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/classes/crnt4sbml.GeneralApproach.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/classes/crnt4sbml.GeneralApproach.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/run_song_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_song_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/paper_general_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/paper_general_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +42,34 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration name="run_simple_biterminal" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="crnt4sbml_repo" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example_scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example_scripts/run_simple_biterminal.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.run_simple_biterminal" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -131,14 +114,50 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="513" y="335" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1680.1050@0.0.1680.1050" timestamp="1581356081967" />
+    <state width="1659" height="424" key="GridCell.Tab.0.bottom" timestamp="1591206883025">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="424" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883025" />
+    <state width="1659" height="424" key="GridCell.Tab.0.center" timestamp="1591206883024">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="424" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883024" />
+    <state width="1659" height="424" key="GridCell.Tab.0.left" timestamp="1591206883024">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="424" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883024" />
+    <state width="1659" height="424" key="GridCell.Tab.0.right" timestamp="1591206883025">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="424" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883025" />
+    <state width="1659" height="424" key="GridCell.Tab.1.bottom" timestamp="1591206883027">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="424" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883027" />
+    <state width="1659" height="424" key="GridCell.Tab.1.bottom/0.23.1680.947@0.23.1680.947" timestamp="1591206525403" />
+    <state width="1659" height="424" key="GridCell.Tab.1.center" timestamp="1591206883026">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="424" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883026" />
+    <state width="1659" height="424" key="GridCell.Tab.1.center/0.23.1680.947@0.23.1680.947" timestamp="1591206525403" />
+    <state width="1659" height="424" key="GridCell.Tab.1.left" timestamp="1591206883026">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="424" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883026" />
+    <state width="1659" height="424" key="GridCell.Tab.1.left/0.23.1680.947@0.23.1680.947" timestamp="1591206525402" />
+    <state width="1659" height="424" key="GridCell.Tab.1.right" timestamp="1591206883027">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="424" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883027" />
+    <state width="1659" height="424" key="GridCell.Tab.1.right/0.23.1680.947@0.23.1680.947" timestamp="1591206525403" />
     <state x="349" y="164" key="SettingsEditor" timestamp="1587393860328">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="349" y="164" key="SettingsEditor/0.0.1680.1050@0.0.1680.1050" timestamp="1587393860328" />
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1587401510813">
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1591216917829">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1587401510813" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1591216917829" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

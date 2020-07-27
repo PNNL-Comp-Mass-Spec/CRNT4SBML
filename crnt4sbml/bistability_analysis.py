@@ -601,11 +601,15 @@ class BistabilityAnalysis(object):
         if plot_labels != None:
 
             if plot_labels[0] != None:
+                # from matplotlib import rc
+                # rc('text', usetex=True)
                 plt.xlabel(plot_labels[0])
             else:
                 plt.xlabel(pcp_x)
 
             if plot_labels[1] != None:
+                # from matplotlib import rc
+                # rc('text', usetex=True)
                 plt.ylabel(plot_labels[1])
             else:
                 plt.ylabel(species_y)
@@ -751,7 +755,7 @@ class BistabilityAnalysis(object):
                                                                                                      self.__parameters[0],
                                                                                                      conservation_vals)
 
-        self.__conduct_direct_simulation(fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index)
+        return self.__conduct_direct_simulation(fwd_scan_vals, rvrs_scan_vals, fwd_scan_index, rvrs_scan_index)
 
     def __parent_initialize_direct_simulation(self):
 
@@ -812,7 +816,6 @@ class BistabilityAnalysis(object):
             from mpi4py import MPI
             global mpi_mod
             from .mpi_routines import MPIRoutines as mpi_mod
-            self.__parameters = self.__comm.bcast(self.__parameters, root=0)
 
         if self.__parallel_flag is False and self.__comm is None:
 
@@ -871,6 +874,7 @@ class BistabilityAnalysis(object):
                 if self.__my_rank == 0:
                     self.__print_initial_conditions(fwd_scan_vals, rvrs_scan_vals)
 
+        list_of_ggplots = []
         for i in range(len(self.__parameters)):
 
             if self.__dir_sim_print_flag:
@@ -914,10 +918,12 @@ class BistabilityAnalysis(object):
                 second_scan = pcp_scan
 
             if self.__comm is None:
-                self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, self.__dir_path, i)
+                g = self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, self.__dir_path, i)
+                list_of_ggplots.append(g)
             else:
                 if self.__my_rank == 0:
-                    self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, self.__dir_path, i)
+                    g = self.__plot_direct_simulation(second_scan, forward_scan, reverse_scan, self.__dir_path, i)
+                    list_of_ggplots.append(g)
 
         if self.__comm is None:
             self.__end_t = time.time()
@@ -929,6 +935,7 @@ class BistabilityAnalysis(object):
                 self.__end_time = MPI.Wtime()
                 elapsed = self.__end_time - self.__start_time
                 print(f"Elapsed time for direct simulation in seconds: {elapsed}")
+        return list_of_ggplots
 
     def __find_viable_indices(self, result_x):
 
@@ -1208,4 +1215,7 @@ class BistabilityAnalysis(object):
              + geom_point(color="black")
              + theme_bw()
              + geom_point(color="black"))
+
         g.save(filename=path + f"/sim_bif_diag_{index}.png", format="png", width=6, height=4, units='in', verbose=False)
+
+        return g

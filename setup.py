@@ -24,7 +24,7 @@ setup(
         'Natural Language :: English',
         'Programming Language :: Python :: 3.7',
     ],
-    description="CRNT4SBML is an easily installable Python based package available on Mac and Windows. CRNT4SBML is concentrated on providing a simple workflow for the testing of core CRNT methods directed at detecting bistability in cell signaling pathways endowed with mass action kinetics.",
+    description="CRNT4SBML is an easily installable Python based package available on MacOS and Windows. CRNT4SBML is concentrated on providing a simple workflow for the testing of core CRNT methods directed at detecting bistability in cell signaling pathways endowed with mass action kinetics.",
     entry_points={
         'console_scripts': [
             'crnt4sbml=crnt4sbml.cli:main',
@@ -55,6 +55,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/PNNL-Comp-Mass-Spec/CRNT4SBML',
-    version='0.0.11',
+    version='0.0.12',
     zip_safe=False,
 )

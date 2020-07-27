@@ -763,10 +763,12 @@ class GeneralApproach(BistabilityFinder, BistabilityAnalysis):
         self.__initialize_direct_simulation(params_for_global_min, dir_path, change_in_relative_error, parallel_flag,
                                             print_flag, left_multiplier, right_multiplier)
 
-        self._BistabilityAnalysis__parent_run_direct_simulation()
+        list_of_ggplots  = self._BistabilityAnalysis__parent_run_direct_simulation()
 
         self.__my_rank = self._BistabilityAnalysis__my_rank
         self.__comm = self._BistabilityAnalysis__comm
+
+        return list_of_ggplots
 
     def __initialize_direct_simulation(self, params_for_global_min, dir_path, change_in_relative_error, parallel_flag,
                                        print_flag, left_multiplier, right_multiplier):
@@ -1088,6 +1090,14 @@ class GeneralApproach(BistabilityFinder, BistabilityAnalysis):
         """
         return self.__indp_system
 
+    def get_ode_lambda_functions(self):
+        """
+        Returns a list of lambda functions where each index corresponds to the lambda function for the corresponding
+        ODE, where the species corresponds to the list of species of the network.
+        """
+        lambda_inputs = self.__sympy_reactions + self.__sympy_species
+        return [sympy.utilities.lambdify(lambda_inputs, self.__full_system[i]) for i in range(len(self.__full_system))]
+
     def get_independent_species(self):
         """
         Returns a list of SymPy variables that reflects the independent species chosen for the general approach.
@@ -1191,6 +1201,13 @@ class GeneralApproach(BistabilityFinder, BistabilityAnalysis):
         >>> GA.get_jacobian()
         """
         return self.__jac_mod_system
+
+    def get_jac_lambda_function(self):
+        """
+        Returns a lambda function of the Jacobian, where the Jacobian is with respect to full system and species.
+        """
+        lambda_inputs = self.__sympy_reactions + self.__sympy_species
+        return sympy.utilities.lambdify(lambda_inputs, self.__full_system.jacobian(self.__sympy_species))
 
     def get_comm(self):
         """

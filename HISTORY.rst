@@ -57,3 +57,8 @@ History
 ------------------
 
 * Adding a general approach for mass conserving systems.
+
+0.0.12 (5-21-2020)
+------------------
+
+* Adding a different layout for installation of package.
