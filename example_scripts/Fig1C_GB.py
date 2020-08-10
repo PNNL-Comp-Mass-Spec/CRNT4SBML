@@ -83,22 +83,22 @@ ds15 = sympy.simplify(ds15.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
 
 # sys.exit()
 
-def s_polynomial(f, g):
-    return expand(lcm(LM(f), LM(g))*(1/LT(f)*f - 1/LT(g)*g))
-
-from sympy.polys.polytools import parallel_poly_from_expr
+# def s_polynomial(f, g):
+#     return expand(lcm(LM(f), LM(g))*(1/LT(f)*f - 1/LT(g)*g))
+#
+# from sympy.polys.polytools import parallel_poly_from_expr
 import itertools
 
 
 # species = (s1, s2, s3, s6, s7, s16, s15) # AA* is last
-species = (s2, s3, s6, s7, s16, s15) # AA* is last
-# species = [s3, s6, s16, s15]
-
-ds2, ds3, ds6, ds7, ds15, ds16 = parallel_poly_from_expr([ds2, ds3, ds6, ds7, ds15, ds16], order='lex', gens=species,
-                                               domain=RR[re1, re2, re3, re4, re5, re6, re1r, re3r, re5r, C3])[0]
-
-# equations = [ds1, ds2, ds3, ds6, ds7, ds15, ds16]
-equations = [ds2, ds3, ds6, ds7, ds15, ds16]
+# species = (s2, s3, s6, s7, s16, s15) # AA* is last
+# # species = [s3, s6, s16, s15]
+#
+# ds2, ds3, ds6, ds7, ds15, ds16 = parallel_poly_from_expr([ds2, ds3, ds6, ds7, ds15, ds16], order='lex', gens=species,
+#                                                domain=RR[re1, re2, re3, re4, re5, re6, re1r, re3r, re5r, C3])[0]
+#
+# # equations = [ds1, ds2, ds3, ds6, ds7, ds15, ds16]
+# equations = [ds2, ds3, ds6, ds7, ds15, ds16]
 
 # print("Equations:")
 # for i in equations:
@@ -169,11 +169,12 @@ import time
 #                                                          re5r, C1, C2, C3])[0]
 # # species = (s1, s2, s3, s6, s7, s16, s15) # AA* is last
 # species = [s16, s3, s6, s15]
+species = [s15, s3, s6, s16]
 # # equations = [ds1, ds2, ds3, ds6, ds7, ds15, ds16]
-# equations = [ds3, ds6, ds16, ds15]
+equations = [ds3, ds6, ds16, ds15]
 
 start = time.time()
-gb = groebner(equations, species, order='lex') #, method='f5b')
+gb = groebner(equations, species, order='lex', method='f5b')
 end = time.time()
 elapsed = end - start
 print(f"Elapsed time = {elapsed} \n")

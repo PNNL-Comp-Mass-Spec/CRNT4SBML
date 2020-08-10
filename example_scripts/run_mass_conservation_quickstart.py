@@ -21,7 +21,9 @@ params_for_global_min, obj_fun_val_for_params = approach.run_optimization(bounds
 
 multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species="s15", parameters=params_for_global_min,
                                                                                      auto_parameters={'PrincipalContinuationParameter': 'C3'})
-
+print("Conservation laws:")
+print(approach.get_conservation_laws())
+print("")
 print("independent species")
 print(approach.get_independent_species())
 print("")
