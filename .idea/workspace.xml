@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/Fig1C_GB.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/Fig1C_GB.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/setup.cfg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

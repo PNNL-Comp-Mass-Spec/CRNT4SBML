@@ -62,3 +62,8 @@ History
 ------------------
 
 * Adding a different layout for installation of package.
+
+0.0.13 (8-10-2020)
+------------------
+
+* Improving usability on Windows machines.
