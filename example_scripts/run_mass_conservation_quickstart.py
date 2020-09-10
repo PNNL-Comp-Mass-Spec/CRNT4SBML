@@ -1,5 +1,3 @@
-import sys
-sys.path.insert(0, "..")
 import crnt4sbml
 
 network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")

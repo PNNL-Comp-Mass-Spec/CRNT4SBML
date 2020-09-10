@@ -62,8 +62,8 @@ if approach.get_my_rank() == 0:
     from matplotlib import rc
     rc('text', usetex=True)
 
-    g = (g + p9.xlab("$E_{tot}$") + p9.ylab("$[S^{**}]$") + p9.scale_color_hue(labels=["High [$S^{**}$]", "Low [$S^{**}$]"]))
-    g.save(filename=path + f"/sim_bif_diag_0_0.png", format="png", width=6, height=4, units='in', verbose=False)
+    g = (g + p9.xlab("$E_{tot}$") + p9.ylab("$[S^{**}]$") + p9.scale_color_manual(values=["red", "blue"], labels=["High [$S^{**}$]", "Low [$S^{**}$]"]))
+    g.save(filename=path + f"/sim_bif_diag_0_0.png", format="png", width=8, height=5, units='in', verbose=False)
 
     print("")
 

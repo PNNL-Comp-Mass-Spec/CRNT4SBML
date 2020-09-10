@@ -4,10 +4,6 @@
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crnt4sbml/bistability_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/bistability_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/c_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/c_graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/general_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/general_approach.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/mass_conservation_approach.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/Fig1C_GB.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/Fig1C_GB.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_4.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_4.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_5.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_5.png" afterDir="false" />
@@ -15,22 +11,15 @@
       <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_7.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_7.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_8.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_8.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_9.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/auto-basic-bif-diag.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/auto-basic-bif-diag.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/dir_sim_graphs/nuts_bif_diag.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/auto-basic-bif-diag.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/basic-bif-diag.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/basic-bif-diag.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/basic-fwd-rev.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/basic-fwd-rev.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/dir_sim_graphs/sim_bif_diag_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/dir_sim_graphs/sim_bif_diag_0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_general_quickstart.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_general_quickstart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/dir_sim_graphs/song-bif-diag.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/dir_sim_graphs/song-bif-diag.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/run_paper_a_b.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_paper_a_b.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_scripts/run_simple_biterminal.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_simple_biterminal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/run_song_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_song_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/basic_example_paper/C1_vs_s5_0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/basic_example_paper/C1_vs_s5_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/basic_example_paper/C1_vs_s5_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/basic_example_paper/C1_vs_s5_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/basic_example_paper/C1_vs_s5_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/basic_example_paper/C1_vs_s5_5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/basic_example_paper/basic_bif_diag.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/basic_example_paper/basic_fwd_rev.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paper_general_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/paper_general_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

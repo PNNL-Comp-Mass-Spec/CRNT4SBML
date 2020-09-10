@@ -1225,15 +1225,18 @@ class BistabilityAnalysis(object):
         out = pandas.concat([xf, xr])
 
         g = (ggplot(out)
-             + aes(x='signal', y='s2', color='dir', alpha='dir', group='dir')
+             + aes(x='signal', y=str(self.__response), color='dir', alpha='dir', group='dir')
              + geom_path(size=4, arrow=arrow(), show_legend=False)
              + geom_point(size=2, shape='s', stroke=0.0)
              + geom_point(color="black", size=2, alpha=1.0)
              + scale_alpha_manual(values=[0.85, 0.35], guide=False)
-             # + scale_color_manual(values=["red", "blue"], labels=["d", "k"])
              + guides(color=guide_legend(override_aes={'size': 6, 'alpha': [0.85, 0.35]}))
-             + theme(legend_title=element_blank(),
-                     axis_text=element_text(size=0.8 * 20), legend_key=element_rect(color='None', fill='None'),
+             + theme(legend_title=element_blank(), text=element_text(size=14, weight='bold'),
+                     legend_key=element_rect(color='None', fill='None'),
+                     axis_text_x=element_line(color="black"),
+                     axis_text_y=element_line(color="black"),
+                     axis_title_x=element_text(size=19, weight='heavy'),
+                     axis_title_y=element_text(size=19, weight='heavy'),
                      panel_background=element_rect(fill='None'),
                      panel_border=element_rect(fill='None', color='#7f7f7f'),
                      panel_grid_major=element_line(color='#E5E5E5', size=0.8),

@@ -3,14 +3,14 @@ sys.path.insert(0, "..")
 import crnt4sbml
 import numpy
 
-# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
-# signal = "C1"
-# response = "s5"
+network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
+signal = "C1"
+response = "s5"
 iters = 50
 
-network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
-signal = "C3"
-response = "s15"
+# network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
+# signal = "C3"
+# response = "s15"
 
 network.basic_report()
 network.print_c_graph()
@@ -40,24 +40,24 @@ print(network.get_c_graph().get_species())
 # # sympy.pprint(network.get_c_graph().get_a())
 # #
 print("")
-print(GA.get_independent_odes_subs())
-species = GA.get_independent_species()
-print(GA.get_independent_species())
+# print(GA.get_independent_odes_subs())
+# species = GA.get_independent_species()
+# print(GA.get_independent_species())
 # indp_subs = GA.get_independent_odes_subs()
 
-import itertools
-
-s1, s2, s3, s6, s7, s15, s16 = symbols('s1 s2 s3 s6 s7 s15 s16', real=True)
-
-species = [s1, s2, s3, s6, s7, s16, s15]
-all_spec_combos = list(itertools.permutations(species, 7))
+# import itertools
+#
+# s1, s2, s3, s6, s7, s15, s16 = symbols('s1 s2 s3 s6 s7 s15 s16', real=True)
+#
+# species = [s1, s2, s3, s6, s7, s16, s15]
+# all_spec_combos = list(itertools.permutations(species, 7))
 
 # print(all_spec_combos)
-for i in all_spec_combos:
-    if i[6] == s15:
-        print(i)
-
-sys.exit()
+# for i in all_spec_combos:
+#     if i[6] == s15:
+#         print(i)
+#
+# sys.exit()
 #
 # C1 = sympy.symbols('C1', real=True)
 #
@@ -127,9 +127,9 @@ params_for_global_min = numpy.load('./basic_example_paper/params.npy')
 # print(GA.get_input_vector())
 # print(params_for_global_min[1])
 
-multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min,
-                                                                               auto_parameters={'PrincipalContinuationParameter': signal},
-                                                                               dir_path="./basic_example_paper", plot_labels=["$B_{tot}$", "[A]", None])
+# multistable_param_ind, plot_specifications = GA.run_greedy_continuity_analysis(species=response, parameters=params_for_global_min,
+#                                                                                auto_parameters={'PrincipalContinuationParameter': signal},
+#                                                                                dir_path="./basic_example_paper", plot_labels=["$B_{tot}$", "[A]", None])
 
 # list_of_ggplots = GA.run_direct_simulation([params_for_global_min[1]], parallel_flag=True, print_flag=True)
 #
@@ -172,7 +172,7 @@ def jac_f(t, cs, ks, ode_lambda_functions, jacobian):
 param_index = 1
 
 print(params_for_global_min[param_index])
-sys.exit()
+# sys.exit()
 
 C1_val = params_for_global_min[param_index][7] + params_for_global_min[param_index][8]
 
@@ -182,6 +182,7 @@ y_rev = [0.0, C1_val, 0.0]
 import scipy.integrate as itg
 import pandas
 from plotnine import ggplot, aes, geom_line, ylim, scale_color_distiller, facet_wrap, theme_bw, geom_path, geom_point, labs, annotate
+from plotnine import *
 from matplotlib import rc
 rc('text', usetex=True)
 
@@ -208,18 +209,35 @@ sim_res_fwd = [numpy.transpose(sim_fun_fwd(i).y) for i in scan_vals]
 sim_res_rev = [numpy.transpose(sim_fun_rev(i).y) for i in numpy.flip(scan_vals)]
 
 out = pandas.DataFrame(columns=['dir', 'signal', 'time'] + network.get_c_graph().get_species())
-for i in range(len(sim_res_fwd)):
-    out_i = pandas.DataFrame(sim_res_fwd[i], columns=out.columns[3:])
-    out_i['time'] = t
-    out_i['signal'] = scan_vals[i]
-    out_i['dir'] = 'High [A]'
-    out = pandas.concat([out, out_i[out.columns]])
+
 for i in range(len(sim_res_rev)):
     out_i = pandas.DataFrame(sim_res_rev[i], columns=out.columns[3:])
     out_i['time'] = t
     out_i['signal'] = numpy.flip(scan_vals)[i]
     out_i['dir'] = 'Low [A]'
     out = pandas.concat([out, out_i[out.columns]])
+
+for i in range(len(sim_res_fwd)):
+    out_i = pandas.DataFrame(sim_res_fwd[i], columns=out.columns[3:])
+    out_i['time'] = t
+    out_i['signal'] = scan_vals[i]
+    out_i['dir'] = 'High [A]'
+    out = pandas.concat([out, out_i[out.columns]])
+# for i in range(len(sim_res_rev)):
+#     out_i = pandas.DataFrame(sim_res_rev[i], columns=out.columns[3:])
+#     out_i['time'] = t
+#     out_i['signal'] = numpy.flip(scan_vals)[i]
+#     out_i['dir'] = 'Low [A]'
+#     out = pandas.concat([out, out_i[out.columns]])
+
+# print(out.get_levels)
+
+# out.groupby(['IssueKey', 'User']).TimeSpent
+
+out['dir'] = out['dir'].astype('category')
+
+out['dir'].cat.reorder_categories(['Low [A]', 'High [A]'], ordered=True, inplace=True)
+
 # out.to_csv("./basic_example_paper/sim.txt", sep="\t", index=False)
 
 ###################### plotting ##################################
@@ -232,13 +250,62 @@ g = (ggplot(out, aes('time', response, group='signal', color='signal'))
      + theme_bw())
 g.save(filename="./basic_example_paper/sim_fwd_rev.png", format="png", width=8, height=4, units='in', verbose=False)
 
-eq = out[out.time == max(out.time)]
-g = (ggplot(eq)
-     + aes(x='signal', y=response, color='dir')
-     + labs(x="$B_{tot}$", y="[A]", color="")
-     + geom_path(size=2, alpha=0.5)
-     + geom_point(color="black")
-     + theme_bw()
-     + geom_point(color="black"))
 
-g.save(filename="./basic_example_paper/sim_bif_diag.png", format="png", width=6, height=4, units='in', verbose=False)
+out['dir'].cat.reorder_categories(['High [A]', 'Low [A]'], ordered=True, inplace=True)
+
+out = out[out.time == max(out.time)]
+
+
+def mask(df, key, value):
+    return df[df[key] == value]
+
+
+pandas.DataFrame.mask = mask
+
+# flip one of the directions
+xf = out.mask('dir', 'High [A]')
+xr = out.mask('dir', 'Low [A]')
+
+print(f"xf = {xf}")
+
+print("")
+print(f"xr = {xr}")
+
+# xr = xr.iloc[::-1]
+
+print("")
+print(f"xr = {xr}")
+
+out = pandas.concat([xf, xr])
+
+g = (ggplot(out)
+         + aes(x='signal', y='s5', color='dir', alpha='dir', group='dir')
+         + geom_path(size=4, arrow=arrow(), show_legend=False)
+         + geom_point(size=2, shape='s', stroke=0.0)
+         + geom_point(color="black", size=2, alpha=1.0)
+         + scale_alpha_manual(values=[0.85, 0.35], guide=False)
+         # + scale_color_manual(values=["red", "blue"], labels=["d", "k"])
+         + guides(color=guide_legend(override_aes={'size':6, 'alpha':[0.85, 0.35]}))
+         + theme(legend_title=element_blank(), text=element_text(size=14, weight='bold'),
+                 legend_key=element_rect(color='None', fill='None'),
+                 axis_text_x=element_line(color="black"),
+                 axis_text_y=element_line(color="black"),
+                 axis_title_x=element_text(size=19, weight='heavy'),
+                 axis_title_y=element_text(size=19, weight='heavy'),
+                 panel_background=element_rect(fill='None'), panel_border=element_rect(fill='None', color='#7f7f7f'),
+                 panel_grid_major=element_line(color='#E5E5E5', size=0.8),
+                 panel_grid_minor=element_line(color='#FAFAFA', size=1),
+                 strip_background=element_rect(fill='#CCCCCC', color='#7F7F7F', size=1)))
+
+
+g = (g + xlab("$B_{tot}$") + ylab("[A]")  + scale_color_manual(values=["red", "blue"], labels=["High [A]", "Low [A]"]))
+
+# g = (ggplot(eq)
+#      + aes(x='signal', y=response, color='dir')
+#      + labs(x="$B_{tot}$", y="[A]", color="")
+#      + geom_path(size=2, alpha=0.5)
+#      + geom_point(color="black")
+#      + theme_bw()
+#      + geom_point(color="black"))
+
+g.save(filename="./basic_example_paper/sim_bif_diag.png", format="png", width=8, height=5, units='in', verbose=False)
