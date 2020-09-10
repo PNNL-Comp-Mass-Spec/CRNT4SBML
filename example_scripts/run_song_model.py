@@ -27,12 +27,10 @@ bnds = [(1e-3, 6.0)]*len(network.get_c_graph().get_reactions()) + [(1e-3, 1000.0
 import numpy
 params = numpy.load('song_params.npy')
 params = [params[4]]
-
-print(len(approach.get_input_vector()))
-print(approach.get_input_vector())
-print(params)
-
-# sys.exit()
+#
+# print(len(approach.get_input_vector()))
+# print(approach.get_input_vector())
+# print(params)
 
 list_of_ggplots  = approach.run_direct_simulation(params, parallel_flag=True)
 
@@ -45,10 +43,10 @@ if approach.get_my_rank() == 0:
     from matplotlib import rc
     rc('text', usetex=True)
 
-    g = (g + p9.xlab("$E_{tot}$") + p9.ylab("$[S^*]$") + p9.scale_color_hue(labels=["High [$S^*$]", "Low [$S^*$]"]))
-    g.save(filename=path + f"/sim_bif_diag_0_0.png", format="png", width=6, height=4, units='in', verbose=False)
+    g = (g + p9.xlab("$E_{tot}$") + p9.ylab("$[S^*]$") + p9.scale_color_manual(values=["red", "blue"], labels=["High [$S^*$]", "Low [$S^*$]"]))
 
-    print("")
+    g.save(filename=path + f"/song-bif-diag.png", format="png", width=8, height=5, units='in', verbose=False)
+
 
 # multistable_param_ind, plot_specifications = approach.run_greedy_continuity_analysis(species="s2", parameters=params,
 #                                                                                      auto_parameters={'PrincipalContinuationParameter': "C1"})

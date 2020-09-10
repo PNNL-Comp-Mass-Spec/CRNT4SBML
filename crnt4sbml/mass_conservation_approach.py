@@ -1233,6 +1233,8 @@ class MassConservationApproach(BistabilityFinder, BistabilityAnalysis):
 
         Note: This routine is more expensive than the numerical continuation routines, but can provide solutions
         when the Jacobian of the ODE system is always singular. A parallel version of this routine is available.
+        The routine automatically produces plots of the direct simulation runs and puts them in the user specified
+        dir_path.
 
         Parameters
         ------------
@@ -1261,6 +1263,9 @@ class MassConservationApproach(BistabilityFinder, BistabilityAnalysis):
             right_multiplier: float
                 A float value that determines the percentage of the signal that will be searched to the right of the signal
                 value. For example, the upperbound for the signal range will be signal_value + signal_value*right_multiplier.
+        Returns
+        ---------
+            list_of_ggplots: list of ggplots produced by plotnine
 
         Example
         ---------

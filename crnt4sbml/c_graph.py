@@ -523,6 +523,9 @@ class Cgraph:
         return temp_null
 
     def __create_non_negative_b_matrix(self, the_null_space, sizes):
+        '''
+        Idea inspired by https://r.789695.n4.nabble.com/convex-nonnegative-basis-vectors-in-nullspace-of-matrix-td4548822.html.
+        '''
 
         a_null = numpy.zeros((len(self.__species), sizes))
         for i in range(len(self.__species)):
@@ -532,10 +535,11 @@ class Cgraph:
             a_null[i, :] = temp_vec
 
         a_eq = numpy.array([numpy.sum(a_null, axis=0)])
+
         # must multiply by negative one because in optimization we have the inequality <= 0.0
         a_ub = -1.0*a_null
         b_ub = numpy.zeros(len(self.__species))
-        b_eq = numpy.array([1.0])        
+        b_eq = numpy.array([1.0])
         
         # defining the number of solutions to simulate
         num_sols = ((a_ub.shape[0]+1)*(a_ub.shape[1]+1))*10
@@ -561,7 +565,7 @@ class Cgraph:
         num_rows = numpy.size(unique_vecs, 0)
 
         # taking the smallest nonzero entry of the unique vectors
-        # and dividing by it this will hopfully create nice
+        # and dividing by it this will hopefully create nice
         # looking vectors that are whole numbers
         for i in range(num_rows):
             minval = numpy.min(unique_vecs[i, numpy.nonzero(unique_vecs[i, :])])

@@ -765,8 +765,8 @@ class BistabilityAnalysis(object):
         global numpy
         global warnings
         global pandas
-        global ggplot, aes, geom_line, ylim, scale_color_distiller
-        global facet_wrap, theme_bw, geom_path, geom_point, labs, annotate
+        global ggplot, aes, geom_path, arrow, geom_point, scale_alpha_manual, theme, element_blank
+        global element_text, element_rect, element_line, guides, guide_legend
         global itg
         global sympy
         global time
@@ -778,8 +778,8 @@ class BistabilityAnalysis(object):
         import numpy
         import warnings
         import pandas
-        from plotnine import ggplot, aes, geom_line, ylim, scale_color_distiller, facet_wrap, theme_bw, geom_path, \
-            geom_point, labs, annotate
+        from plotnine import ggplot, aes, geom_path, arrow, geom_point, scale_alpha_manual, theme, element_blank, \
+            element_text, element_rect, element_line, guides, guide_legend
         import scipy.integrate as itg
         import time
 
@@ -1197,25 +1197,49 @@ class BistabilityAnalysis(object):
     def __plot_direct_simulation(self, pcp_scan, forward_scan, reverse_scan, path, index):
 
         out = pandas.DataFrame(columns=['dir', 'signal'] + [self.__response])
+        fwd_scan = []
         for i in range(len(forward_scan)):
             out_i = pandas.DataFrame([forward_scan[i]], columns=[out.columns[2]])
+            fwd_scan.append(forward_scan[i])
             out_i['signal'] = pcp_scan[i]
             out_i['dir'] = 'Forward scan'
             out = pandas.concat([out, out_i[out.columns]])
+        rvrs_scan = []
         for i in range(len(reverse_scan)):
             out_i = pandas.DataFrame([reverse_scan[i]], columns=[out.columns[2]])
+            rvrs_scan.append(reverse_scan[i])
             out_i['signal'] = pcp_scan[i]
             out_i['dir'] = 'Reverse scan'
             out = pandas.concat([out, out_i[out.columns]])
 
-        g = (ggplot(out)
-             + aes(x='signal', y=self.__response, color='dir')
-             + labs(x=f"{self.__signal} total", y=f"[{self.__response}]", color="")
-             + geom_path(size=2, alpha=0.5)
-             + geom_point(color="black")
-             + theme_bw()
-             + geom_point(color="black"))
+        def mask(df, key, value):
+            return df[df[key] == value]
 
-        g.save(filename=path + f"/sim_bif_diag_{index}.png", format="png", width=6, height=4, units='in', verbose=False)
+        pandas.DataFrame.mask = mask
+
+        # flip one of the directions
+        xf = out.mask('dir', 'Forward scan')
+        xr = out.mask('dir', 'Reverse scan')
+        xr = xr.iloc[::-1]
+
+        out = pandas.concat([xf, xr])
+
+        g = (ggplot(out)
+             + aes(x='signal', y='s2', color='dir', alpha='dir', group='dir')
+             + geom_path(size=4, arrow=arrow(), show_legend=False)
+             + geom_point(size=2, shape='s', stroke=0.0)
+             + geom_point(color="black", size=2, alpha=1.0)
+             + scale_alpha_manual(values=[0.85, 0.35], guide=False)
+             # + scale_color_manual(values=["red", "blue"], labels=["d", "k"])
+             + guides(color=guide_legend(override_aes={'size': 6, 'alpha': [0.85, 0.35]}))
+             + theme(legend_title=element_blank(),
+                     axis_text=element_text(size=0.8 * 20), legend_key=element_rect(color='None', fill='None'),
+                     panel_background=element_rect(fill='None'),
+                     panel_border=element_rect(fill='None', color='#7f7f7f'),
+                     panel_grid_major=element_line(color='#E5E5E5', size=0.8),
+                     panel_grid_minor=element_line(color='#FAFAFA', size=1),
+                     strip_background=element_rect(fill='#CCCCCC', color='#7F7F7F', size=1)))
+
+        g.save(filename=path + f"/sim_bif_diag_{index}.png", format="png", width=8, height=5, units='in', verbose=False)
 
         return g

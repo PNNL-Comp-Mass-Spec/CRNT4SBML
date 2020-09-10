@@ -12,7 +12,7 @@ rc('text', usetex=True)
 
 network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
 signal = "C1"
-#response = "s6"
+# response = "s6"
 response = "s5"
 iters = 10
 
@@ -23,21 +23,21 @@ GA = network.get_general_approach()
 
 GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
 
-# GA = network.get_general_approach(signal=signal, response=response)
+# GA.initialize_general_approach(signal=signal, response=response, fix_reactions=False)
 
-print(GA.get_conservation_laws())
-print(GA.get_fixed_reactions())
-print(GA.get_solutions_to_fixed_reactions())
+# print(GA.get_conservation_laws())
+# print(GA.get_fixed_reactions())
+# print(GA.get_solutions_to_fixed_reactions())
+#
+# print(network.get_c_graph().get_species())
+# print(network.get_c_graph().get_ode_system())
+# print("")
+# print(GA.get_independent_species())
+# print(GA.get_independent_odes())
+# print("")
+# print(GA.get_independent_odes_subs())
 
-print(network.get_c_graph().get_species())
-print(network.get_c_graph().get_ode_system())
-print("")
-print(GA.get_independent_species())
-print(GA.get_independent_odes())
-print("")
-print(GA.get_independent_odes_subs())
-
-sys.exit()
+# sys.exit()
 bnds = [(1e-2, 1e2)]*len(GA.get_input_vector())
 
 # params_for_global_min, obj_fun_vals = GA.run_optimization(bounds=bnds, iterations=iters, seed=0, print_flag=False,

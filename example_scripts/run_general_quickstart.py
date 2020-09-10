@@ -3,6 +3,7 @@ import crnt4sbml
 network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
 
 approach = network.get_general_approach()
+
 bnds = approach.get_optimization_bounds()
 
 approach.initialize_general_approach(signal="C3", response="s15", fix_reactions=True)

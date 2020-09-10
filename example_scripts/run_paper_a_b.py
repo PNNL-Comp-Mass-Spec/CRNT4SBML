@@ -3,10 +3,14 @@ sys.path.insert(0, "..")
 import crnt4sbml
 import numpy
 
-network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
-signal = "C1"
-response = "s5"
+# network = crnt4sbml.CRNT("../sbml_files/insulin_signaling_motifs/a_b.xml") # yes 10
+# signal = "C1"
+# response = "s5"
 iters = 50
+
+network = crnt4sbml.CRNT("../sbml_files/Fig1Ci.xml")
+signal = "C3"
+response = "s15"
 
 network.basic_report()
 network.print_c_graph()
@@ -15,7 +19,7 @@ GA = network.get_general_approach()
 GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
 
 
-# import sympy
+import sympy
 # sympy.pprint(network.get_c_graph().get_s())
 # print("")
 # sympy.pprint(network.get_c_graph().get_s().rref())
@@ -23,14 +27,83 @@ GA.initialize_general_approach(signal=signal, response=response, fix_reactions=T
 
 print(GA.get_conservation_laws())
 print(GA.get_fixed_reactions())
+print(network.get_c_graph().get_reactions())
 import sympy
-# sympy.pprint(network.get_c_graph().get_ode_system())
+from sympy import *
+print(network.get_c_graph().get_ode_system())
+print(network.get_c_graph().get_species())
+# species = GA.get_independent_species()
 # print(GA.get_independent_species())
 
-# sympy.pprint(network.get_c_graph().get_a())
+# re5, re5r, re6, re6r, re7, re7r = sympy.symbols('re5, re5r, re6, re6r, re7, re7r', positive=True)
 #
+# # sympy.pprint(network.get_c_graph().get_a())
+# #
+print("")
+print(GA.get_independent_odes_subs())
+species = GA.get_independent_species()
+print(GA.get_independent_species())
+# indp_subs = GA.get_independent_odes_subs()
+
+import itertools
+
+s1, s2, s3, s6, s7, s15, s16 = symbols('s1 s2 s3 s6 s7 s15 s16', real=True)
+
+species = [s1, s2, s3, s6, s7, s16, s15]
+all_spec_combos = list(itertools.permutations(species, 7))
+
+# print(all_spec_combos)
+for i in all_spec_combos:
+    if i[6] == s15:
+        print(i)
+
+sys.exit()
+#
+# C1 = sympy.symbols('C1', real=True)
+#
+# ds5, ds7 = sympy.parallel_poly_from_expr([indp_subs[0], indp_subs[1]], order='lex', gens=species,
+#                                           domain=sympy.RR[re5, re5r, re6, re6r, re7, re7r, C1])[0]
+
+
+# print(ds5)
 # print("")
-# sympy.pprint(GA.get_independent_odes_subs())
+# print(ds7)
+
+
+print("")
+
+
+# import itertools
+#
+#
+# def buchberger(F):
+#     """Toy implementation of Buchberger algorithm. """
+#
+#     def s_polynomial(f, g):
+#         return expand(lcm(LM(f), LM(g)) * (1 / LT(f) * f - 1 / LT(g) * g))
+#
+#     remainders = F
+#     while sum(remainders) != sympy.S.Zero:
+#         remainders = []
+#         combos = list(itertools.combinations(range(len(F)), 2))
+#
+#         for i in combos:
+#
+#
+#
+#
+#
+#     return None
+#
+# F = [indp_subs[0], indp_subs[1]]
+# buchberger(F)
+
+# equations = [ds5, ds7]
+#
+# gb = sympy.groebner(equations, species, order='lex', method='f5b')
+#
+# print(gb[-1])
+
 #
 # sympy.pprint(GA.get_solutions_to_fixed_reactions())
 #

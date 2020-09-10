@@ -14,12 +14,13 @@ ds7 = -re3*s6*s7 + s16*(re3r + re4)
 ds16 = re3*s6*s7 + s16*(-re3r - re4)
 ds15 = re5*s1*s6 + s15*(-re5r - re6)
 
-replacements = [[s1, (C3 - 2.0*s15 - s16 - s3 - s6)]]
+# replacements = [[s1, (C3 - 2.0*s15 - s16 - s3 - s6)]]
 
-ds2 = sympy.simplify(ds2.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
-ds3 = sympy.simplify(ds3.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
-ds6 = sympy.simplify(ds6.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
-ds15 = sympy.simplify(ds15.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
+# ds2 = sympy.simplify(ds2.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
+# ds3 = sympy.simplify(ds3.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
+# ds6 = sympy.simplify(ds6.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
+# ds15 = sympy.simplify(ds15.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
+
 
 
 # k1, k2, k3, k4, s, y, x, v0 = symbols('k1 k2 k3 k4 s y x v0', real=True)
@@ -36,11 +37,21 @@ ds15 = sympy.simplify(ds15.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
 # ds16 = re3*s6*s7 + s16*(-re3r - re4)
 # ds15 = re5*s1*s6 + s15*(-re5r - re6)
 
-# ds15 = sympy.simplify(sympy.expand(re5*s6*(C3 - 2.0*s15 - s16 - s3 - s6) + s15*(-re5r - re6)))
-# ds3 = sympy.simplify(sympy.expand(re1*(C2 - s3)*(C3 - 2.0*s15 - s16 - s3 - s6) + s3*(-re1r - re2)))
-# ds6 = sympy.simplify(sympy.expand(re2*s3 - re3*s6*(C1 - s16) + re3r*s16 - re5*s6*(C3 - 2.0*s15 - s16 - s3 - s6) + s15*(re5r + 2.0*re6)))
-# ds16 = sympy.simplify(sympy.expand(re3*s6*(C1 - s16) + s16*(-re3r - re4)))
+ds15 = sympy.simplify(sympy.expand(re5*s6*(C3 - 2.0*s15 - s16 - s3 - s6) + s15*(-re5r - re6)))
+ds3 = sympy.simplify(sympy.expand(re1*(C2 - s3)*(C3 - 2.0*s15 - s16 - s3 - s6) + s3*(-re1r - re2)))
+ds6 = sympy.simplify(sympy.expand(re2*s3 - re3*s6*(C1 - s16) + re3r*s16 - re5*s6*(C3 - 2.0*s15 - s16 - s3 - s6) + s15*(re5r + 2.0*re6)))
+ds16 = sympy.simplify(sympy.expand(re3*s6*(C1 - s16) + s16*(-re3r - re4)))
 
+print(ds3)
+print("")
+print(ds6)
+print("")
+print(ds16)
+print("")
+print(ds15)
+print("")
+
+sys.exit()
 
 # in CoCoLib:
 # use QQab ::= QQ[re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, C1, C2, C3];
@@ -49,6 +60,16 @@ ds15 = sympy.simplify(ds15.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
 # I := ideal(C2*C3*re1 - 2.0*C2*re1*s15 - C2*re1*s16 - C2*re1*s3 - C2*re1*s6 - C3*re1*s3 + 2.0*re1*s15*s3 + re1*s16*s3 + re1*s3^2 + re1*s3*s6 - re1r*s3 - re2*s3, -C1*re3*s6 - C3*re5*s6 + re2*s3 + re3*s16*s6 + re3r*s16 + 2.0*re5*s15*s6 + re5*s16*s6 + re5*s3*s6 + re5*s6^2 + re5r*s15 + 2.0*re6*s15, C1*re3*s6 - re3*s16*s6 - re3r*s16 - re4*s16, C3*re5*s6 - 2.0*re5*s15*s6 - re5*s16*s6 - re5*s3*s6 - re5*s6^2 - re5r*s15 - re6*s15);
 # SetVerbosityLevel(100);
 # ReducedGBasis(I);
+
+# nondimensional Fig1Ci
+# in CoCoLib:
+# use QQab ::= QQ[a,b,c,d,e,f,g,h,k,l];
+# K := NewFractionField(QQab);
+# use K[B, AE1, BE2, AB], lex;
+# I := ideal(AE1 + b*BE2 + AB*d + 2*AB*e + 2*AB*B*f + AE1*B*f + f*B^2 + B*BE2*f - B*h + B*BE2*h - B*f*l, g*k*2*AB + g*k*AE1 + g*k*B + g*k*BE2 - g*k*l + AE1 + AE1*a - AE1*2*AB*g - g*AE1^2 - AE1*B*g - AE1*BE2*g + AE1*g*l, -b*BE2 - BE2*c + B*h - B*BE2*h, AB*d + AB*e + 2*AB*B*f + AE1*B*f + f*B^2 + B*BE2*f - B*f*l);
+# SetVerbosityLevel(100);
+# ReducedGBasis(I);
+
 
 # SageMath Fig1Ci:
 # A.<re1, re1r, re2, re3, re3r, re4, re5, re5r, re6, C1, C2, C3> = PolynomialRing(QQ)
@@ -64,6 +85,14 @@ ds15 = sympy.simplify(ds15.subs(s1, (C3 - 2.0*s15 - s16 - s3 - s6)))
 # gbTrace = 3
 # J=ideal(C2*C3*re1 - 2*C2*re1*s15 - C2*re1*s16 - C2*re1*s3 - C2*re1*s6 - C3*re1*s3 + 2*re1*s15*s3 + re1*s16*s3 + re1*s3^2 + re1*s3*s6 - re1r*s3 - re2*s3, -C1*re3*s6 - C3*re5*s6 + re2*s3 + re3*s16*s6 + re3r*s16 + 2*re5*s15*s6 + re5*s16*s6 + re5*s3*s6 + re5*s6^2 + re5r*s15 + 2*re6*s15, C1*re3*s6 - re3*s16*s6 - re3r*s16 - re4*s16, C3*re5*s6 - 2*re5*s15*s6 - re5*s16*s6 - re5*s3*s6 - re5*s6^2 - re5r*s15 - re6*s15)
 # G = ideal groebnerBasis(J, Strategy=>"F4")
+
+# Macaulay Fig1Ci full non dimensional:
+# K = frac(QQ[a,b,c,d,e,f,g,h,k,l]);
+# R = K[BE2, E2, AE1, E1, A, B, AB, MonomialOrder => Lex];
+# gbTrace = 3
+# J=ideal(-a*AE1 - BE2*c - AB*d + A*B*f + A*E1*g, -AE1 - b*BE2 - AB*d - 2*AB*e + A*B*f + B*E2*h, -AE1 - a*AE1 + A*E1*g, -b*BE2 - BE2*c + B*E2*h, -AE1 - a*AE1 + A*E1*g, -b*BE2 - BE2*c + B*E2*h, -AB*d - AB*e + A*B*f, -1 - BE2 + E2, -AE1 + E1 - k, A - 2*AB - AE1 - B - BE2 - l)
+# G = ideal groebnerBasis(J, Strategy=>"F4")
+
 
 # SageMath simple example:
 # A.<k1, k2, k3, k4> = PolynomialRing(QQ)
@@ -172,7 +201,7 @@ import time
 species = [s15, s3, s6, s16]
 # # equations = [ds1, ds2, ds3, ds6, ds7, ds15, ds16]
 equations = [ds3, ds6, ds16, ds15]
-
+print(equations)
 start = time.time()
 gb = groebner(equations, species, order='lex', method='f5b')
 end = time.time()
