@@ -67,3 +67,8 @@ History
 ------------------
 
 * Improving usability on Windows machines.
+
+0.0.14 (1-28-2021)
+------------------
+
+* Improving the output of plots produced by direct simulation.

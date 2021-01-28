@@ -1,5 +1,5 @@
-import sys
-sys.path.insert(0, "..")
+# import sys
+# sys.path.insert(0, "..")
 import crnt4sbml
 import numpy
 
@@ -18,20 +18,9 @@ network.print_c_graph()
 GA = network.get_general_approach()
 GA.initialize_general_approach(signal=signal, response=response, fix_reactions=True)
 
-
-import sympy
-# sympy.pprint(network.get_c_graph().get_s())
-# print("")
-# sympy.pprint(network.get_c_graph().get_s().rref())
-# sys.exit()
-
-print(GA.get_conservation_laws())
-print(GA.get_fixed_reactions())
-print(network.get_c_graph().get_reactions())
 import sympy
 from sympy import *
-print(network.get_c_graph().get_ode_system())
-print(network.get_c_graph().get_species())
+
 # species = GA.get_independent_species()
 # print(GA.get_independent_species())
 

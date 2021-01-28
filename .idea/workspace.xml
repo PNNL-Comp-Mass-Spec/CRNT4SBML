@@ -2,24 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b169d5e-83d2-4140-9182-f6a757462eb8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/crnt4sbml_repo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/crnt4sbml_repo.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crnt4sbml/bistability_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/bistability_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_4.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_5.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_6.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_7.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_8.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_9.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/C1_vs_s5_9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/auto-basic-bif-diag.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/basic-bif-diag.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/basic-bif-diag.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/basic_example_paper/basic-fwd-rev.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/basic_example_paper/basic-fwd-rev.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/dir_sim_graphs/sim_bif_diag_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/dir_sim_graphs/sim_bif_diag_0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/dir_sim_graphs/song-bif-diag.png" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/dir_sim_graphs/song-bif-diag.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_mass_conservation_quickstart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HISTORY.rst" beforeDir="false" afterPath="$PROJECT_DIR$/HISTORY.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crnt4sbml/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/crnt4sbml/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_scripts/run_paper_a_b.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_paper_a_b.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_simple_biterminal.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_simple_biterminal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_scripts/run_song_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_scripts/run_song_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/C3_vs_s15_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/C3_vs_s15_0_original.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/C3_vs_s15_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/C3_vs_s15_1_original.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/C3_vs_s15_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/C3_vs_s15_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/p9_vs_s7_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/p9_vs_s7_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/p9_vs_s7_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/p9_vs_s7_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/p9_vs_s7_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/sim_bif_diag_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/sim_bif_diag_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/sim_bif_diag_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/num_cont_graphs/sim_bif_diag_3.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,12 +46,14 @@
   <component name="ProjectId" id="1TwC7FDGPUslIrghjEPI7splFR3" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -79,18 +85,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -109,55 +103,22 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1659" height="424" key="GridCell.Tab.0.bottom" timestamp="1591206883025">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state x="508" y="208" key="FileChooserDialogImpl" timestamp="1611791073160">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1659" height="424" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883025" />
-    <state width="1659" height="424" key="GridCell.Tab.0.center" timestamp="1591206883024">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state x="508" y="208" key="FileChooserDialogImpl/0.0.1440.900@0.0.1440.900" timestamp="1611791073160" />
+    <state x="229" y="86" key="SettingsEditor" timestamp="1611791084143">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1659" height="424" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883024" />
-    <state width="1659" height="424" key="GridCell.Tab.0.left" timestamp="1591206883024">
-      <screen x="0" y="0" width="1680" height="1050" />
-    </state>
-    <state width="1659" height="424" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883024" />
-    <state width="1659" height="424" key="GridCell.Tab.0.right" timestamp="1591206883025">
-      <screen x="0" y="0" width="1680" height="1050" />
-    </state>
-    <state width="1659" height="424" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883025" />
-    <state width="1659" height="424" key="GridCell.Tab.1.bottom" timestamp="1591206883027">
-      <screen x="0" y="0" width="1680" height="1050" />
-    </state>
-    <state width="1659" height="424" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883027" />
-    <state width="1659" height="424" key="GridCell.Tab.1.bottom/0.23.1680.947@0.23.1680.947" timestamp="1591206525403" />
-    <state width="1659" height="424" key="GridCell.Tab.1.center" timestamp="1591206883026">
-      <screen x="0" y="0" width="1680" height="1050" />
-    </state>
-    <state width="1659" height="424" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883026" />
-    <state width="1659" height="424" key="GridCell.Tab.1.center/0.23.1680.947@0.23.1680.947" timestamp="1591206525403" />
-    <state width="1659" height="424" key="GridCell.Tab.1.left" timestamp="1591206883026">
-      <screen x="0" y="0" width="1680" height="1050" />
-    </state>
-    <state width="1659" height="424" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883026" />
-    <state width="1659" height="424" key="GridCell.Tab.1.left/0.23.1680.947@0.23.1680.947" timestamp="1591206525402" />
-    <state width="1659" height="424" key="GridCell.Tab.1.right" timestamp="1591206883027">
-      <screen x="0" y="0" width="1680" height="1050" />
-    </state>
-    <state width="1659" height="424" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1591206883027" />
-    <state width="1659" height="424" key="GridCell.Tab.1.right/0.23.1680.947@0.23.1680.947" timestamp="1591206525403" />
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1599095435459">
-      <screen x="0" y="0" width="1680" height="1050" />
-    </state>
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1599095435459" />
+    <state x="229" y="86" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1611791084143" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
