@@ -453,6 +453,39 @@ class BistabilityFinder(object):
 
         return x_candidates
 
+    # @staticmethod
+    # def __confidence_level(obtained_minimums, change_in_rel_error, important_info):
+    #
+    #     a = 1
+    #     b = 5
+    #
+    #     unique_elements, counts_elements = numpy.unique(obtained_minimums, return_counts=True)
+    #     min_val_index = numpy.nanargmin(unique_elements)
+    #
+    #     f_til = unique_elements[min_val_index]
+    #
+    #     numpy_float64_smalles_positive_value = numpy.nextafter(numpy.float64(0), numpy.float64(1))
+    #
+    #     if f_til > numpy_float64_smalles_positive_value:
+    #
+    #         r = numpy.count_nonzero(
+    #             numpy.abs(f_til - obtained_minimums) / f_til < numpy.float64(change_in_rel_error))
+    #
+    #         n_til = obtained_minimums.shape[0]
+    #         a_bar = a + b - 1
+    #         b_bar = b - r - 1
+    #
+    #         prob = 1 - (math.factorial(n_til + a_bar) * math.factorial(2 * n_til + b_bar)) / (
+    #                 math.factorial(2 * n_til + a_bar) * math.factorial(n_til + b_bar))
+    #
+    #     else:
+    #
+    #         prob = 1.0
+    #
+    #     important_info += f"It was found that {unique_elements[min_val_index]} is the minimum objective function value with a confidence level of {prob}.\n"
+    #     return important_info
+
+
     @staticmethod
     def __confidence_level(obtained_minimums, change_in_rel_error, important_info):
 
@@ -464,23 +497,14 @@ class BistabilityFinder(object):
 
         f_til = unique_elements[min_val_index]
 
-        numpy_float64_smalles_positive_value = numpy.nextafter(numpy.float64(0), numpy.float64(1))
+        r = numpy.count_nonzero(numpy.abs(f_til - obtained_minimums) / f_til < numpy.float64(change_in_rel_error))
 
-        if f_til > numpy_float64_smalles_positive_value:
+        n_til = obtained_minimums.shape[0]
+        a_bar = a + b - 1
+        b_bar = b - r - 1
 
-            r = numpy.count_nonzero(
-                numpy.abs(f_til - obtained_minimums) / f_til < numpy.float64(change_in_rel_error))
-
-            n_til = obtained_minimums.shape[0]
-            a_bar = a + b - 1
-            b_bar = b - r - 1
-
-            prob = 1 - (math.factorial(n_til + a_bar) * math.factorial(2 * n_til + b_bar)) / (
-                    math.factorial(2 * n_til + a_bar) * math.factorial(n_til + b_bar))
-
-        else:
-
-            prob = 1.0
+        prob = 1 - (math.factorial(n_til + a_bar) * math.factorial(2 * n_til + b_bar)) / (
+                math.factorial(2 * n_til + a_bar) * math.factorial(n_til + b_bar))
 
         important_info += f"It was found that {unique_elements[min_val_index]} is the minimum objective function value with a confidence level of {prob}.\n"
         return important_info
