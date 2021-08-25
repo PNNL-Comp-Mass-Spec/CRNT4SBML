@@ -932,7 +932,7 @@ class MassConservationApproach(BistabilityFinder, BistabilityAnalysis):
 
     def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
                          numpy_dtype=numpy.float64, concentration_bounds=None, confidence_level_flag=False,
-                         change_in_rel_error=1e-2, parallel_flag=False):
+                         change_in_rel_error=1e-1, parallel_flag=False):
         """
         Function for running the optimization problem for the mass conservation approach.
 

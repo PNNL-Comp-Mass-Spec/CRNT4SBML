@@ -75,7 +75,7 @@ class SemiDiffusiveApproach(BistabilityFinder, BistabilityAnalysis):
         self.__create_lambda_equality_poly_fun()
 
     def run_optimization(self, bounds=None, iterations=10, sys_min_val=numpy.finfo(float).eps, seed=0, print_flag=False,
-                         numpy_dtype=numpy.float64, confidence_level_flag=False, change_in_rel_error=1e-2,
+                         numpy_dtype=numpy.float64, confidence_level_flag=False, change_in_rel_error=1e-1,
                          parallel_flag=False):
         """
         Function for running the optimization problem for the semi-diffusive approach. Note that there are no bounds

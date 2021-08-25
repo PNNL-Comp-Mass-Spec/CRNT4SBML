@@ -445,7 +445,7 @@ class GeneralApproach(BistabilityFinder, BistabilityAnalysis):
             return fun
 
     def run_optimization(self, bounds=None, iterations=10, seed=0, print_flag=False, dual_annealing_iters=1000,
-                         confidence_level_flag=False, change_in_rel_error=1e-2, constraints=None, parallel_flag=False):
+                         confidence_level_flag=False, change_in_rel_error=1e-1, constraints=None, parallel_flag=False):
         """
         Function for running the optimization problem for the general approach.
 
