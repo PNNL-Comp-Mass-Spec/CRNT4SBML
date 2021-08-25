@@ -72,3 +72,8 @@ History
 ------------------
 
 * Improving the output of plots produced by direct simulation.
+
+0.0.15 (8-25-2021)
+------------------
+
+* Updated tolerances for Bayesian stopping rule to 0.1.
